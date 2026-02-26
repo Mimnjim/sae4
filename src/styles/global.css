@@ -1,0 +1,18 @@
+:root {
+    --ff-family-main: 'Thunder', sans-serif;
+}
+
+*, 
+*::before,
+*::after {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+@font-face {
+    font-family: 'Thunder';
+    src: url('../assets/fonts/thunder/Fonts/OpenType-TT/Thunder-BoldLC.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
