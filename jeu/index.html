@@ -109,7 +109,7 @@ body {
     20% { transform: translate(2px, -2px); }
     40% { transform: translate(2px, 2px); }
     60% { transform: translate(-2px, -2px); }
-    80% { transform: translate(2px, -2px); }
+    80% { transform: translate(-2px, -2px); }
     100% { transform: translate(-2px, 2px); }
 }
 
@@ -148,10 +148,16 @@ body::before {
 
 <script>
 // =============================
-// GESTION DES BOUTONS
+// GESTION DES BOUTONS + REDIRECTION
 // =============================
 const hoverSound = document.getElementById('hover-sound');
 const clickSound = document.getElementById('click-sound');
+
+const difficultyMap = {
+    easy: 1,
+    normal: 2,
+    hard: 3
+};
 
 document.querySelectorAll('.menu-button').forEach(btn => {
     btn.addEventListener('mouseenter', () => {
@@ -162,10 +168,12 @@ document.querySelectorAll('.menu-button').forEach(btn => {
     btn.addEventListener('click', () => {
         clickSound.currentTime = 0;
         clickSound.play();
-        const difficulty = btn.dataset.difficulty;
-        console.log("Difficulté choisie :", difficulty);
-        alert(`Vous avez choisi la difficulté : ${difficulty}`);
-        // ici tu peux lancer la fonction startGame(difficulty)
+
+        const difficultyKey = btn.dataset.difficulty;
+        const difficultyValue = difficultyMap[difficultyKey] || 1;
+
+        // REDIRECTION vers level.html avec paramètre difficulty
+        window.location.href = `all-levels.html?difficulty=${difficultyValue}`;
     });
 });
 </script>
