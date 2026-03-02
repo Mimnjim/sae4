@@ -7,7 +7,7 @@
     /* background-color: red; */
     background-color: #fff;
     padding: 2rem 6rem;
-    position: fixed;
+    /* position: fixed; */
     display: none;
     top: 0;
     z-index: 100;
