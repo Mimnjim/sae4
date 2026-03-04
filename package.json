@@ -1,8 +1,20 @@
 {
   "name": "sae4_dev",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
+  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
+  "homepage": "https://github.com/Mimnjim/sae4#readme",
+  "bugs": {
+    "url": "https://github.com/Mimnjim/sae4/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mimnjim/sae4.git"
+  },
+  "license": "ISC",
+  "author": "",
   "type": "module",
+  "main": "eslint.config.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -13,6 +25,7 @@
     "@react-three/drei": "^10.7.7",
     "@react-three/postprocessing": "^3.0.4",
     "react": "^19.2.0",
+    "react-calendar": "^6.0.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.13.1",
     "three": "^0.183.1"

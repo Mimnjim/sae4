@@ -76,6 +76,7 @@ import Footer from './components/Footer.jsx';
 
 // Import des nouvelles pages
 import Experiences from './pages/Experiences.jsx';
+import CalendrierPage from './pages/Calendrier.jsx';
 // import GamePage from './pages/GamePage.jsx';
 // import Game from './components/Game/Game.jsx';
 
@@ -146,6 +147,9 @@ export default function App() {
           {/* Route pour le menu des expériences */}
           {/* <Route path="/experiences" element={<Experiences />} /> */}
           <Route path="/experiences" element={<Experiences />} />
+          
+          {/* Route pour le calendrier */}
+          <Route path="/calendrier" element={<CalendrierPage />} />
           
           {/* Route pour le jeu lui-même */}
           {/* <Route path="/game/:levelId" element={<GamePage />} /> */}

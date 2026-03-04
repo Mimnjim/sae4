@@ -22,6 +22,7 @@ export default function Navbar() {
         <Link to="/">Accueil</Link>
         {/* <Link to="/experiences">Expériences</Link> */}
         <Link to="/experiences">Expériences</Link>
+        <Link to="/calendrier">Réserver</Link>
         <Link to="#">Infos pratiques</Link>
       </div>
       
