@@ -19,10 +19,10 @@ export default function Navbar() {
   return (
     <div className="navbar">
       <div className="elements-nav">
-        {/* <Link to="/">Accueil</Link> */}
-        {/* <Link to="/experiences">Expériences</Link> */}
-        <Link to="/experiences">Expériences</Link>
-        <Link to="#">Infos pratiques</Link>
+        <Link to="/">Accueil</Link>
+        <Link to="/reserver">Réserver</Link>
+        <Link to="/jeu">Expériences</Link>
+        <Link to="/infos-pratiques">Infos pratiques</Link>
       </div>
       
       <div className="language">
