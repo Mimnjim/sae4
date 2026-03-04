@@ -175,6 +175,10 @@
         loader.load('assets/models/akira_bike.glb', (gltf)=>{
             const bike = gltf.scene;
 
+            
+
+
+
             bike.scale.set(4,4,4);
             bike.position.set(0,11,20);
             bike.rotation.y = 11;
@@ -257,34 +261,64 @@
     // ==========================
     // --- ANIMATION ---
     // ==========================
-    const cameraOffset = new THREE.Vector3(0,10,23);
+    // const cameraOffset = new THREE.Vector3(0,10,23);
+    // const cameraOffset = new THREE.Vector3(0,0,20);
+    const cameraOffset = new THREE.Vector3(0,8,25);
+
+    const defaultOffset = new THREE.Vector3(0, 8, 25);
+    const boostOffset = new THREE.Vector3(0, 12, 40);
+    const brakeOffset = new THREE.Vector3(0, 6, 18);
+
+    let currentOffset = defaultOffset.clone();
+    let targetOffset = defaultOffset.clone();
+
+    
     function animate(){
         requestAnimationFrame(animate);
         if(window.playerBike){
             let speed = bikeSpeed;
+
             if(keysPressed['ArrowUp']) { 
-                speed+=0.1; 
+                speed += 0.2; 
             }
 
             if(keysPressed['ArrowDown']) {
-                speed-=0.1;
+                speed -= 0.2;
             }
 
             window.playerBike.position.z -= speed;
 
             if(keysPressed['ArrowLeft'] && window.playerBike.position.x>-20) {
-                window.playerBike.position.x-=0.5;
+                window.playerBike.position.x -= 0.2;
             }
             if(keysPressed['ArrowRight'] && window.playerBike.position.x<28) {
-                window.playerBike.position.x+=0.5;
+                window.playerBike.position.x += 0.2;
+            } 
+
+            
+            // =====================
+            // CAMÉRA DYNAMIQUE
+            // =====================
+
+            if(keysPressed['ArrowUp']) {
+                targetOffset.copy(boostOffset);
+            } 
+            else if(keysPressed['ArrowDown']) {
+                targetOffset.copy(brakeOffset);
+            } 
+            else {
+                targetOffset.copy(defaultOffset);
             }
 
-            camera.position.copy(window.playerBike.position).add(cameraOffset);
+            // LERP : Linear Interpolation : va progressivement de current vers target (0.05 = vitesse de transition)
+            currentOffset.lerp(targetOffset, 0.08);
+            
+            camera.position.copy(window.playerBike.position).add(currentOffset);
             camera.lookAt(window.playerBike.position);
 
             roads.forEach(r=>{
                 if(window.playerBike.position.z - r.position.z < -(roadLength-60)) {
-                    r.position.z -= 2*roadLength;
+                    r.position.z -= 2 * roadLength;
                 }
             });
 
@@ -292,7 +326,7 @@
             enemies.forEach(enemy=>{
                 if(enemy.position.z>window.playerBike.position.z+50){
                     enemy.position.z = window.playerBike.position.z -200 - Math.random()*100;
-                    enemy.position.x = (Math.random()-0.5)*40;
+                    enemy.position.x = (Math.random() - 0.5) * 40;
                 }
             });
 
