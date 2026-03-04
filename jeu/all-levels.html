@@ -148,6 +148,60 @@
         });
     }
 
+    // ================================
+    // --- ITEMS / CORPS A RAMASSER ---
+    // ================================
+
+    const items = [];
+    const itemGeometry = new THREE.SphereGeometry(1, 16, 16);
+    const itemMaterial = new THREE.MeshPhongMaterial({color:0x00ff00});
+    
+    const itemCount = 3;
+    const itemSpacing = 100;
+
+    for(let i=0;i<itemCount;i++) {
+        const item = new THREE.Mesh(itemGeometry, itemMaterial);
+        item.position.set((Math.random()-0.5)*40, 1, -150 - i*itemSpacing);
+        scene.add(item);
+        items.push(item);
+    }
+
+    function checkItemCollisions() {
+        if(!window.playerBike) return;
+
+        const playerBox = new THREE.Box3().setFromObject(window.playerBike);
+        items.forEach((item, index) => {
+            const itemBox = new THREE.Box3().setFromObject(item);
+
+            if(playerBox.intersectsBox(itemBox)) {
+                // Ramasser l'item
+                scene.remove(item);
+                items.slice(index, 1);
+
+                // alert("Item ramassé !");
+            }
+        });
+
+
+
+
+        // if(!window.playerBike) return;
+        // const playerBox = new THREE.Box3().setFromObject(window.playerBike);
+        // items.forEach((item, index)=>{
+        //     const itemBox = new THREE.Box3().setFromObject(item);
+        //     if(playerBox.intersectsBox(itemBox)) {
+        //         // Ramasser l'item
+        //         scene.remove(item);
+        //         items.splice(index, 1);
+        //         // Bonus : restaurer un peu de santé
+        //         playerHealth += 20;
+        //         if(playerHealth > maxHealth) playerHealth = maxHealth;
+        //         updateHealthUI();
+        //     }
+        // });
+    }
+
+
     // ==========================
     // --- ENNEMIS ---
     // ==========================
@@ -299,7 +353,6 @@
             // =====================
             // CAMÉRA DYNAMIQUE
             // =====================
-
             if(keysPressed['ArrowUp']) {
                 targetOffset.copy(boostOffset);
             } 
@@ -322,6 +375,8 @@
                 }
             });
 
+
+            checkItemCollisions();
             checkCollisions();
             enemies.forEach(enemy=>{
                 if(enemy.position.z>window.playerBike.position.z+50){
