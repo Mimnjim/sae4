@@ -7,11 +7,39 @@ body {
 }
 
 #ui { 
+    display: flex;
+    justify-content: space-between;
+
+    width: 100%;
     position: absolute; 
     top: 20px; 
     left: 20px; 
     z-index: 10; 
     pointer-events: none; 
+}
+
+.items-got {
+    font-size: 24px; 
+    color: #00ffff; 
+    padding: 0 3rem;
+    padding-top: 1rem;
+
+    display: flex; 
+    flex-direction: column;
+    /* gap: 20px; */
+    /* justify-content: flex-end; */
+    align-items: flex-end;
+
+}
+
+.items-got h2 {
+    font-size: 2rem;
+    margin: 0;
+}
+
+.items-container {
+    padding: 0 4rem;
+
 }
 
 .vies { 

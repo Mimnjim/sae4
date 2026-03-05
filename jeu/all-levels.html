@@ -8,11 +8,24 @@
 <body>
 
     <div id="ui">
+
+        <div class="life-title">
         <h1>AU-DELÀ DE L'HUMAIN // SYSTÈME_ACTIF</h1>
-        <div id="lives-display" class="vies">GHOST_INTEGRITY: <span id="health-value">100</span>%</div>
-        <div id="container-timer">
-            <div id="timer"></div>
+            <div id="lives-display" class="vies">GHOST_INTEGRITY: <span id="health-value">100</span>%</div>
+            <div id="container-timer">
+                <div id="timer"></div>
+            </div>
         </div>
+
+        <div class="items-got">
+                <h2>ITEMS RAMASSÉS</h2>
+                <div id="items-container">
+                    <div class="item-got"></div>
+                    <!-- 1 -->
+                    <!-- Les items ramassés seront affichés ici -->
+                </div>
+        </div>
+
     </div>
 
     <div id="game-over">
@@ -50,6 +63,7 @@
     let maxEnemies = 10;
     let playerHealth = 100;
     let winningTime = 15000; // 15s
+    let lengthOfRoad = 200;
 
     switch(difficulty) {
         case 1: // facile
@@ -57,18 +71,21 @@
             maxEnemies = 5;
             playerHealth = 120;
             winningTime = 15000; // 15s
+            lengthOfRoad = 150;
             break;
         case 2: // normal
             bikeSpeed = 0.25;
             maxEnemies = 60;
             playerHealth = 100;
             winningTime = 20000; // 20s
+            lengthOfRoad = 300;
             break;
         case 3: // difficile
             bikeSpeed = 0.35;
             maxEnemies = 100;
             playerHealth = 80;
             winningTime = 30000; // 30s
+            lengthOfRoad = 500;
             break;
     }
     let maxHealth = playerHealth;
@@ -107,6 +124,7 @@
     // --- SOL INFINI ---
     // ==========================
     const roadLength = 200;
+    // const roadLength = lengthOfRoad;
     const roadGeometry = new THREE.PlaneGeometry(50, roadLength);
     const roadMaterial = new THREE.MeshPhongMaterial({ color: 0x333333 });
 
@@ -159,6 +177,8 @@
     const itemCount = 3;
     const itemSpacing = 100;
 
+    let itemGotCount = 0;
+
     for(let i=0;i<itemCount;i++) {
         const item = new THREE.Mesh(itemGeometry, itemMaterial);
         item.position.set((Math.random()-0.5)*40, 1, -150 - i*itemSpacing);
@@ -170,15 +190,20 @@
         if(!window.playerBike) return;
 
         const playerBox = new THREE.Box3().setFromObject(window.playerBike);
+        const itemGot = document.querySelector(".item-got");
+
         items.forEach((item, index) => {
             const itemBox = new THREE.Box3().setFromObject(item);
 
             if(playerBox.intersectsBox(itemBox)) {
                 // Ramasser l'item
                 scene.remove(item);
-                items.slice(index, 1);
+                items.splice(index, 1);
 
-                // alert("Item ramassé !");
+                itemGotCount++;
+                itemGot.innerHTML = itemGotCount;
+
+                return;
             }
         });
 
