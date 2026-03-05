@@ -198,8 +198,18 @@ function createEnemy(zOffset) {
     const material = new THREE.MeshPhongMaterial({color:0xff0000});
     const enemy = new THREE.Mesh(geometry, material);
 
-    // Distribuer les ennemis aléatoirement le long de toute la route
-    let zPos = -Math.random() * lengthOfRoad;
+    // // Distribuer les ennemis aléatoirement le long de toute la route
+    // let zPos = -Math.random() * lengthOfRoad + 50; // +50 pour éviter de les faire apparaître trop près du joueur au début
+    
+    // Distribuer les ennemis entre -50 et -(lengthOfRoad - 50)
+    // let zPos = -50 - Math.random() * (lengthOfRoad + 100);    
+    // let zPos = -50 - Math.random() * Math.max(lengthOfRoad - 100, 200);
+    let zPos = -50 - Math.random() * lengthOfRoad;
+
+
+    if(zOffset) {
+        zPos = -zOffset;
+    }
     
     enemy.position.set(
         (Math.random()-0.5)*40,
