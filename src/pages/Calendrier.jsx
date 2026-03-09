@@ -1,4 +1,3 @@
-//page du calendrier
 import Calendrier from '../components/Calendrier';
 import '../styles/calendrier.css';
 
