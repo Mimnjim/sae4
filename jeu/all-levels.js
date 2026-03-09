@@ -9,7 +9,7 @@ const params = new URLSearchParams(window.location.search);
 const difficulty = parseInt(params.get("difficulty")) || 1;
 
 let bikeSpeed = 0.2;
-let bikeSpeedLateral = 0.2;
+let bikeSpeedLateral = 0.2; // Vitesse de déplacement latéral de la moto, ajustée en fonction de la difficulté
 let maxEnemies = 10;
 let playerHealth = 100;
 // let winningTime = 15000; // 15s
@@ -46,6 +46,8 @@ let maxHealth = playerHealth;
 const keysPressed = {};
 let startTime = Date.now();
 let hasWon = false;
+
+// Pour s'assurer que le jeu ne commence qu'une fois que tous les modèles sont chargés sinon on affiche une interface de chargement des assets
 let isGameReady = false;
 let modelsLoaded = 0;
 let modelsToLoad = 2; // moto + ville
@@ -62,7 +64,7 @@ scene.fog = new THREE.FogExp2(0xffffffff, 0.01);
 
 const camera = new THREE.PerspectiveCamera(45, width / height, 1, 1000);
 camera.position.set(0, 15, 0);
-camera.lookAt(0, 0, 0);
+camera.lookAt(0, 20, 0);
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(width, height);
@@ -75,6 +77,13 @@ scene.add(ambientLight);
 const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
 directionalLight.position.set(0, 0, 0);
 scene.add(directionalLight);
+
+// Lumière de remplissage pour éviter les ombres trop dures
+const frontLight = new THREE.DirectionalLight(0xffffff, 0.8);
+frontLight.position.set(0, 50, -100);
+scene.add(frontLight);
+
+
 
 // ==========================
 // --- SOL INFINI ---
@@ -188,13 +197,26 @@ function checkItemCollisions() {
 
 
 // ==========================
+// --- SYSTÈME DE BOOST ---
+// ==========================
+let boostReady = false;
+let boostActive = false;
+let boostChargeTime = 10000; // 10 secondes pour charger
+let boostDuration = 3000; // 3 secondes de boost
+let boostLastUsed = Date.now() - boostChargeTime; // Disponible au début
+let boostStartTime = 0;
+
+
+
+// ==========================
 // --- ENNEMIS ---
 // ==========================
 const enemies = [];
-const enemySpacing = 50;
+const enemySpacing = 30;
+const lanes = [-10, -3, 3, 10]; // 4 voies bien définies
 
 function createEnemy(zOffset) {
-    const geometry = new THREE.BoxGeometry(2,2,2);
+    const geometry = new THREE.BoxGeometry(4,4,4);
     const material = new THREE.MeshPhongMaterial({color:0xff0000});
     const enemy = new THREE.Mesh(geometry, material);
 
@@ -204,18 +226,24 @@ function createEnemy(zOffset) {
     // Distribuer les ennemis entre -50 et -(lengthOfRoad - 50)
     // let zPos = -50 - Math.random() * (lengthOfRoad + 100);    
     // let zPos = -50 - Math.random() * Math.max(lengthOfRoad - 100, 200);
-    let zPos = -50 - Math.random() * lengthOfRoad;
-
-
-    if(zOffset) {
-        zPos = -zOffset;
-    }
     
-    enemy.position.set(
-        (Math.random()-0.5)*40,
-        5,             
-        zPos                            
-    );
+    // OLD
+        // Choosir une position z aléatoire, mais s'assurer qu'elle est à au moins 50 unités du joueur et pas trop loin pour éviter les pop-in  
+    // let zPos = -50 - Math.random() * lengthOfRoad;
+    // if(zOffset) {
+    //     zPos = -zOffset;
+    // }
+    // enemy.position.set(
+    //     (Math.random()-0.5)*40,
+    //     5,             
+    //     zPos                            
+    // );
+
+    // NEW
+        // Choisir une lane aléatoire
+    const lane = lanes[Math.floor(Math.random() * lanes.length)];
+    enemy.position.set(lane, 5, window.playerBike ? window.playerBike.position.z -100 - zOffset : -100 - zOffset);
+
 
     scene.add(enemy);
     enemies.push(enemy);
@@ -231,9 +259,9 @@ function createPlayer() {
     loader.load('assets/models/akira_bike.glb', (gltf)=>{
         const bike = gltf.scene;
 
-        
 
         bike.scale.set(4,4,4);
+        // bike.position.set(0,11,20);
         bike.position.set(0,11,20);
         bike.rotation.y = 11;
 
@@ -322,9 +350,9 @@ function showVictoryScreen() {
 // ==========================
 // const cameraOffset = new THREE.Vector3(0,10,23);
 // const cameraOffset = new THREE.Vector3(0,0,20);
-const cameraOffset = new THREE.Vector3(0,8,25);
 
-const defaultOffset = new THREE.Vector3(0, 8, 25);
+// const defaultOffset = new THREE.Vector3(-2, -2, 30);
+const defaultOffset = new THREE.Vector3(-2, -2, 30);
 const boostOffset = new THREE.Vector3(0, 12, 40);
 const brakeOffset = new THREE.Vector3(0, 6, 18);
 
@@ -335,14 +363,71 @@ let targetOffset = defaultOffset.clone();
 function animate(){
     requestAnimationFrame(animate);
     if(window.playerBike && isGameReady){
+        // GESTION DU BOOST
+        const currentTime = Date.now();
+        const timeSinceLastBoost = currentTime - boostLastUsed;
+        
+            // Vérifier si le boost est chargé
+        if (!boostActive && timeSinceLastBoost >= boostChargeTime) {
+            boostReady = true;
+        }
+        
+            // Activer le boost avec Shift
+        if (keysPressed['Shift'] && boostReady && !boostActive) {
+            boostActive = true;
+            boostReady = false;
+            boostStartTime = currentTime;
+            boostLastUsed = currentTime;
+        }
+        
+            // Désactiver le boost après la durée
+        if (boostActive && (currentTime - boostStartTime) >= boostDuration) {
+            boostActive = false;
+        }
+        
+            // Mise à jour de l'UI du boost
+        const boostBar = document.getElementById('boost-bar');
+        const boostStatus = document.getElementById('boost-status');
+        
+        if (boostActive) {
+            const boostProgress = ((currentTime - boostStartTime) / boostDuration) * 100;
+            boostBar.style.width = (100 - boostProgress) + '%';
+            boostBar.style.background = '#ff0055';
+            boostStatus.textContent = 'ACTIF!';
+            boostStatus.style.color = '#ff0055';
+        } else if (boostReady) {
+            boostBar.style.width = '100%';
+            boostBar.style.background = '#00ff00';
+            boostStatus.textContent = 'PRÊT (SHIFT)';
+            boostStatus.style.color = '#00ff00';
+        } else {
+            const chargeProgress = (timeSinceLastBoost / boostChargeTime) * 100;
+            boostBar.style.width = chargeProgress + '%';
+            boostBar.style.background = '#00ffff';
+            boostStatus.textContent = 'CHARGEMENT...';
+            boostStatus.style.color = '#00ffff';
+        }
+            
+
+
+        // Contrôle du mouvement de la moto
         let speed = bikeSpeed;
 
+        // Appliquer le boost
+        if (boostActive) {
+            speed *= 2.5; // 2.5x plus rapide pendant le boost
+        }
+
         if(keysPressed['ArrowUp']) { 
-            speed += 0.2; 
+            speed += 0.3; 
+            window.playerBike.rotation.y = 11; // Inclinaison vers la gauche
+
         }
 
         if(keysPressed['ArrowDown']) {
-            speed -= 0.2;
+            speed -= 0.3;
+            window.playerBike.rotation.y = 11; // Inclinaison vers la gauche
+
         }
 
         window.playerBike.position.z -= speed;
@@ -350,12 +435,18 @@ function animate(){
         if(keysPressed['ArrowLeft'] && window.playerBike.position.x>-20) {
             // window.playerBike.position.x -= 0.2;
             window.playerBike.position.x -= bikeSpeedLateral;
+            // window.playerBike.rotation.y = -1.02; // Inclinaison vers la gauche
+            window.playerBike.rotation.y = -1.30; // Inclinaison vers la gauche
+            // window.playerBike.position.x -= 0.8;
+
         }
         if(keysPressed['ArrowRight'] && window.playerBike.position.x<28) {
             // window.playerBike.position.x += 0.2;
             window.playerBike.position.x += bikeSpeedLateral;
-        } 
+            window.playerBike.rotation.y = -1.73; // Inclinaison vers la droite
+            // window.playerBike.position.x += 0.8;
 
+        } 
         
         // =====================
         // CAMÉRA DYNAMIQUE
@@ -365,7 +456,16 @@ function animate(){
         } 
         else if(keysPressed['ArrowDown']) {
             targetOffset.copy(brakeOffset);
+        }
+        else if (keysPressed['ArrowLeft'] || keysPressed['ArrowRight']) {
+            targetOffset.copy(defaultOffset).add(new THREE.Vector3(0, 0, 5)); // Décalage vers l'avant pour les virages
         } 
+        else if (keysPressed['ArrowLeft']) {
+            targetOffset.copy(defaultOffset).add(new THREE.Vector3(20, 0, 0)); // Décalage vers la droite pour les virages à gauche
+        }
+        else if (keysPressed['ArrowRight']) {
+            targetOffset.copy(defaultOffset).add(new THREE.Vector3(-20, 0, 0)); // Décalage vers la gauche pour les virages à droite
+        }
         else {
             targetOffset.copy(defaultOffset);
         }
@@ -375,6 +475,11 @@ function animate(){
         
         camera.position.copy(window.playerBike.position).add(currentOffset);
         camera.lookAt(window.playerBike.position);
+
+        // Les lumières suivent le joueur
+        frontLight.position.set(window.playerBike.position.x, 50, window.playerBike.position.z - 100);
+        directionalLight.position.set(window.playerBike.position.x, 100, window.playerBike.position.z - 50);
+
 
         // Afficher/masquer le message de chargement
         const loadingMessage = document.getElementById("loading-message");
@@ -397,7 +502,9 @@ function animate(){
                 let newZ = window.playerBike.position.z -300 - Math.random()*100;
                 if(newZ > -lengthOfRoad) {
                     enemy.position.z = newZ + 25;
-                    enemy.position.x = (Math.random() - 0.5) * 40;
+
+                    // enemy.position.x = (Math.random() - 0.5) * 40;
+                    enemy.position.x = lanes[Math.floor(Math.random() * lanes.length)];
                 }
             }
         });
