@@ -1,105 +1,109 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import ButtonValidation from './ButtonValidation';
 
 const FormReservation = () => {
+  // Récupérer les données passées depuis le calendrier
   const location = useLocation();
-  const bookingDataFromCalendar = location.state;
-  
-  const formatDateForInput = (date) => {
-    if (!date) return '';
-    const dateObject = new Date(date);
-    const year = dateObject.getFullYear();
-    const month = String(dateObject.getMonth() + 1).padStart(2, '0');
-    const day = String(dateObject.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
-  
-  const extractStartTime = (timeSlot) => {
-    if (!timeSlot) return '';
-    return timeSlot.split(' - ')[0];
-  };
-  
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    date: bookingDataFromCalendar ? formatDateForInput(bookingDataFromCalendar.date) : '',
-    time: bookingDataFromCalendar ? extractStartTime(bookingDataFromCalendar.slot) : '',
-  });
+  const reservationData = location.state;
 
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  // Chaque champ du formulaire a sa propre variable
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
 
+  // Pré-remplir les champs date et time si des données viennent du calendrier
+  useEffect(() => {
+    if (reservationData) {
+      // Formater la date pour l'input HTML (format YYYY-MM-DD obligatoire)
+      if (reservationData.date) {
+        const selectedDate = new Date(reservationData.date);
+        const year = selectedDate.getFullYear();
+        const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+        const day = String(selectedDate.getDate()).padStart(2, '0');
+        setDate(year + '-' + month + '-' + day);
+      }
+      
+      // Extraire l'heure de début du créneau (ex: "10:00 - 11:00" devient "10:00")
+      if (reservationData.slot) {
+        const startTime = reservationData.slot.split(' - ')[0];
+        setTime(startTime);
+      }
+    }
+  }, []);
+
+  // Fonction appelée quand on clique sur le bouton
   const handleSubmit = () => {
-    console.log('Données de réservation:', formData);
+    console.log('Nom:', name);
+    console.log('Email:', email);
+    console.log('Téléphone:', phone);
+    console.log('Date:', date);
+    console.log('Heure:', time);
   };
 
-  const isFormComplete = formData.name && formData.email && formData.phone && formData.date && formData.time;
-  const hasDateFromCalendar = !!bookingDataFromCalendar;
+  // Vérifier si tous les champs sont remplis
+  let formIsComplete = false;
+  if (name !== '' && email !== '' && phone !== '' && date !== '' && time !== '') {
+    formIsComplete = true;
+  }
 
   return (
     <div className="form-reservation-container">
       <h2>Réservez votre rendez-vous</h2>
       <div className="reservation-form">
+        
         <label>
           Nom:
           <input 
             type="text" 
-            name="name" 
-            value={formData.name} 
-            onChange={handleInputChange} 
-            required 
+            value={name} 
+            onChange={(e) => { setName(e.target.value); }} 
           />
         </label>
+
         <label>
           Email:
           <input 
             type="email" 
-            name="email" 
-            value={formData.email} 
-            onChange={handleInputChange} 
-            required 
+            value={email} 
+            onChange={(e) => { setEmail(e.target.value); }} 
           />
         </label>
+
         <label>
           Téléphone:
           <input 
             type="tel" 
-            name="phone" 
-            value={formData.phone} 
-            onChange={handleInputChange} 
-            required 
+            value={phone} 
+            onChange={(e) => { setPhone(e.target.value); }} 
           />
         </label>
+
         <label>
           Date:
           <input 
             type="date" 
-            name="date" 
-            value={formData.date} 
-            onChange={handleInputChange} 
-            disabled={hasDateFromCalendar}
-            required 
+            value={date} 
+            onChange={(e) => { setDate(e.target.value); }} 
           />
         </label>
+
         <label>
           Heure:
           <input 
             type="time" 
-            name="time" 
-            value={formData.time} 
-            onChange={handleInputChange} 
-            disabled={hasDateFromCalendar}
-            required 
+            value={time} 
+            onChange={(e) => { setTime(e.target.value); }} 
           />
         </label>
+
         <ButtonValidation 
           text="Confirmer ma réservation"
           navigateTo="/confirmation"
           onClick={handleSubmit}
-          disabled={!isFormComplete}
+          disabled={!formIsComplete}
         />
       </div>
     </div>

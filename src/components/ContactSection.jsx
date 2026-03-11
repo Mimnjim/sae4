@@ -1,4 +1,4 @@
-function ContactSection({ phone, email, website }) {
+const ContactSection = ({ phone, email, website }) => {
   return (
     <div className="contact-section">
       <h2>📞 Contact</h2>
@@ -9,6 +9,6 @@ function ContactSection({ phone, email, website }) {
       </p>
     </div>
   );
-}
+};
 
 export default ContactSection;

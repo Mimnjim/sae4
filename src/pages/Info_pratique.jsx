@@ -3,7 +3,7 @@ import InfoCard from '../components/InfoCard';
 import ContactSection from '../components/ContactSection';
 import '../styles/info-pratique.css';
 
-function InfoPratique() {
+const InfoPratique = () => {
   return (
     <div className="info-pratique-container">
       <h1>INFORMATIONS PRATIQUES</h1>
@@ -55,6 +55,6 @@ function InfoPratique() {
       />
     </div>
   );
-}
+};
 
 export default InfoPratique;

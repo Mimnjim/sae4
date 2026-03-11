@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import '../styles/validation.css';
 
-function ButtonValidation({ text, navigateTo, disabled, onClick, navigationData }) {
+const ButtonValidation = ({ text, navigateTo, disabled, onClick, navigationData }) => {
   const navigate = useNavigate();
 
-  function handleClick() {
+  const handleClick = () => {
     if (onClick) {
       onClick();
     }
@@ -16,7 +16,7 @@ function ButtonValidation({ text, navigateTo, disabled, onClick, navigationData 
         navigate(navigateTo);
       }
     }
-  }
+  };
 
   return (
     <button 
@@ -27,6 +27,6 @@ function ButtonValidation({ text, navigateTo, disabled, onClick, navigationData 
       {text}
     </button>
   );
-}
+};
 
 export default ButtonValidation;

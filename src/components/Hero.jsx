@@ -1,4 +1,4 @@
-export default function Hero({ title1, title2, subtitle }) {
+const Hero = ({ title1, title2, subtitle }) => {
     return (
         <div className="hero-section">
             <div className="container-slogan">
@@ -16,4 +16,6 @@ export default function Hero({ title1, title2, subtitle }) {
             </div>
         </div>
     );
-}
+};
+
+export default Hero;

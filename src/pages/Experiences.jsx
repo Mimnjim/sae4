@@ -1,8 +1,12 @@
 import ButtonGame from '../components/ButtonGame';
 
-export default function Experiences() {
+const Experiences = () => {
+  // Style de la page
+  const pagePadding = '100px';
+  const pageColor = '#00ffff';
+
   return (
-    <div className="experiences-page" style={{ padding: '100px', color: '#00ffff' }}>
+    <div className="experiences-page" style={{ padding: pagePadding, color: pageColor }}>
       <h1>ARCHIVES SYNAPTIQUES</h1>
       <p>Sélectionnez un niveau d'immersion :</p>
       <div className="levels-menu">
@@ -12,4 +16,6 @@ export default function Experiences() {
       </div>
     </div>
   );
-}
+};
+
+export default Experiences;

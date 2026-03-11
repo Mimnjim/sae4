@@ -10,15 +10,22 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 });
 
-function Map() {
-  const position = [51.505, -0.09];
+const Map = () => {
+  // Position GPS du lieu
+  const positionLat = 51.505;
+  const positionLng = -0.09;
+  const position = [positionLat, positionLng];
+
+  // Style de la carte
+  const mapHeight = '400px';
+  const mapWidth = '100%';
 
   return (
     <MapContainer 
       center={position} 
       zoom={13} 
       scrollWheelZoom={false}
-      style={{ height: '400px', width: '100%' }}
+      style={{ height: mapHeight, width: mapWidth }}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -26,11 +33,11 @@ function Map() {
       />
       <Marker position={position}>
         <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
+          Lieu de l'exposition "Au-delà de l'humain".<br /> Venez nous rendre visite !
         </Popup>
       </Marker>
     </MapContainer>
   );
-}
+};
 
 export default Map;

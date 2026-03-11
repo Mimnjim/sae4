@@ -1,5 +1,9 @@
-export default function Section({ id, title, content, imgSrc, reverse }) {
-  const sectionClass = reverse ? 'section reverse' : 'section';
+const Section = ({ id, title, content, imgSrc, reverse }) => {
+  // Créer le nom de la classe en fonction de reverse
+  let sectionClass = 'section';
+  if (reverse === true) {
+    sectionClass = 'section reverse';
+  }
 
   return (
     <section id={id} className={sectionClass}>
@@ -10,4 +14,6 @@ export default function Section({ id, title, content, imgSrc, reverse }) {
       <img src={imgSrc} alt={title} />
     </section>
   );
-}
+};
+
+export default Section;
