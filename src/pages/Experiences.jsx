@@ -1,16 +1,21 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import ButtonGame from '../components/ButtonGame';
 
-export default function Experiences() {
+const Experiences = () => {
+  // Style de la page
+  const pagePadding = '100px';
+  const pageColor = '#00ffff';
+
   return (
-    <div className="experiences-page" style={{ padding: '100px', color: '#00ffff' }}>
+    <div className="experiences-page" style={{ padding: pagePadding, color: pageColor }}>
       <h1>ARCHIVES SYNAPTIQUES</h1>
       <p>Sélectionnez un niveau d'immersion :</p>
       <div className="levels-menu">
-        <Link to="/game/1"><button>NIVEAU 01 : NEO-TOKYO RUN</button></Link>
-        <Link to="/game/2"><button>NIVEAU 02 : GHOST HACK</button></Link>
-        <Link to="/game/3"><button>NIVEAU 03 : AU-DELÀ DE L'HUMAIN</button></Link>
+        <ButtonGame text="NIVEAU 01 : NEO-TOKYO RUN" navigateTo="/game/1" />
+        <ButtonGame text="NIVEAU 02 : GHOST HACK" navigateTo="/game/2" />
+        <ButtonGame text="NIVEAU 03 : AU-DELÀ DE L'HUMAIN" navigateTo="/game/3" />
       </div>
     </div>
   );
-}
+};
+
+export default Experiences;

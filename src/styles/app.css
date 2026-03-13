@@ -9,13 +9,10 @@
 }
 
 .container-slogan {
-    /* margin-top: 8rem; */
-    margin-top: 2rem;
+    margin-top: 8rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 1rem;
-    width: 100%;
 }
 
 .slogan {
@@ -26,16 +23,13 @@
     letter-spacing: 4px;
 }
 
-/* .slogan:first-of-type::after { */
-.slogan:nth-of-type(2)::before {
+.slogan:first-of-type::after {
     content: '';
     position: absolute;
-    /* bottom: -10px; */
-    top: -20px;
-    left: 50%;
+    bottom: -10px;
+    left: 0;
     width: 60%;
     height: 6px;
-    transform: translateX(-50%);
     background: linear-gradient(to right, #ff003c, transparent);
 }
 
@@ -51,14 +45,13 @@
     align-self: center;
     text-align: center;
     margin-bottom: 2rem;
-    height: 10%;
 }
 
 .scroll-down h3 {
     font-size: 0.9rem;
     letter-spacing: 3px;
     text-transform: uppercase;
-    /* margin-bottom: 1rem; */
+    margin-bottom: 1rem;
     opacity: 0.6;
 }
 

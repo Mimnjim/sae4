@@ -5,32 +5,24 @@
 
     gap: 8rem;
     /* background-color: red; */
-    /* background-color: #fff; */
-    background-color: #000;
+    background-color: #fff;
     padding: 2rem 6rem;
     /* position: fixed; */
-    position: sticky;
-    top: 0;
-    /* display: none; */
     top: 0;
     z-index: 100;
     width: 100%;
     font-family: var(--ff-family-main);
-    color: #fff;
 }
 
 
 .navbar a {
-    text-decoration: none;
-    /* color: #000; */
-    color: #fff;
+    color: #000;
     font-size: 2rem;
 }
 
 .navbar a:hover {
     text-decoration: underline;
-    /* color: var(--color-primary); */
-    color: #f1f1f1;
+    color: var(--color-primary);
     transition: color 0.3s ease;
 }
 
