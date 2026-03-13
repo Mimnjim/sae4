@@ -63,8 +63,9 @@ scene.background = new THREE.Color(0x0000ff);
 scene.fog = new THREE.FogExp2(0xffffffff, 0.01);
 
 const camera = new THREE.PerspectiveCamera(45, width / height, 1, 1000);
-camera.position.set(0, 15, 0);
-camera.lookAt(0, 20, 0);
+// const camera = new THREE.PerspectiveCamera(80, width / height, 1, 1000);
+// camera.position.set(0, 15, 0);
+// camera.lookAt(0, 20, 0);
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(width, height);
@@ -121,12 +122,20 @@ function createCity() {
         city2.scale.set(100, 20, 30);
 
         city1.rotation.y = Math.PI/2;
+        // city1.rotation.y = (Math.PI/2) + (Math.sin(Date.now() * 0.003) * 0.02);
+        // city2.rotation.y = (Math.PI/2) + (Math.sin(Date.now() * 0.003) * 0.02);
+
         city2.rotation.y = Math.PI/2;
+        // city1.rotation.y = (Math.PI/2) + (Math.sin(Date.now() * 0.0042) * 0.03);
+        // city2.rotation.y = (Math.PI/2) + (Math.sin(Date.now() * 0.0042) * 0.03);
+
 
         city1.position.set(-20, 10, -cityLength/2);
         city2.position.set(-20, 10, city1.position.z - cityLength);
 
-        scene.add(city1, city2);
+
+        // ICI, on pourrait ajouter des animations aux villes, comme des lumières qui s'allument ou des éléments qui bougent pour les rendre plus vivantes. Par exemple, on pourrait faire clignoter certaines fenêtres ou faire tourner des hélicoptères autour des gratte-ciels. Cela ajouterait une touche de dynamisme et d'immersion à l'environnement urbain.
+        // scene.add(city1, city2);
         cities.push(city1, city2);
         
         modelsLoaded++;
@@ -262,7 +271,8 @@ function createPlayer() {
 
         bike.scale.set(4,4,4);
         // bike.position.set(0,11,20);
-        bike.position.set(0,11,20);
+        bike.position.set(5,11,30);
+        // bike.rotation.y = 11;
         bike.rotation.y = 11;
 
         scene.add(bike);
@@ -352,7 +362,8 @@ function showVictoryScreen() {
 // const cameraOffset = new THREE.Vector3(0,0,20);
 
 // const defaultOffset = new THREE.Vector3(-2, -2, 30);
-const defaultOffset = new THREE.Vector3(-2, -2, 30);
+// const defaultOffset = new THREE.Vector3(-3, -2, 30);
+const defaultOffset = new THREE.Vector3(-4, -2, 30);
 const boostOffset = new THREE.Vector3(0, 12, 40);
 const brakeOffset = new THREE.Vector3(0, 6, 18);
 
