@@ -12,3 +12,4 @@ const ContactSection = ({ phone, email, website }) => {
 };
 
 export default ContactSection;
+

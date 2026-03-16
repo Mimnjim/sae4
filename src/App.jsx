@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // Composants principaux
@@ -8,10 +9,11 @@ import Footer from './components/Footer.jsx';
 
 // Pages
 import Experiences from './pages/Experiences.jsx';
-import CalendrierPage from './pages/Calendrier.jsx';
 import FormReservationPage from './pages/Form_reservation.jsx';
 import ConfirmationPage from './pages/Confirmation.jsx';
 import InfoPratique from './pages/Info_pratique.jsx';
+import Login from './pages/Login.jsx';
+import Register from './pages/Register.jsx';
 
 // Styles
 import './styles/global.css';
@@ -69,16 +71,29 @@ const Home = () => {
 
 // Composant principal de l'application
 const App = () => {
+  // État pour stocker l'utilisateur connecté
+  const [user, setUser] = useState(null);
+
+  // Au chargement, vérifier si un utilisateur est déjà connecté
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const savedUser = localStorage.getItem('user');
+ 
+    if (token && savedUser) {
+      setUser(JSON.parse(savedUser));    }
+  }, []);
+
   return (
     <Router>
       <div className="App">
-        <Navbar />
+        <Navbar user={user} setUser={setUser} />
         
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/experiences" element={<Experiences />} />
-          <Route path="/calendrier" element={<CalendrierPage />} />
           <Route path="/form-reservation" element={<FormReservationPage />} />
+          <Route path="/login" element={<Login setUser={setUser} />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/confirmation" element={<ConfirmationPage />} />
           <Route path="/info-pratique" element={<InfoPratique />} />
         </Routes>

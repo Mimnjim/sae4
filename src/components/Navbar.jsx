@@ -1,13 +1,42 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({ user, setUser }) => {
+  const navigate = useNavigate();
+
+  // Fonction de déconnexion
+  function handleLogout() {
+    localStorage.clear();
+    setUser(null);
+    navigate('/');
+  }
+
+  // Préparer les liens selon si l'utilisateur est connecté ou non
+  let authLinks;
+  if (user) {
+    authLinks = (
+      <>
+        <span>Bonjour {user.firstname}</span>
+        <button onClick={handleLogout}>Déconnexion</button>
+      </>
+    );
+  } else {
+    authLinks = (
+      <>
+        <Link to="/login">Connexion</Link>
+        <Link to="/register">Inscription</Link>
+      </>
+    );
+  }
+
   return (
     <div className="navbar">
       <div className="elements-nav">
         <Link to="/">Accueil</Link>
         <Link to="/experiences">Expériences</Link>
-        <Link to="/calendrier">Réserver</Link>
+        <Link to="/form-reservation">Réserver</Link>
         <Link to="/info-pratique">Infos pratiques</Link>
+        
+        {authLinks}
       </div>
       
       <div className="language">

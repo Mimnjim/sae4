@@ -11,8 +11,9 @@ const difficulty = parseInt(params.get("difficulty")) || 1;
 
 const config = {
     bikeSpeed: 1.0,
-    bikeSpeedLateral: 0.8,
+    bikeSpeedLateral: 0.3,
     maxEnemies: 10,
+    enemyAdvanceSpeed: 0.08,
     playerHealth: 100,
     maxHealth: 100,
     lengthOfRoad: 500,
@@ -22,31 +23,39 @@ const config = {
     itemCount: 6
 };
 
+// Notify parent (if embedded) about initial config
+if (window.parent && window.parent !== window) {
+    window.parent.postMessage({ type: 'game_init', difficulty, total: config.itemCount }, '*');
+}
+
 // Appliquer la difficulté
 switch(difficulty) {
     case 1: // facile
         config.bikeSpeed = 1.2;
-        config.bikeSpeedLateral = 1.0;
+        config.bikeSpeedLateral = 0.5;
         config.maxEnemies = 25;
         config.playerHealth = 120;
         config.maxHealth = 120;
         config.lengthOfRoad = 700;
+        config.itemCount = 8;
         break;
     case 2: // normal
         config.bikeSpeed = 1.8;
-        config.bikeSpeedLateral = 1.3;
-        config.maxEnemies = 50;
+        config.bikeSpeedLateral = 0.5;
+        config.maxEnemies = 40;
         config.playerHealth = 100;
         config.maxHealth = 100;
         config.lengthOfRoad = 1500;
+        config.itemCount = 15;
         break;
     case 3: // difficile
         config.bikeSpeed = 2.5;
-        config.bikeSpeedLateral = 1.8;
-        config.maxEnemies = 70;
+        config.bikeSpeedLateral = 0.5;
+        config.maxEnemies = 60;
         config.playerHealth = 80;
         config.maxHealth = 80;
         config.lengthOfRoad = 3000;
+        config.itemCount = 25;
         break;
 }
 
@@ -70,21 +79,33 @@ const gameState = {
 
 const stats = new Stats();
 stats.showPanel(0);
-document.body.appendChild(stats.dom);
+
+const gameContainer = document.getElementById("game-container");
+const statsHost = gameContainer || document.body;
+stats.dom.style.position = "absolute";
+stats.dom.style.top = "12px";
+stats.dom.style.right = "12px";
+statsHost.appendChild(stats.dom);
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x1d3557);
 scene.fog = new THREE.Fog(0x1d3557, 200, 800);
 
-const aspect = window.innerWidth / window.innerHeight;
+const containerWidth = (gameContainer ? gameContainer.clientWidth : window.innerWidth) || window.innerWidth;
+const containerHeight = (gameContainer ? gameContainer.clientHeight : window.innerHeight) || window.innerHeight;
+const aspect = containerWidth / containerHeight;
 const camera = new THREE.PerspectiveCamera(45, aspect, 1, 1000);
 camera.position.set(0, 15, 0);
 camera.lookAt(0, 20, 0);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(containerWidth, containerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
-document.body.appendChild(renderer.domElement);
+if (gameContainer) {
+    gameContainer.appendChild(renderer.domElement);
+} else {
+    document.body.appendChild(renderer.domElement);
+}
 
 // ==========================
 // --- LUMIÈRES ---
@@ -111,12 +132,33 @@ scene.add(sideLight2);
 // ==========================
 // --- SOL ---
 // ==========================
-const roadGeometry = new THREE.PlaneGeometry(50, config.lengthOfRoad);
+const roadGeometry = new THREE.PlaneGeometry(60, config.lengthOfRoad);
 const roadMaterial = new THREE.MeshPhongMaterial({ color: 0x444444 });
 const road = new THREE.Mesh(roadGeometry, roadMaterial);
 road.rotation.x = -Math.PI / 2;
 road.position.z = -config.lengthOfRoad / 2;
 scene.add(road);
+
+// Limites latérales partagées (joueur + ennemis + items)
+const roadHalfWidth = roadGeometry.parameters.width / 2;
+const sideMargin = 1.5;
+const minTrackX = -roadHalfWidth + sideMargin;
+const maxTrackX = roadHalfWidth - sideMargin;
+const actorHalfWidth = 2;
+const limitLeft = minTrackX + actorHalfWidth;
+const limitRight = maxTrackX - actorHalfWidth;
+
+function getRandomTrackX() {
+    return Math.random() * (limitRight - limitLeft) + limitLeft;
+}
+
+const edgeGeometry = new THREE.BoxGeometry(1.2, 1.5, config.lengthOfRoad);
+const edgeMaterial = new THREE.MeshPhongMaterial({ color: 0x111111 });
+const leftEdge = new THREE.Mesh(edgeGeometry, edgeMaterial);
+const rightEdge = new THREE.Mesh(edgeGeometry, edgeMaterial);
+leftEdge.position.set(-roadHalfWidth + 0.6, 0.75, -config.lengthOfRoad / 2);
+rightEdge.position.set(roadHalfWidth - 0.6, 0.75, -config.lengthOfRoad / 2);
+scene.add(leftEdge, rightEdge);
 
 // Charger texture en arrière-plan
 const textureLoader = new THREE.TextureLoader();
@@ -130,7 +172,6 @@ textureLoader.load(
         roadMaterial.map = texture;
         roadMaterial.color.set(0xffffff);
         roadMaterial.needsUpdate = true;
-        console.log('✅ Texture chargée');
     },
     undefined,
     (error) => console.warn('⚠️ Texture non chargée')
@@ -140,7 +181,6 @@ textureLoader.load(
 // --- JOUEUR ---
 // ==========================
 let playerBike = null;
-const lanes = [-10, -3, 3, 10];
 
 function createPlayer() {
     const loader = new GLTFLoader();
@@ -152,7 +192,6 @@ function createPlayer() {
             playerBike.rotation.y = 11;
             scene.add(playerBike);
             hideLoading();
-            console.log('✅ Moto chargée');
         },
         undefined,
         (error) => {
@@ -162,7 +201,6 @@ function createPlayer() {
             playerBike.position.set(0, 5, 20);
             scene.add(playerBike);
             hideLoading();
-            console.log('⚠️ Cube de remplacement');
         }
     );
 }
@@ -174,42 +212,18 @@ function hideLoading() {
 }
 
 // ==========================
-// --- VILLES ---
-// ==========================
-const cities = [];
-
-function createCity() {
-    const loader = new GLTFLoader();
-    loader.load('assets/models/beautiful_city.glb', 
-        (gltf) => {
-            const city1 = gltf.scene;
-            const city2 = city1.clone();
-            city1.scale.set(100, 20, 30);
-            city2.scale.set(100, 20, 30);
-            city1.rotation.y = Math.PI/2;
-            city2.rotation.y = Math.PI/2;
-            city1.position.set(-20, 10, -100);
-            city2.position.set(-20, 10, -300);
-            scene.add(city1, city2);
-            cities.push(city1, city2);
-            console.log('✅ Villes chargées');
-        },
-        undefined,
-        (error) => console.warn('⚠️ Villes non chargées')
-    );
-}
-
-// ==========================
 // --- ENNEMIS ---
 // ==========================
 const enemies = [];
 
 function createEnemy(index) {
     const geometry = new THREE.BoxGeometry(4, 4, 4);
-    const material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+    const material = new THREE.MeshPhongMaterial({ color: 0xff0000, transparent: true, opacity: 1 });
     const enemy = new THREE.Mesh(geometry, material);
-    const lane = lanes[Math.floor(Math.random() * lanes.length)];
-    enemy.position.set(lane, 5, -100 - index * 30);
+    const x = getRandomTrackX();
+    const spacing = config.lengthOfRoad / Math.max(1, config.maxEnemies);
+    const z = -120 - (index * spacing) - Math.random() * 80;
+    enemy.position.set(x, 2, z);
     scene.add(enemy);
     enemies.push(enemy);
 }
@@ -227,7 +241,10 @@ for(let i = 0; i < config.itemCount; i++) {
     const geometry = new THREE.SphereGeometry(1, 16, 16);
     const material = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
     const item = new THREE.Mesh(geometry, material);
-    item.position.set((Math.random() - 0.5) * 40, 1, -150 - i * 100);
+    const spacing = (config.lengthOfRoad - 220) / Math.max(1, config.itemCount);
+    const x = getRandomTrackX();
+    const z = -180 - i * spacing - Math.random() * 40;
+    item.position.set(x, 1, z);
     scene.add(item);
     items.push(item);
 }
@@ -236,18 +253,31 @@ for(let i = 0; i < config.itemCount; i++) {
 // --- CONTRÔLES ---
 // ==========================
 window.addEventListener('keydown', (e) => {
+    // Prevent arrow keys from scrolling parent when embedded
+    if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' ' , 'Shift'].includes(e.key)) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
     gameState.keysPressed[e.key] = true;
 });
 
 window.addEventListener('keyup', (e) => {
+    if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' ' , 'Shift'].includes(e.key)) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
     gameState.keysPressed[e.key] = false;
 });
 
-window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
+function resizeRendererToContainer() {
+    const width = (gameContainer ? gameContainer.clientWidth : window.innerWidth) || window.innerWidth;
+    const height = (gameContainer ? gameContainer.clientHeight : window.innerHeight) || window.innerHeight;
+    camera.aspect = width / height;
     camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-});
+    renderer.setSize(width, height);
+}
+
+window.addEventListener('resize', resizeRendererToContainer);
 
 // ==========================
 // --- FONCTIONS UTILS ---
@@ -304,25 +334,66 @@ function updateBoostUI(currentTime) {
     }
 }
 
-function detectCollision(obj1, obj2) {
-    const box1 = new THREE.Box3().setFromObject(obj1);
-    const box2 = new THREE.Box3().setFromObject(obj2);
-    return box1.intersectsBox(box2);
+const playerCollisionBox = new THREE.Box3();
+
+function getPlayerCollisionState(player) {
+    playerCollisionBox.setFromObject(player);
+
+    const centerX = (playerCollisionBox.min.x + playerCollisionBox.max.x) / 2;
+    const centerZ = (playerCollisionBox.min.z + playerCollisionBox.max.z) / 2;
+    const width = playerCollisionBox.max.x - playerCollisionBox.min.x;
+    const depth = playerCollisionBox.max.z - playerCollisionBox.min.z;
+
+    // Rayon joueur dérivé de la vraie taille de la moto (avec bornes stables)
+    const radius = THREE.MathUtils.clamp(Math.min(width, depth) * 0.35, 1.2, 2.2);
+
+    return { x: centerX, z: centerZ, radius };
+}
+
+function detectItemCollision(playerCollision, item) {
+    const itemRadius = 1.2;
+    const dx = item.position.x - playerCollision.x;
+    const dz = item.position.z - playerCollision.z;
+    const distance = Math.sqrt(dx * dx + dz * dz);
+    return distance < (playerCollision.radius + itemRadius);
+}
+
+function detectEnemyCollision(playerCollision, enemy) {
+    const enemyRadius = 2.0;
+    const dx = enemy.position.x - playerCollision.x;
+    const dz = enemy.position.z - playerCollision.z;
+    const distance = Math.sqrt(dx * dx + dz * dz);
+    return distance < (playerCollision.radius + enemyRadius);
 }
 
 // ==========================
 // --- BOUCLE PRINCIPALE (TICK) ---
 // ==========================
 const cameraOffsets = {
-    default: new THREE.Vector3(-2, -2, 30),
+    default: new THREE.Vector3(-2, 5, 30),
     boost: new THREE.Vector3(0, 12, 40),
     brake: new THREE.Vector3(0, 6, 18),
-    current: new THREE.Vector3(-2, -2, 30),
-    target: new THREE.Vector3(-2, -2, 30)
+    current: new THREE.Vector3(-2, 5, 30),
+    target: new THREE.Vector3(-2, 5, 30)
 };
 
+const cameraRoll = { current: 0, target: 0 };
+let action = false;
+let acceleration = 0;
+let lateralSpeed = 0;
+let animationFrameId = null;
+const targetFps = 60;
+const frameDuration = 1000 / targetFps;
+let lastFrameTime = 0;
+
 const tick = () => {
-    requestAnimationFrame(tick);
+    animationFrameId = requestAnimationFrame(tick);
+
+    const now = performance.now();
+    if (now - lastFrameTime < frameDuration) {
+        return;
+    }
+    lastFrameTime = now;
     
     if (stats) stats.begin();
     
@@ -361,57 +432,109 @@ const tick = () => {
     if (gameState.boostActive) speed *= config.boostMultiplier;
     if (keys['ArrowUp']) speed += 1.2;
     if (keys['ArrowDown']) speed -= 1.0;
-    
+
     playerBike.position.z -= speed;
     
-    if (keys['ArrowLeft'] && playerBike.position.x > -20) {
-        playerBike.position.x -= config.bikeSpeedLateral;
+    action = false;
+    acceleration = 0;
+    if (keys['ArrowLeft']) {
+        acceleration = -1;
+        action = true;
         playerBike.rotation.y = -1.30;
-    } else if (keys['ArrowRight'] && playerBike.position.x < 28) {
-        playerBike.position.x += config.bikeSpeedLateral;
+    } else if (keys['ArrowRight']) {
+        acceleration = 1;
+        action = true;
         playerBike.rotation.y = -1.73;
     } else {
         playerBike.rotation.y = 11;
     }
+
+    if (action) lateralSpeed += acceleration * config.bikeSpeedLateral * 0.35;
+    lateralSpeed *= 0.85;
+    playerBike.position.x += lateralSpeed;
+
+    if (playerBike.position.x < limitLeft) {
+        playerBike.position.x = limitLeft;
+        if (lateralSpeed < 0) lateralSpeed = 0;
+    }
+    if (playerBike.position.x > limitRight) {
+        playerBike.position.x = limitRight;
+        if (lateralSpeed > 0) lateralSpeed = 0;
+    }
     
+    // Les ennemis avancent très légèrement vers le joueur (logique index.js)
+    enemies.forEach(enemy => {
+        enemy.position.z += config.enemyAdvanceSpeed;
+    });
+
     // === CAMÉRA ===
     if (keys['ArrowUp']) {
         cameraOffsets.target.copy(cameraOffsets.boost);
     } else if (keys['ArrowDown']) {
         cameraOffsets.target.copy(cameraOffsets.brake);
-    } else if (keys['ArrowLeft'] || keys['ArrowRight']) {
-        cameraOffsets.target.copy(cameraOffsets.default).add(new THREE.Vector3(0, 0, 5));
     } else {
         cameraOffsets.target.copy(cameraOffsets.default);
     }
-    
+
+    // Roulis caméra lors des virages
+    if (keys['ArrowLeft']) {
+        cameraRoll.target = 0.06;
+    } else if (keys['ArrowRight']) {
+        cameraRoll.target = -0.06;
+    } else {
+        cameraRoll.target = 0;
+    }
+    cameraRoll.current += (cameraRoll.target - cameraRoll.current) * 0.1;
+
     cameraOffsets.current.lerp(cameraOffsets.target, 0.08);
     camera.position.copy(playerBike.position).add(cameraOffsets.current);
     camera.lookAt(playerBike.position);
+    camera.rotation.z = cameraRoll.current;
     
     // Lumières suivent le joueur
     frontLight.position.set(playerBike.position.x, 50, playerBike.position.z - 100);
     directionalLight.position.set(playerBike.position.x, 100, playerBike.position.z - 50);
+
+    const playerCollision = getPlayerCollisionState(playerBike);
     
     // === ITEMS ===
-    items.forEach((item, index) => {
-        if (detectCollision(playerBike, item)) {
+    for (let i = items.length - 1; i >= 0; i--) {
+        const item = items[i];
+        if (detectItemCollision(playerCollision, item)) {
             scene.remove(item);
-            items.splice(index, 1);
+            items.splice(i, 1);
             gameState.itemGotCount++;
             const itemGot = document.querySelector(".item-got");
             if (itemGot) itemGot.innerHTML = gameState.itemGotCount;
+            // send progress update to parent window if embedded
+            if (window.parent && window.parent !== window) {
+                window.parent.postMessage({
+                    type: 'game_progress',
+                    difficulty,
+                    collected: gameState.itemGotCount,
+                    total: config.itemCount
+                }, '*');
+            }
         }
-    });
+    }
     
     // === COLLISIONS ENNEMIS ===
     if (gameState.playerHealth > 0) {
         enemies.forEach(enemy => {
-            if (detectCollision(playerBike, enemy)) {
+            if (detectEnemyCollision(playerCollision, enemy)) {
                 gameState.playerHealth -= 10;
                 if (gameState.playerHealth < 0) gameState.playerHealth = 0;
                 updateHealthUI();
                 enemy.position.z -= 200;
+                enemy.material.color.set('red');
+            } else {
+                enemy.material.color.set('white');
+            }
+
+            if (enemy.position.z > playerBike.position.z) {
+                enemy.material.opacity = 0.4;
+            } else {
+                enemy.material.opacity = 1;
             }
         });
     }
@@ -426,10 +549,12 @@ const tick = () => {
     // === RESPAWN ENNEMIS ===
     enemies.forEach(enemy => {
         if (enemy.position.z > playerBike.position.z + 50) {
-            const newZ = playerBike.position.z - 300 - Math.random() * 100;
+            const newZ = playerBike.position.z - 220 - Math.random() * 320;
             if (newZ > -config.lengthOfRoad) {
-                enemy.position.z = newZ + 25;
-                enemy.position.x = lanes[Math.floor(Math.random() * lanes.length)];
+                enemy.position.z = newZ;
+                enemy.position.x = getRandomTrackX();
+                enemy.position.y = 2;
+                enemy.material.opacity = 1;
             }
         }
     });
@@ -437,7 +562,23 @@ const tick = () => {
     // === VICTOIRE ===
     if (!gameState.hasWon && playerBike.position.z < -config.lengthOfRoad) {
         gameState.hasWon = true;
+        if (animationFrameId !== null) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+        }
         showVictory();
+        // notify parent about victory and final progress
+        if (window.parent && window.parent !== window) {
+            window.parent.postMessage({
+                type: 'game_victory',
+                difficulty,
+                collected: gameState.itemGotCount,
+                total: config.itemCount
+            }, '*');
+        }
+        renderer.render(scene, camera);
+        if (stats) stats.end();
+        return;
     }
     
     stats.end();
@@ -448,14 +589,32 @@ const tick = () => {
 // ==========================
 // --- INITIALISATION ---
 // ==========================
-createPlayer();
-createCity();
-tick();
 
-// Timeout de sécurité
+function startGame() {
+    createPlayer();
+    if (!animationFrameId) tick();
+}
+
+// If embedded in a parent, wait for a `start` message from parent.
+if (window.parent && window.parent !== window) {
+    window.addEventListener('message', (ev) => {
+        const data = ev.data;
+        if (!data || typeof data !== 'object') return;
+        if (data.type === 'start') {
+            startGame();
+        } else if (data.type === 'restart') {
+            // simplest replay mechanism: reload the iframe/page
+            location.reload();
+        }
+    });
+} else {
+    // standalone page: auto-start immediately
+    startGame();
+}
+
+// Timeout de sécurité (sans logs)
 setTimeout(() => {
     if (!gameState.isGameReady) {
-        console.log('⏱️ Timeout - Démarrage forcé');
         if (!playerBike) {
             const geometry = new THREE.BoxGeometry(4, 4, 4);
             const material = new THREE.MeshPhongMaterial({ color: 0xff0055 });

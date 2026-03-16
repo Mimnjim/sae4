@@ -1,151 +1,324 @@
-body { 
-    margin: 0;
-    background: #000; 
-    color: #00ffff; 
-    font-family: 'Courier New', monospace; 
-    overflow: hidden; 
+:root {
+    --bg: #0d0f14;
+    --panel: rgba(10, 14, 20, 0.78);
+    --line: rgba(0, 255, 255, 0.55);
+    --text: #e8f5ff;
+    --accent: #00d9ff;
+    --muted: #9cc9d4;
 }
 
-#ui { 
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    background-image: radial-gradient(circle at 20% 10%, rgba(0, 217, 255, 0.12), transparent 35%);
+    color: var(--text);
+    font-family: "Courier New", monospace;
+    min-height: 100vh;
+}
+
+.page {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 32px 20px 48px;
+    display: grid;
+    gap: 24px;
+}
+
+.game-header {
+    display: grid;
+    gap: 10px;
+}
+
+.eyebrow {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.game-header h1 {
+    margin: 0;
+    font-size: clamp(24px, 3vw, 36px);
+    color: var(--accent);
+}
+
+.intro {
+    margin: 0;
+    max-width: 620px;
+    color: var(--text);
+    opacity: 0.9;
+}
+
+.instructions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.instructions span {
+    padding: 6px 10px;
+    border: 1px solid rgba(0, 217, 255, 0.35);
+    border-radius: 999px;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.game-shell {
+    display: grid;
+}
+
+#game-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    min-height: 520px;
+    border-radius: 16px;
+    border: 1px solid rgba(0, 217, 255, 0.25);
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(7, 12, 22, 0.9), rgba(13, 20, 34, 0.95));
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+#ui {
+    position: absolute;
+    inset: 16px 16px auto 16px;
+    z-index: 20;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 16px;
+    pointer-events: none;
+}
+
+.hud-panel {
+    min-width: 200px;
+    padding: 14px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    backdrop-filter: blur(4px);
+}
+
+.hud-panel h1 {
+    margin: 0;
+    font-size: 15px;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+}
+
+.hud-subtitle {
+    margin: 4px 0 12px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.hud-row {
     display: flex;
     justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 6px;
+}
 
+.label {
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+#container-timer,
+.boost-track {
     width: 100%;
-    position: absolute; 
-    top: 20px; 
-    left: 20px; 
-    z-index: 10; 
-    pointer-events: none; 
+    height: 10px;
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    overflow: hidden;
 }
 
-.items-got {
-    font-size: 24px; 
-    color: #00ffff; 
-    padding: 0 3rem;
-    padding-top: 1rem;
-
-    display: flex; 
-    flex-direction: column;
-    /* gap: 20px; */
-    /* justify-content: flex-end; */
-    align-items: flex-end;
-
+#timer,
+#boost-bar {
+    width: 100%;
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.12s linear, background 0.2s ease;
 }
 
-.items-got h2 {
-    font-size: 2rem;
+.boost-row {
+    margin-top: 10px;
+}
+
+.controls-hint {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.controls-hint span {
+    padding: 3px 7px;
+    border: 1px solid rgba(0, 217, 255, 0.35);
+    border-radius: 999px;
+    font-size: 11px;
+    color: var(--muted);
+}
+
+.items-panel {
+    min-width: 120px;
+    text-align: right;
+}
+
+.boost-panel {
+    min-width: 180px;
+}
+
+.compact {
+    padding: 10px 12px;
+}
+
+.item-got {
+    margin-top: 6px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 50;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(4, 6, 10, 0.86);
+}
+
+.loading-overlay {
+    display: flex;
+    z-index: 60;
+}
+
+.overlay-card {
+    width: min(90vw, 420px);
+    padding: 24px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #0f141d;
+    text-align: center;
+}
+
+.overlay-card h2 {
+    margin: 0 0 10px;
+    color: var(--accent);
+}
+
+.overlay-card p {
     margin: 0;
+    opacity: 0.85;
 }
 
-.items-container {
-    padding: 0 4rem;
-
+.loading-line {
+    margin: 14px auto 0;
+    width: 80%;
+    height: 4px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    animation: loadingPulse 1.2s infinite;
 }
 
-.vies { 
-    font-size: 24px; 
-    color: #ff0055; 
-    margin-bottom: 5px; 
-}
-
-#victory-screen, #game-over { 
-    position: absolute; 
-    top: 50%; 
-    left: 50%; 
-    transform: translate(-50%, -50%);
-
-    text-align: center; 
-    display: none; 
-    z-index: 20; 
-    background: rgba(0,0,0,0.9);
-    padding: 40px; 
-    border: 2px solid #00ffff; 
-}
-
-div#container-timer {
-    width: 200px; 
-    height: 4px;        
-    background: #222; 
-    border: 1px solid #00ffff;
-}
-
-div#timer {
-    width: 100%; /* IMPORTANT : pleine au départ */
-    height: 100%;
-    background: #00ffff;
-    transition: width 0.3s ease, background 0.3s ease;
-}
-
-/* .log-out {
-    color: #ff0055;
-} */
-
-#game-over{
-    display: none; /* caché au départ */
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.95); /* fond sombre cyberpunk */
-    color: #ff0000; /* rouge pour l'effet cyberpunk / Akira */
-    text-align: center;
-    font-family: 'Orbitron', sans-serif; /* typographie futuriste */
-    padding-top: 20%;
-    z-index: 100;
-}
-
-#game-over h2 {
-    font-size: 4em;
-    letter-spacing: 0.1em;
-    text-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000;
-}
-#game-over button {
-    font-size: 1.5em;
-    padding: 1em 2em;
-    margin-top: 2em;
-    background-color: #111;
-    color: #ff0000;
-    border: 2px solid #ff0000;
+.overlay-card button {
+    margin-top: 12px;
+    margin-right: 8px;
+    padding: 10px 14px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text);
+    font-family: inherit;
     cursor: pointer;
-}
-#game-over button:hover {
-    background-color: #ff0000;
-    color: #111;
+    pointer-events: auto;
 }
 
+.overlay-card button:hover {
+    background: rgba(0, 217, 255, 0.12);
+}
 
-/* =================================== */
-/* VICTORY SCREEN - même design que game over */
-/* =================================== */
-#victory-screen {
-    display: none; /* caché au départ */
-    position: absolute;
+.menu-overlay {
+    background: rgba(4, 6, 10, 0.72);
+}
+
+.menu-card {
+    width: min(90vw, 520px);
+}
+
+.menu-card p {
+    margin: 0 0 18px;
+    color: var(--muted);
+}
+
+.menu-buttons {
+    display: grid;
+    gap: 10px;
+}
+
+.menu-btn {
     width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.95); /* fond sombre cyberpunk */
-    color: #00ffff; /* couleur cyan pour victoire */
-    text-align: center;
-    font-family: 'Orbitron', sans-serif; /* typographie futuriste */
-    padding-top: 20%;
-    z-index: 100;
-}
-
-#victory-screen h2 {
-    font-size: 4em;
-    letter-spacing: 0.1em;
-    text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff; /* cyan néon */
-}
-
-#victory-screen button {
-    font-size: 1.5em;
-    padding: 1em 2em;
-    margin-top: 2em;
-    background-color: #111;
-    color: #00ffff; /* cyan */
-    border: 2px solid #00ffff;
+    padding: 12px 16px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: rgba(0, 217, 255, 0.08);
+    color: var(--text);
+    font-family: inherit;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
     cursor: pointer;
 }
 
-#victory-screen button:hover {
-    background-color: #00ffff;
-    color: #111;
+.menu-btn.easy {
+    border-color: rgba(0, 255, 153, 0.8);
+}
+
+.menu-btn.normal {
+    border-color: rgba(255, 170, 0, 0.85);
+}
+
+.menu-btn.hard {
+    border-color: rgba(255, 0, 85, 0.85);
+}
+
+.menu-btn:hover {
+    background: rgba(0, 217, 255, 0.16);
+}
+
+@keyframes loadingPulse {
+    0%, 100% { opacity: 0.35; transform: scaleX(0.8); }
+    50% { opacity: 1; transform: scaleX(1); }
+}
+
+@media (max-width: 740px) {
+    .page {
+        padding: 24px 16px 36px;
+    }
+
+    #game-container {
+        aspect-ratio: 4 / 3;
+        min-height: 360px;
+    }
+
+    #ui {
+        align-items: flex-start;
+    }
+
+    .items-panel {
+        text-align: left;
+    }
 }
