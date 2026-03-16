@@ -17,6 +17,7 @@ import InfoPratique from './pages/Info_pratique.jsx';
 import './styles/global.css';
 import './styles/navbar.css';
 import './styles/app.css';
+import './styles/hero.css';
 
 // Page d'accueil
 const Home = () => {
@@ -28,9 +29,9 @@ const Home = () => {
         subtitle="Au-delà de l'humain"
       />
 
-      <div className="teaser">
+      {/* <div className="teaser">
         <h2>Quand la technologie dépasse l'humain… osez franchir la frontière.</h2>
-      </div>
+      </div> */}
 
       <Section
         id="akira"
