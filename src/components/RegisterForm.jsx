@@ -14,8 +14,8 @@ function RegisterForm({ onSuccess }) {
   function handleSubmit() {
     setLoading(true);
     
-    // Appel API pour créer un compte
-    fetch('http://localhost:8888/sae4/api/register.php', {
+    // Appel API pour créer un compte (chemin relatif pour utiliser le proxy Vite)
+    fetch('/sae4_api/api/register.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password, firstname, lastname })
@@ -25,6 +25,11 @@ function RegisterForm({ onSuccess }) {
       console.log('Inscription réussie:', data);
       setLoading(false);
       onSuccess(); // Redirection vers login
+    })
+    .catch(err => {
+      console.error('Erreur inscription:', err);
+      setLoading(false);
+      alert("Erreur lors de l'inscription. Vérifiez le serveur API.");
     });
   }
 

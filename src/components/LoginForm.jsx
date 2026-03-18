@@ -12,8 +12,8 @@ function LoginForm({ onSuccess, setUser }) {
   function handleSubmit() {
     setLoading(true);
     
-    // Appel API pour se connecter
-    fetch('http://localhost:8888/sae4/api/login.php', {
+    // Appel API pour se connecter (chemin relatif pour utiliser le proxy Vite)
+    fetch('/sae4_api/api/login.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
@@ -21,13 +21,18 @@ function LoginForm({ onSuccess, setUser }) {
     .then(res => res.json())
     .then(data => {
       console.log('Connexion réussie:', data);
-      // Stocker le token et les infos user dans localStorage
-      localStorage.setItem('token', data.token);
+      // Stocker le token et les infos user dans localStorage (clé `jwt` utilisée partout)
+      localStorage.setItem('jwt', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
       // Mettre à jour l'état global
       setUser(data.user);
       setLoading(false);
       onSuccess(); // Redirection
+    })
+    .catch(err => {
+      console.error('Erreur connexion:', err);
+      setLoading(false);
+      alert('Erreur lors de la connexion. Vérifiez le serveur API.');
     });
   }
 

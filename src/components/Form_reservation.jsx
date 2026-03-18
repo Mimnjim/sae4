@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import ButtonValidation from './ButtonValidation';
 import Calendrier from './Calendrier';
 import '../styles/form-reservation.css';
+import AuthPrompt from './AuthPrompt';
 
 const FormReservation = () => {
     const navigate = useNavigate();
@@ -58,6 +59,12 @@ const FormReservation = () => {
     }
   }, []);
 
+  // If user is not logged in, show auth prompt
+  const jwt = typeof window !== 'undefined' ? localStorage.getItem('jwt') : null;
+  if (!jwt) {
+    return <AuthPrompt message="Connectez-vous pour réserver votre visite" />;
+  }
+
   // Fonction appelée quand on clique sur le bouton
   const handleSubmit = () => {
     // Validation simple
@@ -69,19 +76,43 @@ const FormReservation = () => {
     console.log('Heure:', time);
     console.log('Langue:', langue);
     console.log('Billets:', { pleinTarif, tarifReduit, gratuit });
-    // Redirection vers la page de confirmation en passant l'état
-    navigate('/confirmation', {
-      state: {
-        prenom,
-        nom,
-        email,
-        date,
-        time,
-        langue,
-        billets: { pleinTarif, tarifReduit, gratuit },
-        total: finalTotal,
-        promoCode: promoApplied ? promoCode : undefined,
+    // build tickets array
+    const tickets = [];
+    if (pleinTarif > 0) tickets.push({ ticket_type: 'plein', unit_price: PRIX_PLEIN, quantity: pleinTarif });
+    if (tarifReduit > 0) tickets.push({ ticket_type: 'reduit', unit_price: PRIX_REDUIT, quantity: tarifReduit });
+    if (gratuit > 0) tickets.push({ ticket_type: 'gratuit', unit_price: 0, quantity: gratuit });
+
+    const body = {
+      contact_firstname: prenom,
+      contact_lastname: nom,
+      contact_email: email,
+      language: langue,
+      reservation_date: (date instanceof Date) ? date.toISOString().substr(0,10) : date,
+      time_slot: time,
+      tickets,
+      reservation_type: 'standard',
+      promo_code: promoApplied ? promoCode : null
+    };
+
+    const headers = { 'Content-Type': 'application/json' };
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) headers['Authorization'] = 'Bearer ' + jwt;
+
+    fetch('/sae4_api/api/reservations.php', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(body)
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data && data.success) {
+        navigate('/confirmation', { state: { reservationId: data.reservation_id, summary: { tickets, total: finalTotal } } });
+      } else {
+        alert(data.message || 'Erreur lors de la réservation');
       }
+    }).catch(err => {
+      console.error(err);
+      alert('Erreur réseau');
     });
   };
 
@@ -108,11 +139,11 @@ const FormReservation = () => {
         >
           <option value="">Choisir...</option>
           {Array.from({length: 8}, (_, i) => {
-            const startHour = 10 + i;
-            const endHour = startHour + 1;
-            const label = `${startHour}h00 - ${endHour}h00`;
-            return <option key={label} value={label}>{label}</option>;
-          })}
+              const startHour = 10 + i;
+              const endHour = startHour + 1;
+              const label = `${String(startHour).padStart(2,'0')}:00 - ${String(endHour).padStart(2,'0')}:00`;
+              return <option key={label} value={label}>{label}</option>;
+            })}
         </select>
         <div className="form-reservation__label">Langues disponibles</div>
         <div style={{ marginBottom: '1rem' }}>
