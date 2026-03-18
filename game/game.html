@@ -10,6 +10,54 @@
     <main class="page">
         <section class="game-shell">
             <div id="game-container"></div>
+            <div id="ui">
+                <div class="hud-panel compact">
+                    <div class="hud-row">
+                        <div>
+                            <div class="label">Vie</div>
+                            <div id="container-timer"><div id="timer"></div></div>
+                        </div>
+                        <div>
+                            <div class="label">%</div>
+                            <div id="health-value">100</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hud-panel boost-panel compact">
+                    <div class="label">Boost</div>
+                    <div class="boost-row">
+                        <div class="boost-track"><div id="boost-bar"></div></div>
+                        <div id="boost-status" style="margin-top:6px;color:#9cc9d4;font-size:12px">CHARGEMENT...</div>
+                    </div>
+                </div>
+
+                <div class="hud-panel items-panel compact">
+                    <div class="label">Objets</div>
+                    <div class="item-got">0</div>
+                </div>
+            </div>
+
+            <div id="loading-message" class="overlay loading-overlay" style="display:flex">
+                <div class="overlay-card">
+                    <h2>Chargement...</h2>
+                    <div class="loading-line"></div>
+                </div>
+            </div>
+
+            <div id="game-over" class="overlay menu-overlay" style="display:none">
+                <div class="overlay-card">
+                    <h2>Game Over</h2>
+                    <p>Vous avez été neutralisé. Appuyez sur Rejouer pour recommencer.</p>
+                </div>
+            </div>
+
+            <div id="victory-screen" class="overlay menu-overlay" style="display:none">
+                <div class="overlay-card">
+                    <h2>Victoire !</h2>
+                    <p>Félicitations, vous avez atteint la fin.</p>
+                </div>
+            </div>
         </section>
     </main>
     

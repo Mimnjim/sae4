@@ -13,7 +13,7 @@ const config = {
     bikeSpeed: 1.0,
     bikeSpeedLateral: 0.3,
     maxEnemies: 10,
-    enemyAdvanceSpeed: 0.08,
+    enemyAdvanceSpeed: -0.08,
     playerHealth: 100,
     maxHealth: 100,
     lengthOfRoad: 500,
@@ -71,7 +71,6 @@ const gameState = {
     boostLastUsed: Date.now() - config.boostChargeTime,
     boostStartTime: 0
 };
-
 // ==========================
 // --- SCÈNE ---
 // ==========================
@@ -91,20 +90,156 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x1d3557);
 scene.fog = new THREE.Fog(0x1d3557, 200, 800);
 
-const containerWidth = (gameContainer ? gameContainer.clientWidth : window.innerWidth) || window.innerWidth;
-const containerHeight = (gameContainer ? gameContainer.clientHeight : window.innerHeight) || window.innerHeight;
-const aspect = containerWidth / containerHeight;
-const camera = new THREE.PerspectiveCamera(45, aspect, 1, 1000);
+const camera = new THREE.PerspectiveCamera(45, 16/9, 1, 1000);
 camera.position.set(0, 15, 0);
 camera.lookAt(0, 20, 0);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(containerWidth, containerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
+renderer.domElement.style.width = '110%';
+renderer.domElement.style.height = '110%';
 if (gameContainer) {
     gameContainer.appendChild(renderer.domElement);
 } else {
     document.body.appendChild(renderer.domElement);
+}
+
+// --- In-game HUD: progress display + next-level button ---
+let lastProgressPercent = 0;
+let nextLevelButton = null;
+function createInGameHUD() {
+    const host = gameContainer || document.body;
+    const hud = document.createElement('div');
+    hud.id = 'in-game-hud';
+    hud.style.position = 'absolute';
+    hud.style.left = '12px';
+    hud.style.bottom = '12px';
+    hud.style.zIndex = 9999;
+    hud.style.fontFamily = 'sans-serif';
+    hud.style.color = '#ffffff';
+    hud.style.pointerEvents = 'none';
+
+    const progWrap = document.createElement('div');
+    progWrap.style.width = '220px';
+    progWrap.style.background = 'rgba(0,0,0,0.5)';
+    progWrap.style.padding = '6px';
+    progWrap.style.borderRadius = '6px';
+    progWrap.style.pointerEvents = 'auto';
+
+    const label = document.createElement('div');
+    label.textContent = 'Progression';
+    label.style.fontSize = '12px';
+    label.style.marginBottom = '6px';
+    progWrap.appendChild(label);
+
+    const barBg = document.createElement('div');
+    barBg.style.width = '200px';
+    barBg.style.height = '10px';
+    barBg.style.background = '#333';
+    barBg.style.borderRadius = '6px';
+    barBg.style.overflow = 'hidden';
+
+    const bar = document.createElement('div');
+    bar.id = 'in-game-progress-bar';
+    bar.style.height = '100%';
+    bar.style.width = '0%';
+    bar.style.background = '#00ffcc';
+    bar.style.transition = 'width 200ms linear';
+    barBg.appendChild(bar);
+    progWrap.appendChild(barBg);
+
+    const percentText = document.createElement('div');
+    percentText.id = 'in-game-progress-text';
+    percentText.style.fontSize = '12px';
+    percentText.style.marginTop = '6px';
+    percentText.textContent = '0%';
+    progWrap.appendChild(percentText);
+
+    // items progress (second bar at bottom)
+    const itemsLabel = document.createElement('div');
+    itemsLabel.textContent = 'Objets';
+    itemsLabel.style.fontSize = '12px';
+    itemsLabel.style.marginTop = '10px';
+    itemsLabel.style.marginBottom = '6px';
+    progWrap.appendChild(itemsLabel);
+
+    const itemsBg = document.createElement('div');
+    itemsBg.style.width = '200px';
+    itemsBg.style.height = '10px';
+    itemsBg.style.background = '#333';
+    itemsBg.style.borderRadius = '6px';
+    itemsBg.style.overflow = 'hidden';
+
+    const itemsBar = document.createElement('div');
+    itemsBar.id = 'in-game-items-bar';
+    itemsBar.style.height = '100%';
+    itemsBar.style.width = '0%';
+    itemsBar.style.background = '#ffd54f';
+    itemsBar.style.transition = 'width 200ms linear';
+    itemsBg.appendChild(itemsBar);
+    progWrap.appendChild(itemsBg);
+
+    const itemsText = document.createElement('div');
+    itemsText.id = 'in-game-items-text';
+    itemsText.style.fontSize = '12px';
+    itemsText.style.marginTop = '6px';
+    itemsText.textContent = '0 / ' + config.itemCount;
+    progWrap.appendChild(itemsText);
+
+    // next level button (disabled by default)
+    const btn = document.createElement('button');
+    btn.id = 'next-level-btn';
+    btn.textContent = 'Niveau suivant';
+    btn.disabled = true;
+    btn.style.marginTop = '8px';
+    btn.style.padding = '6px 10px';
+    btn.style.borderRadius = '6px';
+    btn.style.border = 'none';
+    btn.style.background = '#777';
+    btn.style.color = '#fff';
+    btn.style.cursor = 'pointer';
+    btn.style.pointerEvents = 'auto';
+    btn.addEventListener('click', () => {
+        // Only act if enabled
+        if (btn.disabled) return;
+        if (window.parent && window.parent !== window) {
+            window.parent.postMessage({ type: 'next_level' }, '*');
+        } else {
+            console.log('Next level requested');
+        }
+    });
+    progWrap.appendChild(btn);
+    nextLevelButton = btn;
+
+    hud.appendChild(progWrap);
+    // append hud into same container that holds renderer so it overlays the canvas
+    if (gameContainer) {
+        gameContainer.style.position = gameContainer.style.position || 'relative';
+        gameContainer.appendChild(hud);
+    } else {
+        document.body.appendChild(hud);
+    }
+}
+createInGameHUD();
+
+// If embedded inside a parent, hide the internal HUD elements (we use parent HUD)
+if (window.parent && window.parent !== window) {
+    document.body.classList.add('embedded');
+    const boostPanel = document.querySelector('.boost-panel');
+    if (boostPanel) boostPanel.style.display = 'none';
+    const itemsPanel = document.querySelector('.items-panel');
+    if (itemsPanel) itemsPanel.style.display = 'none';
+}
+
+// Additionally: always hide the top-right items HUD and the top timer bar
+// (user prefers these removed in-game; we keep health value accessible elsewhere)
+try {
+    const itemsPanelAlways = document.querySelector('.items-panel');
+    if (itemsPanelAlways) itemsPanelAlways.style.display = 'none';
+    const containerTimer = document.getElementById('container-timer');
+    if (containerTimer) containerTimer.style.display = 'none';
+} catch (e) {
+    // ignore
 }
 
 // ==========================
@@ -272,12 +407,18 @@ window.addEventListener('keyup', (e) => {
 function resizeRendererToContainer() {
     const width = (gameContainer ? gameContainer.clientWidth : window.innerWidth) || window.innerWidth;
     const height = (gameContainer ? gameContainer.clientHeight : window.innerHeight) || window.innerHeight;
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-    renderer.setSize(width, height);
+    const needResize = renderer.domElement.width !== Math.floor(width * window.devicePixelRatio) || renderer.domElement.height !== Math.floor(height * window.devicePixelRatio);
+    if (needResize) {
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(width, height, false);
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+    }
 }
 
 window.addEventListener('resize', resizeRendererToContainer);
+// ensure initial correct size
+resizeRendererToContainer();
 
 // ==========================
 // --- FONCTIONS UTILS ---
@@ -295,16 +436,51 @@ function updateHealthUI() {
     if (healthText) {
         healthText.textContent = Math.floor(healthPercent);
     }
+
+    // notify parent about health when embedded
+    if (window.parent && window.parent !== window) {
+        const val = Math.floor(healthPercent);
+        if (!window._lastHealth || window._lastHealth !== val) {
+            window.parent.postMessage({ type: 'game_health', percent: val }, '*');
+            window._lastHealth = val;
+        }
+    }
 }
 
 function showGameOver() {
     const gameOverDiv = document.getElementById("game-over");
     if (gameOverDiv) gameOverDiv.style.display = "block";
+    // notify parent that game ended (game over)
+    if (window.parent && window.parent !== window) {
+        window.parent.postMessage({
+            type: 'game_over',
+            difficulty,
+            collected: gameState.itemGotCount,
+            total: config.itemCount
+        }, '*');
+    }
 }
 
 function showVictory() {
     const victoryDiv = document.getElementById("victory-screen");
     if (victoryDiv) victoryDiv.style.display = "block";
+    // enable next-level button only if player collected >=70% of items
+    try {
+        if (nextLevelButton) {
+            const itemsCollected = gameState.itemGotCount || 0;
+            const itemsTotal = config.itemCount || 1;
+            const itemsPercent = Math.round((itemsCollected / itemsTotal) * 100);
+            if (itemsPercent >= 70) {
+                nextLevelButton.disabled = false;
+                nextLevelButton.style.background = '#1e88e5';
+            } else {
+                nextLevelButton.disabled = true;
+                nextLevelButton.style.background = '#777';
+            }
+        }
+    } catch (e) {
+        // ignore
+    }
 }
 
 function updateBoostUI(currentTime) {
@@ -331,6 +507,16 @@ function updateBoostUI(currentTime) {
         boostBar.style.background = '#00ffff';
         boostStatus.textContent = 'CHARGEMENT...';
         boostStatus.style.color = '#00ffff';
+    }
+
+    // post boost state to parent if embedded (throttled by small change)
+    if (window.parent && window.parent !== window) {
+        const status = gameState.boostActive ? 'active' : (gameState.boostReady ? 'ready' : 'charging');
+        const percent = gameState.boostActive ? Math.max(0, 100 - ((currentTime - gameState.boostStartTime) / config.boostDuration) * 100) : (gameState.boostReady ? 100 : Math.min(100, (timeSinceLastBoost / config.boostChargeTime) * 100));
+        if (!window._lastBoostState || window._lastBoostState.status !== status || Math.abs(window._lastBoostState.percent - percent) > 1) {
+            window.parent.postMessage({ type: 'game_boost', status, percent: Math.round(percent) }, '*');
+            window._lastBoostState = { status, percent };
+        }
     }
 }
 
@@ -385,6 +571,8 @@ let animationFrameId = null;
 const targetFps = 60;
 const frameDuration = 1000 / targetFps;
 let lastFrameTime = 0;
+// smooth player rotation state
+const playerRotation = { current: 11, target: 11, neutral: 11 };
 
 const tick = () => {
     animationFrameId = requestAnimationFrame(tick);
@@ -437,21 +625,36 @@ const tick = () => {
     
     action = false;
     acceleration = 0;
+    // determine target rotation smoothly instead of snapping
+    // reduced leanAmount to make turns less violent
+    const leanAmount = 0.5; // tuning: how much the bike y-rotation leans when steering
     if (keys['ArrowLeft']) {
         acceleration = -1;
         action = true;
-        playerBike.rotation.y = -1.30;
+        playerRotation.target = playerRotation.neutral + leanAmount;
     } else if (keys['ArrowRight']) {
         acceleration = 1;
         action = true;
-        playerBike.rotation.y = -1.73;
+        playerRotation.target = playerRotation.neutral - leanAmount;
     } else {
-        playerBike.rotation.y = 11;
+        playerRotation.target = playerRotation.neutral;
     }
 
     if (action) lateralSpeed += acceleration * config.bikeSpeedLateral * 0.35;
     lateralSpeed *= 0.85;
     playerBike.position.x += lateralSpeed;
+
+    // smooth interpolation towards target rotation (slower, clamped per-frame)
+    const interp = 0.06; // smaller = smoother/slower
+    const maxDelta = 0.6; // clamp maximum change per frame to avoid snaps
+    let delta = (playerRotation.target - playerRotation.current) * interp;
+    delta = THREE.MathUtils.clamp(delta, -maxDelta, maxDelta);
+    playerRotation.current += delta;
+    if (playerBike) playerBike.rotation.y = playerRotation.current;
+
+    // add a small roll (z rotation) based on lateral speed for visual feedback (reduced)
+    const maxLeanZ = 0.35;
+    if (playerBike) playerBike.rotation.z = THREE.MathUtils.clamp(lateralSpeed * 0.06, -maxLeanZ, maxLeanZ);
 
     if (playerBike.position.x < limitLeft) {
         playerBike.position.x = limitLeft;
@@ -517,6 +720,39 @@ const tick = () => {
             }
         }
     }
+
+    // === RACE PROGRESS ===
+    // compute progress from starting z (approx 20) to finish (-config.lengthOfRoad)
+    const startZ = 20; // player's initial z
+    const endZ = -config.lengthOfRoad;
+    const travelled = Math.max(0, startZ - playerBike.position.z);
+    const total = Math.max(1, startZ - endZ);
+    const percent = Math.min(100, Math.max(0, (travelled / total) * 100));
+    lastProgressPercent = percent;
+
+    // update in-game HUD progress bar and items bar
+    try {
+        const bar = document.getElementById('in-game-progress-bar');
+        const txt = document.getElementById('in-game-progress-text');
+        if (bar) bar.style.width = percent + '%';
+        if (txt) txt.textContent = Math.round(percent) + '%';
+
+        const itemsBar = document.getElementById('in-game-items-bar');
+        const itemsTxt = document.getElementById('in-game-items-text');
+        const itemsCollected = gameState.itemGotCount || 0;
+        const itemsTotal = config.itemCount || 1;
+        const itemPercent = Math.min(100, Math.round((itemsCollected / itemsTotal) * 100));
+        if (itemsBar) itemsBar.style.width = itemPercent + '%';
+        if (itemsTxt) itemsTxt.textContent = itemsCollected + ' / ' + itemsTotal;
+    } catch (e) {
+        // ignore if HUD not present
+    }
+    if (window.parent && window.parent !== window) {
+        if (!window._lastRaceProgress || Math.abs(window._lastRaceProgress - percent) > 0.5) {
+            window.parent.postMessage({ type: 'race_progress', percent: Math.round(percent) }, '*');
+            window._lastRaceProgress = percent;
+        }
+    }
     
     // === COLLISIONS ENNEMIS ===
     if (gameState.playerHealth > 0) {
@@ -569,11 +805,16 @@ const tick = () => {
         showVictory();
         // notify parent about victory and final progress
         if (window.parent && window.parent !== window) {
+            const itemsCollected = gameState.itemGotCount || 0;
+            const itemsTotal = config.itemCount || 1;
+            const itemsPercent = Math.round((itemsCollected / itemsTotal) * 100);
             window.parent.postMessage({
                 type: 'game_victory',
                 difficulty,
-                collected: gameState.itemGotCount,
-                total: config.itemCount
+                collected: itemsCollected,
+                total: itemsTotal,
+                itemsPercent,
+                eligibleNextLevel: itemsPercent >= 70
             }, '*');
         }
         renderer.render(scene, camera);
@@ -581,7 +822,6 @@ const tick = () => {
         return;
     }
     
-    stats.end();
     renderer.render(scene, camera);
     if (stats) stats.end();
 };

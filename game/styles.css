@@ -84,6 +84,8 @@ body {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
 }
 
+#ui { pointer-events: none; }
+
 canvas {
     display: block;
     width: 100%;
@@ -102,12 +104,12 @@ canvas {
 }
 
 .hud-panel {
-    min-width: 200px;
-    padding: 14px;
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    backdrop-filter: blur(4px);
+    min-width: 160px;
+    padding: 8px 10px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    backdrop-filter: none;
 }
 
 .hud-panel h1 {
@@ -115,10 +117,11 @@ canvas {
     font-size: 15px;
     color: var(--accent);
     letter-spacing: 0.04em;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.6);
 }
 
 .hud-subtitle {
-    margin: 4px 0 12px;
+    margin: 4px 0 8px;
     color: var(--muted);
     font-size: 12px;
 }
@@ -134,14 +137,15 @@ canvas {
     color: var(--accent);
     text-transform: uppercase;
     letter-spacing: 0.04em;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
 }
 
 #container-timer,
 .boost-track {
     width: 100%;
     height: 10px;
-    border: 1px solid var(--line);
-    background: rgba(255, 255, 255, 0.08);
+    border: none;
+    background: rgba(255, 255, 255, 0.06);
     border-radius: 6px;
     overflow: hidden;
 }
@@ -200,6 +204,17 @@ canvas {
     align-items: center;
     justify-content: center;
     background: rgba(4, 6, 10, 0.86);
+}
+
+/* hide internal victory / game-over overlays when embedded — parent will show results */
+#game-over, #victory-screen {
+    display: none !important;
+}
+
+/* when embedded, hide only boost and items panels so parent provides them */
+body.embedded .boost-panel,
+body.embedded .items-panel {
+    display: none !important;
 }
 
 .loading-overlay {
