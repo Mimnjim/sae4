@@ -19,7 +19,7 @@ const ImmersionOverlay = forwardRef(({
     children,
 }, ref) => {
     const isLeft = side === 'left';
-    const accent = color === 'cyan' ? '#00d4ff' : '#ff00ff';
+    // const accent = color === 'cyan' ? '#00d4ff' : '#ff00ff';
 
     return (
         <div
@@ -32,7 +32,7 @@ const ImmersionOverlay = forwardRef(({
                 flexDirection: isLeft ? 'row' : 'row-reverse',
                 opacity: 0,
                 pointerEvents: 'none',
-                background: 'var(--color-grey, #c7c7c7)',
+                // background: 'var(--color-grey, #c7c7c7)',
                 height: '100vh',
             }}
         >
@@ -52,7 +52,8 @@ const ImmersionOverlay = forwardRef(({
                     [isLeft ? 'right' : 'left']: 0,
                     width: '2px',
                     height: '100%',
-                    background: `linear-gradient(to bottom, transparent, ${accent}, transparent)`,
+                    // background: `linear-gradient(to bottom, transparent, ${accent}, transparent)`,
+                    background: `linear-gradient(to bottom, transparent, #fff, transparent)`,
                     opacity: 0.6,
                 }} />
             </div>
@@ -77,7 +78,7 @@ const ImmersionOverlay = forwardRef(({
                         textTransform: 'uppercase',
                         letterSpacing: '-1px',
                         margin: '0 0 1.5rem',
-                        color: accent,
+                        color: '#fff',
                         opacity: 0,
                         transform: 'translateY(30px)',
                     }}
@@ -89,7 +90,7 @@ const ImmersionOverlay = forwardRef(({
                 <div style={{
                     width: '60px',
                     height: '3px',
-                    background: accent,
+                    background: '#fff',
                     marginBottom: '2rem',
                     opacity: 0,
                 }}

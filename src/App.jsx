@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import TargetCursor from './components/TargetCursor';
+import Grainient from './components/Grainient';
 
 // Composants principaux
 import Navbar from './components/Navbar.jsx';
@@ -21,6 +22,7 @@ import './styles/app.css';
 import './styles/hero.css';
 import './styles/section.css';
 import './styles/TargetCursor.css';
+import './styles/Grainient.css';
 
 // Page d'accueil
 const Home = () => {
@@ -74,6 +76,32 @@ const Home = () => {
 // Composant principal de l'application
 const App = () => {
   return <>
+      <Grainient
+        color1="#ba121b"
+        color2="#521414"
+        color3="#075a50"
+        timeSpeed={0.25}
+        colorBalance={0.27}
+        warpStrength={1}
+        warpFrequency={5}
+        warpSpeed={2}
+        warpAmplitude={56}
+        blendAngle={0}
+        blendSoftness={0.05}
+        rotationAmount={500}
+        noiseScale={2}
+        grainAmount={0.1}
+        grainScale={2}
+        grainAnimated={false}
+        contrast={1.5}
+        gamma={1}
+        saturation={1}
+        centerX={-0.08}
+        centerY={0.03}
+        zoom={0.65}
+        className="page-gradient"
+      />
+
     <TargetCursor 
       spinDuration={2}
       hideDefaultCursor

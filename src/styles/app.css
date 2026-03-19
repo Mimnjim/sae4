@@ -1,9 +1,14 @@
+.App {
+    position: relative;
+    z-index: 100;
+}
+
 .app-container {
-    background-color: var(--color-grey);
+    /* background-color: var(--color-grey); */
     position: relative;     
 }
 
-.app-container::after {
+/* .app-container::after {
     content: '';
     position: absolute;
     top: 0;
@@ -20,7 +25,7 @@
         );
     pointer-events: none;
     z-index: 1;
-  }
+  } */
 
 .teaser {
     position: relative;

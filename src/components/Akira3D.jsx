@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import * as THREE from 'three';
-import akiraModelUrl from '../assets/models/akira_tetsuo_first_3d_model.glb';
+import akiraModelUrl from '../assets/models/akira_tetsuo_first_3d_model.glb?url';
 
 export default function Akira3D({ mode = 'hero', onReady }) {
     const containerRef = useRef(null);

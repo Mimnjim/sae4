@@ -31,11 +31,11 @@ html, body, #root, .App {
 }
 
 body {
-  background-color: var(--color-grey);
+  /* background-color: var(--color-grey); */
   height: 800vh; /* Permet de faire défiler la page pour voir les sections */
 }
 
-body::after {
+/* body::after {
   content: '';
   position: absolute;
   top: 0;
@@ -52,7 +52,7 @@ body::after {
       );
   pointer-events: none;
   z-index: 1;
-}
+} */
 
 
 /* Si ton Canvas est dans une div spécifique */

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import * as THREE from 'three';
-import GISModelUrl from '../assets/models/motoko_kusanagi.glb';
+import GISModelUrl from '../assets/models/motoko_kusanagi.glb?url';
 
 export default function GIS3D({ mode = 'hero', onReady }) {
     const containerRef = useRef(null);
