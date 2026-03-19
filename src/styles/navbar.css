@@ -14,7 +14,6 @@
     font-family: var(--ff-family-main);
 }
 
-
 .navbar a {
     color: #fff;
     font-size: 1.6rem;
@@ -23,13 +22,20 @@
 
 .navbar a:hover {
     text-decoration: underline;
-    color: var(--color-primary);
-    transition: color 0.3s ease;
+    /* color: var(--color-primary); */
+    /* transition: color 0.3s ease; */
 }
 
 .elements-nav {
     display: flex;
     gap: 2rem;
+}
+
+.link-element-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .language {

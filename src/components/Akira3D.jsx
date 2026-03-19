@@ -65,7 +65,7 @@ export default function Akira3D({ mode = 'hero', onReady }) {
 
         function animate() {
             animId = requestAnimationFrame(animate);
-            if (model) model.rotation.y += mode === 'immersion' ? 0.003 : 0.01;
+            // if (model) model.rotation.y += mode === 'immersion' ? 0.003 : 0.01;
             renderer.render(scene, camera);
         }
         animate();

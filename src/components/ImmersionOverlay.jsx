@@ -110,6 +110,7 @@ const ImmersionOverlay = forwardRef(({
                         maxWidth: '480px',
                         opacity: 0,
                         transform: 'translateY(20px)',
+                        color: '#fff'
                     }}
                 >
                     {content}
