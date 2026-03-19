@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import TargetCursor from './components/TargetCursor';
 
 // Composants principaux
 import Navbar from './components/Navbar.jsx';
@@ -18,11 +19,13 @@ import './styles/global.css';
 import './styles/navbar.css';
 import './styles/app.css';
 import './styles/hero.css';
+import './styles/section.css';
+import './styles/TargetCursor.css';
 
 // Page d'accueil
 const Home = () => {
   return (
-    <div>
+    <div className="app-container">
       <Hero
         title1="AKIRA"
         title2="GHOST IN THE SHELL"
@@ -38,7 +41,7 @@ const Home = () => {
         title="Akira"
         content="Découvrez Neo-Tokyo et les mutations physiques et mentales de ses héros dans un univers cyberpunk lumineux et glitché."
         imgSrc="img/Akira1.jpg"
-        reverse={false}
+        reverse={true}
       />
 
       <Section
@@ -46,10 +49,10 @@ const Home = () => {
         title="Ghost in the Shell"
         content="Plongez dans la conscience augmentée et la réflexion philosophique sur l'identité à l'ère de l'IA et des cyber-corps."
         imgSrc="img/GIS1.jpg"
-        reverse={true}
+        reverse={false}
       />
 
-      <Section
+      {/* <Section
         id="themes"
         title="Thématiques immersives"
         content="Corps augmenté, IA, identité et transhumanisme. Des installations interactives et des projections visuelles immersives vous attendent."
@@ -63,31 +66,38 @@ const Home = () => {
         content="Un avant-goût du futur jeu immersif, avec manipulation virtuelle et environnement sonore immersif."
         imgSrc="assets/images/experience-immersive.jpg"
         reverse={true}
-      />
+      /> */}
     </div>
   );
 };
 
 // Composant principal de l'application
 const App = () => {
-  return (
-    <Router>
-      <div className="App">
-        <Navbar />
-        
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/experiences" element={<Experiences />} />
-          <Route path="/calendrier" element={<CalendrierPage />} />
-          <Route path="/form-reservation" element={<FormReservationPage />} />
-          <Route path="/confirmation" element={<ConfirmationPage />} />
-          <Route path="/info-pratique" element={<InfoPratique />} />
-        </Routes>
+  return <>
+    <TargetCursor 
+      spinDuration={2}
+      hideDefaultCursor
+      parallaxOn
+      hoverDuration={0.2} 
+    />
 
-        <Footer />
-      </div>
-    </Router>
-  );
+    <Router>
+        <div className="App">
+          <Navbar />
+          
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/experiences" element={<Experiences />} />
+            <Route path="/calendrier" element={<CalendrierPage />} />
+            <Route path="/form-reservation" element={<FormReservationPage />} />
+            <Route path="/confirmation" element={<ConfirmationPage />} />
+            <Route path="/info-pratique" element={<InfoPratique />} />
+          </Routes>
+
+          <Footer />
+        </div>
+      </Router>
+  </>;  
 };
 
 export default App;

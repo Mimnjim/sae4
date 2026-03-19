@@ -2,7 +2,9 @@
     --ff-family-main: 'Thunder', sans-serif;
     --color-black: #0000;
     --color-red: #D01212;
-    --color-grey: #f1f1f1
+    --color-grey: #f1f1f1;
+    --color-gis: #ADCDED;
+    --color-akira: #D01212;
 }
 
 *, 
@@ -27,6 +29,31 @@ html, body, #root, .App {
   margin: 0;
   padding: 0;
 }
+
+body {
+  background-color: var(--color-grey);
+  height: 800vh; /* Permet de faire défiler la page pour voir les sections */
+}
+
+body::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+      repeating-linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 0.03) 0px,
+          rgba(0, 0, 0, 0.03) 1px,
+          transparent 1px,
+          transparent 2px
+      );
+  pointer-events: none;
+  z-index: 1;
+}
+
 
 /* Si ton Canvas est dans une div spécifique */
 .game-container {
