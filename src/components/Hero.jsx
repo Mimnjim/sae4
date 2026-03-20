@@ -104,28 +104,112 @@ export default function Hero({ title1, title2, subtitle }) {
 
         // 4. SORTIE AKIRA GAUCHE
         tl.to(overlayAkiraRef.current, { opacity: 0, pointerEvents: 'none', duration: 1 }, 4.5)
-          .to(akiraHeroRef.current, { x: -1200, opacity: 0, duration: 2 }, 4.5);
+          .to(akiraHeroRef.current, { x: -1200, opacity: 0, duration: 2 }, 2.5);
 
         // 5. GIS REVIENT ET ZOOM
-        tl.fromTo(gisHeroRef.current, { x: 1200, opacity: 0 }, { x: 0, opacity: 1, duration: 2 }, 6.5);
+        tl.fromTo(gisHeroRef.current, { x: 1200, opacity: 0 }, { x: 0, opacity: 1, duration: 2 }, 3.5);
+        // tl.to(gisProxy, {
+        //     // z: gisInitialZ * 0.45,
+        //     // y: gisInitialY + 1.97,
+
+        //     // z: gisInitialZ * 0.74,
+        //     // y: gisInitialY + 1.88,
+
+        //     // z: gisInitialZ * (0.86),
+        //     // y: gisInitialY + 1.88,
+
+        //     z: gisInitialZ * (0.21),
+        //     y: gisInitialY + 2.04,
+
+        //     rotY: (-Math.PI / 2) + 0.5,
+        //     duration: 2,
+        //     onUpdate: () => {
+        //         gisCamera.position.z = gisProxy.z;
+        //         gisCamera.position.y = gisProxy.y;
+        //         // gisCamera.lookAt(0, gisInitialY + 1.5, 0);
+        //         // gisCamera.lookAt(0, gisInitialY + 1.15, -1.8);
+        //         // gisCamera.lookAt(0, gisInitialY + 1.10, -0.6);
+        //         gisCamera.lookAt(0, gisInitialY + 1.10, -0.35);
+        //         if (gisModel.current) gisModel.current.rotation.y = gisProxy.rotY;
+        //     }
+        // }, 5);
+        // tl.to(gisProxy, {
+        //     z: gisInitialZ * (0.21),
+        //     // On descend légèrement la caméra pour être sous le niveau des yeux
+        //     y: gisInitialY + 1.85, 
+
+        //     rotY: (-Math.PI / 2) + 0.5,
+        //     duration: 2,
+        //     onUpdate: () => {
+        //         gisCamera.position.z = gisProxy.z;
+        //         gisCamera.position.y = gisProxy.y;
+                
+        //         // On remonte le point de focus au-dessus de la position y de la caméra
+        //         // lookAt y: 2.15 est plus haut que camera y: 1.85 = Contre-plongée.
+        //         gisCamera.lookAt(0, gisInitialY + 2.15, -0.35); 
+                
+        //         if (gisModel.current) gisModel.current.rotation.y = gisProxy.rotY;
+        //     }
+        // }, 5);
+
+
+        // On se rapproche le plus de 90% à ce qu'on veut
+        // tl.to(gisProxy, {
+        //     // ZOOM : On reste sur un zoom intermédiaire pour ne pas perdre le modèle
+        //     z: gisInitialZ * 0.18, 
+            
+        //     // POSITION : On baisse la caméra (y) pour qu'elle cadre le visage au milieu
+        //     y: gisInitialY + 1.65, 
+
+        //     rotY: (-Math.PI / 2) + 0.5,
+        //     duration: 2,
+        //     onUpdate: () => {
+        //         gisCamera.position.z = gisProxy.z;
+        //         gisCamera.position.y = gisProxy.y;
+                
+        //         // LA SOLUTION : 
+        //         // Pour que le perso remonte dans l'écran, le lookAt doit être PLUS BAS.
+        //         // On vise le milieu du visage (1.85) tout en étant à 1.65 (Contre-plongée conservée)
+        //         gisCamera.lookAt(0, gisInitialY + 1.85, -0.35); 
+                
+        //         if (gisModel.current) {
+        //             gisModel.current.rotation.y = gisProxy.rotY;
+        //         }
+        //     }
+        // }, 5);
+
+
         tl.to(gisProxy, {
-            z: gisInitialZ * 0.25,
-            y: gisInitialY + 1.5,
-            rotY: -Math.PI / 4,
+            // ZOOM : On reste sur un zoom intermédiaire pour ne pas perdre le modèle
+            z: gisInitialZ * 0.28, 
+            
+            // POSITION : On baisse la caméra (y) pour qu'elle cadre le visage au milieu
+            y: gisInitialY + 1.45, 
+
+            rotY: (-Math.PI / 2) + 0.5,
             duration: 2,
             onUpdate: () => {
                 gisCamera.position.z = gisProxy.z;
                 gisCamera.position.y = gisProxy.y;
-                gisCamera.lookAt(0, gisInitialY + 1, 0);
-                if (gisModel.current) gisModel.current.rotation.y = gisProxy.rotY;
+                
+                // LA SOLUTION : 
+                // Pour que le perso remonte dans l'écran, le lookAt doit être PLUS BAS.
+                // On vise le milieu du visage (1.85) tout en étant à 1.65 (Contre-plongée conservée)
+                gisCamera.lookAt(0, gisInitialY + 1.75, -0.35); 
+                
+                if (gisModel.current) {
+                    gisModel.current.rotation.y = gisProxy.rotY;
+                }
             }
-        }, 7);
+        }, 5);
+
+
 
         // 6. RÉVEIL TEXTES GIS
-        tl.to(overlayGisRef.current, { opacity: 1, pointerEvents: 'auto', duration: 0.5 }, 8.5);
+        tl.to(overlayGisRef.current, { opacity: 1, pointerEvents: 'auto', duration: 0.5 }, 4.5);
         tl.to(overlayGisRef.current.querySelectorAll('.overlay-title, .overlay-bar, .overlay-content'), {
             opacity: 1, y: 0, stagger: 0.2, duration: 1 
-        }, 8.6);
+        }, 5.0);
 
         // LOADER OUT
         if (loaderRef.current) {
