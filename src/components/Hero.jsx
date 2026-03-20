@@ -96,15 +96,96 @@ export default function Hero({ title1, title2, subtitle }) {
             }
         }, 0.5);
 
-        // 3. RÉVEIL TEXTES AKIRA
-        tl.to(overlayAkiraRef.current, { opacity: 1, pointerEvents: 'auto', duration: 0.5 }, 2);
-        tl.to(overlayAkiraRef.current.querySelectorAll('.overlay-title, .overlay-bar, .overlay-content'), {
-            opacity: 1, y: 0, stagger: 0.2, duration: 1 
-        }, 2.1);
+        // // 3. RÉVEIL TEXTES AKIRA
+        // tl.to(overlayAkiraRef.current, { opacity: 1, pointerEvents: 'auto', duration: 0.5 }, 2);
+        // tl.to(overlayAkiraRef.current.querySelectorAll('.overlay-title, .overlay-bar, .overlay-content'), {
+        //     opacity: 1, y: 0, stagger: 0.2, duration: 1 
+        // }, 2.1);
+
+
+        // // 3. RÉVEIL HUD AKIRA (Depuis la gauche vers la droite)
+        // const akiraHUD = overlayAkiraRef.current;
+
+        // if (akiraHUD) {
+        //     // 1. Rendre l'overlay global visible
+        //     tl.to(akiraHUD, { opacity: 1, pointerEvents: 'auto', duration: 0.1 }, 2);
+
+        //     // 2. Faire apparaître le losange (Pop-in)
+        //     tl.fromTo(akiraHUD.querySelector('.hud-pointer'), 
+        //         { opacity: 0, scale: 0 }, 
+        //         { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, 
+        //         2.1
+        //     );
+
+        //     // 3. Déployer la ligne vers la droite
+        //     tl.to(akiraHUD.querySelector('.hud-line'), { 
+        //         width: '100%', 
+        //         duration: 0.8, 
+        //         ease: "power3.inOut" 
+        //     }, 2.2);
+
+        //     // 4. Faire apparaître l'encadré et le texte
+        //     tl.to(akiraHUD.querySelector('.overlay-column-text'), { 
+        //         backgroundColor: 'rgba(255,255,255,0.05)', 
+        //         duration: 0.6 
+        //     }, 2.6);
+
+        //     tl.to(akiraHUD.querySelector('.overlay-title'), { 
+        //         opacity: 1, 
+        //         x: 0, 
+        //         duration: 0.5 
+        //     }, 2.7);
+
+        //     tl.to(akiraHUD.querySelector('.overlay-bar'), { 
+        //         width: '60px', 
+        //         duration: 0.4 
+        //     }, 2.8);
+
+        //     tl.to(akiraHUD.querySelector('.overlay-content'), { 
+        //         opacity: 1, 
+        //         duration: 0.6 
+        //     }, 2.9);
+        // }
+
+
+        // 3. RÉVEIL HUD AKIRA
+        const akiraHUD = overlayAkiraRef.current;
+        if (akiraHUD) {
+            const tlHUD = tl; // On utilise ta timeline principale
+
+            tlHUD.to(akiraHUD, { opacity: 1, duration: 0.1 }, 2);
+
+            // 1. Losange
+            tlHUD.fromTo(akiraHUD.querySelector('.hud-pointer'), 
+                { opacity: 0, scale: 0 }, 
+                { opacity: 1, scale: 1, duration: 0.3 }, 2.1);
+
+            // 2. Ligne (Diagonale montante)
+            tlHUD.to(akiraHUD.querySelector('.hud-line'), { 
+                strokeDashoffset: 0, 
+                duration: 0.9, 
+                ease: "none" 
+            }, 2.2);
+
+            // 3. L'ENCADRÉ (Apparaît à 2.2 + 0.9 = 3.1)
+            tlHUD.to(akiraHUD.querySelector('.text-box-frame'), { 
+                visibility: 'visible',
+                opacity: 1,
+                y: 0,
+                duration: 0.4,
+                ease: "power2.out"
+            }, 3.1);
+
+            // 4. Textes intérieurs
+            tlHUD.to(akiraHUD.querySelector('.overlay-title'), { opacity: 1, duration: 0.3 }, 3.3);
+            tlHUD.to(akiraHUD.querySelector('.overlay-bar'), { width: '100%', duration: 0.4 }, 3.4);
+            tlHUD.to(akiraHUD.querySelector('.overlay-content'), { opacity: 1, duration: 0.4 }, 3.5);
+        }
+
 
         // 4. SORTIE AKIRA GAUCHE
         tl.to(overlayAkiraRef.current, { opacity: 0, pointerEvents: 'none', duration: 1 }, 4.5)
-          .to(akiraHeroRef.current, { x: -1200, opacity: 0, duration: 2 }, 2.5);
+          .to(akiraHeroRef.current, { x: -1200, opacity: 0, duration: 2 }, 4.5);
 
         // 5. GIS REVIENT ET ZOOM
         tl.fromTo(gisHeroRef.current, { x: 1200, opacity: 0 }, { x: 0, opacity: 1, duration: 2 }, 3.5);
@@ -205,11 +286,47 @@ export default function Hero({ title1, title2, subtitle }) {
 
 
 
-        // 6. RÉVEIL TEXTES GIS
-        tl.to(overlayGisRef.current, { opacity: 1, pointerEvents: 'auto', duration: 0.5 }, 4.5);
-        tl.to(overlayGisRef.current.querySelectorAll('.overlay-title, .overlay-bar, .overlay-content'), {
-            opacity: 1, y: 0, stagger: 0.2, duration: 1 
-        }, 5.0);
+        // // 6. RÉVEIL TEXTES GIS
+        // tl.to(overlayGisRef.current, { opacity: 1, pointerEvents: 'auto', duration: 0.5 }, 4.5);
+        // tl.to(overlayGisRef.current.querySelectorAll('.overlay-title, .overlay-bar, .overlay-content'), {
+        //     opacity: 1, y: 0, stagger: 0.2, duration: 1 
+        // }, 5.0);
+
+
+        // 6. RÉVEIL HUD G.I.S (Depuis la droite vers la gauche)
+        const gisHUD = overlayGisRef.current;
+        if (gisHUD) {
+            // Rendre l'overlay visible
+            tl.to(gisHUD, { opacity: 1, pointerEvents: 'auto', duration: 0.1 }, 6.5);
+
+            // A. Le losange pop (Bas-Droite)
+            tl.fromTo(gisHUD.querySelector('.hud-pointer'), 
+                { opacity: 0, scale: 0 }, 
+                { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, 
+                6.6
+            );
+
+            // B. La ligne se dessine vers la GAUCHE
+            tl.to(gisHUD.querySelector('.hud-line'), { 
+                strokeDashoffset: 0, 
+                duration: 0.9, 
+                ease: "none" 
+            }, 6.7);
+
+            // C. L'encadré apparaît au bout de la ligne (6.7 + 0.9 = 7.6)
+            tl.to(gisHUD.querySelector('.text-box-frame'), { 
+                visibility: 'visible',
+                opacity: 1,
+                y: 0,
+                duration: 0.4,
+                ease: "power2.out"
+            }, 7.5); // Petit overlap pour la fluidité
+
+            // D. Textes intérieurs
+            tl.to(gisHUD.querySelector('.overlay-title'), { opacity: 1, duration: 0.3 }, 7.7);
+            tl.to(gisHUD.querySelector('.overlay-bar'), { width: '100%', duration: 0.4 }, 7.8);
+            tl.to(gisHUD.querySelector('.overlay-content'), { opacity: 1, duration: 0.4 }, 7.9);
+        }
 
         // LOADER OUT
         if (loaderRef.current) {
