@@ -337,11 +337,12 @@
 
 .scroll-down {
     position: absolute;
-    bottom: 3rem;
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: -5rem;
     text-align: center;
-    z-index: 2;
+
+    /* left: 50%;
+    transform: translateX(-50%);
+    z-index: 2; */
 }
 
 .scroll-down h3 {

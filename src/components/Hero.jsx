@@ -1255,7 +1255,7 @@ export default function Hero({ title1, title2, subtitle }) {
             scrollTrigger: {
                 trigger: heroRef.current,
                 start: 'top top',
-                end: '+=1000%', 
+                end: '+=800%', 
                 scrub: 1,
                 pin: true,
                 invalidateOnRefresh: true
@@ -1264,7 +1264,18 @@ export default function Hero({ title1, title2, subtitle }) {
 
         // 1. DÉPART : UI s'efface + GIS dégage à droite
         tl.to([sloganRef.current, buttonsRef.current, scrollDownRef.current], { opacity: 0, y: -50, duration: 1 }, 0)
-          .to(gisHeroRef.current, { x: 1200, opacity: 0, duration: 1.5 }, 0);
+
+        // tl.fromTo(gisHeroRef.current, {
+        //         x: 0, 
+        //         opacity: 1
+        //     },
+        //     { 
+        //         x: 1200, 
+        //         opacity: 0, 
+        //         duration: 1.5
+        //     }, 0);
+
+        // tl.from(gisHeroRef.current, { x: 0, opacity: 1, duration: 1.5 }, 0);
 
         // 2. ZOOM AKIRA
         tl.to(akiraProxy, {
@@ -1328,37 +1339,58 @@ export default function Hero({ title1, title2, subtitle }) {
         akiraCam.current = { camera, initialZ };
         akiraModel.current = model;
         setLoadedCount(prev => prev + 1);
+        console.log('Akira ready, total loaded:', readyCount.current + 1);
+
     }, []);
 
     const handleGisReady = useCallback(({ camera, initialZ, model }) => {
         gisCam.current = { camera, initialZ };
         gisModel.current = model;
         setLoadedCount(prev => prev + 1);
+        console.log('GIS ready, total loaded:', readyCount.current + 1);
     }, []);
+
+    const loadPercent = Math.min(loadedCount * 50, 100);
+
 
     return (
         <>
             {/* LOADER */}
-            <div ref={loaderRef} style={{
+            {/* <div ref={loaderRef} style={{
                 position: 'fixed', inset: 0, zIndex: 9999, background: '#0a0a0a',
                 display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
             }}>
                 <p style={{ color: '#fff', opacity: 0.6, letterSpacing: '4px' }}>INITIALIZING NEURAL LINK...</p>
+            </div> */}
+
+            <div ref={loaderRef} style={{
+                position: 'fixed', inset: 0, zIndex: 999, background: '#0a0a0a',
+                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '2rem'
+            }}>
+                <p style={{ fontFamily: 'var(--ff-family-main)', letterSpacing: '6px', textTransform: 'uppercase', color: '#fff', opacity: 0.6 }}>
+                    Chargement de l'expérience
+                </p>
+                <div style={{ width: 'clamp(200px, 40vw, 400px)', height: '2px', background: 'rgba(255,255,255,0.1)', position: 'relative', overflow: 'hidden' }}>
+                    <div style={{ position: 'absolute', top: 0, left: 0, height: '100%', width: `${loadPercent}%`, background: 'linear-gradient(to right, #00d4ff, #ff00ff)', transition: 'width 0.4s ease' }} />
+                </div>
+                <p style={{ color: '#fff', opacity: 0.4 }}>{loadPercent}%</p>
             </div>
+
 
             <ImmersionOverlay ref={overlayAkiraRef} side="left" color="cyan" title="Akira" content="Découvrez Neo-Tokyo et les mutations de ses héros." />
             <ImmersionOverlay ref={overlayGisRef} side="right" color="magenta" title="Ghost in the Shell" content="Plongez dans la conscience augmentée et l'identité." />
 
             <div className="hero-section" ref={heroRef} style={{ position: 'relative', overflow: 'hidden' }}>
-                <div className="characters-infos" style={{ position: 'relative', width: '100%', height: '100vh' }}>
+                {/* <div className="characters-infos" style={{ position: 'relative', width: '100%', height: '100vh' }}> */}
+                <div className="characters-infos">
                     
                     {/* AKIRA : position absolute pour ne pas pousser l'UI */}
-                    <div className="akira" ref={akiraHeroRef} style={{ position: 'absolute', left: 0, top: 0, width: '50%', height: '100%' }}>
+                    <div className="akira" ref={akiraHeroRef}>
                         <Akira3D onReady={handleAkiraReady} />
                     </div>
 
                     {/* UI CENTRALE */}
-                    <div className="container-hero" style={{ position: 'relative', zIndex: 10 }}>
+                    <div className="container-hero">
                         <div className="container-slogan" ref={sloganRef}>
                             <div className="triangle"></div>
                             <h1 className="slogan">{title1}</h1>
@@ -1372,7 +1404,8 @@ export default function Hero({ title1, title2, subtitle }) {
                     </div>
 
                     {/* GIS : position absolute à droite */}
-                    <div className="gis" ref={gisHeroRef} style={{ position: 'absolute', right: 0, top: 0, width: '50%', height: '100%' }}>
+                    {/* <div className="gis" ref={gisHeroRef} style={{ position: 'absolute', right: 0, top: 0, width: '50%', height: '100%' }}> */}
+                    <div className="gis" ref={gisHeroRef}>
                         <GIS3D onReady={handleGisReady} />
                     </div>
                 </div>
