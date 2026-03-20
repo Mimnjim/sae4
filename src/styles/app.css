@@ -5,7 +5,9 @@
 
 .app-container {
     /* background-color: var(--color-grey); */
-    position: relative;     
+    position: relative;    
+    z-index: 100;
+
 }
 
 /* .app-container::after {

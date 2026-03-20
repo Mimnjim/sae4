@@ -31,6 +31,7 @@ html, body, #root, .App {
 }
 
 body {
+  overflow-x: hidden;
   /* background-color: var(--color-grey); */
   height: 800vh; /* Permet de faire défiler la page pour voir les sections */
 }
@@ -59,4 +60,15 @@ body {
 .game-container {
   width: 100vw;
   height: 100vh;
+}
+
+.App-wrapper {
+    position: relative;
+    z-index: 10; /* Doit être > au z-index du Grainient */
+    background: transparent !important; 
+}
+
+/* Assure-toi que le Grainient ne bloque pas les interactions */
+.page-gradient {
+    pointer-events: none !important;
 }

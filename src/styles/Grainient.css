@@ -6,7 +6,8 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  z-index: 0;  /* Change de -1 à 0 pour tester */
+  /* z-index: 0;   */
+  z-index: -1; /* On le pousse au fond de la pile */
   pointer-events: none;
 }
 
