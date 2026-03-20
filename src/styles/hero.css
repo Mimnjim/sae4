@@ -337,7 +337,7 @@
 
 .scroll-down {
     position: absolute;
-    bottom: -5rem;
+    bottom: 0rem;
     text-align: center;
 
     /* left: 50%;
