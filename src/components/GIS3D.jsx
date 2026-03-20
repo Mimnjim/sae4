@@ -184,10 +184,11 @@ export default function GIS3D({ onReady }) {
                 const size   = box.getSize(new THREE.Vector3());
                 model.position.sub(center);
 
-                const maxDim   = Math.max(size.x, size.y, size.z);
+                const maxDim   = Math.max(size.x-4, size.y-4, size.z-4);
                 const fovRad   = camera.fov * (Math.PI / 180);
-                const initialZ = Math.abs(maxDim / 2 / Math.tan(fovRad / 2)) * 1.1;
-                const posY     = -1;
+                const initialZ = Math.abs(maxDim / 2 / Math.tan(fovRad / 2)) * 1.2;
+                // const initialZ = Math.abs(maxDim / 2 / Math.tan(fovRad / 2)) * 1.1;
+                const posY     = -1.11;
 
                 camera.position.set(0, posY, initialZ);
                 camera.lookAt(0, 0, 0);

@@ -555,7 +555,7 @@ export default function Hero({ title1, title2, subtitle }) {
             opacity: 1, y: 0, visibility: 'visible' 
         });
         gsap.set(akiraHeroRef.current, { x: 0, opacity: 1, visibility: 'visible', scale: 1 });
-        gsap.set(gisHeroRef.current, { x: 0, opacity: 1, visibility: 'visible', scale: 1 });
+        gsap.set(gisHeroRef.current, { x: 0, y: -30, opacity: 1, visibility: 'visible', scale: 1 });
         gsap.set([overlayAkiraRef.current, overlayGisRef.current], { opacity: 0, pointerEvents: 'none' });
 
         const tl = gsap.timeline({
@@ -600,23 +600,23 @@ export default function Hero({ title1, title2, subtitle }) {
         }
 
         // --- PHASE 4 : TRANSITION SYNCHRO ---
-        tl.to(akiraHeroRef.current, { x: -1200, opacity: 0, duration: 2, ease: "power2.inOut" }, 4.0);
-        tl.to(gisHeroRef.current, { x: 0, opacity: 1, duration: 2, ease: "power2.out" }, 4.0);
-        tl.to(overlayAkiraRef.current, { opacity: 0, pointerEvents: 'none', duration: 0.5 }, 4.0);
+        tl.to(akiraHeroRef.current, { x: -1200, opacity: 0, duration: 2, ease: "power2.inOut" }, 3.8);
+        tl.to(gisHeroRef.current, { x: 0, opacity: 1, duration: 2, ease: "power2.out" }, 3.8);
+        tl.to(overlayAkiraRef.current, { opacity: 0, pointerEvents: 'none', duration: 0.5 }, 3.8);
 
         // --- PHASE 5 : ZOOM GIS ---
         tl.to(gisProxy, {
             z: gisInitialZ * 0.28, 
-            y: gisInitialY + 1.45, 
+            y: gisInitialY + 1.48, 
             rotY: (-Math.PI / 2) + 0.5,
             duration: 2,
             onUpdate: () => {
                 gisCamera.position.z = gisProxy.z;
                 gisCamera.position.y = gisProxy.y;
-                gisCamera.lookAt(0, gisInitialY + 1.75, -0.35); 
+                gisCamera.lookAt(0, gisInitialY + 1.78, -0.35); 
                 if (gisModel.current) gisModel.current.rotation.y = gisProxy.rotY;
             }
-        }, 5);
+        }, 6.6);
 
         // --- PHASE 6 : HUD GIS ---
         const gisHUD = overlayGisRef.current;
@@ -631,7 +631,8 @@ export default function Hero({ title1, title2, subtitle }) {
         }
 
         // --- PHASE 7 : SORTIE FINALE ---
-        tl.to(gisHeroRef.current, { x: 1200, opacity: 0, duration: 2 }, 8.5);
+        tl.to(gisHeroRef.current, { x: 1200, opacity: 0, duration: 2 }, 9.5);
+        tl.to(overlayGisRef.current, { opacity: 0, pointerEvents: 'none', duration: 0.5 }, 9.5);
 
         // --- FINALISATION ---
         // On attend la fin du prochain tick pour rafraîchir ScrollTrigger proprement
