@@ -30,3 +30,19 @@ html, body, #root, .App {
   width: 100vw;
   height: 100vh;
 }
+
+/* Grainient compatibility: use transparent backgrounds and white text by default */
+:root {
+  --surface-bg: rgba(0,0,0,0.45);
+  --muted: rgba(255,255,255,0.78);
+}
+
+html, body, .App { background: transparent; color: #fff; }
+
+/* ensure form elements inherit readable white text */
+button, input, textarea, select, label { color: inherit; }
+
+a { color: #fff; }
+
+.surface { background: var(--surface-bg); border-radius: 8px; }
+.muted { color: var(--muted); }

@@ -1,0 +1,81 @@
+/* =========================================
+   COMPOSANT : ACCORDION 
+   ========================================= */
+
+/* L'élément <details> global */
+.accordion__item {
+  background-color: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 0.6rem;
+  color: #ffffff;
+}
+
+/* L'élément <summary>  */
+.accordion__header {
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none; 
+  outline: none;
+  display: flex; 
+  align-items: center;
+  transition: color 150ms ease;
+}
+
+.accordion__header:focus-visible {
+  color: var(--color-primary, #1087ff);
+}
+
+.accordion__header::-webkit-details-marker { 
+  display: none; 
+}
+
+/* --- Notre flèche personnalisée --- */
+.accordion__header::before {
+  content: '▸';
+  display: inline-block;
+  margin-right: 0.5rem;
+  transition: transform 150ms ease;
+}
+
+.accordion__item[open] .accordion__header::before { 
+  transform: rotate(90deg); 
+}
+
+/* =========================================
+   CONTENU DE L'ACCORDÉON 
+   ========================================= */
+.accordion__body {
+  padding: 0.6rem 0.4rem 0 1.6rem;
+}
+
+.accordion__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.accordion__list-item {
+  margin-bottom: 1rem;
+}
+
+.accordion__list-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Remplace le <strong> */
+.accordion__list-title {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* Remplace le <p> */
+.accordion__list-text {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4; 
+  color: rgba(255, 255, 255, 0.85); 
+}

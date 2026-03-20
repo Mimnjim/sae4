@@ -1,13 +1,58 @@
-/* Styles for Experiences page */
-.experiences-page {
-  padding: 24px;
-  max-width: 100%;
-  margin: 0;
-  width: 100%;
-  color: #111;
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+/* ============================================================
+   1. VARIABLES GLOBALES
+
+   ============================================================ */
+:root {
+  --font-main: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  --font-display: 'Thunder', sans-serif;
+
+  --color-white: #fff;
+  --color-white-soft: rgba(255, 255, 255, 0.85);
+  --color-white-faint: rgba(255, 255, 255, 0.06);
+  --color-accent-green: #9be15d;
+  --color-accent-cyan: #00ffff;
+
+  --color-overlay-dark: rgba(2, 6, 12, 0.75);
+  --color-overlay-black: rgba(0, 0, 0, 0.5);
+  --color-card-bg: rgba(8, 12, 18, 0.72);
+
+  /* Z-index organisés en paliers clairs */
+  --z-modal: 1200;
+  --z-modal-content: 1210;
+  --z-modal-close: 1220;
+  --z-hud: 1225;
+  --z-result-panel: 1230;
 }
 
+
+/* ============================================================
+   2. PAGE LAYOUT
+   ============================================================ */
+.experiences-page {
+  padding: 48px 36px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  color: var(--color-white);
+  font-family: var(--font-main);
+}
+
+.experiences-page h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 6.5vw, 4.6rem);
+  margin: 0 0 0.6rem 0;
+  color: var(--color-white);
+}
+
+.experiences-page p {
+  max-width: 520px;
+  color: var(--color-white-soft);
+  margin-top: 0.2rem;
+  margin-bottom: 1.6rem;
+  line-height: 1.3;
+}
+
+/* Menu de sélection des niveaux */
 .levels-menu {
   display: flex;
   gap: 16px;
@@ -15,104 +60,129 @@
   margin-bottom: 8px;
 }
 
+/* Grille principale : timeline à gauche, cartes à droite */
 .levels-grid {
   display: grid;
   grid-template-columns: 80px 1fr;
-  gap: 24px;
+  gap: 32px;
   align-items: start;
 }
 
-.timeline {
-  position: relative;
-  height: 100%;
-}
-.timeline-line {
-  position: absolute;
-  left: 40px;
-  top: 8%;
-  bottom: 8%;
-  width: 4px;
-  background: #111;
-  border-radius: 4px;
-  box-shadow: 0 0 0 4px rgba(0,0,0,0.02) inset;
-}
-.timeline-dot {
-  position: absolute;
-  left: 32px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: #111;
-  box-shadow: 0 2px 0 rgba(0,0,0,0.1);
-}
-
-.level-card {
+.levels-list {
   display: flex;
-  gap: 18px;
-  padding: 18px;
-  background: #f6f6f6;
-  border-radius: 6px;
-  align-items: center;
-  box-shadow: 0 8px 20px rgba(8,10,12,0.03);
+  flex-direction: column;
+  gap: 36px;
 }
-.level-card.locked { opacity: 0.5; }
-.level-preview .preview-box { width: 260px; height: 120px; background: #e6e6e6; border-radius: 6px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.02); }
-.level-meta { flex: 1; }
-.level-title { margin: 0 0 6px 0; font-size: 18px; color: #111; }
-.level-sub { font-size: 13px; color: #666; margin-bottom: 6px; }
-.level-objective .star { margin-right: 6px; color: #ccc; }
-.level-actions { display:flex; align-items:center; gap:12px; margin-top:10px; }
-.level-percent { font-weight:700; color:#111; }
-.play-level.btn-disabled { background: #cbd5e1; color: #111; cursor: not-allowed; }
-.play-level.btn-primary { background: #222; color: #fff; padding: 10px 14px; border-radius: 6px; }
 
-.level-btn.locked {
-  opacity: 0.5;
+
+/* ============================================================
+   4. CARTE DE NIVEAU (level card)
+   ============================================================ */
+/* LevelCard styles moved to LevelCard.css */
+
+/* Panneau promo en bas de page */
+.promo-panel {
+  margin-top: 36px;
+  display: flex;
+  justify-content: center;
+}
+
+.experiences__game-section { margin-top: 20px; }
+
+.btn-warning-disabled {
+  background: #ffecb3;
+  color: #000;
   cursor: not-allowed;
-  box-shadow: none;
+  border: 1px solid rgba(0,0,0,0.08);
 }
 
-.level-btn.selected {
-  background: linear-gradient(135deg,#2b7cff,#0066ff);
-  color: #fff;
+
+/* ============================================================
+   5. BOUTONS
+   ============================================================ */
+.btn {
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
 }
 
-.play-area {
-  margin-top: 16px;
+.btn-light {
+  background: var(--color-white-faint);
+  color: var(--color-white);
 }
 
+/* Bouton principal vert */
+.btn-primary {
+  background: var(--color-accent-green);
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  color: var(--color-white);
+}
+
+/* Bouton "Jouer" dans une carte de niveau */
+.play-level.btn-primary {
+  background: transparent;
+  color: var(--color-white);
+  padding: 8px 6px;
+  border-radius: 6px;
+}
+
+/* Petite flèche après le bouton jouer */
+.play-level.btn-primary::after {
+  content: '↗';
+  display: inline-block;
+  margin-left: 10px;
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* Bouton jouer désactivé */
+.play-level.btn-disabled {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.45);
+  cursor: not-allowed;
+}
+
+/* Bouton simple dans la zone de jeu */
 .play-btn {
   padding: 0.8rem 1.2rem;
-  background: #111827;
-  color: #fff;
+  background: var(--color-white-faint);
+  color: var(--color-white);
   border: none;
   border-radius: 8px;
   cursor: pointer;
 }
 
+
+/* ============================================================
+   6. ZONE DE JEU 
+   ============================================================ */
+.play-area {
+  margin-top: 16px;
+}
+
 .controls {
   margin-bottom: 12px;
-  color: #fff;
+  color: var(--color-white);
 }
 
 .controls-list {
   display: flex;
   gap: 12px;
   margin-top: 6px;
-  color: #ddd;
+  color: var(--color-white-soft);
 }
 
 .game-area {
   width: 100%;
   height: calc(100vh - 80px);
   position: relative;
-  background: #000;
-  padding: 0;
-  box-sizing: border-box;
+  background: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 0;
+  box-sizing: border-box;
 }
 
 .game-wrapper {
@@ -120,7 +190,6 @@
   height: 100%;
   border-radius: 0;
   overflow: hidden;
-  box-shadow: none;
 }
 
 .game-iframe {
@@ -128,105 +197,10 @@
   height: 100%;
   border: none;
   display: block;
-  background: #000;
+  background: transparent;
 }
 
-/* Modal styles for the embedded game */
-.game-modal {
-  position: fixed;
-  inset: 0;
-  z-index: 1200;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.game-modal-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(2,6,12,0.75);
-}
-.game-modal-content {
-  position: relative;
-  width: min(1200px, 95vw);
-  height: min(720px, 85vh);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  z-index: 1210;
-}
-.modal-close {
-  position: absolute;
-  right: 8px;
-  top: 8px;
-  z-index: 1220;
-  background: rgba(0,0,0,0.5);
-  color: #fff;
-  border: none;
-  width: 36px;
-  height: 36px;
-  border-radius: 999px;
-  cursor: pointer;
-}
-.game-modal .game-wrapper { height: 100%; width: 100%; border-radius: 8px; overflow: hidden; position: relative; z-index: 1205; }
-.result-panel {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1230;
-  background: rgba(8,12,18,0.72);
-  padding: 18px 22px;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  min-width: 360px;
-  color: #fff;
-  text-align: center;
-}
-.result-actions .btn { margin-right: 8px; }
-
-/* Parent HUD positions */
-.parent-hud { position: absolute; color: #9be15d; font-family: inherit; z-index: 1225; pointer-events: none; }
-.parent-score { top: 12px; right: 14px; text-align: center; }
-.item-got-parent { font-size: 28px; color: #fff; pointer-events: none; }
-.parent-boost { left: 12px; bottom: 12px; pointer-events: none; }
-.boost-track-parent { width: 160px; height: 10px; background: rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden; }
-.boost-bar-parent { height: 100%; background: linear-gradient(90deg,#ff0055,#00ffff); width: 0%; }
-.boost-status-parent { font-size: 12px; color: #9cc9d4; margin-top: 6px; }
-
-/* Make parent HUD interactive area allow clicks on modal buttons by disabling pointer-events on HUD */
-.parent-hud { pointer-events: none; }
-.result-panel .btn { pointer-events: auto; }
-
-/* health HUD top-left */
-.parent-health { left: 14px; top: 12px; color: #00ffff; text-align: left; }
-.health-track-parent { width: 140px; height: 10px; background: rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden; }
-.health-bar-parent { height: 100%; background: linear-gradient(90deg,#00ff99,#00ffff); width: 100%; }
-.health-status-parent { font-size: 12px; color: #9cc9d4; margin-top: 6px; }
-
-/* Race progress (top center) */
-.parent-race { top: 12px; left: 50%; transform: translateX(-50%); width: 50%; max-width: 720px; text-align: center; pointer-events: none; }
-.race-track { height: 10px; background: rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden; margin: 0 auto; }
-.race-bar { height: 100%; background: #ffffff; width: 0%; transition: width 150ms linear; box-shadow: 0 2px 8px rgba(255,255,255,0.06) inset; }
-.race-percent { margin-top: 6px; font-size: 12px; color: #cfeef9; }
-
-/* When iframe is fullscreen, ensure it uses full viewport */
-.game-iframe:fullscreen {
-  width: 100vw !important;
-  height: 100vh !important;
-}
-
-/* Remove wrapper round corners while fullscreen to maximize space */
-.game-wrapper:fullscreen {
-  border-radius: 0 !important;
-  box-shadow: none !important;
-}
-
-/* If container is fullscreen, remove padding */
-.game-area:fullscreen { padding: 0 !important; height: 100vh !important; width: 100vw !important; }
-
+/* Boutons superposés sur la zone de jeu (plein écran, etc.) */
 .game-actions {
   position: absolute;
   right: 16px;
@@ -235,20 +209,234 @@
   gap: 8px;
 }
 
-.btn {
-  padding: 0.5rem 0.75rem;
-  border-radius: 6px;
+.game-iframe:fullscreen,
+.game-wrapper:fullscreen,
+.game-area:fullscreen {
+  width: 100vw !important;
+  height: 100vh !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+
+/* ============================================================
+   7. MODAL DU JEU
+   e
+   ============================================================ */
+.game-modal {
+  position: fixed;
+  inset: 0; /* équivalent à top/right/bottom/left: 0 */
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Fond sombre derrière la modale */
+.game-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: var(--color-overlay-dark);
+}
+
+/* Contenu de la modale */
+.game-modal-content {
+  position: relative;
+  width: min(1200px, 95vw);
+  height: min(720px, 85vh);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: var(--z-modal-content);
+}
+
+.game-modal .game-wrapper {
+  height: 100%;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  z-index: var(--z-modal-content);
+}
+
+/* Bouton de fermeture de la modale */
+.modal-close {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  z-index: var(--z-modal-close);
+  background: var(--color-overlay-black);
+  color: var(--color-white);
   border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
   cursor: pointer;
 }
 
-.btn-light { background: #fff; }
-.btn-dark { background: #111827; color: #fff; }
-.btn-primary { background: #9be15d; border-radius: 8px; padding: 0.6rem 1rem; }
+/* Panneau de résultat affiché après une partie */
+.result-panel {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: var(--z-result-panel);
+  background: var(--color-card-bg);
+  padding: 18px 22px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  min-width: 360px;
+  color: var(--color-white);
+  text-align: center;
+}
 
-.promo-panel { margin-top: 18px; }
+.result-actions .btn {
+  margin-right: 8px;
+  pointer-events: auto; /* les boutons restent cliquables même dans un HUD */
+}
+
+
+/* ============================================================
+   8. HUD 
+   ============================================================ */
+.parent-hud {
+  position: absolute;
+  color: var(--color-accent-green);
+  font-family: var(--font-main);
+  z-index: var(--z-hud);
+  pointer-events: none;
+}
+
+/* Score — coin haut droit */
+.parent-score {
+  top: 12px;
+  right: 14px;
+  text-align: center;
+}
+
+.item-got-parent {
+  font-size: 28px;
+  color: var(--color-white);
+  pointer-events: none;
+}
+
+/* Barre de boost — coin bas gauche */
+.parent-boost {
+  left: 12px;
+  bottom: 12px;
+}
+
+.boost-track-parent {
+  width: 160px;
+  height: 10px;
+  background: var(--color-white-faint);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.boost-bar-parent {
+  height: 100%;
+  background: linear-gradient(90deg, #ff0055, var(--color-accent-cyan));
+  width: 0%;
+}
+
+.boost-status-parent {
+  font-size: 12px;
+  color: #9cc9d4;
+  margin-top: 6px;
+}
+
+/* Barre de santé — coin haut gauche */
+.parent-health {
+  left: 14px;
+  top: 12px;
+  color: var(--color-accent-cyan);
+  text-align: left;
+}
+
+.health-track-parent {
+  width: 140px;
+  height: 10px;
+  background: var(--color-white-faint);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.health-bar-parent {
+  height: 100%;
+  background: linear-gradient(90deg, #00ff99, var(--color-accent-cyan));
+  width: 100%;
+}
+
+.health-status-parent {
+  font-size: 12px;
+  color: #9cc9d4;
+  margin-top: 6px;
+}
+
+/* Barre de progression de course — haut centre */
+.parent-race {
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  max-width: 720px;
+  text-align: center;
+}
+
+.race-track {
+  height: 10px;
+  background: var(--color-white-faint);
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.race-bar {
+  height: 100%;
+  background: var(--color-white-faint);
+  width: 0%;
+  transition: width 150ms linear;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.06) inset;
+}
+
+.race-percent {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #cfeef9;
+}
+
+
+/* ============================================================
+   9. RESPONSIVE
+   Adaptations pour les petits écrans
+   ============================================================ */
+@media (max-width: 900px) {
+  .level-card {
+    grid-template-columns: 1fr;
+  }
+
+  .level-preview .preview-box {
+    width: 100%;
+    height: 160px;
+  }
+
+  .level-actions {
+    justify-self: start;
+  }
+}
 
 @media (max-width: 720px) {
-  .level-btn { min-width: 100%; }
-  .game-area { height: 60vh; padding: 12px; }
+  .level-btn {
+    min-width: 100%;
+  }
+
+  .game-area {
+    height: 60vh;
+    padding: 12px;
+  }
 }

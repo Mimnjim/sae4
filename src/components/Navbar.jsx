@@ -15,7 +15,7 @@ const Navbar = ({ user, setUser }) => {
   if (user) {
     authLinks = (
       <>
-        <span>Bonjour {user.firstname}</span>
+        <Link to="/profile">{user.firstname}</Link>
         <button onClick={handleLogout}>Déconnexion</button>
       </>
     );

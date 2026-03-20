@@ -5,9 +5,9 @@ import RegisterForm from '../components/RegisterForm';
 function Register() {
   const navigate = useNavigate();
 
-  // Après inscription réussie, rediriger vers la page de connexion
+  // Après inscription réussie, montrer la page d'information "vérifiez votre e-mail"
   function handleSuccess() {
-    navigate('/login');
+    navigate('/register/sent');
   }
 
   return (

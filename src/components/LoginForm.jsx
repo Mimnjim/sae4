@@ -1,66 +1,88 @@
 import { useState } from 'react';
 import ButtonValidation from './ButtonValidation';
 
-// Composant formulaire de connexion
+// Formulaire de connexion
+// Props :
+//   onSuccess → appelé après une connexion réussie (pour rediriger l'utilisateur)
+//   setUser   → met à jour l'état global de l'utilisateur connecté
 function LoginForm({ onSuccess, setUser }) {
-  // États pour stocker email, password et état de chargement
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [email,        setEmail]        = useState('');
+  const [password,     setPassword]     = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading,    setIsLoading]    = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  // Fonction appelée au clic sur le bouton
-  function handleSubmit() {
-    setLoading(true);
-    
-    // Appel API pour se connecter (chemin relatif pour utiliser le proxy Vite)
+  const handleSubmit = () => {
+    setIsLoading(true);
+    setErrorMessage(''); // on efface l'erreur précédente à chaque nouvelle tentative
+
     fetch('/sae4_api/api/login.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify({ email, password }),
     })
-    .then(res => res.json())
-    .then(data => {
-      console.log('Connexion réussie:', data);
-      // Stocker le token et les infos user dans localStorage (clé `jwt` utilisée partout)
-      localStorage.setItem('jwt', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      // Mettre à jour l'état global
-      setUser(data.user);
-      setLoading(false);
-      onSuccess(); // Redirection
-    })
-    .catch(err => {
-      console.error('Erreur connexion:', err);
-      setLoading(false);
-      alert('Erreur lors de la connexion. Vérifiez le serveur API.');
-    });
-  }
+      .then(res => res.json())
+      .then(data => {
+        // On stocke le token JWT et les infos utilisateur pour les réutiliser partout
+        localStorage.setItem('jwt',  data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        setUser(data.user);
+        setIsLoading(false);
+        onSuccess();
+      })
+      .catch(() => {
+        // On affiche le message d'erreur dans le DOM plutôt qu'une alert()
+        setErrorMessage('Erreur lors de la connexion. Vérifiez le serveur API.');
+        setIsLoading(false);
+      });
+  };
 
   return (
-    <div>
-      <div>
-        <label>Email:</label>
-        <input 
-          type="email" 
+    <div className="login-form">
+
+      <div className="login-form__field">
+        <label htmlFor="login-email">Email</label>
+        <input
+          id="login-email"
+          className="form-reservation__input"
+          type="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={e => setEmail(e.target.value)}
         />
       </div>
 
-      <div>
-        <label>Mot de passe:</label>
-        <input 
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+      <div className="login-form__field">
+        <label htmlFor="login-password">Mot de passe</label>
+        <div className="login-form__password-row">
+          <input
+            id="login-password"
+            className="form-reservation__input"
+            type={showPassword ? 'text' : 'password'}
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+          />
+          {/* Bouton pour afficher/masquer le mot de passe */}
+          <button
+            type="button"
+            className="btn btn-light"
+            onClick={() => setShowPassword(current => !current)}
+          >
+            {showPassword ? 'Cacher' : 'Voir'}
+          </button>
+        </div>
       </div>
 
-      <ButtonValidation 
-        text={loading ? "Connexion..." : "Se connecter"}
+      {/* Message d'erreur affiché dans la page plutôt qu'une alert() navigateur */}
+      {errorMessage && (
+        <div className="form-error" role="alert">{errorMessage}</div>
+      )}
+
+      <ButtonValidation
+        text={isLoading ? 'Connexion...' : 'Se connecter'}
         onClick={handleSubmit}
-        disabled={loading}
+        disabled={isLoading || !email || !password}
       />
+
     </div>
   );
 }
