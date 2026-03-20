@@ -32,6 +32,7 @@ const ImmersionOverlay = forwardRef(({
                 flexDirection: isLeft ? 'row' : 'row-reverse',
                 opacity: 0,
                 pointerEvents: 'none',
+                color: '#fff',
                 // background: 'var(--color-grey, #c7c7c7)',
                 height: '100vh',
             }}
@@ -67,6 +68,7 @@ const ImmersionOverlay = forwardRef(({
                 justifyContent: 'center',
                 padding: '0 5rem',
                 position: 'relative',
+                color: '#fff',
             }}>
                 {/* Titre */}
                 <h2
