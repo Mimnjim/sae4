@@ -165,7 +165,7 @@
             transparent 40%,
             rgba(0, 0, 0, 0.2) 100%); */
     z-index: 2;
-    overflow: hidden;
+    /* overflow: hidden; */
     margin: 0 2rem;
     transition: all 0.8s ease;
     color: var(--color-black);

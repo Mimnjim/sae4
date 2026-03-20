@@ -58,8 +58,10 @@ export default function GIS3D({ onReady }) {
 
                 const maxDim   = Math.max(size.x, size.y, size.z);
                 const fovRad   = camera.fov * (Math.PI / 180);
-                const initialZ = Math.abs(maxDim / 2 / Math.tan(fovRad / 2)) * 1.2;
-                const posY     = 0;
+                // const initialZ = Math.abs(maxDim / (4) / Math.tan(fovRad / 2)) * 1.1;
+                const initialZ = Math.abs(maxDim / 2 / Math.tan(fovRad / 2)) * 1.1;
+                const posY     = -1;
+
 
                 camera.position.set(0, posY, initialZ);
                 camera.lookAt(0, 0, 0);
