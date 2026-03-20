@@ -58,8 +58,10 @@ export default function Akira3D({ mode = 'hero', onReady }) {
             camera.lookAt(0, 0, 0);
             scene.add(model);
 
+            console.log('Akira onReady called with model:', model); // ← ajoute ça
+
             // onReady appelé ici — initialZ est garanti calculé
-            if (onReady) onReady({ camera, initialZ });
+            if (onReady) onReady({ camera, initialZ, model }); // ← ajoute model
 
         }, undefined, (err) => console.error('[Akira3D]', err));
 
