@@ -1,342 +1,341 @@
-/* ═══════════════════════════════════════════════════════════════ */
-/* MANGA ARCHIVE - IMMERSIVE VAULT 3D                            */
-/* ═══════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════
+   MANGA ARCHIVE — EXPOSITION IMMERSIVE
+   Révélation progressive, alternance Akira / GIS
+═══════════════════════════════════════════════════════════════ */
 
-:root {
-    --color-accent: #ba121b;
-    --color-accent-glow: #ff0000;
-    --color-bg: #0a0a0a;
-    --color-text: #ffffff;
-}
-
-/* ─────────────────────────────────────────────────────────────── */
-/* VIEWPORT PRINCIPAL */
-/* ─────────────────────────────────────────────────────────────── */
-
-.archive-viewport {
-    height: 100vh;
+/* ── Section wrapper ──────────────────────────────────────────── */
+.manga-archive {
     width: 100%;
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 50%, #0a0a0a 100%);
-    perspective: 1200px;
+    background: #060606;
+    padding: 0;
+    position: relative;
     overflow: hidden;
-    position: relative;
-    z-index: 1;
 }
 
-.archive-viewport::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(
-        circle at center,
-        rgba(0, 0, 0, 0) 0%,
-        rgba(186, 18, 27, 0.05) 40%,
-        rgba(0, 0, 0, 0.5) 100%
-    );
-    pointer-events: none;
-    z-index: 5;
-}
-
-/* ─────────────────────────────────────────────────────────────── */
-/* CONTENEUR PRINCIPAL */
-/* ─────────────────────────────────────────────────────────────── */
-
-.archive-container {
-    position: relative;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transform-style: preserve-3d;
-}
-
-/* ─────────────────────────────────────────────────────────────── */
-/* SECTION TITRE */
-/* ─────────────────────────────────────────────────────────────── */
-
-.archive-intro {
+/* Ligne verticale centrale décorative */
+.manga-archive::before {
+    content: '';
     position: absolute;
-    top: 5%;
-    z-index: 100;
-    text-align: center;
-    pointer-events: none;
-    animation: intro-fade-in 1.5s ease-out;
-}
-
-@keyframes intro-fade-in {
-    from {
-        opacity: 0;
-        transform: translateY(-30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.archive-intro h2 {
-    color: var(--color-text);
-    font-size: clamp(1.5rem, 4vw, 2.5rem);
-    font-family: 'Cyber', 'Arial Black', sans-serif;
-    letter-spacing: 12px;
-    text-transform: uppercase;
-    margin: 0 0 10px;
-    text-shadow: 
-        0 0 10px rgba(186, 18, 27, 0.8),
-        0 0 20px rgba(255, 0, 0, 0.5);
-    font-weight: 900;
-}
-
-.archive-intro p {
-    color: rgba(255, 255, 255, 0.6);
-    font-size: clamp(0.8rem, 2vw, 1rem);
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    margin: 0;
-    animation: pulse-text 3s ease-in-out infinite;
-}
-
-@keyframes pulse-text {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 1; }
-}
-
-.scanner-line {
-    display: block;
-    width: 120px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--color-accent-glow), transparent);
-    margin: 0 auto 15px;
-    box-shadow: 0 0 8px var(--color-accent-glow);
-    animation: scanner-pulse 2s ease-in-out infinite;
-}
-
-@keyframes scanner-pulse {
-    0%, 100% { box-shadow: 0 0 8px var(--color-accent-glow); }
-    50% { box-shadow: 0 0 15px var(--color-accent-glow); }
-}
-
-/* ─────────────────────────────────────────────────────────────── */
-/* MURS DE MANGAS */
-/* ─────────────────────────────────────────────────────────────── */
-
-.manga-wall {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transform-style: preserve-3d;
-}
-
-/* ─────────────────────────────────────────────────────────────── */
-/* CARTES INDIVIDUELLES - IMPORTANT: PAS DE TRANSFORM STATIQUE */
-/* ─────────────────────────────────────────────────────────────── */
-
-.manga-card {
-    position: absolute;
-    width: 280px;
-    height: 400px;
-    top: 50%;
+    top: 0;
     left: 50%;
-    /* GSAP gère TOUTES les transformations via xPercent/yPercent */
-    
-    background: var(--color-bg);
-    border: 2px solid rgba(186, 18, 27, 0.6);
-    box-shadow: 
-        0 0 20px rgba(0, 0, 0, 0.8),
-        inset 0 0 20px rgba(186, 18, 27, 0.1);
-    overflow: hidden;
-    transform-style: preserve-3d;
-}
-
-.card-frame {
-    width: 100%;
+    transform: translateX(-50%);
+    width: 1px;
     height: 100%;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-/* IMAGE - CLÉ: Affichage de base correct */
-.manga-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: grayscale(1) brightness(0.7) contrast(1.3);
-    transition: filter 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    display: block;
-}
-
-/* ─────────────────────────────────────────────────────────────── */
-/* EFFETS VISUELS */
-/* ─────────────────────────────────────────────────────────────── */
-
-/* Scanlines */
-.manga-card::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(
+    background: linear-gradient(
         to bottom,
-        transparent 0px,
-        transparent 2px,
-        rgba(186, 18, 27, 0.03) 2px,
-        rgba(186, 18, 27, 0.03) 4px
+        transparent 0%,
+        rgba(186,18,27,0.2) 10%,
+        rgba(186,18,27,0.2) 90%,
+        transparent 100%
     );
     pointer-events: none;
+    z-index: 0;
+}
+
+/* ── En-tête de section ───────────────────────────────────────── */
+.archive-section-header {
+    text-align: center;
+    padding: 120px 20px 80px;
+    position: relative;
     z-index: 2;
 }
 
-/* Barre de scan */
-.scanner-bar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 1.5px;
-    background: linear-gradient(
-        90deg,
-        transparent 0%,
-        var(--color-accent-glow) 50%,
-        transparent 100%
-    );
-    box-shadow: 0 0 10px var(--color-accent-glow);
-    z-index: 3;
-    animation: scan-line-move 4s linear infinite;
-}
-
-@keyframes scan-line-move {
-    0% {
-        top: -2px;
-        opacity: 0.5;
-    }
-    10% {
-        opacity: 1;
-    }
-    90% {
-        opacity: 1;
-    }
-    100% {
-        top: 100%;
-        opacity: 0.5;
-    }
-}
-
-/* HUD Info */
-.card-info {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    background: linear-gradient(
-        to top,
-        rgba(186, 18, 27, 0.95),
-        rgba(186, 18, 27, 0.7)
-    );
-    color: var(--color-text);
-    padding: 12px;
+.archive-section-header .eyebrow {
+    display: block;
     font-family: 'Courier New', monospace;
-    font-size: 10px;
-    letter-spacing: 1px;
-    z-index: 4;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    
-    transform: translateY(100%);
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    box-shadow: 0 -5px 10px rgba(186, 18, 27, 0.3);
-}
-
-.card-info-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    opacity: 0.9;
-}
-
-.card-info-label {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 9px;
-}
-
-.card-info-value {
-    color: #ff0;
-    font-weight: bold;
+    font-size: clamp(0.55rem, 1vw, 0.7rem);
+    letter-spacing: 10px;
     text-transform: uppercase;
+    color: rgba(186,18,27,0.8);
+    margin-bottom: 16px;
 }
 
-/* ─────────────────────────────────────────────────────────────── */
-/* HOVER INTERACTIONS */
-/* ─────────────────────────────────────────────────────────────── */
-
-.manga-card:hover img {
-    filter: grayscale(0) brightness(1) contrast(1.1);
-}
-
-.manga-card:hover .card-info {
-    transform: translateY(0);
-}
-
-.manga-card:hover {
-    border-color: var(--color-accent-glow);
-    box-shadow: 
-        0 0 20px rgba(0, 0, 0, 0.8),
-        0 0 30px var(--color-accent-glow),
-        inset 0 0 20px rgba(186, 18, 27, 0.2);
-}
-
-.manga-card:hover .card-info-value {
-    color: #0f0;
-    text-shadow: 0 0 10px #0f0;
-}
-
-/* ─────────────────────────────────────────────────────────────── */
-/* PARTICULES */
-/* ─────────────────────────────────────────────────────────────── */
-
-.particle {
-    position: fixed;
-    pointer-events: none;
-    font-size: 10px;
-    color: rgba(186, 18, 27, 0.5);
+.archive-section-header h2 {
     font-family: 'Courier New', monospace;
+    font-size: clamp(1.6rem, 4vw, 3rem);
+    font-weight: 900;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: #fff;
+    margin: 0 0 20px;
+    line-height: 1.1;
+}
+
+.archive-section-header .header-line {
+    display: block;
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #ba121b, transparent);
+    margin: 0 auto;
+}
+
+/* ── Carte d'œuvre (bloc alternant) ──────────────────────────── */
+.archive-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 80vh;
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+    opacity: 0; /* GSAP va animer ça */
+}
+
+/* Alternance : pair = image gauche, impair = image droite */
+.archive-card.reverse {
+    direction: rtl;
+}
+.archive-card.reverse > * {
+    direction: ltr;
+}
+
+/* ── Côté image ───────────────────────────────────────────────── */
+.archive-card__image-side {
+    position: relative;
+    overflow: hidden;
+    min-height: 70vh;
+}
+
+.archive-card__image-side img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    filter: grayscale(0.3) brightness(0.75) contrast(1.15);
+    transform: scale(1.08);
+    transition: filter 0.6s ease;
+    will-change: transform;
+}
+
+/* Dégradé overlay sur l'image */
+.archive-card__image-side::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to right,
+        transparent 60%,
+        #060606 100%
+    );
     z-index: 1;
 }
 
-/* ─────────────────────────────────────────────────────────────── */
-/* RESPONSIVE */
-/* ─────────────────────────────────────────────────────────────── */
+.archive-card.reverse .archive-card__image-side::after {
+    background: linear-gradient(
+        to left,
+        transparent 60%,
+        #060606 100%
+    );
+}
 
+/* Scanline animée sur l'image */
+.archive-card__image-side .img-scan {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(186,18,27,0.9) 50%, transparent);
+    box-shadow: 0 0 14px rgba(186,18,27,0.7);
+    z-index: 2;
+    animation: imgScan 5s linear infinite;
+    opacity: 0.6;
+}
+
+@keyframes imgScan {
+    from { top: 0%; }
+    to   { top: 100%; }
+}
+
+/* ── Côté texte ───────────────────────────────────────────────── */
+.archive-card__text-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(40px, 6vw, 80px) clamp(32px, 5vw, 64px);
+    position: relative;
+    background: #060606;
+}
+
+/* Tag œuvre (AKIRA / GIS) */
+.archive-card__tag {
+    font-family: 'Courier New', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0; /* animé par GSAP */
+    transform: translateY(20px);
+}
+
+.archive-card__tag::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 1px;
+    background: currentColor;
+    flex-shrink: 0;
+}
+
+.tag--akira  { color: #00d4ff; }
+.tag--gis    { color: #ff00aa; }
+
+/* Titre de l'œuvre */
+.archive-card__title {
+    font-family: 'Courier New', monospace;
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 900;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #fff;
+    margin: 0 0 6px;
+    line-height: 0.95;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+/* Sous-titre / année */
+.archive-card__subtitle {
+    font-family: 'Courier New', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    margin: 0 0 32px;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* Séparateur */
+.archive-card__divider {
+    width: 40px;
+    height: 1px;
+    background: rgba(255,255,255,0.15);
+    margin-bottom: 28px;
+    opacity: 0;
+}
+
+/* Fiche technique */
+.archive-card__specs {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 36px;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.spec-row {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+}
+
+.spec-label {
+    /* font-family: 'Courier New', monospace; */
+    font-family: var(--ff-family-main);
+    font-size: 0.6rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(186,18,27,0.8);
+    min-width: 90px;
+    flex-shrink: 0;
+}
+
+.spec-value {
+    /* font-family: 'Courier New', monospace; */
+    font-family: var(--ff-family-main);
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.5;
+}
+
+/* Badge numéro */
+.archive-card__number {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    font-family: 'Courier New', monospace;
+    font-size: clamp(4rem, 8vw, 7rem);
+    font-weight: 900;
+    color: rgba(255,255,255,0.03);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: -4px;
+}
+
+/* ── Séparateur entre cartes ──────────────────────────────────── */
+.archive-separator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+}
+
+.archive-separator::before,
+.archive-separator::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.06));
+}
+.archive-separator::after {
+    background: linear-gradient(to left, transparent, rgba(255,255,255,0.06));
+}
+
+.sep-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(186,18,27,0.6);
+    box-shadow: 0 0 8px rgba(186,18,27,0.5);
+    margin: 0 20px;
+}
+
+/* ── Footer de section ────────────────────────────────────────── */
+.archive-footer {
+    text-align: center;
+    padding: 80px 20px 120px;
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+}
+
+.archive-footer p {
+    font-family: 'Courier New', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.2);
+}
+
+/* ── Responsive ───────────────────────────────────────────────── */
 @media (max-width: 768px) {
-    .manga-card {
-        width: 240px;
-        height: 340px;
+    .archive-card {
+        grid-template-columns: 1fr;
     }
-    
-    .archive-intro h2 {
-        letter-spacing: 6px;
+
+    .archive-card__image-side {
+        min-height: 50vw;
     }
-}
 
+    .archive-card__image-side::after {
+        background: linear-gradient(to top, #060606 0%, transparent 60%) !important;
+    }
 
-.archive-viewport {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  perspective: 1200px; /* Crucial pour l'effet de profondeur */
-  background: transparent;
-  z-index: 20; /* Pour passer au dessus du grainient */
-}
+    .archive-card.reverse {
+        direction: ltr;
+    }
 
-.manga-card {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 300px;
-  height: 400px;
-  background: #000;
-  border: 1px solid #ba121b;
-  /* On ne met PAS de transform ici, GSAP s'en occupe */
+    .archive-card__number {
+        display: none;
+    }
 }
