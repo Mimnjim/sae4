@@ -1,77 +1,361 @@
+// // // // import React, { useEffect, useRef } from 'react';
+// // // // import gsap from 'gsap';
+// // // // import { ScrollTrigger } from 'gsap/ScrollTrigger';
+// // // // import '../styles/mangaArchive.css';
+
+// // // // gsap.registerPlugin(ScrollTrigger);
+
+// // // // // ─── Contenu éditorial ──────────────────────────────────────────
+// // // // const entries = [
+// // // //     {
+// // // //         id:       'akira-01',
+// // // //         universe: 'Akira',
+// // // //         tagClass: 'ma-tag--akira',
+// // // //         hookClass:'ma-hook--akira',
+// // // //         title:    'Akira',
+// // // //         subtitle: 'Katsuhiro Otomo — 1982',
+// // // //         reverse:  false,
+// // // //         image:    '/img/Akira1.jpg',
+// // // //         // Niveau 2 — accroche immersive
+// // // //         hook: "Neo-Tokyo brûle encore. Sous les néons effondrés et le béton fracturé, quelque chose s'éveille — quelque chose que personne ne peut plus arrêter. Vous êtes là, dans la rue, le sol tremble, et Tetsuo crie.",
+// // // //         // Niveau 3 — fiche technique
+// // // //         specs: [
+// // // //             { label: 'Auteur',   value: 'Katsuhiro Otomo' },
+// // // //             { label: 'Éditeur',  value: 'Young Magazine / Kōdansha' },
+// // // //             { label: 'Parution', value: '1982 → 1990' },
+// // // //             { label: 'Volumes',  value: '6 tomes — 2 182 pages' },
+// // // //             { label: 'Genre',    value: 'Cyberpunk / Post-apocalyptique' },
+// // // //             { label: 'Adaptation', value: 'Film animé, Otomo, 1988' },
+// // // //         ],
+// // // //     },
+// // // //     {
+// // // //         id:       'gis-01',
+// // // //         universe: 'Ghost in the Shell',
+// // // //         tagClass: 'ma-tag--gis',
+// // // //         hookClass:'ma-hook--gis',
+// // // //         title:    'Ghost in the Shell',
+// // // //         subtitle: 'Masamune Shirow — 1989',
+// // // //         reverse:  true,
+// // // //         image:    '/img/GIS1.jpg',
+// // // //         hook: "Son corps est une machine. Ses souvenirs, peut-être des mensonges. Pourtant quelque chose résiste — quelque chose qui refuse d'être réduit à du code. La Major vous regarde. Est-ce qu'elle voit une âme, ou un miroir ?",
+// // // //         specs: [
+// // // //             { label: 'Auteur',   value: 'Masamune Shirow' },
+// // // //             { label: 'Éditeur',  value: 'Kōdansha / Young Magazine' },
+// // // //             { label: 'Parution', value: '1989 → 1997' },
+// // // //             { label: 'Volumes',  value: '3 tomes + Man-Machine Interface' },
+// // // //             { label: 'Genre',    value: 'Cyberpunk / Philosophique' },
+// // // //             { label: 'Adaptation', value: 'Film, Mamoru Oshii, 1995' },
+// // // //         ],
+// // // //     },
+// // // //     {
+// // // //         id:       'akira-02',
+// // // //         universe: 'Akira',
+// // // //         tagClass: 'ma-tag--akira',
+// // // //         hookClass:'ma-hook--akira',
+// // // //         title:    'Tetsuo',
+// // // //         subtitle: "L'Éveil — Arc II",
+// // // //         reverse:  false,
+// // // //         image:    '/img/Akira2.jpg',
+// // // //         hook: "La douleur est devenue puissance. La puissance, folie. Il n'y a plus de retour possible — chaque cellule de son corps hurle et se transforme. Vous ressentez la chaleur. Vous ne pouvez pas détourner les yeux.",
+// // // //         specs: [
+// // // //             { label: 'Arc',        value: 'Mutation & Puissance' },
+// // // //             { label: 'Tomes',      value: 'Vol. 2 — 3' },
+// // // //             { label: 'Personnage', value: 'Tetsuo Shima' },
+// // // //             { label: 'Thème',      value: 'Corruption du corps, identité' },
+// // // //             { label: 'Technique',  value: '2 000 calques par planche' },
+// // // //             { label: 'Format',     value: 'Noir & blanc, grand format' },
+// // // //         ],
+// // // //     },
+// // // //     {
+// // // //         id:       'gis-02',
+// // // //         universe: 'Ghost in the Shell',
+// // // //         tagClass: 'ma-tag--gis',
+// // // //         hookClass:'ma-hook--gis',
+// // // //         title:    'Motoko Kusanagi',
+// // // //         subtitle: 'Major — Section 9',
+// // // //         reverse:  true,
+// // // //         image:    '/img/GIS2.webp',
+// // // //         hook: "Elle plonge dans la ville depuis un toit, nue dans la pluie cybernétique, invisible une fraction de seconde — puis disparaît. Quelque part dans le réseau, son ghost continue de chercher ce qu'elle est vraiment.",
+// // // //         specs: [
+// // // //             { label: 'Arc',        value: 'Identité & Conscience augmentée' },
+// // // //             { label: 'Tomes',      value: 'Vol. 1' },
+// // // //             { label: 'Personnage', value: 'Major Motoko Kusanagi' },
+// // // //             { label: 'Thème',      value: 'Humanité, âme, cyborg' },
+// // // //             { label: 'Technique',  value: 'Encre + lavis, semi-réaliste' },
+// // // //             { label: 'Format',     value: 'Couleurs, annotations d\'auteur' },
+// // // //         ],
+// // // //     },
+// // // // ];
+
+// // // // // ─── Composant ──────────────────────────────────────────────────
+// // // // export default function MangaArchive() {
+// // // //     const sectionRef = useRef(null);
+// // // //     const cardRefs   = useRef([]);
+// // // //     const sepRefs    = useRef([]);
+
+// // // //     useEffect(() => {
+// // // //         const timer = setTimeout(() => {
+// // // //             ScrollTrigger.refresh();
+
+// // // //             const ctx = gsap.context(() => {
+
+// // // //                 cardRefs.current.forEach((card, i) => {
+// // // //                     if (!card) return;
+// // // //                     const isReverse = entries[i].reverse;
+// // // //                     const imgSide   = card.querySelector('[data-img]');
+// // // //                     const tag       = card.querySelector('[data-tag]');
+// // // //                     const title     = card.querySelector('[data-title]');
+// // // //                     const hook      = card.querySelector('[data-hook]');
+// // // //                     const specs     = card.querySelector('[data-specs]');
+// // // //                     const rows      = card.querySelectorAll('[data-row]');
+
+// // // //                     const tl = gsap.timeline({
+// // // //                         scrollTrigger: {
+// // // //                             trigger: card,
+// // // //                             start:   'top 88%',
+// // // //                             once:    true,
+// // // //                         },
+// // // //                     });
+
+// // // //                     // Image glisse depuis son côté
+// // // //                     tl.fromTo(imgSide,
+// // // //                         { opacity: 0, x: isReverse ? 70 : -70 },
+// // // //                         { opacity: 1, x: 0, duration: 1, ease: 'power3.out' },
+// // // //                         0
+// // // //                     );
+
+// // // //                     // Tag
+// // // //                     tl.fromTo(tag,
+// // // //                         { opacity: 0, y: 16 },
+// // // //                         { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
+// // // //                         0.25
+// // // //                     );
+
+// // // //                     // Titre
+// // // //                     tl.fromTo(title,
+// // // //                         { opacity: 0, y: 28 },
+// // // //                         { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
+// // // //                         0.35
+// // // //                     );
+
+// // // //                     // Accroche — légère montée
+// // // //                     tl.fromTo(hook,
+// // // //                         { opacity: 0, y: 20 },
+// // // //                         { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' },
+// // // //                         0.55
+// // // //                     );
+
+// // // //                     // Fiche technique — lignes en stagger
+// // // //                     tl.fromTo(specs,
+// // // //                         { opacity: 0 },
+// // // //                         { opacity: 1, duration: 0.01 },
+// // // //                         0.85
+// // // //                     );
+// // // //                     if (rows.length) {
+// // // //                         tl.fromTo(rows,
+// // // //                             { opacity: 0, x: isReverse ? -14 : 14 },
+// // // //                             { opacity: 1, x: 0, duration: 0.3, stagger: 0.07, ease: 'power2.out' },
+// // // //                             0.85
+// // // //                         );
+// // // //                     }
+// // // //                 });
+
+// // // //                 // Séparateurs
+// // // //                 sepRefs.current.forEach(sep => {
+// // // //                     if (!sep) return;
+// // // //                     gsap.fromTo(sep,
+// // // //                         { opacity: 0 },
+// // // //                         {
+// // // //                             opacity: 1, duration: 0.6,
+// // // //                             scrollTrigger: { trigger: sep, start: 'top 92%', once: true },
+// // // //                         }
+// // // //                     );
+// // // //                 });
+
+// // // //             }, sectionRef);
+
+// // // //             return () => ctx.revert();
+// // // //         }, 800);
+
+// // // //         return () => clearTimeout(timer);
+// // // //     }, []);
+
+// // // //     return (
+// // // //         <section ref={sectionRef} className="ma-section">
+
+// // // //             <div className="ma-center-line" />
+
+// // // //             {/* ── Header ── */}
+// // // //             <header className="ma-header">
+// // // //                 <span className="ma-eyebrow">Grand Palais Éphémère · Paris · 2025</span>
+// // // //                 <h2>Les Œuvres<br />Présentées</h2>
+// // // //                 <span className="ma-header-rule" />
+// // // //             </header>
+
+// // // //             {/* ── Cartes alternées ── */}
+// // // //             {entries.map((entry, i) => (
+// // // //                 <React.Fragment key={entry.id}>
+
+// // // //                     <article
+// // // //                         ref={el => cardRefs.current[i] = el}
+// // // //                         className="ma-card"
+// // // //                     >
+// // // //                         {/* ── IMAGE (Niveau 1 visuel) ── */}
+// // // //                         <div data-img="" className="ma-img">
+// // // //                             <img
+// // // //                                 src={entry.image}
+// // // //                                 alt={entry.title}
+// // // //                                 loading="lazy"
+// // // //                             />
+// // // //                             <div className={`ma-img-overlay ma-img-overlay--${entry.reverse ? 'right' : 'left'}`} />
+// // // //                             <div className="ma-scan" />
+// // // //                             <span className="ma-img-index">
+// // // //                                 Archive {String(i + 1).padStart(2, '0')} / {String(entries.length).padStart(2, '0')}
+// // // //                             </span>
+// // // //                         </div>
+
+// // // //                         {/* ── TEXTE ── */}
+// // // //                         <div className={`ma-text${entry.reverse ? ' ma-text--reverse' : ''}`}>
+
+// // // //                             {/* Niveau 1 — Identité */}
+// // // //                             <div data-tag="" className={`ma-tag ${entry.tagClass}`}>
+// // // //                                 <span className="ma-tag-line" />
+// // // //                                 {entry.universe}
+// // // //                             </div>
+
+// // // //                             <h3 data-title="" className="ma-title">{entry.title}</h3>
+// // // //                             <p className="ma-subtitle">{entry.subtitle}</p>
+
+// // // //                             {/* Niveau 2 — Accroche immersive */}
+// // // //                             <div data-hook="" className={`ma-hook ${entry.hookClass}`}>
+// // // //                                 <p className="ma-hook-text">{entry.hook}</p>
+// // // //                             </div>
+
+// // // //                             {/* Niveau 3 — Fiche technique */}
+// // // //                             <div data-specs="" className="ma-specs">
+// // // //                                 {entry.specs.map((spec, j) => (
+// // // //                                     <div data-row="" className="ma-spec-row" key={j}>
+// // // //                                         <span className="ma-spec-label">{spec.label}</span>
+// // // //                                         <span className="ma-spec-value">{spec.value}</span>
+// // // //                                     </div>
+// // // //                                 ))}
+// // // //                             </div>
+
+// // // //                             <span className="ma-big-number">
+// // // //                                 {String(i + 1).padStart(2, '0')}
+// // // //                             </span>
+// // // //                         </div>
+// // // //                     </article>
+
+// // // //                     {i < entries.length - 1 && (
+// // // //                         <div
+// // // //                             ref={el => sepRefs.current[i] = el}
+// // // //                             className="ma-separator"
+// // // //                         >
+// // // //                             <div className="ma-sep-line" />
+// // // //                             <div className="ma-sep-dot" />
+// // // //                             <div className="ma-sep-line" />
+// // // //                         </div>
+// // // //                     )}
+
+// // // //                 </React.Fragment>
+// // // //             ))}
+
+// // // //             {/* ── Footer ── */}
+// // // //             <footer className="ma-footer">
+// // // //                 <p>Catalogue de l'exposition — {entries.length} œuvres au programme</p>
+// // // //             </footer>
+
+// // // //         </section>
+// // // //     );
+// // // // }
+
+
 // // // import React, { useEffect, useRef } from 'react';
 // // // import gsap from 'gsap';
 // // // import { ScrollTrigger } from 'gsap/ScrollTrigger';
-// // // import '../styles/global.css';
+// // // import '../styles/mangaArchive.css';
 
 // // // gsap.registerPlugin(ScrollTrigger);
 
 // // // const entries = [
+// // //     // ── AKIRA ──────────────────────────────────────────────────
 // // //     {
-// // //         id:          'akira-01',
-// // //         universe:    'Akira',
-// // //         accentColor: '#00d4ff',
-// // //         title:       'Akira',
-// // //         subtitle:    'Katsuhiro Otomo — 1982',
-// // //         reverse:     false,
-// // //         image:       '/img/Akira1.jpg',
+// // //         id:        'akira-01',
+// // //         universe:  'Akira',
+// // //         tagClass:  'ma-tag--akira',
+// // //         hookClass: 'ma-hook--akira',
+// // //         title:     'Akira',
+// // //         subtitle:  'Katsuhiro Otomo — 1982',
+// // //         reverse:   false,
+// // //         image:     '/img/Akira1.jpg',
+// // //         hook:      "Neo-Tokyo brûle encore. Sous les néons effondrés et le béton fracturé, quelque chose s'éveille — quelque chose que personne ne peut plus arrêter. Vous êtes là, dans la rue, le sol tremble, et Tetsuo crie.",
 // // //         specs: [
-// // //             { label: 'Auteur',   value: 'Katsuhiro Otomo' },
-// // //             { label: 'Éditeur',  value: 'Young Magazine / Kōdansha' },
-// // //             { label: 'Parution', value: '1982 → 1990' },
-// // //             { label: 'Volumes',  value: '6 tomes — 2 182 pages' },
-// // //             { label: 'Genre',    value: 'Cyberpunk / Post-apocalyptique' },
-// // //             { label: 'Univers',  value: 'Neo-Tokyo, 2019' },
+// // //             { label: 'Auteur',      value: 'Katsuhiro Otomo' },
+// // //             { label: 'Éditeur',     value: 'Young Magazine / Kōdansha' },
+// // //             { label: 'Parution',    value: '1982 → 1990' },
+// // //             { label: 'Volumes',     value: '6 tomes — 2 182 pages' },
+// // //             { label: 'Genre',       value: 'Cyberpunk / Post-apocalyptique' },
+// // //             { label: 'Adaptation',  value: 'Film animé, Otomo, 1988' },
 // // //         ],
 // // //     },
 // // //     {
-// // //         id:          'gis-01',
-// // //         universe:    'Ghost in the Shell',
-// // //         accentColor: '#ff00aa',
-// // //         title:       'Ghost in the Shell',
-// // //         subtitle:    'Masamune Shirow — 1989',
-// // //         reverse:     true,
-// // //         image:       '/img/GIS1.jpg',
+// // //         id:        'akira-02',
+// // //         universe:  'Akira',
+// // //         tagClass:  'ma-tag--akira',
+// // //         hookClass: 'ma-hook--akira',
+// // //         title:     'Tetsuo',
+// // //         subtitle:  "L'Éveil — Arc II",
+// // //         reverse:   true,
+// // //         image:     '/img/Akira2.jpg',
+// // //         hook:      "La douleur est devenue puissance. La puissance, folie. Il n'y a plus de retour possible — chaque cellule de son corps hurle et se transforme. Vous ressentez la chaleur. Vous ne pouvez pas détourner les yeux.",
 // // //         specs: [
-// // //             { label: 'Auteur',   value: 'Masamune Shirow' },
-// // //             { label: 'Éditeur',  value: 'Kōdansha / Young Magazine' },
-// // //             { label: 'Parution', value: '1989 → 1997' },
-// // //             { label: 'Volumes',  value: '3 tomes + Man-Machine Interface' },
-// // //             { label: 'Genre',    value: 'Cyberpunk / Science-fiction' },
-// // //             { label: 'Univers',  value: 'Japon, 2029 — Section 9' },
+// // //             { label: 'Arc',         value: 'Mutation & Puissance' },
+// // //             { label: 'Tomes',       value: 'Vol. 2 — 3' },
+// // //             { label: 'Personnage',  value: 'Tetsuo Shima' },
+// // //             { label: 'Thème',       value: 'Corruption du corps, identité' },
+// // //             { label: 'Technique',   value: '2 000 calques par planche' },
+// // //             { label: 'Format',      value: 'Noir & blanc, grand format' },
+// // //         ],
+// // //     },
+
+// // //     // ── GHOST IN THE SHELL ─────────────────────────────────────
+// // //     {
+// // //         id:        'gis-01',
+// // //         universe:  'Ghost in the Shell',
+// // //         tagClass:  'ma-tag--gis',
+// // //         hookClass: 'ma-hook--gis',
+// // //         title:     'Ghost in the Shell',
+// // //         subtitle:  'Masamune Shirow — 1989',
+// // //         reverse:   false,
+// // //         image:     '/img/GIS1.jpg',
+// // //         hook:      "Son corps est une machine. Ses souvenirs, peut-être des mensonges. Pourtant quelque chose résiste — quelque chose qui refuse d'être réduit à du code. La Major vous regarde. Est-ce qu'elle voit une âme, ou un miroir ?",
+// // //         specs: [
+// // //             { label: 'Auteur',      value: 'Masamune Shirow' },
+// // //             { label: 'Éditeur',     value: 'Kōdansha / Young Magazine' },
+// // //             { label: 'Parution',    value: '1989 → 1997' },
+// // //             { label: 'Volumes',     value: '3 tomes + Man-Machine Interface' },
+// // //             { label: 'Genre',       value: 'Cyberpunk / Philosophique' },
+// // //             { label: 'Adaptation',  value: 'Film, Mamoru Oshii, 1995' },
 // // //         ],
 // // //     },
 // // //     {
-// // //         id:          'akira-02',
-// // //         universe:    'Akira',
-// // //         accentColor: '#00d4ff',
-// // //         title:       'Tetsuo',
-// // //         subtitle:    "L'Éveil — Arc II",
-// // //         reverse:     false,
-// // //         image:       '/img/Akira2.jpg',
+// // //         id:        'gis-02',
+// // //         universe:  'Ghost in the Shell',
+// // //         tagClass:  'ma-tag--gis',
+// // //         hookClass: 'ma-hook--gis',
+// // //         title:     'Motoko Kusanagi',
+// // //         subtitle:  'Major — Section 9',
+// // //         reverse:   true,
+// // //         image:     '/img/GIS2.webp',
+// // //         hook:      "Elle plonge dans la ville depuis un toit, nue dans la pluie cybernétique, invisible une fraction de seconde — puis disparaît. Quelque part dans le réseau, son ghost continue de chercher ce qu'elle est vraiment.",
 // // //         specs: [
-// // //             { label: 'Arc',        value: 'Mutation & Puissance' },
-// // //             { label: 'Tomes',      value: 'Vol. 2 — 3' },
-// // //             { label: 'Personnage', value: 'Tetsuo Shima' },
-// // //             { label: 'Thème',      value: 'Corruption du corps, identité' },
-// // //             { label: 'Technique',  value: '2 000 calques par planche' },
-// // //             { label: 'Adaptation', value: 'Film animé 1988 (Otomo)' },
-// // //         ],
-// // //     },
-// // //     {
-// // //         id:          'gis-02',
-// // //         universe:    'Ghost in the Shell',
-// // //         accentColor: '#ff00aa',
-// // //         title:       'Motoko Kusanagi',
-// // //         subtitle:    'Major — Section 9',
-// // //         reverse:     true,
-// // //         image:       '/img/GIS2.webp',
-// // //         specs: [
-// // //             { label: 'Arc',        value: 'Identité & Conscience augmentée' },
-// // //             { label: 'Tomes',      value: 'Vol. 1' },
-// // //             { label: 'Personnage', value: 'Major Motoko Kusanagi' },
-// // //             { label: 'Thème',      value: 'Humanité, âme, cyborg' },
-// // //             { label: 'Technique',  value: 'Encre + lavis, semi-réaliste' },
-// // //             { label: 'Adaptation', value: 'Film Mamoru Oshii 1995' },
+// // //             { label: 'Arc',         value: 'Identité & Conscience augmentée' },
+// // //             { label: 'Tomes',       value: 'Vol. 1' },
+// // //             { label: 'Personnage',  value: 'Major Motoko Kusanagi' },
+// // //             { label: 'Thème',       value: 'Humanité, âme, cyborg' },
+// // //             { label: 'Technique',   value: 'Encre + lavis, semi-réaliste' },
+// // //             { label: 'Format',      value: "Couleurs, annotations d'auteur" },
 // // //         ],
 // // //     },
 // // // ];
@@ -82,9 +366,7 @@
 // // //     const sepRefs    = useRef([]);
 
 // // //     useEffect(() => {
-// // //         // Délai pour laisser Hero finir son init + ScrollTrigger.refresh()
 // // //         const timer = setTimeout(() => {
-
 // // //             ScrollTrigger.refresh();
 
 // // //             const ctx = gsap.context(() => {
@@ -93,38 +375,50 @@
 // // //                     if (!card) return;
 // // //                     const isReverse = entries[i].reverse;
 // // //                     const imgSide   = card.querySelector('[data-img]');
-// // //                     const textSide  = card.querySelector('[data-text]');
+// // //                     const tag       = card.querySelector('[data-tag]');
+// // //                     const title     = card.querySelector('[data-title]');
+// // //                     const hook      = card.querySelector('[data-hook]');
+// // //                     const specs     = card.querySelector('[data-specs]');
 // // //                     const rows      = card.querySelectorAll('[data-row]');
-
-// // //                     // fromTo : on part de valeurs décalées → valeurs finales visibles
-// // //                     // Le contenu EST visible par défaut (pas de gsap.set opacity:0)
-// // //                     // ScrollTrigger déclenche l'animation d'entrée seulement
 
 // // //                     const tl = gsap.timeline({
 // // //                         scrollTrigger: {
-// // //                             trigger:       card,
-// // //                             start:         'top 90%',   // démarre tôt pour être sûr
-// // //                             once:          true,         // joue une seule fois, pas de reverse
+// // //                             trigger: card,
+// // //                             start:   'top 88%',
+// // //                             once:    true,
 // // //                         },
 // // //                     });
 
 // // //                     tl.fromTo(imgSide,
-// // //                         { opacity: 0, x: isReverse ? 60 : -60 },
-// // //                         { opacity: 1, x: 0, duration: 0.85, ease: 'power3.out' },
+// // //                         { opacity: 0, x: isReverse ? 70 : -70 },
+// // //                         { opacity: 1, x: 0, duration: 1, ease: 'power3.out' },
 // // //                         0
 // // //                     );
-
-// // //                     tl.fromTo(textSide,
-// // //                         { opacity: 0, x: isReverse ? -50 : 50 },
-// // //                         { opacity: 1, x: 0, duration: 0.85, ease: 'power3.out' },
-// // //                         0.2
+// // //                     tl.fromTo(tag,
+// // //                         { opacity: 0, y: 16 },
+// // //                         { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
+// // //                         0.25
 // // //                     );
-
+// // //                     tl.fromTo(title,
+// // //                         { opacity: 0, y: 28 },
+// // //                         { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
+// // //                         0.35
+// // //                     );
+// // //                     tl.fromTo(hook,
+// // //                         { opacity: 0, y: 20 },
+// // //                         { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' },
+// // //                         0.55
+// // //                     );
+// // //                     tl.fromTo(specs,
+// // //                         { opacity: 0 },
+// // //                         { opacity: 1, duration: 0.01 },
+// // //                         0.85
+// // //                     );
 // // //                     if (rows.length) {
 // // //                         tl.fromTo(rows,
-// // //                             { opacity: 0, y: 12 },
-// // //                             { opacity: 1, y: 0, duration: 0.3, stagger: 0.07, ease: 'power2.out' },
-// // //                             0.5
+// // //                             { opacity: 0, x: isReverse ? -14 : 14 },
+// // //                             { opacity: 1, x: 0, duration: 0.3, stagger: 0.07, ease: 'power2.out' },
+// // //                             0.85
 // // //                         );
 // // //                     }
 // // //                 });
@@ -143,186 +437,21 @@
 // // //             }, sectionRef);
 
 // // //             return () => ctx.revert();
-
-// // //         }, 800); // attend que Hero soit complètement initialisé
+// // //         }, 800);
 
 // // //         return () => clearTimeout(timer);
 // // //     }, []);
 
-// // //     // ─── Styles ────────────────────────────────────────────────
-// // //     const S = {
-// // //         section: {
-// // //             width: '100%',
-// // //             background: '#060606',
-// // //             position: 'relative',
-// // //         },
-// // //         centerLine: {
-// // //             position: 'absolute', top: 0, left: '50%',
-// // //             transform: 'translateX(-50%)',
-// // //             width: 1, height: '100%',
-// // //             background: 'linear-gradient(to bottom, transparent, rgba(186,18,27,0.18) 8%, rgba(186,18,27,0.18) 92%, transparent)',
-// // //             pointerEvents: 'none', zIndex: 0,
-// // //         },
-// // //         header: {
-// // //             textAlign: 'center',
-// // //             padding: 'clamp(80px,12vh,140px) 20px clamp(60px,8vh,100px)',
-// // //             position: 'relative', zIndex: 2,
-// // //         },
-// // //         eyebrow: {
-// // //             display: 'block',
-// // //             fontFamily: '"Courier New", monospace',
-// // //             fontSize: 'clamp(0.5rem,1vw,0.65rem)',
-// // //             letterSpacing: 10, textTransform: 'uppercase',
-// // //             color: 'rgba(186,18,27,0.85)', marginBottom: 14,
-// // //         },
-// // //         h2: {
-// // //             fontFamily: '"Courier New", monospace',
-// // //             fontSize: 'clamp(1.6rem,4vw,3rem)',
-// // //             fontWeight: 900, letterSpacing: 6,
-// // //             textTransform: 'uppercase', color: '#fff',
-// // //             margin: '0 0 20px', lineHeight: 1.1,
-// // //         },
-// // //         headerRule: {
-// // //             display: 'block', width: 50, height: 1,
-// // //             background: 'linear-gradient(90deg, transparent, #ba121b, transparent)',
-// // //             margin: '0 auto',
-// // //         },
-// // //         card: (reverse) => ({
-// // //             display: 'grid',
-// // //             gridTemplateColumns: '1fr 1fr',
-// // //             minHeight: '80vh',
-// // //             position: 'relative', zIndex: 2,
-// // //             // PAS d'opacity:0 ici — visible par défaut
-// // //         }),
-// // //         imgSide: {
-// // //             position: 'relative',
-// // //             overflow: 'hidden',
-// // //             minHeight: '60vh',
-// // //         },
-// // //         img: {
-// // //             position: 'absolute', inset: 0,
-// // //             width: '100%', height: '100%',
-// // //             objectFit: 'cover', objectPosition: 'center top',
-// // //             display: 'block',
-// // //             filter: 'grayscale(0.3) brightness(0.7) contrast(1.1)',
-// // //         },
-// // //         imgOverlay: (reverse) => ({
-// // //             position: 'absolute', inset: 0,
-// // //             background: reverse
-// // //                 ? 'linear-gradient(to left, transparent 55%, #060606 100%)'
-// // //                 : 'linear-gradient(to right, transparent 55%, #060606 100%)',
-// // //             zIndex: 1,
-// // //         }),
-// // //         scanBar: {
-// // //             position: 'absolute', left: 0, width: '100%', height: 2,
-// // //             background: 'linear-gradient(90deg, transparent, rgba(186,18,27,0.9) 50%, transparent)',
-// // //             boxShadow: '0 0 12px rgba(186,18,27,0.6)',
-// // //             zIndex: 2, animation: 'imgScanAnim 5s linear infinite', opacity: 0.6,
-// // //         },
-// // //         textSide: (reverse) => ({
-// // //             display: 'flex', flexDirection: 'column', justifyContent: 'center',
-// // //             padding: 'clamp(40px,6vw,80px) clamp(32px,5vw,64px)',
-// // //             background: '#060606',
-// // //             position: 'relative',
-// // //             // En mode reverse, le text-side est la 2e colonne (côté gauche visuellement)
-// // //             order: reverse ? -1 : 0,
-// // //         }),
-// // //         tag: (color) => ({
-// // //             fontFamily: '"Courier New", monospace',
-// // //             fontSize: '0.62rem', letterSpacing: 8,
-// // //             textTransform: 'uppercase', color,
-// // //             marginBottom: 18,
-// // //             display: 'flex', alignItems: 'center', gap: 12,
-// // //         }),
-// // //         tagLine: (color) => ({
-// // //             display: 'block', width: 28, height: 1,
-// // //             background: color, flexShrink: 0,
-// // //         }),
-// // //         title: {
-// // //             fontFamily: '"Courier New", monospace',
-// // //             fontSize: 'clamp(2rem,4.5vw,3.8rem)',
-// // //             fontWeight: 900, letterSpacing: 4,
-// // //             textTransform: 'uppercase', color: '#fff',
-// // //             margin: '0 0 6px', lineHeight: 0.95,
-// // //         },
-// // //         subtitle: {
-// // //             fontFamily: '"Courier New", monospace',
-// // //             fontSize: '0.68rem', letterSpacing: 5,
-// // //             textTransform: 'uppercase',
-// // //             color: 'rgba(255,255,255,0.3)',
-// // //             margin: '0 0 28px',
-// // //         },
-// // //         divider: {
-// // //             width: 40, height: 1,
-// // //             background: 'rgba(255,255,255,0.12)',
-// // //             marginBottom: 26,
-// // //         },
-// // //         specs: { display: 'flex', flexDirection: 'column', gap: 13 },
-// // //         specRow: { display: 'flex', alignItems: 'baseline', gap: 16 },
-// // //         specLabel: {
-// // //             fontFamily: '"Courier New", monospace',
-// // //             fontSize: '0.58rem', letterSpacing: 4,
-// // //             textTransform: 'uppercase',
-// // //             color: 'rgba(186,18,27,0.85)',
-// // //             minWidth: 90, flexShrink: 0,
-// // //         },
-// // //         specValue: {
-// // //             fontFamily: '"Courier New", monospace',
-// // //             fontSize: '0.78rem', letterSpacing: 1,
-// // //             color: 'rgba(255,255,255,0.72)', lineHeight: 1.5,
-// // //         },
-// // //         bigNumber: {
-// // //             position: 'absolute', bottom: 30, right: 30,
-// // //             fontFamily: '"Courier New", monospace',
-// // //             fontSize: 'clamp(4rem,9vw,7rem)', fontWeight: 900,
-// // //             color: 'rgba(255,255,255,0.03)', lineHeight: 1,
-// // //             pointerEvents: 'none', userSelect: 'none', letterSpacing: -4,
-// // //         },
-// // //         separator: {
-// // //             display: 'flex', alignItems: 'center', justifyContent: 'center',
-// // //             padding: '36px 5%', position: 'relative', zIndex: 2,
-// // //         },
-// // //         sepLine: { flex: 1, height: 1, background: 'rgba(255,255,255,0.07)' },
-// // //         sepDot: {
-// // //             width: 4, height: 4, borderRadius: '50%',
-// // //             background: 'rgba(186,18,27,0.7)',
-// // //             boxShadow: '0 0 8px rgba(186,18,27,0.5)',
-// // //             margin: '0 20px',
-// // //         },
-// // //         footer: {
-// // //             textAlign: 'center',
-// // //             padding: 'clamp(60px,8vh,100px) 20px',
-// // //             position: 'relative', zIndex: 2,
-// // //         },
-// // //         footerText: {
-// // //             fontFamily: '"Courier New", monospace',
-// // //             fontSize: '0.6rem', letterSpacing: 6,
-// // //             textTransform: 'uppercase', color: 'rgba(255,255,255,0.18)',
-// // //         },
-// // //     };
-
 // // //     return (
-// // //         <section ref={sectionRef} style={S.section}>
+// // //         <section ref={sectionRef} className="ma-section">
 
-// // //             <style>{`
-// // //                 @keyframes imgScanAnim {
-// // //                     from { top: 0; }
-// // //                     to   { top: 100%; }
-// // //                 }
-// // //                 @media (max-width: 768px) {
-// // //                     .ma-card { grid-template-columns: 1fr !important; }
-// // //                     .ma-img  { min-height: 55vw !important; }
-// // //                     .ma-text { order: 0 !important; }
-// // //                 }
-// // //             `}</style>
-
-// // //             <div style={S.centerLine} />
+// // //             <div className="ma-center-line" />
 
 // // //             {/* ── Header ── */}
-// // //             <header style={S.header}>
-// // //                 <span style={S.eyebrow}>Exposition Fictive · 2025</span>
-// // //                 <h2 style={S.h2}>Les Œuvres<br />de l'Exposition</h2>
-// // //                 <span style={S.headerRule} />
+// // //             <header className="ma-header">
+// // //                 <span className="ma-eyebrow">Grand Palais Éphémère · Paris · 2025</span>
+// // //                 <h2>Les Œuvres<br />Présentées</h2>
+// // //                 <span className="ma-header-rule" />
 // // //             </header>
 
 // // //             {/* ── Cartes ── */}
@@ -332,45 +461,55 @@
 // // //                     <article
 // // //                         ref={el => cardRefs.current[i] = el}
 // // //                         className="ma-card"
-// // //                         style={S.card(entry.reverse)}
 // // //                     >
 // // //                         {/* Image */}
-// // //                         <div data-img="" className="ma-img" style={S.imgSide}>
-// // //                             <img src={entry.image} alt={entry.title} loading="lazy" style={S.img} />
-// // //                             <div style={S.imgOverlay(entry.reverse)} />
-// // //                             <div style={S.scanBar} />
+// // //                         <div data-img="" className="ma-img">
+// // //                             <img src={entry.image} alt={entry.title} loading="lazy" />
+// // //                             <div className={`ma-img-overlay ma-img-overlay--${entry.reverse ? 'right' : 'left'}`} />
+// // //                             <div className="ma-scan" />
+// // //                             <span className="ma-img-index">
+// // //                                 Salle {String(i + 1).padStart(2, '0')} · Niveau 1
+// // //                             </span>
 // // //                         </div>
 
 // // //                         {/* Texte */}
-// // //                         <div data-text="" className="ma-text" style={S.textSide(entry.reverse)}>
+// // //                         <div className={`ma-text${entry.reverse ? ' ma-text--reverse' : ''}`}>
 
-// // //                             <div style={S.tag(entry.accentColor)}>
-// // //                                 <span style={S.tagLine(entry.accentColor)} />
+// // //                             <div data-tag="" className={`ma-tag ${entry.tagClass}`}>
+// // //                                 <span className="ma-tag-line" />
 // // //                                 {entry.universe}
 // // //                             </div>
 
-// // //                             <h3 style={S.title}>{entry.title}</h3>
-// // //                             <p  style={S.subtitle}>{entry.subtitle}</p>
-// // //                             <div style={S.divider} />
+// // //                             <h3 data-title="" className="ma-title">{entry.title}</h3>
+// // //                             <p className="ma-subtitle">{entry.subtitle}</p>
 
-// // //                             <div style={S.specs}>
+// // //                             <div data-hook="" className={`ma-hook ${entry.hookClass}`}>
+// // //                                 <p className="ma-hook-text">{entry.hook}</p>
+// // //                             </div>
+
+// // //                             <div data-specs="" className="ma-specs">
 // // //                                 {entry.specs.map((spec, j) => (
-// // //                                     <div data-row="" style={S.specRow} key={j}>
-// // //                                         <span style={S.specLabel}>{spec.label}</span>
-// // //                                         <span style={S.specValue}>{spec.value}</span>
+// // //                                     <div data-row="" className="ma-spec-row" key={j}>
+// // //                                         <span className="ma-spec-label">{spec.label}</span>
+// // //                                         <span className="ma-spec-value">{spec.value}</span>
 // // //                                     </div>
 // // //                                 ))}
 // // //                             </div>
 
-// // //                             <span style={S.bigNumber}>{String(i + 1).padStart(2, '0')}</span>
+// // //                             <span className="ma-big-number">
+// // //                                 {String(i + 1).padStart(2, '0')}
+// // //                             </span>
 // // //                         </div>
 // // //                     </article>
 
 // // //                     {i < entries.length - 1 && (
-// // //                         <div ref={el => sepRefs.current[i] = el} style={S.separator}>
-// // //                             <div style={S.sepLine} />
-// // //                             <div style={S.sepDot} />
-// // //                             <div style={S.sepLine} />
+// // //                         <div
+// // //                             ref={el => sepRefs.current[i] = el}
+// // //                             className="ma-separator"
+// // //                         >
+// // //                             <div className="ma-sep-line" />
+// // //                             <div className="ma-sep-dot" />
+// // //                             <div className="ma-sep-line" />
 // // //                         </div>
 // // //                     )}
 
@@ -378,169 +517,109 @@
 // // //             ))}
 
 // // //             {/* ── Footer ── */}
-// // //             <footer style={S.footer}>
-// // //                 <p style={S.footerText}>Fin des archives — {entries.length} œuvres référencées</p>
+// // //             <footer className="ma-footer">
+// // //                 <p>Catalogue de l'exposition — {entries.length} œuvres au programme</p>
 // // //             </footer>
 
 // // //         </section>
 // // //     );
 // // // }
 
-
-// // import React, { useEffect, useRef } from 'react';
-// // import gsap from 'gsap';
-// // import { ScrollTrigger } from 'gsap/ScrollTrigger';
+// // import React from 'react';
 // // import '../styles/mangaArchive.css';
 
-// // gsap.registerPlugin(ScrollTrigger);
-
 // // const entries = [
+// //     // ── AKIRA ──────────────────────────────────────────────────
 // //     {
-// //         id:       'akira-01',
-// //         universe: 'Akira',
-// //         tagClass: 'ma-tag--akira',
-// //         title:    'Akira',
-// //         subtitle: 'Katsuhiro Otomo — 1982',
-// //         reverse:  false,
-// //         image:    '/img/Akira1.jpg',
+// //         id:        'akira-01',
+// //         universe:  'Akira',
+// //         tagClass:  'ma-tag--akira',
+// //         hookClass: 'ma-hook--akira',
+// //         title:     'Akira',
+// //         subtitle:  'Katsuhiro Otomo — 1982',
+// //         reverse:   false,
+// //         image:     '/img/Akira1.jpg',
+// //         hook:      "Neo-Tokyo brûle encore. Sous les néons effondrés et le béton fracturé, quelque chose s'éveille — quelque chose que personne ne peut plus arrêter. Vous êtes là, dans la rue, le sol tremble, et Tetsuo crie.",
 // //         specs: [
-// //             { label: 'Auteur',   value: 'Katsuhiro Otomo' },
-// //             { label: 'Éditeur',  value: 'Young Magazine / Kōdansha' },
-// //             { label: 'Parution', value: '1982 → 1990' },
-// //             { label: 'Volumes',  value: '6 tomes — 2 182 pages' },
-// //             { label: 'Genre',    value: 'Cyberpunk / Post-apocalyptique' },
-// //             { label: 'Univers',  value: 'Neo-Tokyo, 2019' },
+// //             { label: 'Auteur',     value: 'Katsuhiro Otomo' },
+// //             { label: 'Éditeur',    value: 'Young Magazine / Kōdansha' },
+// //             { label: 'Parution',   value: '1982 → 1990' },
+// //             { label: 'Volumes',    value: '6 tomes — 2 182 pages' },
+// //             { label: 'Genre',      value: 'Cyberpunk / Post-apocalyptique' },
+// //             { label: 'Adaptation', value: 'Film animé, Otomo, 1988' },
 // //         ],
 // //     },
 // //     {
-// //         id:       'gis-01',
-// //         universe: 'Ghost in the Shell',
-// //         tagClass: 'ma-tag--gis',
-// //         title:    'Ghost in the Shell',
-// //         subtitle: 'Masamune Shirow — 1989',
-// //         reverse:  true,
-// //         image:    '/img/GIS1.jpg',
-// //         specs: [
-// //             { label: 'Auteur',   value: 'Masamune Shirow' },
-// //             { label: 'Éditeur',  value: 'Kōdansha / Young Magazine' },
-// //             { label: 'Parution', value: '1989 → 1997' },
-// //             { label: 'Volumes',  value: '3 tomes + Man-Machine Interface' },
-// //             { label: 'Genre',    value: 'Cyberpunk / Science-fiction' },
-// //             { label: 'Univers',  value: 'Japon, 2029 — Section 9' },
-// //         ],
-// //     },
-// //     {
-// //         id:       'akira-02',
-// //         universe: 'Akira',
-// //         tagClass: 'ma-tag--akira',
-// //         title:    'Tetsuo',
-// //         subtitle: "L'Éveil — Arc II",
-// //         reverse:  false,
-// //         image:    '/img/Akira2.jpg',
+// //         id:        'akira-02',
+// //         universe:  'Akira',
+// //         tagClass:  'ma-tag--akira',
+// //         hookClass: 'ma-hook--akira',
+// //         title:     'Tetsuo',
+// //         subtitle:  "L'Éveil — Arc II",
+// //         reverse:   true,
+// //         image:     '/img/Akira2.jpg',
+// //         hook:      "La douleur est devenue puissance. La puissance, folie. Il n'y a plus de retour possible — chaque cellule de son corps hurle et se transforme. Vous ressentez la chaleur. Vous ne pouvez pas détourner les yeux.",
 // //         specs: [
 // //             { label: 'Arc',        value: 'Mutation & Puissance' },
 // //             { label: 'Tomes',      value: 'Vol. 2 — 3' },
 // //             { label: 'Personnage', value: 'Tetsuo Shima' },
 // //             { label: 'Thème',      value: 'Corruption du corps, identité' },
 // //             { label: 'Technique',  value: '2 000 calques par planche' },
-// //             { label: 'Adaptation', value: 'Film animé 1988 (Otomo)' },
+// //             { label: 'Format',     value: 'Noir & blanc, grand format' },
+// //         ],
+// //     },
+
+// //     // ── GHOST IN THE SHELL ─────────────────────────────────────
+// //     {
+// //         id:        'gis-01',
+// //         universe:  'Ghost in the Shell',
+// //         tagClass:  'ma-tag--gis',
+// //         hookClass: 'ma-hook--gis',
+// //         title:     'Ghost in the Shell',
+// //         subtitle:  'Masamune Shirow — 1989',
+// //         reverse:   false,
+// //         image:     '/img/GIS1.jpg',
+// //         hook:      "Son corps est une machine. Ses souvenirs, peut-être des mensonges. Pourtant quelque chose résiste — quelque chose qui refuse d'être réduit à du code. La Major vous regarde. Est-ce qu'elle voit une âme, ou un miroir ?",
+// //         specs: [
+// //             { label: 'Auteur',     value: 'Masamune Shirow' },
+// //             { label: 'Éditeur',    value: 'Kōdansha / Young Magazine' },
+// //             { label: 'Parution',   value: '1989 → 1997' },
+// //             { label: 'Volumes',    value: '3 tomes + Man-Machine Interface' },
+// //             { label: 'Genre',      value: 'Cyberpunk / Philosophique' },
+// //             { label: 'Adaptation', value: 'Film, Mamoru Oshii, 1995' },
 // //         ],
 // //     },
 // //     {
-// //         id:       'gis-02',
-// //         universe: 'Ghost in the Shell',
-// //         tagClass: 'ma-tag--gis',
-// //         title:    'Motoko Kusanagi',
-// //         subtitle: 'Major — Section 9',
-// //         reverse:  true,
-// //         image:    '/img/GIS2.webp',
+// //         id:        'gis-02',
+// //         universe:  'Ghost in the Shell',
+// //         tagClass:  'ma-tag--gis',
+// //         hookClass: 'ma-hook--gis',
+// //         title:     'Motoko Kusanagi',
+// //         subtitle:  'Major — Section 9',
+// //         reverse:   true,
+// //         image:     '/img/GIS2.webp',
+// //         hook:      "Elle plonge dans la ville depuis un toit, nue dans la pluie cybernétique, invisible une fraction de seconde — puis disparaît. Quelque part dans le réseau, son ghost continue de chercher ce qu'elle est vraiment.",
 // //         specs: [
 // //             { label: 'Arc',        value: 'Identité & Conscience augmentée' },
 // //             { label: 'Tomes',      value: 'Vol. 1' },
 // //             { label: 'Personnage', value: 'Major Motoko Kusanagi' },
 // //             { label: 'Thème',      value: 'Humanité, âme, cyborg' },
 // //             { label: 'Technique',  value: 'Encre + lavis, semi-réaliste' },
-// //             { label: 'Adaptation', value: 'Film Mamoru Oshii 1995' },
+// //             { label: 'Format',     value: "Couleurs, annotations d'auteur" },
 // //         ],
 // //     },
 // // ];
 
 // // export default function MangaArchive() {
-// //     const sectionRef = useRef(null);
-// //     const cardRefs   = useRef([]);
-// //     const sepRefs    = useRef([]);
-
-// //     useEffect(() => {
-// //         const timer = setTimeout(() => {
-// //             ScrollTrigger.refresh();
-
-// //             const ctx = gsap.context(() => {
-
-// //                 cardRefs.current.forEach((card, i) => {
-// //                     if (!card) return;
-// //                     const isReverse = entries[i].reverse;
-// //                     const imgSide   = card.querySelector('[data-img]');
-// //                     const textSide  = card.querySelector('[data-text]');
-// //                     const rows      = card.querySelectorAll('[data-row]');
-
-// //                     const tl = gsap.timeline({
-// //                         scrollTrigger: {
-// //                             trigger: card,
-// //                             start:   'top 90%',
-// //                             once:    true,
-// //                         },
-// //                     });
-
-// //                     tl.fromTo(imgSide,
-// //                         { opacity: 0, x: isReverse ? 60 : -60 },
-// //                         { opacity: 1, x: 0, duration: 0.85, ease: 'power3.out' },
-// //                         0
-// //                     );
-
-// //                     tl.fromTo(textSide,
-// //                         { opacity: 0, x: isReverse ? -50 : 50 },
-// //                         { opacity: 1, x: 0, duration: 0.85, ease: 'power3.out' },
-// //                         0.2
-// //                     );
-
-// //                     if (rows.length) {
-// //                         tl.fromTo(rows,
-// //                             { opacity: 0, y: 12 },
-// //                             { opacity: 1, y: 0, duration: 0.3, stagger: 0.07, ease: 'power2.out' },
-// //                             0.5
-// //                         );
-// //                     }
-// //                 });
-
-// //                 sepRefs.current.forEach(sep => {
-// //                     if (!sep) return;
-// //                     gsap.fromTo(sep,
-// //                         { opacity: 0 },
-// //                         {
-// //                             opacity: 1,
-// //                             duration: 0.6,
-// //                             scrollTrigger: { trigger: sep, start: 'top 92%', once: true },
-// //                         }
-// //                     );
-// //                 });
-
-// //             }, sectionRef);
-
-// //             return () => ctx.revert();
-// //         }, 800);
-
-// //         return () => clearTimeout(timer);
-// //     }, []);
-
 // //     return (
-// //         <section ref={sectionRef} className="ma-section">
+// //         <section className="ma-section">
 
 // //             <div className="ma-center-line" />
 
 // //             {/* ── Header ── */}
 // //             <header className="ma-header">
-// //                 <span className="ma-eyebrow">Exposition Fictive · 2025</span>
-// //                 <h2>Les Œuvres<br />de l'Exposition</h2>
+// //                 <span className="ma-eyebrow">Grand Palais Éphémère · Paris · 2025</span>
+// //                 <h2>Les Œuvres<br />Présentées</h2>
 // //                 <span className="ma-header-rule" />
 // //             </header>
 
@@ -548,34 +627,36 @@
 // //             {entries.map((entry, i) => (
 // //                 <React.Fragment key={entry.id}>
 
-// //                     <article
-// //                         ref={el => cardRefs.current[i] = el}
-// //                         className="ma-card"
-// //                     >
+// //                     <article className="ma-card">
+
 // //                         {/* Image */}
-// //                         <div data-img="" className="ma-img">
+// //                         <div className="ma-img">
 // //                             <img src={entry.image} alt={entry.title} loading="lazy" />
 // //                             <div className={`ma-img-overlay ma-img-overlay--${entry.reverse ? 'right' : 'left'}`} />
 // //                             <div className="ma-scan" />
+// //                             <span className="ma-img-index">
+// //                                 Salle {String(i + 1).padStart(2, '0')} · Niveau 1
+// //                             </span>
 // //                         </div>
 
 // //                         {/* Texte */}
-// //                         <div
-// //                             data-text=""
-// //                             className={`ma-text${entry.reverse ? ' ma-text--reverse' : ''}`}
-// //                         >
+// //                         <div className={`ma-text${entry.reverse ? ' ma-text--reverse' : ''}`}>
+
 // //                             <div className={`ma-tag ${entry.tagClass}`}>
 // //                                 <span className="ma-tag-line" />
 // //                                 {entry.universe}
 // //                             </div>
 
 // //                             <h3 className="ma-title">{entry.title}</h3>
-// //                             <p  className="ma-subtitle">{entry.subtitle}</p>
-// //                             <div className="ma-divider" />
+// //                             <p className="ma-subtitle">{entry.subtitle}</p>
+
+// //                             <div className={`ma-hook ${entry.hookClass}`}>
+// //                                 <p className="ma-hook-text">{entry.hook}</p>
+// //                             </div>
 
 // //                             <div className="ma-specs">
 // //                                 {entry.specs.map((spec, j) => (
-// //                                     <div data-row="" className="ma-spec-row" key={j}>
+// //                                     <div className="ma-spec-row" key={j}>
 // //                                         <span className="ma-spec-label">{spec.label}</span>
 // //                                         <span className="ma-spec-value">{spec.value}</span>
 // //                                     </div>
@@ -589,10 +670,7 @@
 // //                     </article>
 
 // //                     {i < entries.length - 1 && (
-// //                         <div
-// //                             ref={el => sepRefs.current[i] = el}
-// //                             className="ma-separator"
-// //                         >
+// //                         <div className="ma-separator">
 // //                             <div className="ma-sep-line" />
 // //                             <div className="ma-sep-dot" />
 // //                             <div className="ma-sep-line" />
@@ -604,13 +682,12 @@
 
 // //             {/* ── Footer ── */}
 // //             <footer className="ma-footer">
-// //                 <p>Fin des archives — {entries.length} œuvres référencées</p>
+// //                 <p>Catalogue de l'exposition — {entries.length} œuvres au programme</p>
 // //             </footer>
 
 // //         </section>
 // //     );
 // // }
-
 
 
 // import React, { useEffect, useRef } from 'react';
@@ -620,58 +697,37 @@
 
 // gsap.registerPlugin(ScrollTrigger);
 
-// // ─── Contenu éditorial ──────────────────────────────────────────
 // const entries = [
+//     // ── AKIRA ──────────────────────────────────────────────────
 //     {
-//         id:       'akira-01',
-//         universe: 'Akira',
-//         tagClass: 'ma-tag--akira',
-//         hookClass:'ma-hook--akira',
-//         title:    'Akira',
-//         subtitle: 'Katsuhiro Otomo — 1982',
-//         reverse:  false,
-//         image:    '/img/Akira1.jpg',
-//         // Niveau 2 — accroche immersive
-//         hook: "Neo-Tokyo brûle encore. Sous les néons effondrés et le béton fracturé, quelque chose s'éveille — quelque chose que personne ne peut plus arrêter. Vous êtes là, dans la rue, le sol tremble, et Tetsuo crie.",
-//         // Niveau 3 — fiche technique
+//         id:        'akira-01',
+//         universe:  'Akira',
+//         tagClass:  'ma-tag--akira',
+//         hookClass: 'ma-hook--akira',
+//         title:     'Akira',
+//         subtitle:  'Katsuhiro Otomo — 1982',
+//         reverse:   false,
+//         image:     '/img/Akira1.jpg',
+//         hook:      "Neo-Tokyo brûle encore. Sous les néons effondrés et le béton fracturé, quelque chose s'éveille — quelque chose que personne ne peut plus arrêter. Vous êtes là, dans la rue, le sol tremble, et Tetsuo crie.",
 //         specs: [
-//             { label: 'Auteur',   value: 'Katsuhiro Otomo' },
-//             { label: 'Éditeur',  value: 'Young Magazine / Kōdansha' },
-//             { label: 'Parution', value: '1982 → 1990' },
-//             { label: 'Volumes',  value: '6 tomes — 2 182 pages' },
-//             { label: 'Genre',    value: 'Cyberpunk / Post-apocalyptique' },
+//             { label: 'Auteur',     value: 'Katsuhiro Otomo' },
+//             { label: 'Éditeur',    value: 'Young Magazine / Kōdansha' },
+//             { label: 'Parution',   value: '1982 → 1990' },
+//             { label: 'Volumes',    value: '6 tomes — 2 182 pages' },
+//             { label: 'Genre',      value: 'Cyberpunk / Post-apocalyptique' },
 //             { label: 'Adaptation', value: 'Film animé, Otomo, 1988' },
 //         ],
 //     },
 //     {
-//         id:       'gis-01',
-//         universe: 'Ghost in the Shell',
-//         tagClass: 'ma-tag--gis',
-//         hookClass:'ma-hook--gis',
-//         title:    'Ghost in the Shell',
-//         subtitle: 'Masamune Shirow — 1989',
-//         reverse:  true,
-//         image:    '/img/GIS1.jpg',
-//         hook: "Son corps est une machine. Ses souvenirs, peut-être des mensonges. Pourtant quelque chose résiste — quelque chose qui refuse d'être réduit à du code. La Major vous regarde. Est-ce qu'elle voit une âme, ou un miroir ?",
-//         specs: [
-//             { label: 'Auteur',   value: 'Masamune Shirow' },
-//             { label: 'Éditeur',  value: 'Kōdansha / Young Magazine' },
-//             { label: 'Parution', value: '1989 → 1997' },
-//             { label: 'Volumes',  value: '3 tomes + Man-Machine Interface' },
-//             { label: 'Genre',    value: 'Cyberpunk / Philosophique' },
-//             { label: 'Adaptation', value: 'Film, Mamoru Oshii, 1995' },
-//         ],
-//     },
-//     {
-//         id:       'akira-02',
-//         universe: 'Akira',
-//         tagClass: 'ma-tag--akira',
-//         hookClass:'ma-hook--akira',
-//         title:    'Tetsuo',
-//         subtitle: "L'Éveil — Arc II",
-//         reverse:  false,
-//         image:    '/img/Akira2.jpg',
-//         hook: "La douleur est devenue puissance. La puissance, folie. Il n'y a plus de retour possible — chaque cellule de son corps hurle et se transforme. Vous ressentez la chaleur. Vous ne pouvez pas détourner les yeux.",
+//         id:        'akira-02',
+//         universe:  'Akira',
+//         tagClass:  'ma-tag--akira',
+//         hookClass: 'ma-hook--akira',
+//         title:     'Tetsuo',
+//         subtitle:  "L'Éveil — Arc II",
+//         reverse:   true,
+//         image:     '/img/Akira2.jpg',
+//         hook:      "La douleur est devenue puissance. La puissance, folie. Il n'y a plus de retour possible — chaque cellule de son corps hurle et se transforme. Vous ressentez la chaleur. Vous ne pouvez pas détourner les yeux.",
 //         specs: [
 //             { label: 'Arc',        value: 'Mutation & Puissance' },
 //             { label: 'Tomes',      value: 'Vol. 2 — 3' },
@@ -681,118 +737,155 @@
 //             { label: 'Format',     value: 'Noir & blanc, grand format' },
 //         ],
 //     },
+
+//     // ── GHOST IN THE SHELL ─────────────────────────────────────
 //     {
-//         id:       'gis-02',
-//         universe: 'Ghost in the Shell',
-//         tagClass: 'ma-tag--gis',
-//         hookClass:'ma-hook--gis',
-//         title:    'Motoko Kusanagi',
-//         subtitle: 'Major — Section 9',
-//         reverse:  true,
-//         image:    '/img/GIS2.webp',
-//         hook: "Elle plonge dans la ville depuis un toit, nue dans la pluie cybernétique, invisible une fraction de seconde — puis disparaît. Quelque part dans le réseau, son ghost continue de chercher ce qu'elle est vraiment.",
+//         id:        'gis-01',
+//         universe:  'Ghost in the Shell',
+//         tagClass:  'ma-tag--gis',
+//         hookClass: 'ma-hook--gis',
+//         title:     'Ghost in the Shell',
+//         subtitle:  'Masamune Shirow — 1989',
+//         reverse:   false,
+//         image:     '/img/GIS1.jpg',
+//         hook:      "Son corps est une machine. Ses souvenirs, peut-être des mensonges. Pourtant quelque chose résiste — quelque chose qui refuse d'être réduit à du code. La Major vous regarde. Est-ce qu'elle voit une âme, ou un miroir ?",
+//         specs: [
+//             { label: 'Auteur',     value: 'Masamune Shirow' },
+//             { label: 'Éditeur',    value: 'Kōdansha / Young Magazine' },
+//             { label: 'Parution',   value: '1989 → 1997' },
+//             { label: 'Volumes',    value: '3 tomes + Man-Machine Interface' },
+//             { label: 'Genre',      value: 'Cyberpunk / Philosophique' },
+//             { label: 'Adaptation', value: 'Film, Mamoru Oshii, 1995' },
+//         ],
+//     },
+//     {
+//         id:        'gis-02',
+//         universe:  'Ghost in the Shell',
+//         tagClass:  'ma-tag--gis',
+//         hookClass: 'ma-hook--gis',
+//         title:     'Motoko Kusanagi',
+//         subtitle:  'Major — Section 9',
+//         reverse:   true,
+//         image:     '/img/GIS2.webp',
+//         hook:      "Elle plonge dans la ville depuis un toit, nue dans la pluie cybernétique, invisible une fraction de seconde — puis disparaît. Quelque part dans le réseau, son ghost continue de chercher ce qu'elle est vraiment.",
 //         specs: [
 //             { label: 'Arc',        value: 'Identité & Conscience augmentée' },
 //             { label: 'Tomes',      value: 'Vol. 1' },
 //             { label: 'Personnage', value: 'Major Motoko Kusanagi' },
 //             { label: 'Thème',      value: 'Humanité, âme, cyborg' },
 //             { label: 'Technique',  value: 'Encre + lavis, semi-réaliste' },
-//             { label: 'Format',     value: 'Couleurs, annotations d\'auteur' },
+//             { label: 'Format',     value: "Couleurs, annotations d'auteur" },
 //         ],
 //     },
 // ];
 
-// // ─── Composant ──────────────────────────────────────────────────
 // export default function MangaArchive() {
 //     const sectionRef = useRef(null);
-//     const cardRefs   = useRef([]);
-//     const sepRefs    = useRef([]);
 
 //     useEffect(() => {
+//         // On attend que le DOM soit prêt et que Hero ait fini
 //         const timer = setTimeout(() => {
+//             if (!sectionRef.current) return;
+
 //             ScrollTrigger.refresh();
 
-//             const ctx = gsap.context(() => {
+//             const cards = sectionRef.current.querySelectorAll('.ma-card');
 
-//                 cardRefs.current.forEach((card, i) => {
-//                     if (!card) return;
-//                     const isReverse = entries[i].reverse;
-//                     const imgSide   = card.querySelector('[data-img]');
-//                     const tag       = card.querySelector('[data-tag]');
-//                     const title     = card.querySelector('[data-title]');
-//                     const hook      = card.querySelector('[data-hook]');
-//                     const specs     = card.querySelector('[data-specs]');
-//                     const rows      = card.querySelectorAll('[data-row]');
+//             cards.forEach((card) => {
+//                 const isReverse = card.querySelector('.ma-text--reverse') !== null;
+//                 const imgSide   = card.querySelector('.ma-img');
+//                 const tag       = card.querySelector('.ma-tag');
+//                 const title     = card.querySelector('.ma-title');
+//                 const hook      = card.querySelector('.ma-hook');
+//                 const rows      = card.querySelectorAll('.ma-spec-row');
 
-//                     const tl = gsap.timeline({
-//                         scrollTrigger: {
-//                             trigger: card,
-//                             start:   'top 88%',
-//                             once:    true,
-//                         },
-//                     });
+//                 // ── Règle d'or : fromTo avec état final explicite ──
+//                 // GSAP part d'une valeur décalée et revient à la valeur CSS naturelle.
+//                 // Le contenu est DÉJÀ visible (pas de gsap.set opacity:0 avant).
 
-//                     // Image glisse depuis son côté
-//                     tl.fromTo(imgSide,
-//                         { opacity: 0, x: isReverse ? 70 : -70 },
-//                         { opacity: 1, x: 0, duration: 1, ease: 'power3.out' },
-//                         0
+//                 const tl = gsap.timeline({
+//                     scrollTrigger: {
+//                         trigger: card,
+//                         start:   'top 85%',
+//                         once:    true,
+//                     },
+//                     defaults: { ease: 'power3.out' },
+//                 });
+
+//                 // Image : glisse depuis le côté extérieur
+//                 tl.fromTo(imgSide,
+//                     { x: isReverse ? 60 : -60, opacity: 0 },
+//                     { x: 0, opacity: 1, duration: 1 },
+//                     0
+//                 );
+
+//                 // Tag : monte doucement
+//                 tl.fromTo(tag,
+//                     { y: 20, opacity: 0 },
+//                     { y: 0, opacity: 1, duration: 0.5 },
+//                     0.3
+//                 );
+
+//                 // Titre : monte plus fort
+//                 tl.fromTo(title,
+//                     { y: 36, opacity: 0 },
+//                     { y: 0, opacity: 1, duration: 0.7 },
+//                     0.45
+//                 );
+
+//                 // Accroche : monte en douceur, légèrement floutée
+//                 tl.fromTo(hook,
+//                     { y: 24, opacity: 0, filter: 'blur(4px)' },
+//                     { y: 0, opacity: 1, filter: 'blur(0px)', duration: 0.9 },
+//                     0.65
+//                 );
+
+//                 // Specs : stagger ligne par ligne
+//                 if (rows.length) {
+//                     tl.fromTo(rows,
+//                         { x: isReverse ? -16 : 16, opacity: 0 },
+//                         { x: 0, opacity: 1, duration: 0.35, stagger: 0.08 },
+//                         0.9
 //                     );
+//                 }
+//             });
 
-//                     // Tag
-//                     tl.fromTo(tag,
-//                         { opacity: 0, y: 16 },
-//                         { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
-//                         0.25
-//                     );
-
-//                     // Titre
-//                     tl.fromTo(title,
-//                         { opacity: 0, y: 28 },
-//                         { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
-//                         0.35
-//                     );
-
-//                     // Accroche — légère montée
-//                     tl.fromTo(hook,
-//                         { opacity: 0, y: 20 },
-//                         { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' },
-//                         0.55
-//                     );
-
-//                     // Fiche technique — lignes en stagger
-//                     tl.fromTo(specs,
-//                         { opacity: 0 },
-//                         { opacity: 1, duration: 0.01 },
-//                         0.85
-//                     );
-//                     if (rows.length) {
-//                         tl.fromTo(rows,
-//                             { opacity: 0, x: isReverse ? -14 : 14 },
-//                             { opacity: 1, x: 0, duration: 0.3, stagger: 0.07, ease: 'power2.out' },
-//                             0.85
-//                         );
+//             // Séparateurs
+//             const seps = sectionRef.current.querySelectorAll('.ma-separator');
+//             seps.forEach(sep => {
+//                 gsap.fromTo(sep,
+//                     { scaleX: 0, opacity: 0 },
+//                     {
+//                         scaleX: 1, opacity: 1, duration: 0.8, ease: 'power2.out',
+//                         scrollTrigger: { trigger: sep, start: 'top 90%', once: true },
 //                     }
-//                 });
+//                 );
+//             });
 
-//                 // Séparateurs
-//                 sepRefs.current.forEach(sep => {
-//                     if (!sep) return;
-//                     gsap.fromTo(sep,
-//                         { opacity: 0 },
-//                         {
-//                             opacity: 1, duration: 0.6,
-//                             scrollTrigger: { trigger: sep, start: 'top 92%', once: true },
-//                         }
-//                     );
-//                 });
+//             // Header
+//             const header = sectionRef.current.querySelector('.ma-header');
+//             if (header) {
+//                 gsap.fromTo(header,
+//                     { y: 40, opacity: 0 },
+//                     {
+//                         y: 0, opacity: 1, duration: 1, ease: 'power3.out',
+//                         scrollTrigger: { trigger: header, start: 'top 88%', once: true },
+//                     }
+//                 );
+//             }
 
-//             }, sectionRef);
+//         }, 600);
 
-//             return () => ctx.revert();
-//         }, 800);
-
-//         return () => clearTimeout(timer);
+//         return () => {
+//             clearTimeout(timer);
+//             // Nettoyage propre — ne touche pas aux ST du Hero
+//             if (sectionRef.current) {
+//                 const triggers = ScrollTrigger.getAll().filter(st =>
+//                     sectionRef.current.contains(st.trigger)
+//                 );
+//                 triggers.forEach(st => st.kill());
+//             }
+//         };
 //     }, []);
 
 //     return (
@@ -802,54 +895,45 @@
 
 //             {/* ── Header ── */}
 //             <header className="ma-header">
-//                 <span className="ma-eyebrow">Exposition Fictive · 2025</span>
-//                 <h2>Les Œuvres<br />de l'Exposition</h2>
+//                 <span className="ma-eyebrow">Grand Palais Éphémère · Paris · 2025</span>
+//                 <h2>Les Œuvres<br />Présentées</h2>
 //                 <span className="ma-header-rule" />
 //             </header>
 
-//             {/* ── Cartes alternées ── */}
+//             {/* ── Cartes ── */}
 //             {entries.map((entry, i) => (
 //                 <React.Fragment key={entry.id}>
 
-//                     <article
-//                         ref={el => cardRefs.current[i] = el}
-//                         className="ma-card"
-//                     >
-//                         {/* ── IMAGE (Niveau 1 visuel) ── */}
-//                         <div data-img="" className="ma-img">
-//                             <img
-//                                 src={entry.image}
-//                                 alt={entry.title}
-//                                 loading="lazy"
-//                             />
+//                     <article className="ma-card">
+
+//                         {/* Image */}
+//                         <div className="ma-img">
+//                             <img src={entry.image} alt={entry.title} loading="lazy" />
 //                             <div className={`ma-img-overlay ma-img-overlay--${entry.reverse ? 'right' : 'left'}`} />
 //                             <div className="ma-scan" />
 //                             <span className="ma-img-index">
-//                                 Archive {String(i + 1).padStart(2, '0')} / {String(entries.length).padStart(2, '0')}
+//                                 Salle {String(i + 1).padStart(2, '0')} · Niveau 1
 //                             </span>
 //                         </div>
 
-//                         {/* ── TEXTE ── */}
+//                         {/* Texte */}
 //                         <div className={`ma-text${entry.reverse ? ' ma-text--reverse' : ''}`}>
 
-//                             {/* Niveau 1 — Identité */}
-//                             <div data-tag="" className={`ma-tag ${entry.tagClass}`}>
+//                             <div className={`ma-tag ${entry.tagClass}`}>
 //                                 <span className="ma-tag-line" />
 //                                 {entry.universe}
 //                             </div>
 
-//                             <h3 data-title="" className="ma-title">{entry.title}</h3>
+//                             <h3 className="ma-title">{entry.title}</h3>
 //                             <p className="ma-subtitle">{entry.subtitle}</p>
 
-//                             {/* Niveau 2 — Accroche immersive */}
-//                             <div data-hook="" className={`ma-hook ${entry.hookClass}`}>
+//                             <div className={`ma-hook ${entry.hookClass}`}>
 //                                 <p className="ma-hook-text">{entry.hook}</p>
 //                             </div>
 
-//                             {/* Niveau 3 — Fiche technique */}
-//                             <div data-specs="" className="ma-specs">
+//                             <div className="ma-specs">
 //                                 {entry.specs.map((spec, j) => (
-//                                     <div data-row="" className="ma-spec-row" key={j}>
+//                                     <div className="ma-spec-row" key={j}>
 //                                         <span className="ma-spec-label">{spec.label}</span>
 //                                         <span className="ma-spec-value">{spec.value}</span>
 //                                     </div>
@@ -863,10 +947,7 @@
 //                     </article>
 
 //                     {i < entries.length - 1 && (
-//                         <div
-//                             ref={el => sepRefs.current[i] = el}
-//                             className="ma-separator"
-//                         >
+//                         <div className="ma-separator">
 //                             <div className="ma-sep-line" />
 //                             <div className="ma-sep-dot" />
 //                             <div className="ma-sep-line" />
@@ -878,7 +959,7 @@
 
 //             {/* ── Footer ── */}
 //             <footer className="ma-footer">
-//                 <p>Fin des archives — {entries.length} œuvres référencées</p>
+//                 <p>Catalogue de l'exposition — {entries.length} œuvres au programme</p>
 //             </footer>
 
 //         </section>
@@ -888,63 +969,43 @@
 
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import '../styles/mangaArchive.css';
 
-gsap.registerPlugin(ScrollTrigger);
+// ── PAS de ScrollTrigger — on utilise IntersectionObserver ──────
+// IntersectionObserver est natif, indépendant du scroll pinné du Hero,
+// et se déclenche dès que l'élément entre dans le viewport,
+// peu importe ce que font les autres composants.
 
-// ─── Contenu éditorial ──────────────────────────────────────────
 const entries = [
     {
-        id:       'akira-01',
-        universe: 'Akira',
-        tagClass: 'ma-tag--akira',
-        hookClass:'ma-hook--akira',
-        title:    'Akira',
-        subtitle: 'Katsuhiro Otomo — 1982',
-        reverse:  false,
-        image:    '/img/Akira1.jpg',
-        // Niveau 2 — accroche immersive
-        hook: "Neo-Tokyo brûle encore. Sous les néons effondrés et le béton fracturé, quelque chose s'éveille — quelque chose que personne ne peut plus arrêter. Vous êtes là, dans la rue, le sol tremble, et Tetsuo crie.",
-        // Niveau 3 — fiche technique
+        id:        'akira-01',
+        universe:  'Akira',
+        tagClass:  'ma-tag--akira',
+        hookClass: 'ma-hook--akira',
+        title:     'Akira',
+        subtitle:  'Katsuhiro Otomo — 1982',
+        reverse:   false,
+        image:     '/img/Akira1.jpg',
+        hook:      "Neo-Tokyo brûle encore. Sous les néons effondrés et le béton fracturé, quelque chose s'éveille — quelque chose que personne ne peut plus arrêter. Vous êtes là, dans la rue, le sol tremble, et Tetsuo crie.",
         specs: [
-            { label: 'Auteur',   value: 'Katsuhiro Otomo' },
-            { label: 'Éditeur',  value: 'Young Magazine / Kōdansha' },
-            { label: 'Parution', value: '1982 → 1990' },
-            { label: 'Volumes',  value: '6 tomes — 2 182 pages' },
-            { label: 'Genre',    value: 'Cyberpunk / Post-apocalyptique' },
+            { label: 'Auteur',     value: 'Katsuhiro Otomo' },
+            { label: 'Éditeur',    value: 'Young Magazine / Kōdansha' },
+            { label: 'Parution',   value: '1982 → 1990' },
+            { label: 'Volumes',    value: '6 tomes — 2 182 pages' },
+            { label: 'Genre',      value: 'Cyberpunk / Post-apocalyptique' },
             { label: 'Adaptation', value: 'Film animé, Otomo, 1988' },
         ],
     },
     {
-        id:       'gis-01',
-        universe: 'Ghost in the Shell',
-        tagClass: 'ma-tag--gis',
-        hookClass:'ma-hook--gis',
-        title:    'Ghost in the Shell',
-        subtitle: 'Masamune Shirow — 1989',
-        reverse:  true,
-        image:    '/img/GIS1.jpg',
-        hook: "Son corps est une machine. Ses souvenirs, peut-être des mensonges. Pourtant quelque chose résiste — quelque chose qui refuse d'être réduit à du code. La Major vous regarde. Est-ce qu'elle voit une âme, ou un miroir ?",
-        specs: [
-            { label: 'Auteur',   value: 'Masamune Shirow' },
-            { label: 'Éditeur',  value: 'Kōdansha / Young Magazine' },
-            { label: 'Parution', value: '1989 → 1997' },
-            { label: 'Volumes',  value: '3 tomes + Man-Machine Interface' },
-            { label: 'Genre',    value: 'Cyberpunk / Philosophique' },
-            { label: 'Adaptation', value: 'Film, Mamoru Oshii, 1995' },
-        ],
-    },
-    {
-        id:       'akira-02',
-        universe: 'Akira',
-        tagClass: 'ma-tag--akira',
-        hookClass:'ma-hook--akira',
-        title:    'Tetsuo',
-        subtitle: "L'Éveil — Arc II",
-        reverse:  false,
-        image:    '/img/Akira2.jpg',
-        hook: "La douleur est devenue puissance. La puissance, folie. Il n'y a plus de retour possible — chaque cellule de son corps hurle et se transforme. Vous ressentez la chaleur. Vous ne pouvez pas détourner les yeux.",
+        id:        'akira-02',
+        universe:  'Akira',
+        tagClass:  'ma-tag--akira',
+        hookClass: 'ma-hook--akira',
+        title:     'Tetsuo',
+        subtitle:  "L'Éveil — Arc II",
+        reverse:   true,
+        image:     '/img/Akira2.jpg',
+        hook:      "La douleur est devenue puissance. La puissance, folie. Il n'y a plus de retour possible — chaque cellule de son corps hurle et se transforme. Vous ressentez la chaleur. Vous ne pouvez pas détourner les yeux.",
         specs: [
             { label: 'Arc',        value: 'Mutation & Puissance' },
             { label: 'Tomes',      value: 'Vol. 2 — 3' },
@@ -955,117 +1016,142 @@ const entries = [
         ],
     },
     {
-        id:       'gis-02',
-        universe: 'Ghost in the Shell',
-        tagClass: 'ma-tag--gis',
-        hookClass:'ma-hook--gis',
-        title:    'Motoko Kusanagi',
-        subtitle: 'Major — Section 9',
-        reverse:  true,
-        image:    '/img/GIS2.webp',
-        hook: "Elle plonge dans la ville depuis un toit, nue dans la pluie cybernétique, invisible une fraction de seconde — puis disparaît. Quelque part dans le réseau, son ghost continue de chercher ce qu'elle est vraiment.",
+        id:        'gis-01',
+        universe:  'Ghost in the Shell',
+        tagClass:  'ma-tag--gis',
+        hookClass: 'ma-hook--gis',
+        title:     'Ghost in the Shell',
+        subtitle:  'Masamune Shirow — 1989',
+        reverse:   false,
+        image:     '/img/GIS1.jpg',
+        hook:      "Son corps est une machine. Ses souvenirs, peut-être des mensonges. Pourtant quelque chose résiste — quelque chose qui refuse d'être réduit à du code. La Major vous regarde. Est-ce qu'elle voit une âme, ou un miroir ?",
+        specs: [
+            { label: 'Auteur',     value: 'Masamune Shirow' },
+            { label: 'Éditeur',    value: 'Kōdansha / Young Magazine' },
+            { label: 'Parution',   value: '1989 → 1997' },
+            { label: 'Volumes',    value: '3 tomes + Man-Machine Interface' },
+            { label: 'Genre',      value: 'Cyberpunk / Philosophique' },
+            { label: 'Adaptation', value: 'Film, Mamoru Oshii, 1995' },
+        ],
+    },
+    {
+        id:        'gis-02',
+        universe:  'Ghost in the Shell',
+        tagClass:  'ma-tag--gis',
+        hookClass: 'ma-hook--gis',
+        title:     'Motoko Kusanagi',
+        subtitle:  'Major — Section 9',
+        reverse:   true,
+        image:     '/img/GIS2.webp',
+        hook:      "Elle plonge dans la ville depuis un toit, nue dans la pluie cybernétique, invisible une fraction de seconde — puis disparaît. Quelque part dans le réseau, son ghost continue de chercher ce qu'elle est vraiment.",
         specs: [
             { label: 'Arc',        value: 'Identité & Conscience augmentée' },
             { label: 'Tomes',      value: 'Vol. 1' },
             { label: 'Personnage', value: 'Major Motoko Kusanagi' },
             { label: 'Thème',      value: 'Humanité, âme, cyborg' },
             { label: 'Technique',  value: 'Encre + lavis, semi-réaliste' },
-            { label: 'Format',     value: 'Couleurs, annotations d\'auteur' },
+            { label: 'Format',     value: "Couleurs, annotations d'auteur" },
         ],
     },
 ];
 
-// ─── Composant ──────────────────────────────────────────────────
+// ── Anime une carte dès qu'elle entre dans le viewport ──────────
+function animateCard(card) {
+    const isReverse = card.querySelector('.ma-text--reverse') !== null;
+    const imgSide   = card.querySelector('.ma-img');
+    const tag       = card.querySelector('.ma-tag');
+    const title     = card.querySelector('.ma-title');
+    const hook      = card.querySelector('.ma-hook');
+    const rows      = card.querySelectorAll('.ma-spec-row');
+
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+    tl.fromTo(imgSide,
+        { x: isReverse ? 60 : -60, opacity: 0 },
+        { x: 0, opacity: 1, duration: 1 },
+        0
+    );
+    tl.fromTo(tag,
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5 },
+        0.3
+    );
+    tl.fromTo(title,
+        { y: 36, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.7 },
+        0.45
+    );
+    tl.fromTo(hook,
+        { y: 24, opacity: 0, filter: 'blur(4px)' },
+        { y: 0, opacity: 1, filter: 'blur(0px)', duration: 0.9 },
+        0.65
+    );
+    if (rows.length) {
+        tl.fromTo(rows,
+            { x: isReverse ? -16 : 16, opacity: 0 },
+            { x: 0, opacity: 1, duration: 0.35, stagger: 0.08 },
+            0.9
+        );
+    }
+}
+
 export default function MangaArchive() {
     const sectionRef = useRef(null);
-    const cardRefs   = useRef([]);
-    const sepRefs    = useRef([]);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            ScrollTrigger.refresh();
+        const section = sectionRef.current;
+        if (!section) return;
 
-            const ctx = gsap.context(() => {
+        const cards = section.querySelectorAll('.ma-card');
+        const seps  = section.querySelectorAll('.ma-separator');
+        const header = section.querySelector('.ma-header');
 
-                cardRefs.current.forEach((card, i) => {
-                    if (!card) return;
-                    const isReverse = entries[i].reverse;
-                    const imgSide   = card.querySelector('[data-img]');
-                    const tag       = card.querySelector('[data-tag]');
-                    const title     = card.querySelector('[data-title]');
-                    const hook      = card.querySelector('[data-hook]');
-                    const specs     = card.querySelector('[data-specs]');
-                    const rows      = card.querySelectorAll('[data-row]');
+        // ── IntersectionObserver : se déclenche dès que l'élément
+        // est visible à 15% dans le viewport, sans se soucier du
+        // scroll pinné du Hero. ──────────────────────────────────
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) return;
 
-                    const tl = gsap.timeline({
-                        scrollTrigger: {
-                            trigger: card,
-                            start:   'top 88%',
-                            once:    true,
-                        },
-                    });
+                    const el = entry.target;
 
-                    // Image glisse depuis son côté
-                    tl.fromTo(imgSide,
-                        { opacity: 0, x: isReverse ? 70 : -70 },
-                        { opacity: 1, x: 0, duration: 1, ease: 'power3.out' },
-                        0
-                    );
+                    if (el.classList.contains('ma-card')) {
+                        animateCard(el);
+                    }
 
-                    // Tag
-                    tl.fromTo(tag,
-                        { opacity: 0, y: 16 },
-                        { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
-                        0.25
-                    );
-
-                    // Titre
-                    tl.fromTo(title,
-                        { opacity: 0, y: 28 },
-                        { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
-                        0.35
-                    );
-
-                    // Accroche — légère montée
-                    tl.fromTo(hook,
-                        { opacity: 0, y: 20 },
-                        { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' },
-                        0.55
-                    );
-
-                    // Fiche technique — lignes en stagger
-                    tl.fromTo(specs,
-                        { opacity: 0 },
-                        { opacity: 1, duration: 0.01 },
-                        0.85
-                    );
-                    if (rows.length) {
-                        tl.fromTo(rows,
-                            { opacity: 0, x: isReverse ? -14 : 14 },
-                            { opacity: 1, x: 0, duration: 0.3, stagger: 0.07, ease: 'power2.out' },
-                            0.85
+                    if (el.classList.contains('ma-separator')) {
+                        gsap.fromTo(el,
+                            { scaleX: 0, opacity: 0 },
+                            { scaleX: 1, opacity: 1, duration: 0.8, ease: 'power2.out' }
                         );
                     }
+
+                    if (el.classList.contains('ma-header')) {
+                        gsap.fromTo(el,
+                            { y: 40, opacity: 0 },
+                            { y: 0, opacity: 1, duration: 1, ease: 'power3.out' }
+                        );
+                    }
+
+                    // Dès qu'animé, on arrête d'observer cet élément
+                    observer.unobserve(el);
                 });
+            },
+            {
+                // 15% de l'élément visible suffit à déclencher
+                threshold: 0.15,
+                // Pas de rootMargin négatif — on déclenche tôt
+                rootMargin: '0px 0px -5% 0px',
+            }
+        );
 
-                // Séparateurs
-                sepRefs.current.forEach(sep => {
-                    if (!sep) return;
-                    gsap.fromTo(sep,
-                        { opacity: 0 },
-                        {
-                            opacity: 1, duration: 0.6,
-                            scrollTrigger: { trigger: sep, start: 'top 92%', once: true },
-                        }
-                    );
-                });
+        // On observe tous les éléments animables
+        if (header) observer.observe(header);
+        cards.forEach(card => observer.observe(card));
+        seps.forEach(sep => observer.observe(sep));
 
-            }, sectionRef);
-
-            return () => ctx.revert();
-        }, 800);
-
-        return () => clearTimeout(timer);
+        return () => observer.disconnect();
     }, []);
 
     return (
@@ -1080,49 +1166,40 @@ export default function MangaArchive() {
                 <span className="ma-header-rule" />
             </header>
 
-            {/* ── Cartes alternées ── */}
+            {/* ── Cartes ── */}
             {entries.map((entry, i) => (
                 <React.Fragment key={entry.id}>
 
-                    <article
-                        ref={el => cardRefs.current[i] = el}
-                        className="ma-card"
-                    >
-                        {/* ── IMAGE (Niveau 1 visuel) ── */}
-                        <div data-img="" className="ma-img">
-                            <img
-                                src={entry.image}
-                                alt={entry.title}
-                                loading="lazy"
-                            />
+                    <article className="ma-card">
+
+                        {/* Image */}
+                        <div className="ma-img">
+                            <img src={entry.image} alt={entry.title} loading="lazy" />
                             <div className={`ma-img-overlay ma-img-overlay--${entry.reverse ? 'right' : 'left'}`} />
                             <div className="ma-scan" />
                             <span className="ma-img-index">
-                                Archive {String(i + 1).padStart(2, '0')} / {String(entries.length).padStart(2, '0')}
+                                Salle {String(i + 1).padStart(2, '0')} · Niveau 1
                             </span>
                         </div>
 
-                        {/* ── TEXTE ── */}
+                        {/* Texte */}
                         <div className={`ma-text${entry.reverse ? ' ma-text--reverse' : ''}`}>
 
-                            {/* Niveau 1 — Identité */}
-                            <div data-tag="" className={`ma-tag ${entry.tagClass}`}>
+                            <div className={`ma-tag ${entry.tagClass}`}>
                                 <span className="ma-tag-line" />
                                 {entry.universe}
                             </div>
 
-                            <h3 data-title="" className="ma-title">{entry.title}</h3>
+                            <h3 className="ma-title">{entry.title}</h3>
                             <p className="ma-subtitle">{entry.subtitle}</p>
 
-                            {/* Niveau 2 — Accroche immersive */}
-                            <div data-hook="" className={`ma-hook ${entry.hookClass}`}>
+                            <div className={`ma-hook ${entry.hookClass}`}>
                                 <p className="ma-hook-text">{entry.hook}</p>
                             </div>
 
-                            {/* Niveau 3 — Fiche technique */}
-                            <div data-specs="" className="ma-specs">
+                            <div className="ma-specs">
                                 {entry.specs.map((spec, j) => (
-                                    <div data-row="" className="ma-spec-row" key={j}>
+                                    <div className="ma-spec-row" key={j}>
                                         <span className="ma-spec-label">{spec.label}</span>
                                         <span className="ma-spec-value">{spec.value}</span>
                                     </div>
@@ -1136,10 +1213,7 @@ export default function MangaArchive() {
                     </article>
 
                     {i < entries.length - 1 && (
-                        <div
-                            ref={el => sepRefs.current[i] = el}
-                            className="ma-separator"
-                        >
+                        <div className="ma-separator">
                             <div className="ma-sep-line" />
                             <div className="ma-sep-dot" />
                             <div className="ma-sep-line" />
