@@ -1,10 +1,10 @@
 /* ═══════════════════════════════════════════════════════════════
-   MANGA ARCHIVE — EXPOSITION IMMERSIVE
+   MANGA ARCHIVE — transparent sur Grainient rouge/bleu
 ═══════════════════════════════════════════════════════════════ */
 
 .ma-section {
     width: 100%;
-    background: #060606;
+    background: transparent;
     position: relative;
 }
 
@@ -18,8 +18,8 @@
     background: linear-gradient(
         to bottom,
         transparent,
-        rgba(186, 18, 27, 0.18) 8%,
-        rgba(186, 18, 27, 0.18) 92%,
+        rgba(255, 255, 255, 0.1) 8%,
+        rgba(255, 255, 255, 0.1) 92%,
         transparent
     );
     pointer-events: none;
@@ -36,30 +36,39 @@
 
 .ma-eyebrow {
     display: block;
-    font-family: 'Courier New', monospace;
-    font-size: clamp(0.5rem, 1vw, 0.65rem);
+    font-family: var(--ff-family-main);
+    font-size: clamp(0.7rem, 1.2vw, 0.85rem);
     letter-spacing: 10px;
     text-transform: uppercase;
-    color: rgba(186, 18, 27, 0.85);
-    margin-bottom: 14px;
+    color: #fff;
+    margin-bottom: 18px;
+    /* Halo blanc pour lire sur rouge/bleu */
+    text-shadow:
+        0 0 20px rgba(0, 0, 0, 0.9),
+        0 0 40px rgba(0, 0, 0, 0.7);
+    opacity: 0.75;
 }
 
 .ma-header h2 {
-    font-family: 'Courier New', monospace;
-    font-size: clamp(1.6rem, 4vw, 3rem);
+    font-family: var(--ff-family-main);
+    font-size: clamp(2.2rem, 5vw, 4rem);
     font-weight: 900;
     letter-spacing: 6px;
     text-transform: uppercase;
     color: #fff;
-    margin: 0 0 20px;
-    line-height: 1.1;
+    margin: 0 0 24px;
+    line-height: 1.05;
+    text-shadow:
+        0 2px 4px rgba(0, 0, 0, 1),
+        0 0 60px rgba(0, 0, 0, 0.9),
+        0 0 120px rgba(0, 0, 0, 0.6);
 }
 
 .ma-header-rule {
     display: block;
-    width: 50px;
+    width: 60px;
     height: 1px;
-    background: linear-gradient(90deg, transparent, #ba121b, transparent);
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
     margin: 0 auto;
 }
 
@@ -92,7 +101,7 @@
 }
 
 .ma-card:hover .ma-img img {
-    filter: grayscale(0) brightness(0.85) contrast(1.05);
+    filter: grayscale(0) brightness(0.88) contrast(1.05);
 }
 
 .ma-img-overlay {
@@ -102,24 +111,34 @@
 }
 
 .ma-img-overlay--left {
-    background: linear-gradient(to right, transparent 50%, #060606 100%);
+    background: linear-gradient(
+        to right,
+        transparent 40%,
+        rgba(0, 0, 0, 0.6) 72%,
+        rgba(0, 0, 0, 0.82) 100%
+    );
 }
 
 .ma-img-overlay--right {
-    background: linear-gradient(to left, transparent 50%, #060606 100%);
+    background: linear-gradient(
+        to left,
+        transparent 40%,
+        rgba(0, 0, 0, 0.6) 72%,
+        rgba(0, 0, 0, 0.82) 100%
+    );
 }
 
-/* Numéro d'archive sur l'image */
 .ma-img-index {
     position: absolute;
     bottom: 20px;
     left: 24px;
-    font-family: 'Courier New', monospace;
-    font-size: 0.6rem;
+    font-family: var(--ff-family-main);
+    font-size: 0.65rem;
     letter-spacing: 4px;
-    color: rgba(255, 255, 255, 0.35);
+    color: rgba(255, 255, 255, 0.5);
     z-index: 2;
     text-transform: uppercase;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.8);
 }
 
 .ma-scan {
@@ -127,10 +146,10 @@
     left: 0;
     width: 100%;
     height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(186, 18, 27, 0.9) 50%, transparent);
-    box-shadow: 0 0 12px rgba(186, 18, 27, 0.6);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7) 50%, transparent);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
     z-index: 3;
-    opacity: 0.5;
+    opacity: 0.4;
     animation: maScanAnim 6s linear infinite;
 }
 
@@ -145,68 +164,74 @@
     flex-direction: column;
     justify-content: center;
     padding: clamp(48px, 6vw, 88px) clamp(36px, 5vw, 72px);
-    background: #060606;
     position: relative;
-    gap: 0;
+    /* Fond assez sombre pour que tout soit lisible sur rouge/bleu */
+    background: rgba(0, 0, 0, 0.62);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
 }
 
 .ma-text--reverse {
     order: -1;
 }
 
-/* ── Niveau 1 : Tag univers ────────────────────────────────────── */
+/* ── Tag univers ───────────────────────────────────────────────── */
 .ma-tag {
-    font-family: 'Courier New', monospace;
-    font-size: 0.6rem;
+    font-family: var(--ff-family-main);
+    font-size: clamp(0.7rem, 1vw, 0.85rem);
     letter-spacing: 8px;
     text-transform: uppercase;
     margin-bottom: 20px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
+    font-weight: 600;
 }
 
 .ma-tag-line {
     display: block;
-    width: 28px;
+    width: 32px;
     height: 1px;
     flex-shrink: 0;
 }
 
-.ma-tag--akira              { color: #00d4ff; }
-.ma-tag--akira .ma-tag-line { background: #00d4ff; }
-.ma-tag--gis                { color: #ff00aa; }
-.ma-tag--gis   .ma-tag-line { background: #ff00aa; }
+.ma-tag--akira              { color: #00d4ff; text-shadow: 0 0 12px rgba(0,212,255,0.6); }
+.ma-tag--akira .ma-tag-line { background: #00d4ff; box-shadow: 0 0 6px rgba(0,212,255,0.5); }
+.ma-tag--gis                { color: #ff66cc; text-shadow: 0 0 12px rgba(255,100,200,0.6); }
+.ma-tag--gis   .ma-tag-line { background: #ff66cc; box-shadow: 0 0 6px rgba(255,100,200,0.5); }
 
-/* ── Niveau 1 : Titre ──────────────────────────────────────────── */
+/* ── Titre ─────────────────────────────────────────────────────── */
 .ma-title {
-    font-family: 'Courier New', monospace;
-    font-size: clamp(2.2rem, 5vw, 4.2rem);
+    font-family: var(--ff-family-main);
+    font-size: clamp(2.6rem, 5.5vw, 5rem);
     font-weight: 900;
     letter-spacing: 3px;
     text-transform: uppercase;
     color: #fff;
-    margin: 0 0 8px;
+    margin: 0 0 10px;
     line-height: 0.92;
+    text-shadow:
+        0 2px 4px rgba(0,0,0,0.95),
+        0 0 40px rgba(0,0,0,0.8);
 }
 
 .ma-subtitle {
-    font-family: 'Courier New', monospace;
-    font-size: 0.65rem;
+    font-family: var(--ff-family-main);
+    font-size: clamp(0.75rem, 1.1vw, 0.9rem);
     letter-spacing: 5px;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.28);
-    margin: 0 0 32px;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0 0 36px;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.8);
 }
 
-/* ── Niveau 2 : Accroche immersive ────────────────────────────── */
+/* ── Accroche immersive ────────────────────────────────────────── */
 .ma-hook {
     position: relative;
-    margin-bottom: 36px;
-    padding-left: 18px;
+    margin-bottom: 40px;
+    padding-left: 22px;
 }
 
-/* Barre verticale colorée à gauche */
 .ma-hook::before {
     content: '';
     position: absolute;
@@ -217,36 +242,35 @@
     border-radius: 2px;
 }
 
-.ma-tag--akira ~ .ma-hook::before,
-.ma-hook--akira::before { background: #00d4ff; }
-.ma-hook--gis::before   { background: #ff00aa; }
+.ma-hook--akira::before {
+    background: #00d4ff;
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.6);
+}
+
+.ma-hook--gis::before {
+    background: #ff66cc;
+    box-shadow: 0 0 10px rgba(255, 100, 200, 0.6);
+}
 
 .ma-hook-text {
-    font-family: 'Courier New', monospace;
-    font-size: clamp(0.82rem, 1.4vw, 1rem);
-    line-height: 1.75;
-    color: rgba(255, 255, 255, 0.65);
+    font-family: var(--ff-family-main);
+    font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+    line-height: 1.85;
+    color: rgba(255, 255, 255, 0.88);
     font-style: italic;
+    font-weight: 300;
     letter-spacing: 0.3px;
     margin: 0;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.9);
 }
 
-/* ── Niveau 3 : Fiche technique ───────────────────────────────── */
-.ma-specs-label {
-    font-family: 'Courier New', monospace;
-    font-size: 0.52rem;
-    letter-spacing: 6px;
-    text-transform: uppercase;
-    color: rgba(186, 18, 27, 0.6);
-    margin-bottom: 14px;
-}
-
+/* ── Fiche technique ───────────────────────────────────────────── */
 .ma-specs {
     display: flex;
     flex-direction: column;
-    gap: 11px;
-    padding-top: 18px;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    gap: 13px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .ma-spec-row {
@@ -256,21 +280,24 @@
 }
 
 .ma-spec-label {
-    font-family: 'Courier New', monospace;
-    font-size: 0.55rem;
+    font-family: var(--ff-family-main);
+    /* font-size: clamp(0.6rem, 0.9vw, 1.2rem); */
     letter-spacing: 4px;
     text-transform: uppercase;
-    color: rgba(186, 18, 27, 0.75);
-    min-width: 90px;
+    color: rgba(255, 255, 255, 0.4);
+    min-width: 100px;
     flex-shrink: 0;
+    text-shadow: none;
 }
 
 .ma-spec-value {
-    font-family: 'Courier New', monospace;
-    font-size: 0.76rem;
+    font-family: var(--ff-family-main);
+    font-size: clamp(0.82rem, 1.1vw, 0.95rem);
     letter-spacing: 0.5px;
-    color: rgba(255, 255, 255, 0.55);
+    color: rgba(255, 255, 255, 0.82);
     line-height: 1.5;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.7);
+    font-weight: 400;
 }
 
 /* Numéro décoratif */
@@ -278,10 +305,10 @@
     position: absolute;
     bottom: 28px;
     right: 28px;
-    font-family: 'Courier New', monospace;
+    font-family: var(--ff-family-main);
     font-size: clamp(4rem, 9vw, 7rem);
     font-weight: 900;
-    color: rgba(255, 255, 255, 0.025);
+    color: rgba(255, 255, 255, 0.05);
     line-height: 1;
     pointer-events: none;
     user-select: none;
@@ -293,7 +320,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 36px 5%;
+    padding: 40px 5%;
     position: relative;
     z-index: 2;
 }
@@ -301,15 +328,15 @@
 .ma-sep-line {
     flex: 1;
     height: 1px;
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .ma-sep-dot {
-    width: 4px;
-    height: 4px;
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
-    background: rgba(186, 18, 27, 0.7);
-    box-shadow: 0 0 8px rgba(186, 18, 27, 0.5);
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
     margin: 0 20px;
 }
 
@@ -322,11 +349,12 @@
 }
 
 .ma-footer p {
-    font-family: 'Courier New', monospace;
-    font-size: 0.58rem;
+    font-family: var(--ff-family-main);
+    font-size: clamp(0.65rem, 1vw, 0.78rem);
     letter-spacing: 6px;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.3);
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.7);
 }
 
 /* ── Responsive ────────────────────────────────────────────────── */
@@ -339,7 +367,7 @@
     }
     .ma-img-overlay--left,
     .ma-img-overlay--right {
-        background: linear-gradient(to top, #060606 0%, transparent 60%);
+        background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);
     }
     .ma-text--reverse {
         order: 0;
