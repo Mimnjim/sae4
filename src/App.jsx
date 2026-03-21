@@ -177,7 +177,7 @@ const Home = () => {
 
       {/* <img src="/img/Akira1.jpg" alt="" /> */}
 
-      <Section
+      {/* <Section
         id="akira"
         title="Akira"
         content="Découvrez Neo-Tokyo et les mutations physiques et mentales de ses héros dans un univers cyberpunk lumineux et glitché."
@@ -191,7 +191,7 @@ const Home = () => {
         content="Plongez dans la conscience augmentée et la réflexion philosophique sur l'identité à l'ère de l'IA et des cyber-corps."
         imgSrc="img/GIS1.jpg"
         reverse={false}
-      />
+      /> */}
     </div>
   );
 };

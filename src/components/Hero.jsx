@@ -135,7 +135,7 @@ export default function Hero({ title1, title2, subtitle }) {
         }
 
         // --- PHASE 7 : SORTIE FINALE ---
-        tl.to(gisHeroRef.current, { x: 1200, opacity: 0, duration: 2 }, 9.5);
+        // tl.to(gisHeroRef.current, { x: 1200, opacity: 0, duration: 2 }, 9.5);
         tl.to(overlayGisRef.current, { opacity: 0, pointerEvents: 'none', duration: 0.5 }, 9.5);
 
         // --- FINALISATION ---

@@ -1,20 +1,14 @@
 /* ═══════════════════════════════════════════════════════════════
    MANGA ARCHIVE — EXPOSITION IMMERSIVE
-   Révélation progressive, alternance Akira / GIS
 ═══════════════════════════════════════════════════════════════ */
 
-/* ── Section wrapper ──────────────────────────────────────────── */
-.manga-archive {
+.ma-section {
     width: 100%;
     background: #060606;
-    padding: 0;
     position: relative;
-    overflow: hidden;
 }
 
-/* Ligne verticale centrale décorative */
-.manga-archive::before {
-    content: '';
+.ma-center-line {
     position: absolute;
     top: 0;
     left: 50%;
@@ -23,34 +17,34 @@
     height: 100%;
     background: linear-gradient(
         to bottom,
-        transparent 0%,
-        rgba(186,18,27,0.2) 10%,
-        rgba(186,18,27,0.2) 90%,
-        transparent 100%
+        transparent,
+        rgba(186, 18, 27, 0.18) 8%,
+        rgba(186, 18, 27, 0.18) 92%,
+        transparent
     );
     pointer-events: none;
     z-index: 0;
 }
 
-/* ── En-tête de section ───────────────────────────────────────── */
-.archive-section-header {
+/* ── Header ────────────────────────────────────────────────────── */
+.ma-header {
     text-align: center;
-    padding: 120px 20px 80px;
+    padding: clamp(80px, 12vh, 140px) 20px clamp(60px, 8vh, 100px);
     position: relative;
     z-index: 2;
 }
 
-.archive-section-header .eyebrow {
+.ma-eyebrow {
     display: block;
     font-family: 'Courier New', monospace;
-    font-size: clamp(0.55rem, 1vw, 0.7rem);
+    font-size: clamp(0.5rem, 1vw, 0.65rem);
     letter-spacing: 10px;
     text-transform: uppercase;
-    color: rgba(186,18,27,0.8);
-    margin-bottom: 16px;
+    color: rgba(186, 18, 27, 0.85);
+    margin-bottom: 14px;
 }
 
-.archive-section-header h2 {
+.ma-header h2 {
     font-family: 'Courier New', monospace;
     font-size: clamp(1.6rem, 4vw, 3rem);
     font-weight: 900;
@@ -61,281 +55,296 @@
     line-height: 1.1;
 }
 
-.archive-section-header .header-line {
+.ma-header-rule {
     display: block;
-    width: 60px;
+    width: 50px;
     height: 1px;
     background: linear-gradient(90deg, transparent, #ba121b, transparent);
     margin: 0 auto;
 }
 
-/* ── Carte d'œuvre (bloc alternant) ──────────────────────────── */
-.archive-card {
+/* ── Carte ─────────────────────────────────────────────────────── */
+.ma-card {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    min-height: 80vh;
+    min-height: 90vh;
     position: relative;
     z-index: 2;
-    overflow: hidden;
-    opacity: 0; /* GSAP va animer ça */
 }
 
-/* Alternance : pair = image gauche, impair = image droite */
-.archive-card.reverse {
-    direction: rtl;
-}
-.archive-card.reverse > * {
-    direction: ltr;
-}
-
-/* ── Côté image ───────────────────────────────────────────────── */
-.archive-card__image-side {
+/* ── Côté image ────────────────────────────────────────────────── */
+.ma-img {
     position: relative;
     overflow: hidden;
     min-height: 70vh;
 }
 
-.archive-card__image-side img {
+.ma-img img {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center top;
-    filter: grayscale(0.3) brightness(0.75) contrast(1.15);
-    transform: scale(1.08);
+    display: block;
+    filter: grayscale(0.2) brightness(0.75) contrast(1.1);
     transition: filter 0.6s ease;
-    will-change: transform;
 }
 
-/* Dégradé overlay sur l'image */
-.archive-card__image-side::after {
-    content: '';
+.ma-card:hover .ma-img img {
+    filter: grayscale(0) brightness(0.85) contrast(1.05);
+}
+
+.ma-img-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-        to right,
-        transparent 60%,
-        #060606 100%
-    );
     z-index: 1;
 }
 
-.archive-card.reverse .archive-card__image-side::after {
-    background: linear-gradient(
-        to left,
-        transparent 60%,
-        #060606 100%
-    );
+.ma-img-overlay--left {
+    background: linear-gradient(to right, transparent 50%, #060606 100%);
 }
 
-/* Scanline animée sur l'image */
-.archive-card__image-side .img-scan {
+.ma-img-overlay--right {
+    background: linear-gradient(to left, transparent 50%, #060606 100%);
+}
+
+/* Numéro d'archive sur l'image */
+.ma-img-index {
+    position: absolute;
+    bottom: 20px;
+    left: 24px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 4px;
+    color: rgba(255, 255, 255, 0.35);
+    z-index: 2;
+    text-transform: uppercase;
+}
+
+.ma-scan {
     position: absolute;
     left: 0;
     width: 100%;
     height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(186,18,27,0.9) 50%, transparent);
-    box-shadow: 0 0 14px rgba(186,18,27,0.7);
-    z-index: 2;
-    animation: imgScan 5s linear infinite;
-    opacity: 0.6;
+    background: linear-gradient(90deg, transparent, rgba(186, 18, 27, 0.9) 50%, transparent);
+    box-shadow: 0 0 12px rgba(186, 18, 27, 0.6);
+    z-index: 3;
+    opacity: 0.5;
+    animation: maScanAnim 6s linear infinite;
 }
 
-@keyframes imgScan {
-    from { top: 0%; }
+@keyframes maScanAnim {
+    from { top: 0; }
     to   { top: 100%; }
 }
 
-/* ── Côté texte ───────────────────────────────────────────────── */
-.archive-card__text-side {
+/* ── Côté texte ────────────────────────────────────────────────── */
+.ma-text {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: clamp(40px, 6vw, 80px) clamp(32px, 5vw, 64px);
-    position: relative;
+    padding: clamp(48px, 6vw, 88px) clamp(36px, 5vw, 72px);
     background: #060606;
+    position: relative;
+    gap: 0;
 }
 
-/* Tag œuvre (AKIRA / GIS) */
-.archive-card__tag {
+.ma-text--reverse {
+    order: -1;
+}
+
+/* ── Niveau 1 : Tag univers ────────────────────────────────────── */
+.ma-tag {
     font-family: 'Courier New', monospace;
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     letter-spacing: 8px;
     text-transform: uppercase;
     margin-bottom: 20px;
     display: flex;
     align-items: center;
     gap: 12px;
-    opacity: 0; /* animé par GSAP */
-    transform: translateY(20px);
 }
 
-.archive-card__tag::before {
-    content: '';
+.ma-tag-line {
     display: block;
     width: 28px;
     height: 1px;
-    background: currentColor;
     flex-shrink: 0;
 }
 
-.tag--akira  { color: #00d4ff; }
-.tag--gis    { color: #ff00aa; }
+.ma-tag--akira              { color: #00d4ff; }
+.ma-tag--akira .ma-tag-line { background: #00d4ff; }
+.ma-tag--gis                { color: #ff00aa; }
+.ma-tag--gis   .ma-tag-line { background: #ff00aa; }
 
-/* Titre de l'œuvre */
-.archive-card__title {
+/* ── Niveau 1 : Titre ──────────────────────────────────────────── */
+.ma-title {
     font-family: 'Courier New', monospace;
-    font-size: clamp(2rem, 5vw, 4rem);
+    font-size: clamp(2.2rem, 5vw, 4.2rem);
     font-weight: 900;
-    letter-spacing: 4px;
+    letter-spacing: 3px;
     text-transform: uppercase;
     color: #fff;
-    margin: 0 0 6px;
-    line-height: 0.95;
-    opacity: 0;
-    transform: translateY(30px);
+    margin: 0 0 8px;
+    line-height: 0.92;
 }
 
-/* Sous-titre / année */
-.archive-card__subtitle {
+.ma-subtitle {
     font-family: 'Courier New', monospace;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     letter-spacing: 5px;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.3);
+    color: rgba(255, 255, 255, 0.28);
     margin: 0 0 32px;
-    opacity: 0;
-    transform: translateY(20px);
 }
 
-/* Séparateur */
-.archive-card__divider {
-    width: 40px;
-    height: 1px;
-    background: rgba(255,255,255,0.15);
-    margin-bottom: 28px;
-    opacity: 0;
+/* ── Niveau 2 : Accroche immersive ────────────────────────────── */
+.ma-hook {
+    position: relative;
+    margin-bottom: 36px;
+    padding-left: 18px;
 }
 
-/* Fiche technique */
-.archive-card__specs {
+/* Barre verticale colorée à gauche */
+.ma-hook::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 4px;
+    bottom: 4px;
+    width: 2px;
+    border-radius: 2px;
+}
+
+.ma-tag--akira ~ .ma-hook::before,
+.ma-hook--akira::before { background: #00d4ff; }
+.ma-hook--gis::before   { background: #ff00aa; }
+
+.ma-hook-text {
+    font-family: 'Courier New', monospace;
+    font-size: clamp(0.82rem, 1.4vw, 1rem);
+    line-height: 1.75;
+    color: rgba(255, 255, 255, 0.65);
+    font-style: italic;
+    letter-spacing: 0.3px;
+    margin: 0;
+}
+
+/* ── Niveau 3 : Fiche technique ───────────────────────────────── */
+.ma-specs-label {
+    font-family: 'Courier New', monospace;
+    font-size: 0.52rem;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: rgba(186, 18, 27, 0.6);
+    margin-bottom: 14px;
+}
+
+.ma-specs {
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    margin-bottom: 36px;
-    opacity: 0;
-    transform: translateY(20px);
+    gap: 11px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.spec-row {
+.ma-spec-row {
     display: flex;
     align-items: baseline;
     gap: 16px;
 }
 
-.spec-label {
-    /* font-family: 'Courier New', monospace; */
-    font-family: var(--ff-family-main);
-    font-size: 0.6rem;
+.ma-spec-label {
+    font-family: 'Courier New', monospace;
+    font-size: 0.55rem;
     letter-spacing: 4px;
     text-transform: uppercase;
-    color: rgba(186,18,27,0.8);
+    color: rgba(186, 18, 27, 0.75);
     min-width: 90px;
     flex-shrink: 0;
 }
 
-.spec-value {
-    /* font-family: 'Courier New', monospace; */
-    font-family: var(--ff-family-main);
-    font-size: 0.8rem;
-    letter-spacing: 1px;
-    color: rgba(255,255,255,0.75);
+.ma-spec-value {
+    font-family: 'Courier New', monospace;
+    font-size: 0.76rem;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.55);
     line-height: 1.5;
 }
 
-/* Badge numéro */
-.archive-card__number {
+/* Numéro décoratif */
+.ma-big-number {
     position: absolute;
-    bottom: 40px;
-    right: 40px;
+    bottom: 28px;
+    right: 28px;
     font-family: 'Courier New', monospace;
-    font-size: clamp(4rem, 8vw, 7rem);
+    font-size: clamp(4rem, 9vw, 7rem);
     font-weight: 900;
-    color: rgba(255,255,255,0.03);
+    color: rgba(255, 255, 255, 0.025);
     line-height: 1;
     pointer-events: none;
     user-select: none;
     letter-spacing: -4px;
 }
 
-/* ── Séparateur entre cartes ──────────────────────────────────── */
-.archive-separator {
+/* ── Séparateur ────────────────────────────────────────────────── */
+.ma-separator {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 40px 0;
+    padding: 36px 5%;
     position: relative;
     z-index: 2;
-    opacity: 0;
 }
 
-.archive-separator::before,
-.archive-separator::after {
-    content: '';
+.ma-sep-line {
     flex: 1;
     height: 1px;
-    background: linear-gradient(to right, transparent, rgba(255,255,255,0.06));
-}
-.archive-separator::after {
-    background: linear-gradient(to left, transparent, rgba(255,255,255,0.06));
+    background: rgba(255, 255, 255, 0.06);
 }
 
-.sep-dot {
+.ma-sep-dot {
     width: 4px;
     height: 4px;
     border-radius: 50%;
-    background: rgba(186,18,27,0.6);
-    box-shadow: 0 0 8px rgba(186,18,27,0.5);
+    background: rgba(186, 18, 27, 0.7);
+    box-shadow: 0 0 8px rgba(186, 18, 27, 0.5);
     margin: 0 20px;
 }
 
-/* ── Footer de section ────────────────────────────────────────── */
-.archive-footer {
+/* ── Footer ────────────────────────────────────────────────────── */
+.ma-footer {
     text-align: center;
-    padding: 80px 20px 120px;
+    padding: clamp(60px, 8vh, 100px) 20px;
     position: relative;
     z-index: 2;
-    opacity: 0;
 }
 
-.archive-footer p {
+.ma-footer p {
     font-family: 'Courier New', monospace;
-    font-size: 0.65rem;
+    font-size: 0.58rem;
     letter-spacing: 6px;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.2);
+    color: rgba(255, 255, 255, 0.15);
 }
 
-/* ── Responsive ───────────────────────────────────────────────── */
+/* ── Responsive ────────────────────────────────────────────────── */
 @media (max-width: 768px) {
-    .archive-card {
+    .ma-card {
         grid-template-columns: 1fr;
     }
-
-    .archive-card__image-side {
-        min-height: 50vw;
+    .ma-img {
+        min-height: 60vw;
     }
-
-    .archive-card__image-side::after {
-        background: linear-gradient(to top, #060606 0%, transparent 60%) !important;
+    .ma-img-overlay--left,
+    .ma-img-overlay--right {
+        background: linear-gradient(to top, #060606 0%, transparent 60%);
     }
-
-    .archive-card.reverse {
-        direction: ltr;
+    .ma-text--reverse {
+        order: 0;
     }
-
-    .archive-card__number {
+    .ma-big-number {
         display: none;
     }
 }
