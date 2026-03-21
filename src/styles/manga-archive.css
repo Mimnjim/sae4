@@ -1,44 +1,22 @@
 /* ═══════════════════════════════════════════════════════════════
-   MANGA ARCHIVE — Lisibilité maximale sur fond Grainient rouge/vert-bleu
-   Règles de base :
-   - Toute police = var(--ff-family-main)
-   - Taille minimum corps de texte = 1rem
-   - Fond .ma-text sombre pour garantir le contraste
-   - text-shadow noir dense sur TOUS les textes
+   MANGA ARCHIVE — Paginé, aéré, 100vh strict
 ═══════════════════════════════════════════════════════════════ */
 
-/* ── Variables locales ─────────────────────────────────────────── */
 .ma-section {
-    --shadow-text: 0 2px 8px rgba(0,0,0,1), 0 0 30px rgba(0,0,0,0.9);
-    --shadow-light: 0 1px 6px rgba(0,0,0,0.9);
-    --akira-color: #00d4ff;
-    --gis-color: #ff66cc;
+    --shadow:      0 2px 12px rgba(0,0,0,1), 0 0 40px rgba(0,0,0,0.8);
+    --shadow-sm:   0 1px 8px rgba(0,0,0,0.95);
+    --akira:       #00d4ff;
+    --gis:         #ff66cc;
 
     width: 100%;
     background: transparent;
     position: relative;
 }
 
-.ma-center-line {
-    position: absolute;
-    top: 0; left: 50%;
-    transform: translateX(-50%);
-    width: 1px; height: 100%;
-    background: linear-gradient(
-        to bottom,
-        transparent,
-        rgba(255,255,255,0.12) 8%,
-        rgba(255,255,255,0.12) 92%,
-        transparent
-    );
-    pointer-events: none;
-    z-index: 0;
-}
-
 /* ── Header ────────────────────────────────────────────────────── */
 .ma-header {
     text-align: center;
-    padding: clamp(80px, 12vh, 140px) 20px clamp(60px, 8vh, 100px);
+    padding: clamp(70px, 10vh, 120px) 20px clamp(40px, 5vh, 70px);
     position: relative;
     z-index: 2;
 }
@@ -46,49 +24,66 @@
 .ma-eyebrow {
     display: block;
     font-family: var(--ff-family-main);
-    font-size: clamp(0.85rem, 1.4vw, 1rem);
+    font-size: clamp(0.75rem, 1.2vw, 0.9rem);
     font-weight: 500;
     letter-spacing: 8px;
     text-transform: uppercase;
-    color: #fff;
-    margin-bottom: 20px;
-    text-shadow: var(--shadow-text);
-    opacity: 0.8;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 16px;
+    text-shadow: var(--shadow);
 }
 
 .ma-header h2 {
     font-family: var(--ff-family-main);
-    font-size: clamp(2.4rem, 5vw, 4.5rem);
+    font-size: clamp(2rem, 4.5vw, 4rem);
     font-weight: 900;
     letter-spacing: 6px;
     text-transform: uppercase;
     color: #fff;
-    margin: 0 0 24px;
+    margin: 0 0 20px;
     line-height: 1.05;
-    text-shadow: var(--shadow-text);
+    text-shadow: var(--shadow);
 }
 
 .ma-header-rule {
     display: block;
-    width: 60px; height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+    width: 50px; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
     margin: 0 auto;
 }
 
-/* ── Carte ─────────────────────────────────────────────────────── */
+/* ── Viewer : fenêtre exactement 100vh ─────────────────────────── */
+.ma-viewer {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* ── Track horizontal ──────────────────────────────────────────── */
+.ma-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.65s cubic-bezier(0.76, 0, 0.24, 1);
+    will-change: transform;
+}
+
+/* ── Carte : exactement la taille du viewer ────────────────────── */
 .ma-card {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    min-height: 100vh;
+    width: 100%;
+    height: 100%;
+    flex-shrink: 0;
     position: relative;
-    z-index: 2;
 }
 
 /* ── Côté image ────────────────────────────────────────────────── */
 .ma-img {
     position: relative;
     overflow: hidden;
-    min-height: 70vh;
+    height: 100%;
 }
 
 .ma-img img {
@@ -98,12 +93,12 @@
     object-fit: cover;
     object-position: center top;
     display: block;
-    filter: grayscale(0.15) brightness(0.8) contrast(1.1);
+    filter: grayscale(0.1) brightness(0.78) contrast(1.1);
     transition: filter 0.6s ease;
 }
 
 .ma-card:hover .ma-img img {
-    filter: grayscale(0) brightness(0.9) contrast(1.05);
+    filter: grayscale(0) brightness(0.88) contrast(1.05);
 }
 
 .ma-img-overlay {
@@ -113,44 +108,34 @@
 }
 
 .ma-img-overlay--left {
-    background: linear-gradient(
-        to right,
-        transparent 35%,
-        rgba(0,0,0,0.65) 68%,
-        rgba(0,0,0,0.88) 100%
-    );
+    background: linear-gradient(to right, transparent 30%, rgba(0,0,0,0.55) 65%, rgba(0,0,0,0.85) 100%);
 }
 
 .ma-img-overlay--right {
-    background: linear-gradient(
-        to left,
-        transparent 35%,
-        rgba(0,0,0,0.65) 68%,
-        rgba(0,0,0,0.88) 100%
-    );
+    background: linear-gradient(to left, transparent 30%, rgba(0,0,0,0.55) 65%, rgba(0,0,0,0.85) 100%);
 }
 
-.ma-img-index {
+.ma-img-label {
     position: absolute;
-    bottom: 24px; left: 28px;
+    bottom: 28px; left: 28px;
     font-family: var(--ff-family-main);
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 500;
     letter-spacing: 4px;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.6);
+    color: rgba(255,255,255,0.5);
     z-index: 2;
-    text-shadow: var(--shadow-light);
+    text-shadow: var(--shadow-sm);
 }
 
 .ma-scan {
     position: absolute;
     left: 0; width: 100%; height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8) 50%, transparent);
-    box-shadow: 0 0 14px rgba(255,255,255,0.5);
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7) 50%, transparent);
+    box-shadow: 0 0 12px rgba(255,255,255,0.4);
     z-index: 3;
-    opacity: 0.35;
-    animation: maScanAnim 6s linear infinite;
+    opacity: 0.3;
+    animation: maScanAnim 7s linear infinite;
 }
 
 @keyframes maScanAnim {
@@ -163,26 +148,26 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: clamp(48px, 6vw, 88px) clamp(40px, 5.5vw, 80px);
+    /* Padding généreux pour aérer */
+    padding: 0 clamp(40px, 6vw, 80px);
+    gap: 28px;
     position: relative;
-    /* Fond sombre fort — garantit la lisibilité sur rouge/vert-bleu */
-    background: rgba(0, 0, 0, 0.72);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background: rgba(0,0,0,0.68);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    /* Jamais de scroll — on fait tenir dans 100vh */
+    overflow: hidden;
 }
 
-.ma-text--reverse {
-    order: -1;
-}
+.ma-text--reverse { order: -1; }
 
-/* ── Tag univers ───────────────────────────────────────────────── */
+/* ── Tag ───────────────────────────────────────────────────────── */
 .ma-tag {
     font-family: var(--ff-family-main);
-    font-size: clamp(0.8rem, 1.1vw, 1rem);
+    font-size: clamp(0.8rem, 1vw, 0.95rem);
     font-weight: 700;
     letter-spacing: 7px;
     text-transform: uppercase;
-    margin-bottom: 20px;
     display: flex;
     align-items: center;
     gap: 14px;
@@ -190,265 +175,237 @@
 
 .ma-tag-line {
     display: block;
-    width: 32px; height: 2px;
+    width: 28px; height: 2px;
     flex-shrink: 0;
     border-radius: 2px;
 }
 
-.ma-tag--akira              { color: #00d4ff; text-shadow: 0 0 16px rgba(0,212,255,0.7); }
-.ma-tag--akira .ma-tag-line { background: #00d4ff; box-shadow: 0 0 8px rgba(0,212,255,0.6); }
-.ma-tag--gis                { color: #ff66cc; text-shadow: 0 0 16px rgba(255,100,200,0.7); }
-.ma-tag--gis   .ma-tag-line { background: #ff66cc; box-shadow: 0 0 8px rgba(255,100,200,0.6); }
+.ma-tag--akira              { color: var(--akira); }
+.ma-tag--akira .ma-tag-line { background: var(--akira); box-shadow: 0 0 8px rgba(0,212,255,0.6); }
+.ma-tag--gis                { color: var(--gis); }
+.ma-tag--gis   .ma-tag-line { background: var(--gis);   box-shadow: 0 0 8px rgba(255,102,204,0.6); }
 
-/* ── Titre ─────────────────────────────────────────────────────── */
-.ma-title {
-    font-family: var(--ff-family-main);
-    font-size: clamp(2.8rem, 5.5vw, 5.5rem);
-    font-weight: 900;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: #fff;
-    margin: 0 0 10px;
-    line-height: 0.92;
-    text-shadow: var(--shadow-text);
+/* ── Bloc titre ────────────────────────────────────────────────── */
+.ma-titles {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
-/* ── Sous-titre ────────────────────────────────────────────────── */
+.ma-title {
+    font-family: var(--ff-family-main);
+    font-size: clamp(2.6rem, 4.5vw, 5rem);
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+    margin: 0;
+    line-height: 0.9;
+    text-shadow: var(--shadow);
+}
+
 .ma-subtitle {
     font-family: var(--ff-family-main);
-    font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+    font-size: clamp(0.82rem, 1.1vw, 0.95rem);
     font-weight: 400;
     letter-spacing: 4px;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.55);
-    margin: 0 0 36px;
-    text-shadow: var(--shadow-light);
+    color: rgba(255,255,255,0.45);
+    margin: 0;
+    text-shadow: var(--shadow-sm);
 }
 
-/* ── Accroche immersive ────────────────────────────────────────── */
+/* ── Accroche ──────────────────────────────────────────────────── */
 .ma-hook {
     position: relative;
-    margin-bottom: 32px;
-    padding-left: 22px;
+    padding-left: 18px;
+    border-left: 3px solid currentColor;
+    border-radius: 2px;
 }
 
-.ma-hook::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 4px; bottom: 4px;
-    width: 3px;
-    border-radius: 3px;
-}
+.ma-hook--akira { border-left-color: var(--akira); }
+.ma-hook--gis   { border-left-color: var(--gis); }
 
-.ma-hook--akira::before { background: #00d4ff; box-shadow: 0 0 12px rgba(0,212,255,0.7); }
-.ma-hook--gis::before   { background: #ff66cc; box-shadow: 0 0 12px rgba(255,100,200,0.7); }
-
-.ma-hook-text {
+.ma-hook p {
     font-family: var(--ff-family-main);
-    /* font-size: clamp(1rem, 1.6vw, 1.2rem); */
-    /* font-size: clamp(1rem, 1.5vw, 1.2rem); */
-    font-size: clamp(1.3rem, 1.2vw, 2rem);
-
-    line-height: 1.85;
-    color: #fff;
+    font-size: clamp(1rem, 1.4vw, 1.2rem);
+    line-height: 1.75;
+    color: rgba(255,255,255,0.9);
     font-style: italic;
     font-weight: 300;
     margin: 0;
-    text-shadow: var(--shadow-light);
+    text-shadow: var(--shadow-sm);
 }
 
-/* ── Résonance contemporaine ───────────────────────────────────── */
-.ma-resonance {
-    margin-bottom: 24px;
-    padding: 20px 22px;
-    border-left: 3px solid rgba(255,255,255,0.15);
-    background: rgba(255,255,255,0.06);
-    border-radius: 0 6px 6px 0;
-}
-
-.ma-resonance--akira { border-left-color: rgba(0,212,255,0.5); }
-.ma-resonance--gis   { border-left-color: rgba(255,102,204,0.5); }
-
-.ma-resonance-label {
-    display: block;
-    font-family: var(--ff-family-main);
-    /* font-size: clamp(0.7rem, 1vw, 0.82rem); */
-    font-weight: 700;
-    letter-spacing: 6px;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.5);
-    margin-bottom: 10px;
-    text-shadow: var(--shadow-light);
-}
-
-.ma-resonance-text {
-    font-family: var(--ff-family-main);
-    /* font-size: clamp(0.95rem, 1.3vw, 1.1rem); */
-    /* font-size: clamp(1rem, 1.5vw, 1.2rem); */
-
-    font-size: clamp(1.3rem, 1.2vw, 2rem);
-    /* font-size: clamp(1.3rem, 2.4vw, 1.8rem); */
-
-    line-height: 1.8;
-    color: rgba(255,255,255,0.85);
-    margin: 0;
-    font-weight: 300;
-    text-shadow: var(--shadow-light);
-}
-
-/* ── Bloc exposition ───────────────────────────────────────────── */
-.ma-expo {
-    margin-bottom: 32px;
-    padding: 16px 20px;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 4px;
-    background: rgba(0,0,0,0.3);
-}
-
-.ma-expo-label {
-    display: block;
-    font-family: var(--ff-family-main);
-    /* font-size: clamp(0.7rem, 1vw, 0.82rem); */
-    font-size: clamp(1.3rem, 2.4vw, 1.8rem);
-    /* font-size: clamp(1.6rem, 3vw, 2.5rem); */
-
-    font-weight: 700;
-    letter-spacing: 6px;
-    text-transform: uppercase;
-    color: rgba(186,18,27,0.9);
-    margin-bottom: 8px;
-    text-shadow: 0 0 12px rgba(186,18,27,0.4);
-}
-
-.ma-expo-text {
-    font-family: var(--ff-family-main);
-    /* font-size: clamp(0.9rem, 1.2vw, 1rem); */
-    /* font-size: clamp(1.1rem, 1.8vw, 1.4rem); */
-    font-size: clamp(1.3rem, 1.4vw, 2rem);
-
-
-    line-height: 1.7;
-    color: rgba(255,255,255,0.7);
-    margin: 0;
-    font-style: italic;
-    text-shadow: var(--shadow-light);
-}
-
-/* ── Fiche technique ───────────────────────────────────────────── */
-.ma-specs {
+/* ── Question / résonance contemporaine ────────────────────────── */
+.ma-question {
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    padding-top: 24px;
-    border-top: 1px solid rgba(255,255,255,0.12);
+    gap: 6px;
 }
 
-.ma-spec-row {
+.ma-question-label {
+    font-family: var(--ff-family-main);
+    font-size: clamp(0.68rem, 0.9vw, 0.78rem);
+    font-weight: 700;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.38);
+    text-shadow: var(--shadow-sm);
+}
+
+.ma-question p {
+    font-family: var(--ff-family-main);
+    font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+    line-height: 1.7;
+    color: rgba(255,255,255,0.75);
+    font-weight: 300;
+    margin: 0;
+    text-shadow: var(--shadow-sm);
+}
+
+/* ── Info exposition ───────────────────────────────────────────── */
+.ma-expo-info {
     display: flex;
     align-items: baseline;
-    gap: 20px;
+    gap: 12px;
+    padding: 12px 16px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px;
+    background: rgba(0,0,0,0.25);
 }
 
-.ma-spec-label {
+.ma-expo-badge {
     font-family: var(--ff-family-main);
-    font-size: clamp(0.72rem, 1vw, 0.85rem);
-    font-weight: 600;
-    letter-spacing: 3px;
+    font-size: clamp(0.68rem, 0.9vw, 0.78rem);
+    font-weight: 700;
+    letter-spacing: 4px;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.45);
-    min-width: 110px;
+    color: rgba(186,18,27,0.85);
+    white-space: nowrap;
     flex-shrink: 0;
-    text-shadow: var(--shadow-light);
+    text-shadow: 0 0 10px rgba(186,18,27,0.35);
 }
 
-.ma-spec-value {
+.ma-expo-info p {
     font-family: var(--ff-family-main);
-    font-size: clamp(0.95rem, 1.2vw, 1.05rem);
-    font-weight: 400;
-    letter-spacing: 0.3px;
-    color: #fff;
+    font-size: clamp(0.85rem, 1.1vw, 0.95rem);
     line-height: 1.5;
-    text-shadow: var(--shadow-light);
+    color: rgba(255,255,255,0.6);
+    font-style: italic;
+    margin: 0;
+    text-shadow: var(--shadow-sm);
 }
 
-/* Numéro décoratif */
+/* ── Numéro décoratif ──────────────────────────────────────────── */
 .ma-big-number {
     position: absolute;
-    bottom: 28px; right: 28px;
+    bottom: 20px; right: 24px;
     font-family: var(--ff-family-main);
-    font-size: clamp(5rem, 10vw, 8rem);
+    font-size: clamp(5rem, 9vw, 8rem);
     font-weight: 900;
-    color: rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.04);
     line-height: 1;
     pointer-events: none;
     user-select: none;
     letter-spacing: -6px;
 }
 
-/* ── Séparateur ────────────────────────────────────────────────── */
-.ma-separator {
+/* ── Navigation ────────────────────────────────────────────────── */
+.ma-nav {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    z-index: 10;
+}
+
+.ma-nav-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 48px 5%;
-    position: relative;
-    z-index: 2;
+    width: 46px; height: 46px;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(6px);
+    color: #fff;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s;
 }
 
-.ma-sep-line {
-    flex: 1; height: 1px;
-    background: rgba(255,255,255,0.12);
+.ma-nav-btn:hover:not(:disabled) {
+    border-color: rgba(255,255,255,0.75);
+    background: rgba(255,255,255,0.1);
+    transform: scale(1.08);
 }
 
-.ma-sep-dot {
+.ma-nav-btn:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+}
+
+.ma-nav-dots {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ma-nav-dot {
     width: 6px; height: 6px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.6);
-    box-shadow: 0 0 12px rgba(255,255,255,0.4);
-    margin: 0 24px;
+    background: rgba(255,255,255,0.3);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.ma-nav-dot.is-active {
+    background: #fff;
+    transform: scale(1.5);
 }
 
 /* ── Footer ────────────────────────────────────────────────────── */
 .ma-footer {
     text-align: center;
-    padding: clamp(60px, 8vh, 100px) 20px;
-    position: relative;
-    z-index: 2;
+    padding: clamp(40px, 6vh, 70px) 20px;
 }
 
 .ma-footer p {
     font-family: var(--ff-family-main);
-    font-size: clamp(0.82rem, 1.1vw, 0.95rem);
-    font-weight: 400;
+    font-size: clamp(0.78rem, 1vw, 0.9rem);
     letter-spacing: 5px;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.35);
-    text-shadow: var(--shadow-light);
+    color: rgba(255,255,255,0.3);
+    text-shadow: var(--shadow-sm);
 }
 
-/* ── Responsive ────────────────────────────────────────────────── */
+/* ── Responsive mobile ─────────────────────────────────────────── */
 @media (max-width: 768px) {
     .ma-card {
         grid-template-columns: 1fr;
-        min-height: auto;
+        grid-template-rows: 40vh 1fr;
     }
-    .ma-img {
-        min-height: 65vw;
-    }
+    .ma-img { height: 40vh; }
     .ma-img-overlay--left,
     .ma-img-overlay--right {
-        background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 55%);
+        background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%);
     }
     .ma-text {
-        padding: 40px 24px;
+        padding: 28px 20px;
+        gap: 20px;
+        justify-content: flex-start;
+        overflow-y: auto;
     }
-    .ma-text--reverse {
-        order: 0;
-    }
-    .ma-big-number {
-        display: none;
-    }
-    .ma-title {
-        font-size: clamp(2.2rem, 10vw, 3.5rem);
-    }
+    .ma-text--reverse { order: 0; }
+    .ma-big-number { display: none; }
+    .ma-title { font-size: clamp(1.8rem, 8vw, 2.8rem); }
+    .ma-viewer { height: auto; min-height: 100vh; }
+    .ma-track { flex-direction: column; height: auto; transition: none; }
 }
