@@ -145,6 +145,8 @@ import Section from './components/Section.jsx';
 import Footer from './components/Footer.jsx';
 import MangaArchive from './components/MangaArchive.jsx';
 import ExperiencesSection from './components/ExperiencesSection.jsx';
+import TransitionSection from './components/TransitionSection.jsx';
+import SectionSeparator from './components/SectionSeparator.jsx';
 
 // Pages
 import Experiences from './pages/Experiences.jsx';
@@ -163,6 +165,7 @@ import './styles/TargetCursor.css';
 import './styles/Grainient.css';
 import './styles/manga-archive.css';
 import './styles/immersion-overlay.css';
+import './styles/transition-section.css';
 
 // Page d'accueil
 const Home = () => {
@@ -176,7 +179,10 @@ const Home = () => {
         subtitle="Au-delà de l'humain"
       />
 
+      <TransitionSection />
+
       <MangaArchive />
+      <SectionSeparator />
 
       <ExperiencesSection />
 
