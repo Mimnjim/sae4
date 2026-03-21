@@ -160,7 +160,8 @@ import './styles/hero.css';
 import './styles/section.css';
 import './styles/TargetCursor.css';
 import './styles/Grainient.css';
-import './styles/mangaarchive.css';
+import './styles/manga-archive.css';
+import './styles/immersion-overlay.css';
 
 // Page d'accueil
 const Home = () => {

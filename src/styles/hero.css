@@ -124,6 +124,7 @@
     color: #ffffff;
     position: relative;
     overflow: hidden;
+    font-family: var(--ff-family-main);
 }
 
 /* .hero-section::after {
@@ -420,8 +421,6 @@
     /* background-color: var(--color-red); */
     /* border-radius: 10px; */
 }
-
-
 
 /* === RESPONSIVE === */
 
