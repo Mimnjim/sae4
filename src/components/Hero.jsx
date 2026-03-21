@@ -590,19 +590,19 @@ export default function Hero({ title1, title2, subtitle }) {
         // --- PHASE 3 : HUD AKIRA ---
         const akiraHUD = overlayAkiraRef.current;
         if (akiraHUD) {
-            tl.to(akiraHUD, { opacity: 1, pointerEvents: 'auto', duration: 0.1 }, 2);
-            tl.fromTo(akiraHUD.querySelector('.hud-pointer'), { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.3 }, 2.1);
-            tl.to(akiraHUD.querySelector('.hud-line'), { strokeDashoffset: 0, duration: 0.9, ease: "none" }, 2.2);
-            tl.to(akiraHUD.querySelector('.text-box-frame'), { visibility: 'visible', opacity: 1, y: 0, duration: 0.4 }, 3.1);
-            tl.to(akiraHUD.querySelector('.overlay-title'), { opacity: 1, duration: 0.3 }, 3.3);
-            tl.to(akiraHUD.querySelector('.overlay-bar'), { width: '100%', duration: 0.4 }, 3.4);
-            tl.to(akiraHUD.querySelector('.overlay-content'), { opacity: 1, duration: 0.4 }, 3.5);
+            tl.to(akiraHUD, { opacity: 1, pointerEvents: 'auto', duration: 0.1 }, 1.5);
+            tl.fromTo(akiraHUD.querySelector('.hud-pointer'), { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.3 }, 1.7);
+            tl.to(akiraHUD.querySelector('.hud-line'), { strokeDashoffset: 0, duration: 0.9, ease: "none" }, 1.9);
+            tl.to(akiraHUD.querySelector('.text-box-frame'), { visibility: 'visible', opacity: 1, y: 0, duration: 0.4 }, 2.1);
+            tl.to(akiraHUD.querySelector('.overlay-title'), { opacity: 1, duration: 0.3 }, 2.4);
+            tl.to(akiraHUD.querySelector('.overlay-bar'), { width: '100%', duration: 0.4 }, 2.8);
+            tl.to(akiraHUD.querySelector('.overlay-content'), { opacity: 1, duration: 0.4 }, 3.2);
         }
 
         // --- PHASE 4 : TRANSITION SYNCHRO ---
-        tl.to(akiraHeroRef.current, { x: -1200, opacity: 0, duration: 2, ease: "power2.inOut" }, 3.8);
-        tl.to(gisHeroRef.current, { x: 0, opacity: 1, duration: 2, ease: "power2.out" }, 3.8);
-        tl.to(overlayAkiraRef.current, { opacity: 0, pointerEvents: 'none', duration: 0.5 }, 3.8);
+        tl.to(akiraHeroRef.current, { x: -1200, opacity: 0, duration: 2, ease: "power2.inOut" }, 4.0);
+        tl.to(gisHeroRef.current, { x: 0, opacity: 1, duration: 2, ease: "power2.out" }, 4.2);
+        tl.to(overlayAkiraRef.current, { opacity: 0, pointerEvents: 'none', duration: 0.5 }, 4.6);
 
         // --- PHASE 5 : ZOOM GIS ---
         tl.to(gisProxy, {
