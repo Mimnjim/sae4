@@ -1,11 +1,7 @@
 /* Boutons pour les jeux */
 .game-button {
   background-color: #00ffff;
-<<<<<<< HEAD
-  color: #000;
-=======
   color: #fff;
->>>>>>> origin/Tom
   border: 2px solid #00ffff;
   padding: 15px 30px;
   font-size: 16px;
