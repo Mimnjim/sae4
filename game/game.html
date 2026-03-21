@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AU-DELÀ DE L'HUMAIN — Jeu de moto en Three.js">
+    <title>AU-DELÀ DE L'HUMAIN - Game</title>
+
+    <!--
+        IMPORTANT : l'importmap DOIT être déclarée avant tout script de type "module".
+        Elle dit au navigateur où trouver "three" quand on écrit import ... from "three"
+    -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/examples/jsm/loaders/GLTFLoader.js": "https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js"
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <main class="page">
+        <section class="game-shell">
+
+            <!-- Canvas Three.js injecté ici par le JS -->
+            <div id="game-container"></div>
+
+            <!-- =============================================
+                 HUD — Interface superposée sur le jeu
+                 Chaque panneau correspond à une info en jeu
+                 ============================================= -->
+            <div id="ui">
+
+                <!-- Barre de vie -->
+                <div class="hud-panel compact">
+                    <div class="hud-row">
+                        <div>
+                            <div class="label">Vie</div>
+                            <div id="container-timer">
+                                <div id="timer"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="label">%</div>
+                            <div id="health-value">100</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Barre de boost -->
+                <div class="hud-panel boost-panel compact">
+                    <div class="label">Boost</div>
+                    <div class="boost-row">
+                        <div class="boost-track">
+                            <div id="boost-bar"></div>
+                        </div>
+                        <div id="boost-status">CHARGEMENT...</div>
+                    </div>
+                </div>
+
+                <!-- Compteur d'objets collectés -->
+                <div class="hud-panel items-panel compact">
+                    <div class="label">Objets</div>
+                    <div class="item-got">0</div>
+                </div>
+
+            </div>
+            <!-- fin #ui -->
+
+
+            <!-- =============================================
+                 OVERLAYS — Écrans affichés par-dessus le jeu
+                 Visibilité gérée par les classes CSS :
+                   .overlay            = caché par défaut
+                   .overlay.is-visible = affiché
+                 ============================================= -->
+
+            <!-- Écran de chargement (visible au départ) -->
+            <div id="loading-message" class="overlay is-visible">
+                <div class="overlay-card">
+                    <h2>Chargement...</h2>
+                    <div class="loading-line"></div>
+                </div>
+            </div>
+
+            <!-- Écran Game Over -->
+            <div id="game-over" class="overlay">
+                <div class="overlay-card">
+                    <h2>Game Over</h2>
+                    <p>Vous avez été neutralisé.</p>
+                    <button class="btn btn-primary" onclick="location.reload()">Rejouer</button>
+                </div>
+            </div>
+
+            <!-- Écran de victoire -->
+            <div id="victory-screen" class="overlay">
+                <div class="overlay-card">
+                    <h2>Victoire !</h2>
+                    <p>Félicitations, vous avez atteint la fin.</p>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r17/Stats.min.js"></script>
+    <script src="all-levels.js" type="module"></script>
+
+</body>
+</html>

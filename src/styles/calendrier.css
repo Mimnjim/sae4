@@ -1,228 +1,203 @@
-.calendrier-container {
+/* =========================================
+   COMPOSANT : CALENDAR WRAPPER (Conteneur global)
+   ========================================= */
+.calendar-wrapper {
   max-width: 1200px;
   margin: 4rem auto;
   padding: 2rem;
-  font-family: var(--ff-family-main);
+  font-family: var(--ff-family-main, sans-serif);
+  color: #ffffff;
 }
 
-.calendrier-container h2 {
+.calendar-wrapper__title {
   font-size: 2.5rem;
   margin-bottom: 2rem;
-  color: #000;
   text-align: center;
 }
 
-.calendrier-container h3 {
+.calendar-wrapper__subtitle {
   font-size: 1.8rem;
   margin: 2rem 0 1rem;
-  color: #000;
 }
 
-/* Styles du calendrier */
+/* =========================================
+   SURCHARGE : REACT-CALENDAR
+   ========================================= */
 .react-calendar {
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
-  background: white;
-  border: 2px solid #000;
-  font-family: var(--ff-family-main);
+  padding: 1.5rem;
+  
+  /* LE FAMEUX FOND POUR LA LISIBILITÉ 👇 */
+  background-color: rgba(15, 15, 15, 0.75); /* Fond noir transparent */
+  backdrop-filter: blur(12px); /* Effet verre dépoli */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px; /* Un peu plus arrondi, c'est plus doux */
+  
+  font-family: inherit;
   line-height: 1.125em;
-  padding: 1rem;
-  border-radius: 8px;
-}
-
-.react-calendar--doubleView {
-  width: 700px;
-}
-
-.react-calendar--doubleView .react-calendar__viewContainer {
-  display: flex;
-  margin: -0.5em;
-}
-
-.react-calendar--doubleView .react-calendar__viewContainer > * {
-  width: 50%;
-  margin: 0.5em;
-}
-
-.react-calendar,
-.react-calendar *,
-.react-calendar *:before,
-.react-calendar *:after {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); /* Légère ombre pour le détacher */
 }
 
-.react-calendar button {
-  margin: 0;
-  border: 0;
-  outline: none;
-  font-size: 1rem;
-}
-
-.react-calendar button:enabled:hover {
-  cursor: pointer;
-}
-
+/* --- Navigation du calendrier (Mois/Années) --- */
 .react-calendar__navigation {
   display: flex;
   height: 44px;
-  margin-bottom: 1em;
+  margin-bottom: 1rem;
 }
 
 .react-calendar__navigation button {
   min-width: 44px;
   background: none;
+  border: none;
+  color: #ffffff;
   font-size: 1.2rem;
   font-weight: bold;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 150ms ease;
 }
 
 .react-calendar__navigation button:disabled {
-  background-color: #f0f0f0;
+  background-color: rgba(255, 255, 255, 0.02);
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .react-calendar__navigation button:enabled:hover,
 .react-calendar__navigation button:enabled:focus {
-  background-color: #e6e6e6;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
+/* --- Jours de la semaine (Lun, Mar, Mer...) --- */
 .react-calendar__month-view__weekdays {
   text-align: center;
   text-transform: uppercase;
   font-weight: bold;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   padding: 0.5rem 0;
+  color: rgba(255, 255, 255, 0.6); /* Un peu grisé pour hiérarchiser */
 }
 
-.react-calendar__month-view__weekdays__weekday {
-  padding: 0.5em;
+.react-calendar__month-view__weekdays__weekday abbr {
+  text-decoration: none; /* Enlève les pointillés moches sous les jours */
 }
 
-.react-calendar__month-view__weekNumbers .react-calendar__tile {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.75em;
-  font-weight: bold;
-}
-
-.react-calendar__month-view__days__day--weekend {
-  color: #d10000;
-}
-
-.react-calendar__month-view__days__day--neighboringMonth {
-  color: #757575;
-}
-
-.react-calendar__year-view .react-calendar__tile,
-.react-calendar__decade-view .react-calendar__tile,
-.react-calendar__century-view .react-calendar__tile {
-  padding: 2em 0.5em;
-}
-
+/* --- Cases du calendrier (Tuiles) --- */
 .react-calendar__tile {
   max-width: 100%;
-  padding: 10px 6.6667px;
+  padding: 12px 6px;
   background: none;
+  border: none;
+  color: #ffffff;
   text-align: center;
-  line-height: 16px;
   font-size: 1rem;
-  border-radius: 4px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease;
 }
 
 .react-calendar__tile:disabled {
-  background-color: #f0f0f0;
+  background-color: rgba(255, 255, 255, 0.02);
+  color: rgba(255, 255, 255, 0.3);
+  cursor: not-allowed;
 }
 
 .react-calendar__tile:enabled:hover,
 .react-calendar__tile:enabled:focus {
-  background-color: #e6e6e6;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
+/* --- États spécifiques des tuiles --- */
+/* Le jour d'aujourd'hui */
 .react-calendar__tile--now {
-  background: #ffff76;
+  background-color: rgba(255, 255, 118, 0.9);
+  color: #000000;
+  font-weight: bold;
 }
 
 .react-calendar__tile--now:enabled:hover,
 .react-calendar__tile--now:enabled:focus {
-  background: #ffffa9;
+  background-color: #ffffa9;
 }
 
-.react-calendar__tile--hasActive {
-  background: #76baff;
-}
-
-.react-calendar__tile--hasActive:enabled:hover,
-.react-calendar__tile--hasActive:enabled:focus {
-  background: #a9d4ff;
-}
-
+/* Le jour sélectionné (Actif) */
 .react-calendar__tile--active {
-  background: var(--color-primary, #1087ff);
-  color: white;
+  background-color: var(--color-primary, #1087ff) !important;
+  color: #ffffff !important;
+  font-weight: bold;
 }
 
-.react-calendar__tile--active:enabled:hover,
-.react-calendar__tile--active:enabled:focus {
-  background: var(--color-primary, #1087ff);
+/* Jours du mois précédent/suivant */
+.react-calendar__month-view__days__day--neighboringMonth {
+  color: rgba(255, 255, 255, 0.3);
 }
 
-.react-calendar--selectRange .react-calendar__tile--hover {
-  background-color: #e6e6e6;
+/* Week-end */
+.react-calendar__month-view__days__day--weekend {
+  color: #ff9b9b;
 }
 
-/* Styles des créneaux horaires */
-.calendrier-container ul {
+/* =========================================
+   COMPOSANT : TIME SLOTS (Créneaux horaires)
+   ========================================= */
+.time-slot-list {
   list-style: none;
   padding: 0;
   max-width: 600px;
-  margin: 0 auto;
+  margin: 1.5rem auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; 
 }
 
-.calendrier-container li {
+.time-slot-item {
   padding: 1rem;
-  margin: 0.5rem 0;
-  background: white;
-  border: 2px solid #000;
-  border-radius: 4px;
-  font-size: 1.2rem;
+  background-color: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 1.1rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 200ms ease;
+  text-align: center;
 }
 
-.calendrier-container li:hover {
-  background: var(--color-primary, #1087ff);
-  color: white;
-  transform: translateX(5px);
+.time-slot-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px); 
 }
 
-.calendrier-container li.selected {
-  background: var(--color-primary, #1087ff);
-  color: white;
+.time-slot-item--selected {
+  background-color: var(--color-primary, #1087ff);
   border-color: var(--color-primary, #1087ff);
+  color: #ffffff;
   font-weight: bold;
 }
 
-/* Bouton de validation */
-.validate-button {
+/* =========================================
+   BOUTON DE VALIDATION DU CALENDRIER
+   ========================================= */
+.calendar-wrapper__submit-btn {
   display: block;
+  width: 100%;
   max-width: 600px;
   margin: 2rem auto;
   padding: 1rem 2rem;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: bold;
-  font-family: var(--ff-family-main);
-  background: var(--color-primary, #1087ff);
-  color: white;
-  border: 2px solid var(--color-primary, #1087ff);
+  font-family: inherit;
+  background-color: var(--color-primary, #1087ff);
+  color: #ffffff;
+  border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform 150ms ease, background-color 150ms ease;
 }
 
-.validate-button:hover {
-  background: white;
-  color: var(--color-primary, #1087ff);
-  transform: scale(1.05);
+.calendar-wrapper__submit-btn:hover {
+  background-color: #0b68c9; 
+  transform: scale(1.02);
 }

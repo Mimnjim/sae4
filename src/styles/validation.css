@@ -1,16 +1,128 @@
-/* CODE POUR LA VALIDATION DES CHAMPS DE FORMULAIRE */
-
-/* Style du bouton de validation */
-.validation-button {
-  background-color: #4CAF50; /* Vert */
+/* =========================================
+   COMPOSANT 
+   ========================================= */
+.submit-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 1rem;
+  background-color: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
   border: none;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
+  border-radius: 8px;
+  font-size: 1rem;
   cursor: pointer;
-  border-radius: 4px;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+/* --- États (Désactivé, Focus) --- */
+.submit-btn:disabled,
+.submit-btn[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.submit-btn:focus-visible {
+  outline: 3px solid rgba(34, 34, 34, 0.12);
+  outline-offset: 2px;
+}
+
+/* --- Éléments internes au bouton --- */
+.submit-btn__text {
+  font-weight: 600;
+}
+
+.submit-btn__icon {
+  display: block;
+  width: 28px;
+  height: 28px;
+}
+
+
+
+.submit-btn--large .submit-btn__text {
+  font-size: clamp(1.2rem, 3.2vw, 2rem);
+  font-weight: 800;
+}
+
+.submit-btn--large .submit-btn__icon {
+  width: 36px;
+  height: 36px;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.35));
+}
+
+/* =========================================
+   ÉLÉMENT : DÉCORATION "TARGET" 
+   ========================================= */
+.submit-btn__target {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  background-color: rgba(255, 255, 255, 0.06);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none; 
+}
+
+.submit-btn__target-ring {
+  position: absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  border: 2px solid rgba(255, 255, 255, 0.14);
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.submit-btn__target-dot {
+  width: 6px;
+  height: 6px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  opacity: 0.95;
+}
+
+/* --- Animation au survol --- */
+.submit-btn:not(:disabled):hover .submit-btn__target-ring,
+.submit-btn:not(:disabled):focus-visible .submit-btn__target-ring {
+  animation: pulse-ring 900ms ease-out infinite;
+}
+
+@keyframes pulse-ring {
+  0%   { transform: scale(0.6); opacity: 0.9; }
+  60%  { transform: scale(1.4); opacity: 0.18; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+/* =========================================
+   RESPONSIVE 
+   ========================================= */
+@media (max-width: 520px) {
+  .submit-btn {
+    padding: 0.5rem 0.75rem;
+    gap: 0.4rem;
+  }
+  
+  .submit-btn__icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .submit-btn__target {
+    right: 8px; 
+    width: 28px;
+    height: 28px;
+  }
+
+  .submit-btn__target-dot {
+    width: 5px;
+    height: 5px;
+  }
 }

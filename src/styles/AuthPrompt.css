@@ -1,0 +1,37 @@
+.auth-prompt {
+  padding: 2rem;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  text-align: center;
+  background: rgba(0,0,0,0.45);
+  color: #fff;
+}
+.auth-prompt__title {
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+}
+.auth-prompt__desc {
+  margin-bottom: 1rem;
+  color: rgba(255,255,255,0.75);
+}
+.auth-prompt__actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+.auth-prompt__btn {
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+.auth-prompt__btn--primary {
+  background: #007bff;
+  color: #fff;
+  border: 1px solid #007bff;
+}
+.auth-prompt__btn--secondary {
+  background: #fff;
+  color: #333;
+  border: 1px solid #666;
+}

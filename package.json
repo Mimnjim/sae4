@@ -1,8 +1,20 @@
 {
   "name": "sae4_dev",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
+  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
+  "homepage": "https://github.com/Mimnjim/sae4#readme",
+  "bugs": {
+    "url": "https://github.com/Mimnjim/sae4/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mimnjim/sae4.git"
+  },
+  "license": "ISC",
+  "author": "",
   "type": "module",
+  "main": "eslint.config.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -10,10 +22,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@boxicons/react": "^1.0.3",
+    "@react-pdf/renderer": "^4.3.2",
     "@react-three/drei": "^10.7.7",
     "@react-three/postprocessing": "^3.0.4",
+    "@tailwindcss/vite": "^4.2.2",
+    "chart.js": "^4.5.1",
     "gsap": "^3.14.2",
+    "html2pdf.js": "^0.14.0",
+    "jspdf": "^4.2.0",
     "leaflet": "^1.9.4",
     "ogl": "^1.0.11",
     "react": "^19.2.0",
@@ -28,10 +44,13 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
+    "autoprefixer": "^10.4.27",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^3.4.19",
     "vite": "^7.3.1"
   }
 }
