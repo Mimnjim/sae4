@@ -1,0 +1,255 @@
+/* ═══════════════════════════════════════════════════════════════
+   EXPERIENCE SECTION — contenu à droite, grand triangle réservation
+═══════════════════════════════════════════════════════════════ */
+
+.exp-section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    /* Contenu poussé à droite */
+    justify-content: flex-end;
+}
+
+/* ── Image de fond ──────────────────────────────────────────────── */
+.exp-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.exp-bg img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    filter: brightness(0.5) contrast(1.1) saturate(0.85);
+}
+
+.exp-bg-vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        ellipse at 65% 50%,
+        transparent 20%,
+        rgba(0, 0, 0, 0.45) 60%,
+        rgba(0, 0, 0, 0.85) 100%
+    );
+}
+
+/* ── Panneau texte — côté droit ─────────────────────────────────── */
+.exp-panel {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    gap: 24px;
+    width: clamp(380px, 42vw, 580px);
+    /* Marge droite pour respirer du bord */
+    margin-right: clamp(40px, 6vw, 100px);
+    padding: clamp(44px, 5vw, 64px) clamp(40px, 5vw, 60px);
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.exp-eyebrow {
+    font-family: var(--ff-family-main);
+    font-size: clamp(0.75rem, 1vw, 0.88rem);
+    font-weight: 600;
+    letter-spacing: 7px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
+}
+
+.exp-title {
+    font-family: var(--ff-family-main);
+    font-size: clamp(2.2rem, 4vw, 3.8rem);
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+    margin: 0;
+    line-height: 1.0;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 1), 0 0 60px rgba(0, 0, 0, 0.8);
+}
+
+.exp-rule {
+    display: block;
+    width: 48px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.28);
+}
+
+.exp-description {
+    font-family: var(--ff-family-main);
+    font-size: clamp(1rem, 1.4vw, 1.15rem);
+    font-weight: 400;
+    line-height: 1.82;
+    color: rgba(255, 255, 255, 0.88);
+    margin: 0;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.95);
+}
+
+.exp-promo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    border: 1px solid rgba(255, 215, 0, 0.25);
+    background: rgba(255, 215, 0, 0.07);
+    font-family: var(--ff-family-main);
+    font-size: clamp(0.82rem, 1.1vw, 0.95rem);
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.82);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
+}
+
+.exp-promo-star {
+    color: #ffd700;
+    text-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
+}
+
+.exp-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: clamp(14px, 2vw, 18px) clamp(28px, 4vw, 48px);
+    background: #fff;
+    color: #0a0a0a;
+    font-family: var(--ff-family-main);
+    font-size: clamp(0.85rem, 1.1vw, 0.98rem);
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.exp-cta:hover {
+    background: #f0f0f0;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+.exp-cta-arrow {
+    transition: transform 0.2s;
+}
+.exp-cta:hover .exp-cta-arrow {
+    transform: translateX(4px);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TRIANGLE RÉSERVATION — grand, bas-gauche
+   clip-path trace un triangle depuis le coin bas-gauche :
+   (0,100%) → coin bas-droit du bloc → (0,0%) haut-gauche
+   Plus grand que la moitié de l'écran pour un vrai impact visuel
+═══════════════════════════════════════════════════════════════ */
+.exp-reservation {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    /* Large : occupe ~45% de la largeur et ~60% de la hauteur */
+    width: clamp(340px, 75vw, 960px);
+    height: clamp(280px, 58vh, 520px);
+    z-index: 3;
+    clip-path: polygon(0% 100%, 100% 100%, 0% 0%);
+    background: rgba(0, 0, 0, 0.78);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    /* Légère bordure sur l'hypoténuse — effet de finesse */
+    display: flex;
+    align-items: flex-end;
+    padding: clamp(28px, 4vw, 52px) clamp(32px, 4.5vw, 60px);
+}
+
+/* Contenu positionné dans la zone visible du triangle (bas-gauche) */
+.exp-reservation-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    /* On limite la largeur pour rester dans le triangle */
+    max-width: 55%;
+}
+
+.exp-reservation-label {
+    font-family: var(--ff-family-main);
+    font-size: clamp(0.68rem, 0.95vw, 0.82rem);
+    font-weight: 700;
+    letter-spacing: 7px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.42);
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
+}
+
+.exp-reservation-title {
+    font-family: var(--ff-family-main);
+    font-size: clamp(1.6rem, 3vw, 2.8rem);
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #fff;
+    margin: 0;
+    line-height: 1.05;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 1);
+}
+
+.exp-reservation-sub {
+    font-family: var(--ff-family-main);
+    font-size: clamp(0.88rem, 1.2vw, 1rem);
+    font-weight: 400;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.65);
+    margin: 0;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
+}
+
+.exp-reservation-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+    font-family: var(--ff-family-main);
+    font-size: clamp(0.85rem, 1.2vw, 1rem);
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
+    transition: gap 0.2s;
+}
+
+.exp-reservation-link:hover {
+    gap: 14px;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+    .exp-section {
+        justify-content: center;
+    }
+    .exp-panel {
+        margin-right: 0;
+        max-width: 90vw;
+        align-items: center;
+        text-align: center;
+    }
+    .exp-reservation {
+        width: clamp(260px, 60vw, 400px);
+        height: clamp(200px, 35vh, 300px);
+    }
+    .exp-reservation-inner {
+        max-width: 60%;
+    }
+}

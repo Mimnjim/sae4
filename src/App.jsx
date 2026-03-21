@@ -144,6 +144,7 @@ import Hero from './components/Hero.jsx';
 import Section from './components/Section.jsx';
 import Footer from './components/Footer.jsx';
 import MangaArchive from './components/MangaArchive.jsx';
+import ExperiencesSection from './components/ExperiencesSection.jsx';
 
 // Pages
 import Experiences from './pages/Experiences.jsx';
@@ -167,32 +168,18 @@ import './styles/immersion-overlay.css';
 const Home = () => {
   return (
     <div className="home-container">
+      {/* Les sections vont flotter au-dessus du Grainient */}
+
       <Hero
         title1="AKIRA"
         title2="GHOST IN THE SHELL"
         subtitle="Au-delà de l'humain"
       />
 
-      {/* Cette section va maintenant flotter au-dessus du Grainient */}
       <MangaArchive />
 
-      {/* <img src="/img/Akira1.jpg" alt="" /> */}
+      <ExperiencesSection />
 
-      {/* <Section
-        id="akira"
-        title="Akira"
-        content="Découvrez Neo-Tokyo et les mutations physiques et mentales de ses héros dans un univers cyberpunk lumineux et glitché."
-        imgSrc="img/Akira1.jpg"
-        reverse={true}
-      />
-
-      <Section
-        id="ghost"
-        title="Ghost in the Shell"
-        content="Plongez dans la conscience augmentée et la réflexion philosophique sur l'identité à l'ère de l'IA et des cyber-corps."
-        imgSrc="img/GIS1.jpg"
-        reverse={false}
-      /> */}
     </div>
   );
 };
