@@ -1,12 +1,19 @@
 /* ═══════════════════════════════════════════════════════════════
-   MANGA ARCHIVE — Paginé, aéré, 100vh strict
+   MANGA ARCHIVE — Grille 2×2, textes grands et accessibles
+   Règles :
+   - var(--ff-family-main) partout
+   - Aucun font-weight inférieur à 400
+   - Aucun texte en dessous de 0.85rem
+   - Couleurs : blanc pur ou quasi-pur sur fond sombre
+   - Opacités de texte minimum 0.65
 ═══════════════════════════════════════════════════════════════ */
 
 .ma-section {
-    --shadow:      0 2px 12px rgba(0,0,0,1), 0 0 40px rgba(0,0,0,0.8);
-    --shadow-sm:   0 1px 8px rgba(0,0,0,0.95);
-    --akira:       #00d4ff;
-    --gis:         #ff66cc;
+    --shadow:    0 2px 16px rgba(0,0,0,1), 0 0 48px rgba(0,0,0,0.85);
+    --shadow-sm: 0 2px 10px rgba(0,0,0,1);
+    --akira:     #00d4ff;
+    --gis:       #ff66cc;
+    --dur:       0.5s;
 
     width: 100%;
     background: transparent;
@@ -16,7 +23,7 @@
 /* ── Header ────────────────────────────────────────────────────── */
 .ma-header {
     text-align: center;
-    padding: clamp(70px, 10vh, 120px) 20px clamp(40px, 5vh, 70px);
+    padding: clamp(60px, 10vh, 110px) 20px clamp(32px, 4vh, 56px);
     position: relative;
     z-index: 2;
 }
@@ -24,18 +31,18 @@
 .ma-eyebrow {
     display: block;
     font-family: var(--ff-family-main);
-    font-size: clamp(0.75rem, 1.2vw, 0.9rem);
-    font-weight: 500;
+    font-size: clamp(0.85rem, 1.3vw, 1rem);
+    font-weight: 600;
     letter-spacing: 8px;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.7);
+    color: rgba(255,255,255,0.75);
     margin-bottom: 16px;
     text-shadow: var(--shadow);
 }
 
 .ma-header h2 {
     font-family: var(--ff-family-main);
-    font-size: clamp(2rem, 4.5vw, 4rem);
+    font-size: clamp(2.2rem, 4.5vw, 4.2rem);
     font-weight: 900;
     letter-spacing: 6px;
     text-transform: uppercase;
@@ -48,218 +55,291 @@
 .ma-header-rule {
     display: block;
     width: 50px; height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
     margin: 0 auto;
 }
 
-/* ── Viewer : fenêtre exactement 100vh ─────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════
+   VIEWER
+═══════════════════════════════════════════════════════════════ */
 .ma-viewer {
     position: relative;
     width: 100%;
     height: 100vh;
-    overflow: hidden;
-}
-
-/* ── Track horizontal ──────────────────────────────────────────── */
-.ma-track {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    transition: transform 0.65s cubic-bezier(0.76, 0, 0.24, 1);
-    will-change: transform;
-}
-
-/* ── Carte : exactement la taille du viewer ────────────────────── */
-.ma-card {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    width: 100%;
-    height: 100%;
-    flex-shrink: 0;
-    position: relative;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 3px;
+    background: rgba(0,0,0,0.3);
 }
 
-/* ── Côté image ────────────────────────────────────────────────── */
-.ma-img {
-    position: relative;
+/* ── Fond plein écran ──────────────────────────────────────────── */
+.ma-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
     overflow: hidden;
-    height: 100%;
 }
 
-.ma-img img {
+.ma-bg img {
     position: absolute;
     inset: 0;
     width: 100%; height: 100%;
     object-fit: cover;
     object-position: center top;
-    display: block;
-    filter: grayscale(0.1) brightness(0.78) contrast(1.1);
-    transition: filter 0.6s ease;
+    filter: grayscale(0.3) brightness(0.32) contrast(1.1);
+    transition: opacity var(--dur) ease;
 }
 
-.ma-card:hover .ma-img img {
-    filter: grayscale(0) brightness(0.88) contrast(1.05);
-}
-
-.ma-img-overlay {
+.ma-bg-overlay {
     position: absolute;
     inset: 0;
+    background: radial-gradient(
+        ellipse at center,
+        transparent 0%,
+        rgba(0,0,0,0.55) 55%,
+        rgba(0,0,0,0.88) 100%
+    );
     z-index: 1;
 }
 
-.ma-img-overlay--left {
-    background: linear-gradient(to right, transparent 30%, rgba(0,0,0,0.55) 65%, rgba(0,0,0,0.85) 100%);
-}
-
-.ma-img-overlay--right {
-    background: linear-gradient(to left, transparent 30%, rgba(0,0,0,0.55) 65%, rgba(0,0,0,0.85) 100%);
-}
-
-.ma-img-label {
-    position: absolute;
-    bottom: 28px; left: 28px;
-    font-family: var(--ff-family-main);
-    font-size: 0.78rem;
-    font-weight: 500;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.5);
+/* ── Miniatures ────────────────────────────────────────────────── */
+.ma-thumb {
+    position: relative;
     z-index: 2;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform var(--dur) ease;
+}
+
+.ma-thumb:nth-child(1) { grid-column: 1; grid-row: 1; }
+.ma-thumb:nth-child(2) { grid-column: 3; grid-row: 1; }
+.ma-thumb:nth-child(3) { grid-column: 1; grid-row: 2; }
+.ma-thumb:nth-child(4) { grid-column: 3; grid-row: 2; }
+
+.ma-thumb img {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    filter: grayscale(0.6) brightness(0.45) contrast(1.1);
+    transition: filter var(--dur) ease, transform var(--dur) ease;
+}
+
+.ma-thumb:hover img {
+    filter: grayscale(0.1) brightness(0.7) contrast(1.05);
+    transform: scale(1.04);
+}
+
+.ma-thumb.is-active img {
+    filter: grayscale(0) brightness(0.82) contrast(1.05);
+    transform: scale(1.04);
+}
+
+/* Bordure active */
+.ma-thumb.is-active::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 3;
+    border: 3px solid;
+}
+
+.ma-thumb.is-active.akira-active::after {
+    border-color: var(--akira);
+    box-shadow: inset 0 0 24px rgba(0,212,255,0.18);
+}
+.ma-thumb.is-active.gis-active::after {
+    border-color: var(--gis);
+    box-shadow: inset 0 0 24px rgba(255,102,204,0.18);
+}
+
+/* Overlay sur les inactives */
+.ma-thumb:not(.is-active)::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 2;
+    transition: opacity var(--dur) ease;
+}
+
+/* Label miniature */
+.ma-thumb-label {
+    position: absolute;
+    bottom: 14px;
+    left: 16px;
+    z-index: 4;
+    font-family: var(--ff-family-main);
+    font-size: clamp(0.78rem, 1.1vw, 0.95rem);
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+    text-shadow: var(--shadow-sm);
+    line-height: 1.4;
+}
+
+.ma-thumb-label span {
+    display: block;
+    font-family: var(--ff-family-main);
+    font-size: clamp(0.65rem, 0.9vw, 0.78rem);
+    font-weight: 500;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.7);
+    margin-top: 2px;
     text-shadow: var(--shadow-sm);
 }
 
-.ma-scan {
+/* Point indicateur actif */
+.ma-thumb-dot {
     position: absolute;
-    left: 0; width: 100%; height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7) 50%, transparent);
-    box-shadow: 0 0 12px rgba(255,255,255,0.4);
-    z-index: 3;
-    opacity: 0.3;
-    animation: maScanAnim 7s linear infinite;
+    top: 14px; right: 14px;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    z-index: 4;
+    opacity: 0;
+    transform: scale(0);
+    transition: opacity var(--dur) ease, transform var(--dur) ease;
 }
 
-@keyframes maScanAnim {
-    from { top: 0; }
-    to   { top: 100%; }
+.ma-thumb.is-active .ma-thumb-dot {
+    opacity: 1;
+    transform: scale(1);
 }
 
-/* ── Côté texte ────────────────────────────────────────────────── */
-.ma-text {
+.ma-thumb.akira-active .ma-thumb-dot {
+    background: var(--akira);
+    box-shadow: 0 0 12px var(--akira);
+}
+.ma-thumb.gis-active .ma-thumb-dot {
+    background: var(--gis);
+    box-shadow: 0 0 12px var(--gis);
+}
+
+/* ── Zone centrale ─────────────────────────────────────────────── */
+.ma-center {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    position: relative;
+    z-index: 2;
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
-    /* Padding généreux pour aérer */
-    padding: 0 clamp(40px, 6vw, 80px);
-    gap: 28px;
-    position: relative;
-    background: rgba(0,0,0,0.68);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    /* Jamais de scroll — on fait tenir dans 100vh */
-    overflow: hidden;
+    padding: clamp(32px, 4vw, 60px);
+    text-align: center;
+    background: rgba(0,0,0,0.12);
 }
 
-.ma-text--reverse { order: -1; }
+.ma-center-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    width: 100%;
+}
 
 /* ── Tag ───────────────────────────────────────────────────────── */
 .ma-tag {
     font-family: var(--ff-family-main);
-    font-size: clamp(0.8rem, 1vw, 0.95rem);
-    font-weight: 700;
+    font-size: clamp(0.85rem, 1.1vw, 1rem);
+    font-weight: 800;
     letter-spacing: 7px;
     text-transform: uppercase;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 14px;
 }
 
 .ma-tag-line {
     display: block;
-    width: 28px; height: 2px;
+    width: 24px; height: 2px;
     flex-shrink: 0;
     border-radius: 2px;
 }
 
-.ma-tag--akira              { color: var(--akira); }
-.ma-tag--akira .ma-tag-line { background: var(--akira); box-shadow: 0 0 8px rgba(0,212,255,0.6); }
-.ma-tag--gis                { color: var(--gis); }
-.ma-tag--gis   .ma-tag-line { background: var(--gis);   box-shadow: 0 0 8px rgba(255,102,204,0.6); }
+.ma-tag--akira              { color: var(--akira); text-shadow: 0 0 16px rgba(0,212,255,0.5); }
+.ma-tag--akira .ma-tag-line { background: var(--akira); box-shadow: 0 0 10px rgba(0,212,255,0.7); }
+.ma-tag--gis                { color: var(--gis);   text-shadow: 0 0 16px rgba(255,102,204,0.5); }
+.ma-tag--gis   .ma-tag-line { background: var(--gis);   box-shadow: 0 0 10px rgba(255,102,204,0.7); }
 
-/* ── Bloc titre ────────────────────────────────────────────────── */
+/* ── Titres ────────────────────────────────────────────────────── */
 .ma-titles {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 10px;
 }
 
 .ma-title {
     font-family: var(--ff-family-main);
-    font-size: clamp(2.6rem, 4.5vw, 5rem);
+    font-size: clamp(3rem, 5.5vw, 6rem);
     font-weight: 900;
     letter-spacing: 2px;
     text-transform: uppercase;
     color: #fff;
     margin: 0;
-    line-height: 0.9;
+    line-height: 0.88;
     text-shadow: var(--shadow);
 }
 
 .ma-subtitle {
     font-family: var(--ff-family-main);
-    font-size: clamp(0.82rem, 1.1vw, 0.95rem);
-    font-weight: 400;
+    font-size: clamp(0.88rem, 1.2vw, 1.05rem);
+    font-weight: 500;
     letter-spacing: 4px;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.45);
+    /* Blanc à 65% minimum pour rester lisible */
+    color: rgba(255,255,255,0.65);
     margin: 0;
     text-shadow: var(--shadow-sm);
 }
 
 /* ── Accroche ──────────────────────────────────────────────────── */
 .ma-hook {
-    position: relative;
-    padding-left: 18px;
-    border-left: 3px solid currentColor;
-    border-radius: 2px;
+    max-width: 540px;
 }
-
-.ma-hook--akira { border-left-color: var(--akira); }
-.ma-hook--gis   { border-left-color: var(--gis); }
 
 .ma-hook p {
     font-family: var(--ff-family-main);
-    font-size: clamp(1rem, 1.4vw, 1.2rem);
-    line-height: 1.75;
-    color: rgba(255,255,255,0.9);
+    font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+    line-height: 1.8;
+    /* Blanc fort — texte principal */
+    color: rgba(255,255,255,0.92);
     font-style: italic;
-    font-weight: 300;
+    font-weight: 400;
     margin: 0;
     text-shadow: var(--shadow-sm);
 }
 
-/* ── Question / résonance contemporaine ────────────────────────── */
+/* ── Question contemporaine ────────────────────────────────────── */
 .ma-question {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
+    max-width: 500px;
 }
 
 .ma-question-label {
     font-family: var(--ff-family-main);
-    font-size: clamp(0.68rem, 0.9vw, 0.78rem);
+    font-size: clamp(0.72rem, 0.9vw, 0.85rem);
     font-weight: 700;
     letter-spacing: 6px;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.38);
+    /* Minimum 0.5 d'opacité */
+    color: rgba(255,255,255,0.55);
     text-shadow: var(--shadow-sm);
 }
 
 .ma-question p {
     font-family: var(--ff-family-main);
-    font-size: clamp(0.95rem, 1.3vw, 1.1rem);
-    line-height: 1.7;
-    color: rgba(255,255,255,0.75);
-    font-weight: 300;
+    font-size: clamp(1rem, 1.3vw, 1.15rem);
+    line-height: 1.75;
+    color: rgba(255,255,255,0.82);
+    font-weight: 400;
     margin: 0;
     text-shadow: var(--shadow-sm);
 }
@@ -267,31 +347,35 @@
 /* ── Info exposition ───────────────────────────────────────────── */
 .ma-expo-info {
     display: flex;
-    align-items: baseline;
+    align-items: flex-start;
     gap: 12px;
-    padding: 12px 16px;
-    border: 1px solid rgba(255,255,255,0.08);
+    padding: 14px 20px;
+    border: 1px solid rgba(255,255,255,0.12);
     border-radius: 4px;
-    background: rgba(0,0,0,0.25);
+    background: rgba(0,0,0,0.38);
+    max-width: 520px;
+    width: 100%;
 }
 
 .ma-expo-badge {
     font-family: var(--ff-family-main);
-    font-size: clamp(0.68rem, 0.9vw, 0.78rem);
-    font-weight: 700;
+    font-size: clamp(0.72rem, 0.9vw, 0.85rem);
+    font-weight: 800;
     letter-spacing: 4px;
     text-transform: uppercase;
-    color: rgba(186,18,27,0.85);
+    /* Rouge expo bien visible */
+    color: #ff4444;
     white-space: nowrap;
     flex-shrink: 0;
-    text-shadow: 0 0 10px rgba(186,18,27,0.35);
+    text-shadow: 0 0 12px rgba(255,60,60,0.5);
 }
 
 .ma-expo-info p {
     font-family: var(--ff-family-main);
-    font-size: clamp(0.85rem, 1.1vw, 0.95rem);
-    line-height: 1.5;
-    color: rgba(255,255,255,0.6);
+    font-size: clamp(0.88rem, 1.1vw, 1rem);
+    line-height: 1.6;
+    color: rgba(255,255,255,0.75);
+    font-weight: 400;
     font-style: italic;
     margin: 0;
     text-shadow: var(--shadow-sm);
@@ -300,112 +384,52 @@
 /* ── Numéro décoratif ──────────────────────────────────────────── */
 .ma-big-number {
     position: absolute;
-    bottom: 20px; right: 24px;
+    bottom: 16px; right: 20px;
     font-family: var(--ff-family-main);
-    font-size: clamp(5rem, 9vw, 8rem);
+    font-size: clamp(4.5rem, 8vw, 7rem);
     font-weight: 900;
-    color: rgba(255,255,255,0.04);
+    color: rgba(255,255,255,0.05);
     line-height: 1;
     pointer-events: none;
     user-select: none;
     letter-spacing: -6px;
-}
-
-/* ── Navigation ────────────────────────────────────────────────── */
-.ma-nav {
-    position: absolute;
-    bottom: 28px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    z-index: 10;
-}
-
-.ma-nav-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 46px; height: 46px;
-    border: 1px solid rgba(255,255,255,0.3);
-    border-radius: 50%;
-    background: rgba(0,0,0,0.45);
-    backdrop-filter: blur(6px);
-    color: #fff;
-    cursor: pointer;
-    font-size: 1rem;
-    padding: 0;
-    transition: border-color 0.2s, background 0.2s, transform 0.2s;
-}
-
-.ma-nav-btn:hover:not(:disabled) {
-    border-color: rgba(255,255,255,0.75);
-    background: rgba(255,255,255,0.1);
-    transform: scale(1.08);
-}
-
-.ma-nav-btn:disabled {
-    opacity: 0.2;
-    cursor: not-allowed;
-}
-
-.ma-nav-dots {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.ma-nav-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.3);
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    transition: background 0.3s, transform 0.3s;
-}
-
-.ma-nav-dot.is-active {
-    background: #fff;
-    transform: scale(1.5);
+    z-index: 1;
 }
 
 /* ── Footer ────────────────────────────────────────────────────── */
 .ma-footer {
     text-align: center;
-    padding: clamp(40px, 6vh, 70px) 20px;
+    padding: clamp(32px, 5vh, 60px) 20px;
 }
 
 .ma-footer p {
     font-family: var(--ff-family-main);
-    font-size: clamp(0.78rem, 1vw, 0.9rem);
+    font-size: clamp(0.88rem, 1.1vw, 1rem);
+    font-weight: 600;
     letter-spacing: 5px;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.3);
+    color: rgba(255, 255, 255, 0.65);
     text-shadow: var(--shadow-sm);
 }
 
-/* ── Responsive mobile ─────────────────────────────────────────── */
-@media (max-width: 768px) {
-    .ma-card {
-        grid-template-columns: 1fr;
-        grid-template-rows: 40vh 1fr;
+/* ── Responsive ────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+    .ma-viewer {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 180px 180px;
+        height: auto;
     }
-    .ma-img { height: 40vh; }
-    .ma-img-overlay--left,
-    .ma-img-overlay--right {
-        background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%);
+    .ma-center {
+        grid-column: 1 / 3;
+        grid-row: 1;
+        min-height: 60vh;
+        padding: 40px 20px;
     }
-    .ma-text {
-        padding: 28px 20px;
-        gap: 20px;
-        justify-content: flex-start;
-        overflow-y: auto;
-    }
-    .ma-text--reverse { order: 0; }
-    .ma-big-number { display: none; }
-    .ma-title { font-size: clamp(1.8rem, 8vw, 2.8rem); }
-    .ma-viewer { height: auto; min-height: 100vh; }
-    .ma-track { flex-direction: column; height: auto; transition: none; }
+    .ma-thumb:nth-child(1) { grid-column: 1; grid-row: 2; }
+    .ma-thumb:nth-child(2) { grid-column: 2; grid-row: 2; }
+    .ma-thumb:nth-child(3) { grid-column: 1; grid-row: 3; }
+    .ma-thumb:nth-child(4) { grid-column: 2; grid-row: 3; }
+    .ma-bg { display: none; }
+    .ma-title { font-size: clamp(2.4rem, 9vw, 4rem); }
+    .ma-hook p { font-size: clamp(1rem, 3.5vw, 1.2rem); }
 }
