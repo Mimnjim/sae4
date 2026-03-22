@@ -51,7 +51,7 @@ export default function UserProfile() {
       return;
     }
 
-    fetch('/sae4_api/api/users.php', { headers: getAuthHeaders() })
+    fetch('https://apimusee.tomdelavigne.fr/api/users.php', { headers: getAuthHeaders() })
       .then(response => response.json())
       .then(data => {
         if (!data.success || !data.user) {
@@ -69,7 +69,7 @@ export default function UserProfile() {
         });
 
         // On enchaîne le fetch des réservations une fois qu'on a l'id utilisateur
-        return fetch(`/sae4_api/api/reservations.php?user_id=${fetchedUser.id}`, {
+        return fetch(`https://apimusee.tomdelavigne.fr/api/reservations.php?user_id=${fetchedUser.id}`, {
           headers: getAuthHeaders(),
         });
       })
@@ -89,7 +89,7 @@ export default function UserProfile() {
     setErrorMessage('');
     setSuccessMessage('');
 
-    fetch('/sae4_api/api/users.php', {
+    fetch('https://apimusee.tomdelavigne.fr/api/users.php', {
       method:  'PUT',
       headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
       body:    JSON.stringify(form),
@@ -112,7 +112,7 @@ export default function UserProfile() {
   const handleDeleteReservation = (reservationId) => {
     if (!window.confirm('Voulez-vous vraiment supprimer cette réservation ?')) return;
 
-    fetch(`/sae4_api/api/reservations.php?id=${reservationId}`, {
+    fetch(`https://apimusee.tomdelavigne.fr/api/reservations.php?id=${reservationId}`, {
       method:  'DELETE',
       headers: getAuthHeaders(),
     })

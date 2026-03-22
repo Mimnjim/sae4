@@ -139,7 +139,7 @@ const FormReservation = () => {
       'X-Authorization': `Bearer ${jwt}`,
     };
 
-    fetch('/sae4_api/api/reservations.php', {
+    fetch('https://apimusee.tomdelavigne.fr/api/reservations.php', {
       method: 'POST',
       headers,
       body: JSON.stringify(body),

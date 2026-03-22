@@ -16,7 +16,7 @@ const Backoffice = () => {
   // verify admin on mount
   useEffect(() => {
     if (!token) { setIsAdmin(false); return; }
-    fetch('/sae4_api/api/users.php', { headers })
+    fetch('https://apimusee.tomdelavigne.fr/api/users.php', { headers })
       .then(r => r.json())
       .then(j => {
         if (j && j.success && j.user && j.user.role === 'admin') setIsAdmin(true);
@@ -33,7 +33,7 @@ const Backoffice = () => {
 
   function loadUsers() {
     setLoading(true);
-    fetch('/sae4_api/api/users.php?all=1', { headers })
+    fetch('https://apimusee.tomdelavigne.fr/api/users.php?all=1', { headers })
       .then(r => r.json())
       .then(j => setUsers(j.users || []))
       .catch(() => setUsers([]))
@@ -42,7 +42,7 @@ const Backoffice = () => {
 
   function loadReservations() {
     setLoading(true);
-    fetch('/sae4_api/api/reservations.php', { headers })
+    fetch('https://apimusee.tomdelavigne.fr/api/reservations.php', { headers })
       .then(r => r.json())
       .then(j => {
         // API returns array or {success:true, reservations:[]}
@@ -55,18 +55,18 @@ const Backoffice = () => {
 
   function deleteUser(id) {
     if (!confirm('Supprimer cet utilisateur ?')) return;
-    fetch('/sae4_api/api/users.php?id=' + id, { method: 'DELETE', headers })
+    fetch('https://apimusee.tomdelavigne.fr/api/users.php?id=' + id, { method: 'DELETE', headers })
       .then(() => loadUsers());
   }
 
   function changeUserRole(id, role) {
-    fetch('/sae4_api/api/users.php?id=' + id, { method: 'PUT', headers: {...headers, 'Content-Type':'application/json'}, body: JSON.stringify({role}) })
+    fetch('https://apimusee.tomdelavigne.fr/api/users.php?id=' + id, { method: 'PUT', headers: {...headers, 'Content-Type':'application/json'}, body: JSON.stringify({role}) })
       .then(() => loadUsers());
   }
 
   function deleteReservation(id) {
     if (!confirm('Supprimer cette réservation ?')) return;
-    fetch('/sae4_api/api/reservations.php?id=' + id, { method: 'DELETE', headers })
+    fetch('https://apimusee.tomdelavigne.fr/api/reservations.php?id=' + id, { method: 'DELETE', headers })
       .then(() => loadReservations());
   }
 

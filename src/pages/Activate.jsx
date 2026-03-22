@@ -26,7 +26,7 @@ const Activate = () => {
       return;
     }
 
-    fetch(`/sae4_api/api/activate.php?token=${encodeURIComponent(token)}`)
+    fetch(`https://apimusee.tomdelavigne.fr/api/activate.php?token=${encodeURIComponent(token)}`)
       .then(response => response.json())
       .then(data => {
         if (data.success) {

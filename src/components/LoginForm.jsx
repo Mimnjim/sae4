@@ -16,7 +16,7 @@ function LoginForm({ onSuccess, setUser }) {
     setIsLoading(true);
     setErrorMessage(''); // on efface l'erreur précédente à chaque nouvelle tentative
 
-    fetch('/sae4_api/api/login.php', {
+    fetch('https://apimusee.tomdelavigne.fr/api/login.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),

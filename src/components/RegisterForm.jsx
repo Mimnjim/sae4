@@ -20,7 +20,7 @@ function RegisterForm({ onSuccess }) {
     setIsLoading(true);
     setErrorMessage('');
 
-    fetch('/sae4_api/api/register.php', {
+    fetch('https://apimusee.tomdelavigne.fr/api/register.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password, firstname, lastname }),
