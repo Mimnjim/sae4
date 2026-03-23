@@ -23,8 +23,11 @@ export default function SectionSeparator() {
                 width:        '6px',
                 height:       '6px',
                 borderRadius: '50%',
-                background:   'rgba(186, 18, 27, 0.8)',
-                boxShadow:    '0 0 14px rgba(186, 18, 27, 0.7), 0 0 28px rgba(186, 18, 27, 0.3)',
+                // background:   'rgba(186, 18, 27, 0.8)',
+                // boxShadow:    '0 0 14px rgba(186, 18, 27, 0.7), 0 0 28px rgba(186, 18, 27, 0.3)',
+                background:   'rgba(255, 255, 255, 0.8)',
+                boxShadow:    '0 0 14px rgba(255, 255, 255, 0.8)',
+                
                 margin:       '0 24px',
                 flexShrink:   0,
             }} />

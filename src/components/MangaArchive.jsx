@@ -1042,9 +1042,9 @@ export default function MangaArchive() {
             </div>
 
             {/* ── Footer ── */}
-            <footer className="ma-footer">
+            {/* <footer className="ma-footer">
                 <p>Catalogue de l'exposition · {entries.length} œuvres au programme</p>
-            </footer>
+            </footer> */}
 
         </section>
     );

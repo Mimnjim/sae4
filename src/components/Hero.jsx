@@ -61,7 +61,7 @@ export default function Hero({ title1, title2, subtitle }) {
             scrollTrigger: {
                 trigger: heroRef.current,
                 start: 'top top',
-                end: '+=800%',
+                end: '+=1200%',
                 scrub: 1,
                 pin: true,
                 invalidateOnRefresh: true,
@@ -132,6 +132,20 @@ export default function Hero({ title1, title2, subtitle }) {
         // PHASE 7 : SORTIE FINALE
         tl.to(overlayGisRef.current, { opacity: 0, pointerEvents: 'none', duration: 0.5 }, 9.5);
 
+
+        const backgroundTransition = document.querySelector('.hero-background-transition');
+
+        // Animation clip-path qui révèle depuis le bas-droit
+        gsap.set(backgroundTransition, { 
+            clipPath: "polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)" 
+        });
+
+        tl.to(backgroundTransition, {
+            clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+            duration: 1.5,
+            ease: "power2.inOut"
+        }, 9.7);
+
         requestAnimationFrame(() => {
             ScrollTrigger.refresh();
             if (loaderRef.current) {
@@ -178,30 +192,7 @@ export default function Hero({ title1, title2, subtitle }) {
                 <p style={{ color: '#fff', opacity: 0.4 }}>{loadPercent}%</p>
             </div>
 
-            {/* ── HUD AKIRA ──
-                Présentation courte d'Akira sur le modèle 3D.
-                title  = nom de l'œuvre
-                content = présentation immersive courte
-            */}
-            <ImmersionOverlay
-                ref={overlayAkiraRef}
-                side="left"
-                color="cyan"
-                title="Akira"
-                content="1982. Katsuhiro Otomo imagine Neo-Tokyo — ville-monstre surgie de ses propres cendres. Tetsuo, adolescent brisé, devient le réceptacle d'une puissance inhumaine. Akira n'est pas un manga. C'est une prophétie."
-            />
-
-            {/* ── HUD GHOST IN THE SHELL ──
-                Présentation courte de GIS sur le modèle 3D.
-            */}
-            <ImmersionOverlay
-                ref={overlayGisRef}
-                side="right"
-                color="magenta"
-                title="Ghost in the Shell"
-                content="1989. Masamune Shirow pose la question qui hante notre siècle : si tout ce que tu es — tes souvenirs, tes sensations, ta pensée — peut être copié, effacé, reprogrammé, qu'est-ce qui reste de toi ? Le Major cherche encore."
-            />
-
+            {/* HERO MAIN SECTION */}
             <div className="hero-section" ref={heroRef} style={{ position: 'relative', overflow: 'hidden' }}>
                 <div className="characters-infos">
 
@@ -231,7 +222,36 @@ export default function Hero({ title1, title2, subtitle }) {
                     <a href="#">teaser</a>
                     <a href="#">tickets</a>
                 </div>
+
+                {/* ── Image de fond de transition de fin de section*/}
+                <div className="hero-background-transition">
+                </div>
+
             </div>
+
+            {/* ── HUD AKIRA ──
+                Présentation courte d'Akira sur le modèle 3D.
+                title  = nom de l'œuvre
+                content = présentation immersive courte
+            */}
+            <ImmersionOverlay
+                ref={overlayAkiraRef}
+                side="left"
+                color="cyan"
+                title="Akira"
+                content="1982. Katsuhiro Otomo imagine Neo-Tokyo — ville-monstre surgie de ses propres cendres. Tetsuo, adolescent brisé, devient le réceptacle d'une puissance inhumaine. Akira n'est pas un manga. C'est une prophétie."
+            />
+
+            {/* ── HUD GHOST IN THE SHELL ──
+                Présentation courte de GIS sur le modèle 3D.
+            */}
+            <ImmersionOverlay
+                ref={overlayGisRef}
+                side="right"
+                color="magenta"
+                title="Ghost in the Shell"
+                content="1989. Masamune Shirow pose la question qui hante notre siècle : si tout ce que tu es — tes souvenirs, tes sensations, ta pensée — peut être copié, effacé, reprogrammé, qu'est-ce qui reste de toi ? Le Major cherche encore."
+            />
         </>
     );
 }

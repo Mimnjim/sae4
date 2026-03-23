@@ -422,6 +422,22 @@
     /* border-radius: 10px; */
 }
 
+
+/* Background Transition de fin de section HERO | Pour changer de section dans la Home page */
+.hero-background-transition {
+    background-color: #000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 999;
+    opacity: 1;
+    /* Initial clip-path: caché depuis le bas-droit */
+    clip-path: polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%);
+}
+
+
 /* === RESPONSIVE === */
 
 @media (max-width: 1200px) {
