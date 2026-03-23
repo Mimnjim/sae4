@@ -172,10 +172,10 @@ export default function TransitionSection() {
             </div>
 
             {/* Scroll hint */}
-            <div ref={scrollRef} className="ts-scroll-hint">
+            {/* <div ref={scrollRef} className="ts-scroll-hint">
                 <span className="ts-scroll-label">Explorer</span>
                 <div className="ts-scroll-line" />
-            </div>
+            </div> */}
 
         </section>
     );

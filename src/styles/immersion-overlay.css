@@ -63,8 +63,8 @@
     font-family: var(--ff-family-main);
 }
 
-.io-hud--left  .overlay-title { text-align: left; }
-.io-hud--right .overlay-title { text-align: right; }
+/* .io-hud--left  .overlay-title { text-align: left; }
+.io-hud--right .overlay-title { text-align: right; } */
 
 /* ── Barre ─────────────────────────────────────────────────────── */
 .overlay-bar {
@@ -83,8 +83,8 @@
     line-height: 1.6;
 }
 
-.io-hud--left  .overlay-content { text-align: left; }
-.io-hud--right .overlay-content { text-align: right; }
+/* .io-hud--left  .overlay-content { text-align: left; }
+.io-hud--right .overlay-content { text-align: right; } */
 
 /* ── Tracé SVG ─────────────────────────────────────────────────── */
 .io-svg-wrapper {

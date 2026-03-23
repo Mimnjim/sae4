@@ -49,8 +49,8 @@ const Home = () => {
         subtitle="Au-delà de l'humain"
       />
 
-      <SectionSeparator />
-      <MangaArchive />
+      {/* <SectionSeparator /> */}
+      {/* <MangaArchive /> */}
     
       <SectionSeparator />
       <ExperiencesSection />

@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Akira3D from './Akira3D';
 import GIS3D from './GIS3D';
 import ImmersionOverlay from './ImmersionOverlay';
+import MangaArchive from './MangaArchive';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -61,7 +62,7 @@ export default function Hero({ title1, title2, subtitle }) {
             scrollTrigger: {
                 trigger: heroRef.current,
                 start: 'top top',
-                end: '+=1200%',
+                end: '+=3000%',
                 scrub: 1,
                 pin: true,
                 invalidateOnRefresh: true,
@@ -135,9 +136,9 @@ export default function Hero({ title1, title2, subtitle }) {
 
         const backgroundTransition = document.querySelector('.hero-background-transition');
 
-        // Animation clip-path qui révèle depuis le bas-droit
+        // Animation clip-path : révèle de bas vers haut
         gsap.set(backgroundTransition, { 
-            clipPath: "polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)" 
+            clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" 
         });
 
         tl.to(backgroundTransition, {
@@ -145,6 +146,7 @@ export default function Hero({ title1, title2, subtitle }) {
             duration: 1.5,
             ease: "power2.inOut"
         }, 9.7);
+
 
         requestAnimationFrame(() => {
             ScrollTrigger.refresh();
@@ -160,6 +162,26 @@ export default function Hero({ title1, title2, subtitle }) {
     useEffect(() => {
         if (loadedCount >= 2) setTimeout(buildTimeline, 300);
     }, [loadedCount, buildTimeline]);
+
+    useEffect(() => {
+        const updateTransitionHeight = () => {
+            const backgroundTransition = document.querySelector('.hero-background-transition');
+            if (backgroundTransition) {
+                // Mesure la vraie hauteur du contenu
+                const height = backgroundTransition.offsetHeight;
+                if (height > 100) {  // Vérifier que c'est un vrai contenu
+                    backgroundTransition.style.height = `${height}px`;
+                }
+            }
+        };
+
+        // Attendre que MangaArchive soit complètement chargé (images, etc)
+        setTimeout(updateTransitionHeight, 1000);
+        window.addEventListener('resize', updateTransitionHeight);
+        
+        return () => window.removeEventListener('resize', updateTransitionHeight);
+    }, []);
+
 
     const handleAkiraReady = useCallback(({ camera, initialZ, model }) => {
         akiraCam.current = { camera, initialZ };
@@ -193,7 +215,7 @@ export default function Hero({ title1, title2, subtitle }) {
             </div>
 
             {/* HERO MAIN SECTION */}
-            <div className="hero-section" ref={heroRef} style={{ position: 'relative', overflow: 'hidden' }}>
+            <div className="hero-section" ref={heroRef} style={{ position: 'relative', overflow: 'visible' }}>
                 <div className="characters-infos">
 
                     <div className="akira" ref={akiraHeroRef}>
@@ -225,6 +247,7 @@ export default function Hero({ title1, title2, subtitle }) {
 
                 {/* ── Image de fond de transition de fin de section*/}
                 <div className="hero-background-transition">
+                    <MangaArchive />
                 </div>
 
             </div>
