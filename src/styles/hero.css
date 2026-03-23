@@ -325,19 +325,19 @@
 
 
 /* Background Transition de fin de section HERO | Pour changer de section dans la Home page */
-
+/* 
 .hero-background-transition {
     background-color: #000;
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    min-height: 100vh;  /* ← Hauteur minimum */
-    height: 100%;  /* Et s'adapte au contenu */
+    min-height: 100vh;  
+    height: 100%;  
     z-index: 20;
     opacity: 1;
     clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
-}
+} */
 
 /* === RESPONSIVE === */
 

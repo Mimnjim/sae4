@@ -29,6 +29,47 @@
     z-index: 1;
   } */
 
+
+
+.hero-to-archive-transition {
+    position: relative;
+    width: 100%;
+    height: auto;              /* ← plus de vh fixe */
+    margin-top: -100vh;
+    pointer-events: none;
+    z-index: 15;
+    background: #0a0a0a;
+    clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
+}
+
+/* Réactiver les pointer-events pour le contenu interactif à l'intérieur */
+.hero-to-archive-transition > * {
+    pointer-events: auto;
+}
+
+
+
+
+.hero-to-archive-transition {
+    position: relative;
+    overflow: hidden;
+    will-change: clip-path, opacity, filter;
+    backface-visibility: hidden;
+}
+
+[data-parallax] {
+    will-change: transform, opacity;
+}
+
+[data-layer="overlay"] {
+    position: absolute;
+    inset: 0;
+}
+
+[data-layer="content"] {
+    position: relative;
+}
+
 /* ============================================================
    4. TEASER (texte néon animé)
    ============================================================ */

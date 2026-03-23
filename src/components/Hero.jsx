@@ -62,8 +62,8 @@ export default function Hero({ title1, title2, subtitle }) {
             scrollTrigger: {
                 trigger: heroRef.current,
                 start: 'top top',
-                end: '+=500%',
-                scrub: 1,
+                end: '+=600%',
+                scrub: 2,
                 pin: true,
                 invalidateOnRefresh: true,
             }
@@ -131,21 +131,67 @@ export default function Hero({ title1, title2, subtitle }) {
         }
 
         // PHASE 7 : SORTIE FINALE
-        tl.to(overlayGisRef.current, { opacity: 0, pointerEvents: 'none', duration: 0.5 }, 9.5);
+        tl.to(overlayGisRef.current, { opacity: 0, pointerEvents: 'none', duration: 1.5 }, 9.8);
 
 
-        const backgroundTransition = document.querySelector('.hero-background-transition');
+        // PHASE 8 : TRANSITION CINÉMATIQUE
+        const backgroundTransition = document.querySelector('.hero-to-archive-transition');
 
-        // Animation clip-path : révèle de bas vers haut
-        gsap.set(backgroundTransition, { 
-            clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" 
-        });
+        tl.fromTo(
+            backgroundTransition,
+            { 
+                clipPath: "polygon(0% 120%, 100% 120%, 100% 120%, 0% 120%)",
+                filter: "blur(20px) brightness(0.7)",
+                scale: 1.05,
+                y: 100
+            },
+            { 
+                clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+                filter: "blur(0px) brightness(1)",
+                scale: 1,
+                y: 0,
+                duration: 9,
+                ease: "power2.inOut"
+            },
+            4
+        );
 
-        tl.to(backgroundTransition, {
-            clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-            duration: 1.5,
-            ease: "power2.inOut"
-        }, 9.7);
+         // PHASE 8 : TRANSITION MULTI-COUCHES
+            // const backgroundTransition = document.querySelector('.hero-to-archive-transition');
+            // const overlayLayer = backgroundTransition?.querySelector('[data-layer="overlay"]');
+            // const contentLayer = backgroundTransition?.querySelector('[data-layer="content"]');
+
+            // // Premier volet : backdrop/backdrop progressif
+            // tl.fromTo(
+            //     backgroundTransition,
+            //     { 
+            //         clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)"
+            //     },
+            //     { 
+            //         clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+            //         duration: 8,
+            //         ease: "power2.inOut"
+            //     },
+            //     9,
+            //     0  // Durée totale
+            // );
+
+            // // Deuxième couche : apparition du contenu avec délai
+            // if (contentLayer) {
+            //     tl.fromTo(
+            //         contentLayer,
+            //         { opacity: 0, y: 60, filter: "blur(30px)" },
+            //         { 
+            //             opacity: 1, 
+            //             y: 0, 
+            //             filter: "blur(0px)",
+            //             duration: 4,
+            //             ease: "expo.out"
+            //         },
+            //         9.5  // Commence à mi-chemin
+            //     );
+            // }
+
 
 
         requestAnimationFrame(() => {
@@ -270,12 +316,6 @@ export default function Hero({ title1, title2, subtitle }) {
                     <a href="#">teaser</a>
                     <a href="#">tickets</a>
                 </div>
-
-                {/* ── Image de fond de transition de fin de section*/}
-                <div className="hero-background-transition">
-                    <MangaArchive />
-                </div>
-
             </div>
         </>
     );

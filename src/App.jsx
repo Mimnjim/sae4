@@ -53,20 +53,25 @@ const Home = () => {
         subtitle="Au-delà de l'humain"
       />
 
-      {/* MangaArchive est dans le HERO Section */}
-    
-      <SectionSeparator />
-      <ExperiencesSection />
+      {/* ── Image de fond de transition de fin de section*/}
+      <div className="hero-to-archive-transition">
+
+        {/* MangaArchive est un frère, APRÈS l'overlay */}
+        <MangaArchive />
+
+      
+        <SectionSeparator />
+        <ExperiencesSection />
 
 
-      <SectionSeparator />
-      <Teaser />
+        <SectionSeparator />
+        <Teaser />
 
-      <SectionSeparator />
-      <Podcast />
+        <SectionSeparator />
+        <Podcast />
 
-      <TransitionSection />
-
+        <TransitionSection />
+      </div>
 
     </div>
   );

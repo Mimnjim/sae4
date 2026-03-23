@@ -23,7 +23,7 @@
 /* ── Header ────────────────────────────────────────────────────── */
 .ma-header {
     text-align: center;
-    padding: clamp(60px, 20vh, 80px) 20px clamp(32px, 4vh, 56px);
+    padding: clamp(60px, 30vh, 120px) 20px clamp(32px, 4vh, 56px);
     position: relative;
     z-index: 2;
 }
@@ -42,7 +42,7 @@
 
 .ma-header h2 {
     font-family: var(--ff-family-main);
-    font-size: clamp(2.2rem, 2.8vw, 3.4rem);
+    font-size: clamp(2.2rem, 3.6vw, 4.2rem);
     font-weight: 900;
     letter-spacing: 6px;
     text-transform: uppercase;
@@ -65,7 +65,8 @@
 .ma-viewer {
     position: relative;
     width: 100%;
-    height: 60vh;
+    /* height: 60vh; */
+    height: 90vh;
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
     grid-template-rows: 1fr 1fr;
