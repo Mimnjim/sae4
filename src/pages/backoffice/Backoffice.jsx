@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Stats from '../../components/backoffice_components/Stats.jsx';
 import UsersTable from '../../components/backoffice_components/UsersTable.jsx';
 import ReservationsTable from '../../components/backoffice_components/ReservationsTable.jsx';
+import '../../styles/backoffice/backoffice.css';
 
 const Backoffice = () => {
   const [tab, setTab] = useState('stats');
@@ -75,19 +76,22 @@ const Backoffice = () => {
   if (isAdmin === false) return <div style={{padding:20}}>Vous n'êtes pas autorisé à accéder à cette page.</div>;
 
   return (
-    <div style={{padding:20}}>
-      <h2>Backoffice</h2>
-      <div style={{marginBottom:12}}>
-        <button onClick={() => setTab('stats')}>Stats</button>
-        <button onClick={() => setTab('users')} style={{marginLeft:8}}>Utilisateurs</button>
-        <button onClick={() => setTab('reservations')} style={{marginLeft:8}}>Réservations</button>
+    <div className="backoffice">
+      <div className="backoffice-header">
+        <div className="backoffice-nav">
+          <button className={tab === 'stats' ? 'active' : ''} onClick={() => setTab('stats')}>Stats</button>
+          <button className={tab === 'users' ? 'active' : ''} onClick={() => setTab('users')}>Utilisateurs</button>
+          <button className={tab === 'reservations' ? 'active' : ''} onClick={() => setTab('reservations')}>Réservations</button>
+        </div>
       </div>
 
-      {loading && <div>Chargement...</div>}
+      {loading && <div className="muted">Chargement...</div>}
 
-      {tab === 'stats' && <Stats reservations={reservations} />}
-      {tab === 'users' && <UsersTable users={users} onDelete={deleteUser} onChangeRole={changeUserRole} />}
-      {tab === 'reservations' && <ReservationsTable reservations={reservations} onDelete={deleteReservation} />}
+      <div className="backoffice-body">
+        {tab === 'stats' && <Stats reservations={reservations} />}
+        {tab === 'users' && <UsersTable users={users} onDelete={deleteUser} onChangeRole={changeUserRole} />}
+        {tab === 'reservations' && <ReservationsTable reservations={reservations} onDelete={deleteReservation} />}
+      </div>
     </div>
   );
 };

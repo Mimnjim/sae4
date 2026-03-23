@@ -25,14 +25,19 @@ function RegisterForm({ onSuccess }) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password, firstname, lastname }),
     })
-      .then(res => res.json())
-      .then(() => {
+      .then(async (res) => {
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || data.success === false) {
+          setErrorMessage(data.message || "Erreur lors de l'inscription. Vérifiez les champs.");
+          setIsLoading(false);
+          return;
+        }
+
         setIsLoading(false);
         onSuccess(); // redirige vers la page de connexion
       })
       .catch(() => {
-        // Affichage de l'erreur dans le DOM plutôt qu'une alert() navigateur
-        setErrorMessage("Erreur lors de l'inscription. Vérifiez le serveur API.");
+        setErrorMessage("Erreur réseau — impossible de contacter le serveur.");
         setIsLoading(false);
       });
   };
@@ -86,13 +91,29 @@ function RegisterForm({ onSuccess }) {
           {/* Bouton pour afficher/masquer le mot de passe */}
           <button
             type="button"
-            className="btn btn-light"
+            className="btn btn-light password-toggle"
+            aria-pressed={showPassword}
+            aria-label={showPassword ? 'Cacher le mot de passe' : 'Voir le mot de passe'}
             onClick={() => setShowPassword(current => !current)}
           >
-            {showPassword ? 'Cacher' : 'Voir'}
+            {showPassword ? (
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+                <path d="M2 2l20 20" />
+                <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-5 0-9.27-3-11-8a20.1 20.1 0 0 1 4.26-5.25" />
+                <path d="M9.88 9.88A3 3 0 0 0 14.12 14.12" />
+              </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+                <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            )}
           </button>
         </div>
       </div>
+
+      {/* Indication que tous les champs doivent être remplis */}
+      <p className="form-note" aria-hidden="false">Tous les champs sont obligatoires</p>
 
       {/* Message d'erreur affiché sous les champs si l'API renvoie une erreur */}
       {errorMessage && (

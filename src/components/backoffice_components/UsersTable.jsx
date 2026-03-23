@@ -4,25 +4,27 @@ const UsersTable = ({users, onDelete, onChangeRole}) => {
   return (
     <div>
       <h3>Utilisateurs</h3>
-      <table style={{width:'100%', borderCollapse:'collapse'}}>
+      <div className="bo-table-wrap table-wrap">
+        <table className="bo-table">
         <thead>
           <tr><th>ID</th><th>Email</th><th>Nom</th><th>Role</th><th>Actions</th></tr>
         </thead>
         <tbody>
           {users.map(u => (
-            <tr key={u.id} style={{borderTop:'1px solid #ddd'}}>
+            <tr key={u.id}>
               <td>{u.id}</td>
               <td>{u.email}</td>
               <td>{u.firstname} {u.lastname}</td>
               <td>{u.role}</td>
-              <td>
+              <td className="bo-actions">
                 <button onClick={() => { const r = prompt('Nouveau rôle', u.role); if (r) onChangeRole(u.id, r); }}>Changer rôle</button>
-                <button onClick={() => onDelete(u.id)} style={{marginLeft:8}}>Supprimer</button>
+                <button className="delete" onClick={() => onDelete(u.id)}>Supprimer</button>
               </td>
             </tr>
           ))}
         </tbody>
-      </table>
+        </table>
+      </div>
     </div>
   );
 };

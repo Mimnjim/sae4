@@ -23,16 +23,55 @@ const Stats = ({reservations = []}) => {
   const slotLabels = Object.keys(perSlot);
   const slotData = slotLabels.map(s => perSlot[s]);
 
-  return (
-    <div>
-      <h3>Statistiques</h3>
-      <p>Total réservations: <strong>{reservations.length}</strong></p>
-      <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:20}}>
+  const MAX_CHART_COLUMNS = 24; // seuil avant d'afficher une liste de secours
+
+  const renderDayChartOrList = () => {
+    if (dayLabels.length === 0) return <p className="muted">Aucune réservation enregistrée.</p>;
+    if (dayLabels.length > MAX_CHART_COLUMNS) {
+      // fallback: render a readable list instead of an overly wide chart
+      return (
         <div>
-          <h4>Réservations par jour</h4>
-          <ChartBar id="chart-days" labels={dayLabels} data={dayData} title="Par jour" />
+          <h4>Réservations par jour (liste)</h4>
+          <ul className="stats-list">
+            {dayLabels.map((d, i) => (
+              <li key={d}><span className="stats-list-date">{d}</span> <span className="stats-list-count">{dayData[i]}</span></li>
+            ))}
+          </ul>
         </div>
-        <div>
+      );
+    }
+
+    return (
+      <>
+        <h4>Réservations par jour</h4>
+        <ChartBar id="chart-days" labels={dayLabels} data={dayData} title="Par jour" />
+      </>
+    );
+  };
+
+  return (
+    <div className="stats-panel">
+      <h3>Statistiques</h3>
+      <div className="stat-summary">
+        <div className="stat-item">
+          <h4>Total</h4>
+          <p>{reservations.length} réservations</p>
+        </div>
+        <div className="stat-item">
+          <h4>Jours recensés</h4>
+          <p>{dayLabels.length}</p>
+        </div>
+        <div className="stat-item">
+          <h4>Créneaux</h4>
+          <p>{slotLabels.length}</p>
+        </div>
+      </div>
+
+      <div className="stats-grid">
+        <div className="chart-area">
+          {renderDayChartOrList()}
+        </div>
+        <div className="chart-area">
           <h4>Réservations par créneau</h4>
           <ChartPie id="chart-slots" labels={slotLabels} data={slotData} title="Par créneau" />
         </div>

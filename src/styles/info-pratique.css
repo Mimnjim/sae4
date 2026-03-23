@@ -1,112 +1,396 @@
-/* Page Informations Pratiques */
-/* .info-pratique-container {
-  padding: 80px 40px;
-  max-width: 1200px;
-  margin: 0 auto;
-  color: #333;
+/* ═══════════════════════════════════════════════════
+   INFOS PRATIQUES
+   ═══════════════════════════════════════════════════ */
+
+.info-pratique-container {
+  --ip-accent: #e8002a;
+  --ip-border: rgba(255, 255, 255, 0.07);
+  --ip-surface: rgba(10, 10, 10, 0.96);
+  --ip-muted: rgb(255, 255, 255);
+  --ip-body: rgba(255, 255, 255, 0.725);
+  --ip-radius: 18px;
 }
 
-.info-pratique-container h1 {
-  text-align: center;
-  font-size: 48px;
-  margin-bottom: 50px;
-  color: #764ba2;
+.info-pratique-container {
+  padding: 80px 48px 120px;
+  max-width: 1080px;
+  margin: 0 auto;
+  color: #fff;
+}
+
+
+/* ── Titre ──────────────────────────────────────────── */
+
+.info-pratique-container>h1 {
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin: 0 0 64px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.info-pratique-container>h1::before {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 4px;
+  background: var(--ip-accent);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+
+/* ═══════════════════════════════════════════════════
+   BLOC PRINCIPAL — grille de lignes jointives
+   ═══════════════════════════════════════════════════ */
+
+.info-main {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+
+/* ── Bloc cards (tarifs / horaires / accès / accessibilité) */
+
+.info-content {
+  border: 1px solid var(--ip-border);
+  border-radius: var(--ip-radius);
+  overflow: hidden;
+  /* Les gaps entre cards = 1px de fond visible */
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--ip-border);
+}
+
+.info-card {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  align-items: start;
+  gap: 0 56px;
+  padding: 32px 40px;
+  background: var(--ip-surface);
+  position: relative;
+  transition: background 180ms var(--ip-ease);
+}
+
+/* Trait accent rouge à gauche au hover */
+.info-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  background: var(--ip-accent);
+  transition: width 240ms var(--ip-ease);
+}
+
+.info-card:hover {
+  background: rgba(20, 20, 20, 0.98);
+}
+
+.info-card:hover::before {
+  width: 3px;
+}
+
+/* Colonne gauche : label */
+.info-card>h3 {
+  margin: 3px 0 0;
+  font-size: 1,4rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  letter-spacing: 3px;
+  line-height: 1.4;
+}
+
+/* Colonne droite : contenu */
+.info-card>p,
+.info-card>ul,
+.info-card>address {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.75;
+  color: var(--ip-body);
+  font-style: normal;
+}
+
+/* FAQ : details/summary dans une info-card */
+.info-card>details {
+  border-bottom: 1px solid var(--ip-border);
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+}
+
+.info-card>details:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.info-card>details summary {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: color 160ms var(--ip-ease);
+}
+
+.info-card>details summary::-webkit-details-marker {
+  display: none;
+}
+
+.info-card>details summary::before {
+  content: '';
+  display: block;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath d='M2 4l3 3 3-3' fill='none' stroke='rgba(255,255,255,0.6)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: transform 200ms var(--ip-ease), border-color 160ms var(--ip-ease);
+}
+
+.info-card>details[open] summary::before {
+  transform: rotate(180deg);
+  border-color: var(--ip-accent);
+}
+
+.info-card>details summary:hover {
+  color: var(--ip-accent);
+}
+
+.info-card>details>p {
+  margin: 12px 0 0 26px;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--ip-body);
+}
+
+/* La card FAQ prend toute la largeur (pas de label à gauche) */
+.info-card.info-card--faq {
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.info-card.info-card--faq>h3 {
+  margin-bottom: 20px;
+}
+
+
+/* ═══════════════════════════════════════════════════
+   CARTE / MAP
+   ═══════════════════════════════════════════════════ */
+
+.map-section {
+  border: 1px solid var(--ip-border);
+  border-radius: var(--ip-radius);
+  overflow: hidden;
+}
+
+.map-section>h2 {
+  margin: 0;
+  padding: 18px 40px;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ip-muted);
+  background: var(--ip-surface);
+  border-bottom: 1px solid var(--ip-border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.map-section>h2::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--ip-accent);
+  flex-shrink: 0;
+}
+
+.map-section .leaflet-container {
+  height: 400px;
+  width: 100%;
+  display: block;
+}
+
+
+/* ═══════════════════════════════════════════════════
+   CONTACT SECTION
+   ═══════════════════════════════════════════════════ */
+
+/* Le composant ContactSection génère une .contact-section imbriquée */
+.info-main>.contact-section,
+.info-main>.contact-section>.contact-section {
+  border: 1px solid var(--ip-border);
+  border-radius: var(--ip-radius);
+  overflow: hidden;
+  background: var(--ip-surface);
+}
+
+/* On neutralise le double-wrapping du composant */
+.info-main>.contact-section>.contact-section {
+  border: none;
+  border-radius: 0;
+  background: transparent;
+}
+
+.contact-section>h2 {
+  margin: 0;
+  padding: 18px 40px;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ip-muted);
+  border-bottom: 1px solid var(--ip-border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.contact-section>h2::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--ip-accent);
+  flex-shrink: 0;
+}
+
+.contact-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--ip-border);
+}
+
+.contact-list li {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  align-items: center;
+  gap: 0 56px;
+  padding: 20px 40px;
+  background: var(--ip-surface);
+  transition: background 180ms var(--ip-ease);
+}
+
+.contact-list li:hover {
+  background: rgba(20, 20, 20, 0.98);
+}
+
+.contact-list strong {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ip-muted);
+}
+
+.contact-list a {
+  font-size: 1.1rem;
+  color: #fff;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  transition: border-color 160ms var(--ip-ease), color 160ms var(--ip-ease);
+  width: fit-content;
+}
+
+.contact-list a:hover {
+  color: #fff;
+  border-color: var(--ip-accent);
+}
+
+
+/* ═══════════════════════════════════════════════════
+   ANIMATIONS D'ENTRÉE
+   ═══════════════════════════════════════════════════ */
+
+@keyframes ip-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.info-pratique-container>h1 {
+  animation: ip-in 450ms var(--ip-ease) both;
 }
 
 .info-content {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px;
-  margin-bottom: 50px;
+  animation: ip-in 450ms 80ms var(--ip-ease) both;
 }
 
-.info-section {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  color: white;
-  transition: transform 0.3s ease;
+.map-section {
+  animation: ip-in 450ms 140ms var(--ip-ease) both;
 }
 
-.info-section:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+.info-main>.contact-section {
+  animation: ip-in 450ms 180ms var(--ip-ease) both;
 }
 
-.info-section h2 {
-  font-size: 24px;
-  margin-bottom: 15px;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-  padding-bottom: 10px;
+@media (prefers-reduced-motion: reduce) {
+  .info-pratique-container * {
+    animation: none !important;
+    transition: none !important;
+  }
 }
 
-.info-section p {
-  line-height: 1.8;
-  font-size: 16px;
-}
 
-.info-section strong {
-  font-weight: bold;
-  color: #fff;
-}
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════ */
 
-/* Section Carte */
-/* .map-section {
-  margin: 50px 0;
-  background: white;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.map-section h2 {
-  font-size: 28px;
-  margin-bottom: 20px;
-  color: #764ba2;
-} */
-
-/* Section Contact */
-/* .contact-section {
-  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-  padding: 30px;
-  border-radius: 15px;
-  text-align: center;
-  color: white;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.contact-section h2 {
-  font-size: 28px;
-  margin-bottom: 20px;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-  padding-bottom: 10px;
-  display: inline-block;
-}
-
-.contact-section p {
-  line-height: 2;
-  font-size: 18px;
-}
-
-.contact-section strong {
-  font-weight: bold;
-  color: #fff;
-} */
-
-/* Responsive */
-/* @media (max-width: 768px) {
+@media (max-width: 860px) {
   .info-pratique-container {
-    padding: 60px 20px;
+    padding: 52px 20px 80px;
   }
 
-  .info-pratique-container h1 {
-    font-size: 32px;
+  .info-pratique-container>h1 {
+    margin-bottom: 40px;
   }
 
-  .info-content {
+  .info-card {
     grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 24px 20px;
   }
-} */
+
+  .contact-list li {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 18px 20px;
+  }
+
+  .map-section>h2,
+  .contact-section>h2 {
+    padding: 16px 20px;
+  }
+
+  .map-section .leaflet-container {
+    height: 280px;
+  }
+}

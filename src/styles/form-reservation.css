@@ -4,10 +4,10 @@
   --form-border: rgba(255,255,255,0.12);
   --form-title: #fff;
   --form-label: #fff;
-  --form-input-bg: rgba(255,255,255,0.04);
-  --form-input-border: rgba(255,255,255,0.12);
+  --form-input-bg: rgb(35, 35, 35);
+  --form-input-border: rgba(255, 255, 255, 0.641);
   --form-input-focus: #fff;
-  --form-btn-bg: rgba(255,255,255,0.08);
+  --form-btn-bg: rgba(0, 0, 0, 0.446);
   --form-btn-color: #fff;
   --form-gap: 2rem;
 }

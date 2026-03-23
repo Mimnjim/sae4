@@ -101,7 +101,8 @@ const App = () => {
 
         <Navbar user={user} setUser={setUser} />
 
-        <Routes>
+        <main className="main-content">
+          <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/experiences" element={<Experiences />} />
           <Route path="/form-reservation" element={<FormReservationPage />} />
@@ -113,7 +114,8 @@ const App = () => {
           <Route path="/activate" element={<Activate />} />
           <Route path="/confirmation" element={<ConfirmationPage />} />
           <Route path="/info-pratique" element={<InfoPratique />} />
-        </Routes>
+          </Routes>
+        </main>
 
         <Footer />
       </div>

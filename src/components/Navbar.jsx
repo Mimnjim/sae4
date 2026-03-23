@@ -23,7 +23,6 @@ const Navbar = ({ user, setUser }) => {
     authLinks = (
       <>
         <Link to="/login">Connexion</Link>
-        <Link to="/register">Inscription</Link>
       </>
     );
   }

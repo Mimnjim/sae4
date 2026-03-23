@@ -1,0 +1,280 @@
+/* ═══════════════════════════════════════════════════
+   REGISTER CONTAINER
+   ═══════════════════════════════════════════════════ */
+
+
+
+.register-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 16px;
+}
+
+.register-container p {
+  margin-top: 18px;
+}
+
+.register-card {
+  width: 90%;
+  max-width: 920px;
+  padding: 64px 56px;
+  background: rgba(8, 8, 8, 0.74);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 18px;
+}
+
+a {
+  color: rgba(255,255,255,0.9);
+  text-decoration: none;
+  font-size: 1.30rem;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: rgba(255,255,255,0.95);
+  transition: color 0.3s ease;
+}
+
+/* ── Header ─────────────────────────────────────────── */
+
+.register-card__header {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.register-card__title {
+  font-family: var(--ff-family-main);
+  font-size: 3.3rem;
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+
+.register-card__subtitle {
+  font-size: 1.25rem;
+  color: var(--c-muted);
+  margin: 0;
+}
+
+
+/* ═══════════════════════════════════════════════════
+   REGISTER FORM
+   ═══════════════════════════════════════════════════ */
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.register-form__group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+}
+
+.register-form__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.label {
+  font-size: 2rem !important;
+  margin-bottom: 6px;
+}
+
+
+/* ── Input ──────────────────────────────────────────── */
+
+.register-form__input {
+  width: 100%;
+  height: 52px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 1rem;
+  color: #fff;
+  outline: none;
+  transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.register-form__input::placeholder {
+  color: var(--c-muted);
+  opacity: 0.6;
+}
+
+.register-form__input:hover {
+  border-color: var(--c-border-hover);
+}
+
+.register-form__input:focus {
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6), inset 0 0 0 6px rgba(255, 255, 255, 0.02);
+}
+
+
+/* ── Password row ───────────────────────────────────── */
+
+.register-form__password-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.register-form__password-row .register-form__input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.register-form__password-row .password-toggle {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+/* Labels inside register form */
+.register-form label,
+.register-form__field > label {
+  font-size: 1.25rem;
+  margin-bottom: 6px;
+  color: rgba(255,255,255,0.9);
+}
+
+/* Make register look like login: same card, fonts and spacing */
+.register-card {
+  width: 90%;
+  max-width: 920px;
+  padding: 64px 56px;
+  background: rgba(8, 8, 8, 0.74);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 18px;
+  box-sizing: border-box;
+  font-family: var(--ff-family-main);
+  color: #fff;
+}
+
+.register-card__header {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.register-card__title {
+  font-family: var(--ff-family-main);
+  font-size: 3.3rem;
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+
+.register-card__subtitle {
+  font-size: 1.25rem;
+  color: var(--c-muted);
+  margin: 0;
+}
+
+/* Form layout matching login form */
+.register-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.register-form__field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+}
+
+.register-form__input {
+  width: 100%;
+  height: 52px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 1.25rem;
+  color: #fff;
+  outline: none;
+}
+
+.form-note {
+  font-size: 1rem;
+  margin: 0.6rem 0 0.2rem;
+}
+
+/* Make primary buttons match login look when placed inside card */
+.register-card .validate-button {
+  width: 100%;
+  padding: 0.95rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.9);
+  border-color: transparent;
+  color: #111;
+  letter-spacing: 0.01em;
+}
+
+.register-card .validate-button {
+  cursor: pointer;
+}
+
+@media (max-width: 720px) {
+  .register-card {
+    width: calc(100% - 40px);
+    padding: 28px 20px;
+  }
+  .register-card__title { font-size: 1.6rem; }
+  .register-card__subtitle { font-size: 0.95rem; }
+}
+
+/* ── Submit button ──────────────────────────────────── */
+
+.register-card .validate-button {
+  width: 100%;
+  padding: 0.95rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.9);
+  border-color: transparent;
+  color: #111;
+  letter-spacing: 0.01em;
+}
+
+.register-card .validate-button:hover {
+  background: #fff;
+}
+
+.register-card .validate-button svg,
+.register-card .validate-button svg * {
+  stroke: #111;
+  fill: #111;
+}
+
+/* Ensure toggles and generic .btn are clearly clickable */
+.password-toggle,
+.btn {
+  cursor: pointer;
+}
+
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════ */
+
+@media (max-width: 720px) {
+  .register-card {
+    width: calc(100% - 40px);
+    padding: 28px 20px;
+  }
+
+  .register-card__title    { font-size: 1.6rem; }
+  .register-card__subtitle { font-size: 0.95rem; }
+}

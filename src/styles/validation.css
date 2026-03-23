@@ -126,3 +126,69 @@
     height: 5px;
   }
 }
+
+/* When the validate button is enabled, make its label text dark for better contrast */
+.validate-button:not(:disabled) .btn-text {
+  color: #000;
+}
+
+/* Ensure icons/decoration adjust when enabled: make arrow dark */
+.validate-button:not(:disabled) .btn-icon img {
+  /* invert white arrow to black; adjust contrast if needed */
+  filter: invert(1) contrast(1);
+}
+.validate-button:not(:disabled) .dot {
+  /* keep dot visible (white) */
+  background: #ffffff;
+}
+
+/* Layout: center the label and place the arrow at the right */
+.validate-button {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  padding-right: 64px; /* room for decorative cursor on the right */
+}
+
+.validate-button .btn-text {
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+.validate-button .btn-icon {
+  margin-left: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.validate-button .btn-icon img {
+  width: 28px;
+  height: 28px;
+  display: block;
+}
+
+/* make inline SVG arrow color configurable via currentColor */
+.validate-button .btn-icon svg { width: 28px; height: 28px; display: block; color: inherit; }
+
+/* when button enabled, set arrow to black */
+.validate-button:not(:disabled) .btn-icon svg { color: #000; }
+
+/* Decorative cursor (ring + dot) positioned to the far right */
+.validate-button .btn-cursor {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.validate-button .ring {
+  right: 0;
+}
+
+@media (max-width: 520px) {
+  .validate-button { padding-right: 48px; }
+  .validate-button .btn-icon img { width: 22px; height: 22px; }
+  .validate-button .btn-cursor { right: 8px; }
+}
