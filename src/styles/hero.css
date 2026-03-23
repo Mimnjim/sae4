@@ -1,8 +1,10 @@
 /* === CONTAINER === */
 
 .hero-section {
-    height: 145vh;
+    /* height: 145vh; */
     /* height: 110vh; */
+    /* height: 145vh; */
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -237,6 +239,7 @@
     position: absolute;
     bottom: 0rem;
     text-align: center;
+    z-index: 1001;
 
     /* left: 50%;
     transform: translateX(-50%);
@@ -303,6 +306,8 @@
     gap: 2rem;
     width: 100%;
     justify-content: space-between;
+    z-index: 1000;
+    position: relative;
 }
 
 .buttons-hero a {
@@ -329,7 +334,7 @@
     width: 100%;
     min-height: 100vh;  /* ← Hauteur minimum */
     height: 100%;  /* Et s'adapte au contenu */
-    z-index: 999;
+    z-index: 20;
     opacity: 1;
     clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
 }

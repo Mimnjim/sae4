@@ -62,7 +62,7 @@ export default function Hero({ title1, title2, subtitle }) {
             scrollTrigger: {
                 trigger: heroRef.current,
                 start: 'top top',
-                end: '+=3000%',
+                end: '+=500%',
                 scrub: 1,
                 pin: true,
                 invalidateOnRefresh: true,
@@ -199,6 +199,32 @@ export default function Hero({ title1, title2, subtitle }) {
 
     return (
         <>
+
+            {/* ── HUD AKIRA ──
+                Présentation courte d'Akira sur le modèle 3D.
+                title  = nom de l'œuvre
+                content = présentation immersive courte
+            */}
+            <ImmersionOverlay
+                ref={overlayAkiraRef}
+                side="left"
+                color="cyan"
+                title="Akira"
+                content="1982. Katsuhiro Otomo imagine Neo-Tokyo — ville-monstre surgie de ses propres cendres. Tetsuo, adolescent brisé, devient le réceptacle d'une puissance inhumaine. Akira n'est pas un manga. C'est une prophétie."
+            />
+
+            {/* ── HUD GHOST IN THE SHELL ──
+                Présentation courte de GIS sur le modèle 3D.
+            */}
+            <ImmersionOverlay
+                ref={overlayGisRef}
+                side="right"
+                color="magenta"
+                title="Ghost in the Shell"
+                content="1989. Masamune Shirow pose la question qui hante notre siècle : si tout ce que tu es — tes souvenirs, tes sensations, ta pensée — peut être copié, effacé, reprogrammé, qu'est-ce qui reste de toi ? Le Major cherche encore."
+            />
+
+
             {/* LOADER */}
             <div ref={loaderRef} style={{
                 position: 'fixed', inset: 0, zIndex: 999, background: '#0a0a0a',
@@ -240,7 +266,7 @@ export default function Hero({ title1, title2, subtitle }) {
                     </div>
                 </div>
 
-                <div className="buttons-hero" ref={buttonsRef} style={{ zIndex: 20 }}>
+                <div className="buttons-hero" ref={buttonsRef} style={{ position: 'relative', zIndex: 20 }}>
                     <a href="#">teaser</a>
                     <a href="#">tickets</a>
                 </div>
@@ -251,30 +277,6 @@ export default function Hero({ title1, title2, subtitle }) {
                 </div>
 
             </div>
-
-            {/* ── HUD AKIRA ──
-                Présentation courte d'Akira sur le modèle 3D.
-                title  = nom de l'œuvre
-                content = présentation immersive courte
-            */}
-            <ImmersionOverlay
-                ref={overlayAkiraRef}
-                side="left"
-                color="cyan"
-                title="Akira"
-                content="1982. Katsuhiro Otomo imagine Neo-Tokyo — ville-monstre surgie de ses propres cendres. Tetsuo, adolescent brisé, devient le réceptacle d'une puissance inhumaine. Akira n'est pas un manga. C'est une prophétie."
-            />
-
-            {/* ── HUD GHOST IN THE SHELL ──
-                Présentation courte de GIS sur le modèle 3D.
-            */}
-            <ImmersionOverlay
-                ref={overlayGisRef}
-                side="right"
-                color="magenta"
-                title="Ghost in the Shell"
-                content="1989. Masamune Shirow pose la question qui hante notre siècle : si tout ce que tu es — tes souvenirs, tes sensations, ta pensée — peut être copié, effacé, reprogrammé, qu'est-ce qui reste de toi ? Le Major cherche encore."
-            />
         </>
     );
 }
