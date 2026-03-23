@@ -12,6 +12,8 @@ import MangaArchive from './components/MangaArchive.jsx';
 import ExperiencesSection from './components/ExperiencesSection.jsx';
 import TransitionSection from './components/TransitionSection.jsx';
 import SectionSeparator from './components/SectionSeparator.jsx';
+import Podcast from './components/Podcast.jsx';
+import Teaser from './components/Teaser.jsx';
 
 // Pages
 import Experiences from './pages/Experiences.jsx';
@@ -36,6 +38,8 @@ import './styles/Grainient.css';
 import './styles/manga-archive.css';
 import './styles/immersion-overlay.css';
 import './styles/transition-section.css';
+import './styles/teaser.css';
+import './styles/podcast.css';
 
 // Page d'accueil
 const Home = () => {
@@ -49,11 +53,17 @@ const Home = () => {
         subtitle="Au-delà de l'humain"
       />
 
-      {/* <SectionSeparator /> */}
-      {/* <MangaArchive /> */}
+      {/* MangaArchive est dans le HERO Section */}
     
       <SectionSeparator />
       <ExperiencesSection />
+
+
+      <SectionSeparator />
+      <Teaser />
+
+      <SectionSeparator />
+      <Podcast />
 
       <TransitionSection />
 

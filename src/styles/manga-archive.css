@@ -162,7 +162,8 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.2);
+    /* background: rgba(0,0,0,0.2); */
+    background: rgba(0,0,0,0.0);
     z-index: 2;
     transition: opacity var(--dur) ease;
 }
@@ -239,7 +240,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 28px;
+    gap: 20px;
     width: 100%;
 }
 
@@ -277,7 +278,7 @@
 
 .ma-title {
     font-family: var(--ff-family-main);
-    font-size: clamp(3rem, 5.5vw, 6rem);
+    font-size: clamp(3rem, 4.4vw, 3.8rem);
     font-weight: 900;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -291,7 +292,7 @@
     font-family: var(--ff-family-main);
     font-size: clamp(0.88rem, 1.2vw, 1.05rem);
     font-weight: 500;
-    letter-spacing: 4px;
+    letter-spacing: 2px;
     text-transform: uppercase;
     /* Blanc à 65% minimum pour rester lisible */
     color: rgba(255,255,255,0.65);
@@ -306,14 +307,17 @@
 
 .ma-hook p {
     font-family: var(--ff-family-main);
-    font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+    font-size: clamp(1.05rem, 1.4vw, 1.3rem);
     line-height: 1.8;
+    width: 600px;
     /* Blanc fort — texte principal */
     color: rgba(255,255,255,0.92);
     font-style: italic;
     font-weight: 400;
     margin: 0;
     text-shadow: var(--shadow-sm);
+    white-space: nowrap;
+
 }
 
 /* ── Question contemporaine ────────────────────────────────────── */
@@ -326,18 +330,20 @@
 
 .ma-question-label {
     font-family: var(--ff-family-main);
-    font-size: clamp(0.72rem, 0.9vw, 0.85rem);
+    font-size: clamp(1.05rem, 1.4vw, 1.4rem);
+    /* font-size: clamp(0.72rem, 1.2vw, 1.2rem); */
     font-weight: 700;
-    letter-spacing: 6px;
+    letter-spacing: 2px;
     text-transform: uppercase;
     /* Minimum 0.5 d'opacité */
     color: rgba(255,255,255,0.55);
     text-shadow: var(--shadow-sm);
+    /* align-self: start; */
 }
 
 .ma-question p {
     font-family: var(--ff-family-main);
-    font-size: clamp(1rem, 1.3vw, 1.15rem);
+    font-size: clamp(1rem, 1.8vw, 1.4rem);
     line-height: 1.75;
     color: rgba(255,255,255,0.82);
     font-weight: 400;
@@ -348,7 +354,9 @@
 /* ── Info exposition ───────────────────────────────────────────── */
 .ma-expo-info {
     display: flex;
-    align-items: flex-start;
+    /* align-items: flex-start; */
+    justify-content: center;
+    align-items: center;
     gap: 12px;
     padding: 14px 20px;
     border: 1px solid rgba(255,255,255,0.12);
@@ -360,7 +368,7 @@
 
 .ma-expo-badge {
     font-family: var(--ff-family-main);
-    font-size: clamp(0.72rem, 0.9vw, 0.85rem);
+    font-size: clamp(0.72rem, 1.1vw, 1.2rem);
     font-weight: 800;
     letter-spacing: 4px;
     text-transform: uppercase;
@@ -373,13 +381,14 @@
 
 .ma-expo-info p {
     font-family: var(--ff-family-main);
-    font-size: clamp(0.88rem, 1.1vw, 1rem);
-    line-height: 1.6;
+    font-size: clamp(0.88rem, 1.2vw, 1.3rem);
+    /* line-height: 1.6; */
     color: rgba(255,255,255,0.75);
     font-weight: 400;
     font-style: italic;
     margin: 0;
     text-shadow: var(--shadow-sm);
+    text-align: left;
 }
 
 /* ── Numéro décoratif ──────────────────────────────────────────── */
