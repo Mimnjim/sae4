@@ -7,15 +7,16 @@ export default function SectionSeparator() {
             display:        'flex',
             alignItems:     'center',
             justifyContent: 'center',
-            padding:        '0 5%',
+            // padding:        '0 5%',
             width:          '100%',
             boxSizing:      'border-box',
+            background:      '#000',
         }}>
             {/* Ligne gauche */}
             <div style={{
                 flex:       1,
                 height:     '1px',
-                background: 'rgba(255, 255, 255, 0.1)',
+                background: 'rgba(255, 255, 255, 0.3)',
             }} />
 
             {/* Point rouge lumineux */}
@@ -36,7 +37,7 @@ export default function SectionSeparator() {
             <div style={{
                 flex:       1,
                 height:     '1px',
-                background: 'rgba(255, 255, 255, 0.1)',
+                background: 'rgba(255, 255, 255, 0.3)',
             }} />
         </div>
     );

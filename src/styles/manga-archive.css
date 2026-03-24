@@ -26,6 +26,7 @@
     padding: clamp(60px, 30vh, 120px) 20px clamp(32px, 4vh, 56px);
     position: relative;
     z-index: 2;
+    background-color: #000;
 }
 
 .ma-eyebrow {

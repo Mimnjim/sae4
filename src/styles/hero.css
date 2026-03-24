@@ -244,10 +244,12 @@
     /* left: 50%;
     transform: translateX(-50%);
     z-index: 2; */
+    /* animation: scrollIndicator 2s ease-in-out infinite; */
+
 }
 
 .scroll-down h3 {
-    font-size: 0.8rem;
+    font-size: 1rem;
     letter-spacing: 4px;
     text-transform: uppercase;
     margin: 0 0 1.5rem 0;
@@ -276,10 +278,9 @@
     /* background: linear-gradient(to bottom, rgba(255, 0, 255, 0.8), transparent); */
     /* background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent); */
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), transparent);
-    animation: scrollIndicator 2s ease-in-out infinite;
 }
 
-@keyframes scrollIndicator {
+/* @keyframes scrollIndicator {
     0% {
         opacity: 0;
         transform: translateY(-10px);
@@ -291,7 +292,27 @@
         opacity: 0;
         transform: translateY(10px);
     }
+} */
+
+
+@keyframes scrollIndicator {
+    0% {
+        transform: translateY(-12px);
+    }
+    25% {
+    }
+    50% {
+        transform: translateY(12px);
+    }
+    75% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-12px);
+    }
 }
+
+
 
 /* === CONTAINER 3D === */
 
@@ -300,12 +321,25 @@
     height: 100%;
 }
 
-.buttons-hero {
-    margin-top: 2rem;
+.footer-hero-container {
     display: flex;
-    gap: 2rem;
-    width: 100%;
+    justify-content: center;
+    align-items: center;
     justify-content: space-between;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.footer-hero-container p {
+    font-size: 1.4rem;
+}
+
+.buttons-hero {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    /* width: 100%; */
+    /* justify-content: space-between; */
     z-index: 1000;
     position: relative;
 }
@@ -315,13 +349,14 @@
     border: 2px solid var(--color-primary);
     color: var(--color-primary);
     /* text-decoration: none; */
-    font-size: 1rem;
+    font-size: 1.4rem;
     text-transform: uppercase;
     letter-spacing: 2px;
     transition: all 0.3s ease;
     /* background-color: var(--color-red); */
     /* border-radius: 10px; */
 }
+
 
 
 /* Background Transition de fin de section HERO | Pour changer de section dans la Home page */
