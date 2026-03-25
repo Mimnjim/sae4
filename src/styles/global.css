@@ -5,6 +5,8 @@
     --color-grey: #f1f1f1;
     --color-gis: #ADCDED;
     --color-akira: #D01212;
+    --surface-bg: rgba(0,0,0,0.45);
+    --muted: rgba(255,255,255,0.78);
 }
 
 *, 
@@ -70,20 +72,20 @@ body {
 
 /* Assure-toi que le Grainient ne bloque pas les interactions */
 .page-gradient {
-    pointer-events: none !important;
-}
-/* Grainient compatibility: use transparent backgrounds and white text by default */
-:root {
-  --surface-bg: rgba(0,0,0,0.45);
-  --muted: rgba(255,255,255,0.78);
+  pointer-events: none !important;
 }
 
-html, body, .App { background: transparent; color: #fff; }
+/* html, body, .App { background: transparent; color: #fff; } */
 
 /* ensure form elements inherit readable white text */
 button, input, textarea, select, label { color: inherit; }
 
 a { color: #fff; }
+
+a {
+  display: flex;
+  align-items: center;
+}
 
 .surface { background: var(--surface-bg); border-radius: 8px; }
 .muted { color: var(--muted); }
