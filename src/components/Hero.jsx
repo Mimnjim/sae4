@@ -66,8 +66,11 @@ export default function Hero({ title1, title2, subtitle }) {
         const akiraProxy    = { z: akiraInitialZ, y: akiraInitialY, rotY: 0 };
         const gisProxy      = { z: gisInitialZ,   y: gisInitialY,   rotY: 0 };
 
-        gsap.set([sloganRef.current, buttonsRef.current, scrollDownRef.current, footerHeroRef.current],
-            { opacity: 1, y: 0, visibility: 'visible' });
+        // Filtrer les éléments null avant de les animer
+        const elementsToAnimate = [sloganRef.current, buttonsRef.current, scrollDownRef.current, footerHeroRef.current].filter(Boolean);
+        if (elementsToAnimate.length > 0) {
+            gsap.set(elementsToAnimate, { opacity: 1, y: 0, visibility: 'visible' });
+        }
         gsap.set(akiraHeroRef.current,  { x: 0, opacity: 1, visibility: 'visible', scale: 1 });
         gsap.set(gisHeroRef.current,    { x: 0, y: -30, opacity: 1, visibility: 'visible', scale: 1 });
         const overlayElements = [overlayAkiraRef.current?.element, overlayGisRef.current?.element].filter(Boolean);
@@ -90,8 +93,10 @@ export default function Hero({ title1, title2, subtitle }) {
             opacity: 0, y: -50, duration: 1,
             onStart: () => floatingAnimRef.current?.pause(),
         }, 0);
-        tl.to([sloganRef.current, buttonsRef.current, footerHeroRef.current],
-            { opacity: 0, y: -50, duration: 1 }, 0);
+        const elementsToHide = [sloganRef.current, buttonsRef.current, footerHeroRef.current].filter(Boolean);
+        if (elementsToHide.length > 0) {
+            tl.to(elementsToHide, { opacity: 0, y: -50, duration: 1 }, 0);
+        }
         tl.to(gisHeroRef.current,
             { x: 1200, opacity: 0, duration: 1.5, ease: 'power2.inOut' }, 0);
 
@@ -114,13 +119,19 @@ export default function Hero({ title1, title2, subtitle }) {
         if (akiraHUD) {
             tl.to(akiraHUD, { opacity: 1, pointerEvents: 'auto', duration: 0.1, onStart: () => overlayAkiraRef.current?.replay?.() }, 1.5);
 
+            const akiraPointer = akiraHUD.querySelector('.hud-pointer');
+            const akiraLine = akiraHUD.querySelector('.hud-line');
+            const akiraTextBox = akiraHUD.querySelector('.text-box-frame');
+            const akiraTitle = akiraHUD.querySelector('.overlay-title');
+            const akiraBar = akiraHUD.querySelector('.overlay-bar');
+            const akiraContent = akiraHUD.querySelector('.overlay-content');
 
-            tl.fromTo(akiraHUD.querySelector('.hud-pointer'), { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.3 }, 1.7);
-            tl.to(akiraHUD.querySelector('.hud-line'), { strokeDashoffset: 0, duration: 0.9, ease: 'none' }, 1.9);
-            tl.to(akiraHUD.querySelector('.text-box-frame'), { visibility: 'visible', opacity: 1, y: 0, duration: 0.4 }, 2.1);
-            tl.to(akiraHUD.querySelector('.overlay-title'), { opacity: 1, duration: 0.3 }, 2.4);
-            tl.to(akiraHUD.querySelector('.overlay-bar'), { width: '100%', duration: 0.4 }, 2.8);
-            tl.to(akiraHUD.querySelector('.overlay-content'), { opacity: 1, duration: 0.4 }, 3.2);
+            if (akiraPointer) tl.fromTo(akiraPointer, { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.3 }, 1.7);
+            if (akiraLine) tl.to(akiraLine, { strokeDashoffset: 0, duration: 0.9, ease: 'none' }, 1.9);
+            if (akiraTextBox) tl.to(akiraTextBox, { visibility: 'visible', opacity: 1, y: 0, duration: 0.4 }, 2.1);
+            if (akiraTitle) tl.to(akiraTitle, { opacity: 1, duration: 0.3 }, 2.4);
+            if (akiraBar) tl.to(akiraBar, { width: '100%', duration: 0.4 }, 2.8);
+            if (akiraContent) tl.to(akiraContent, { opacity: 1, duration: 0.4 }, 3.2);
         }
 
         // PHASE 4 : TRANSITION SYNCHRO
@@ -147,14 +158,19 @@ export default function Hero({ title1, title2, subtitle }) {
         if (gisHUD) {
             tl.to(gisHUD, { opacity: 1, pointerEvents: 'auto', duration: 0.1, onStart: () => overlayGisRef.current?.replay?.() }, 6.5);
 
+            const gisPointer = gisHUD.querySelector('.hud-pointer');
+            const gisLine = gisHUD.querySelector('.hud-line');
+            const gisTextBox = gisHUD.querySelector('.text-box-frame');
+            const gisTitle = gisHUD.querySelector('.overlay-title');
+            const gisBar = gisHUD.querySelector('.overlay-bar');
+            const gisContent = gisHUD.querySelector('.overlay-content');
 
-
-            tl.fromTo(gisHUD.querySelector('.hud-pointer'), { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.3 }, 6.6);
-            tl.to(gisHUD.querySelector('.hud-line'), { strokeDashoffset: 0, duration: 0.9, ease: 'none' }, 6.7);
-            tl.to(gisHUD.querySelector('.text-box-frame'), { visibility: 'visible', opacity: 1, y: 0, duration: 0.4 }, 7.5);
-            tl.to(gisHUD.querySelector('.overlay-title'), { opacity: 1, duration: 0.3 }, 7.7);
-            tl.to(gisHUD.querySelector('.overlay-bar'), { width: '100%', duration: 0.4 }, 7.8);
-            tl.to(gisHUD.querySelector('.overlay-content'), { opacity: 1, duration: 0.4 }, 7.9);
+            if (gisPointer) tl.fromTo(gisPointer, { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.3 }, 6.6);
+            if (gisLine) tl.to(gisLine, { strokeDashoffset: 0, duration: 0.9, ease: 'none' }, 6.7);
+            if (gisTextBox) tl.to(gisTextBox, { visibility: 'visible', opacity: 1, y: 0, duration: 0.4 }, 7.5);
+            if (gisTitle) tl.to(gisTitle, { opacity: 1, duration: 0.3 }, 7.7);
+            if (gisBar) tl.to(gisBar, { width: '100%', duration: 0.4 }, 7.8);
+            if (gisContent) tl.to(gisContent, { opacity: 1, duration: 0.4 }, 7.9);
         }
 
         // PHASE 7 : SORTIE GIS
@@ -274,12 +290,15 @@ export default function Hero({ title1, title2, subtitle }) {
                     </div>
 
                     <div className="container-hero">
-                        <div className="container-slogan" ref={sloganRef}>
+                        {/* <div className="container-slogan" ref={sloganRef}>
                             <div className="triangle" />
                             <h1 className="slogan">{title1}</h1>
                             <h1 className="slogan">{title2}</h1>
                             <div className="under-slogan"><h2>{subtitle}</h2></div>
-                        </div>
+                        </div> */}
+                        
+                        <img src="/img/grand_logo_white.svg" ref={sloganRef} alt="Logo de l'exposition - Au delà de l'humain" />
+                        
                         <div ref={scrollDownRef} className="scroll-down">
                             <h3>Scroll pour en savoir plus</h3>
                             <div className="arrow"><span className="arrow-down" /></div>

@@ -165,7 +165,7 @@ function GatewayButton({ onClick, onMouseEnter, disabled }) {
             onMouseEnter={() => { setHovered(true); onMouseEnter?.(); }}
             onMouseLeave={() => setHovered(false)}
             disabled={disabled}
-            className="gateway__btn"
+            className="gateway__btn cursor-target"
         >
             {hovered && <span className="gateway__btn-scan" />}
             <span className="gateway__btn-dot" />

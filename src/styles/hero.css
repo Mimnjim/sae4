@@ -355,9 +355,12 @@
     transition: all 0.3s ease;
     /* background-color: var(--color-red); */
     /* border-radius: 10px; */
+    text-decoration: none;
 }
 
-
+.buttons-hero a:hover {
+    text-decoration: underline;
+}
 
 /* Background Transition de fin de section HERO | Pour changer de section dans la Home page */
 /* 

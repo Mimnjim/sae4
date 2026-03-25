@@ -87,7 +87,8 @@ const Navbar = ({ user, setUser }) => {
   return (
     <div className={`navbar ${showNavbar ? 'navbar--visible' : 'navbar--hidden'}`}>
       <div className="elements-nav">
-        <Link to="/"><img src="/img/Logo_expo.svg" alt="Logo" className="logo-expo cursor-target" /></Link>
+        {/* <Link to="/"><img src="/img/Logo_expo.svg" alt="Logo" className="logo-expo cursor-target" /></Link> */}
+        <Link to="/"><img src="/img/petit_logo_white.svg" alt="Logo" className="logo-expo cursor-target" /></Link>
 
         <div className="elements-nav__infos">
           <Link to="/experiences" className="cursor-target">Expériences <ArrowUpRight /></Link>

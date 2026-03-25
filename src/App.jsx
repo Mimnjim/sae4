@@ -65,10 +65,10 @@ const Home = () => {
         <ExperiencesSection />
 
 
-        <SectionSeparator />
-        <Teaser />
+        {/* <SectionSeparator /> */}
+        {/* <Teaser /> */}
 
-        <SectionSeparator />
+        {/* <SectionSeparator /> */}
         <Podcast />
 
         <TransitionSection />
