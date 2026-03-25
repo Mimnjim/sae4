@@ -332,6 +332,7 @@
 
 .footer-hero-container p {
     font-size: 1.4rem;
+    width: 300px;
 }
 
 .buttons-hero {
@@ -345,7 +346,7 @@
 }
 
 .buttons-hero a {
-    padding: 0.1rem 2rem;
+    padding: 0.3rem 0.6rem;
     border: 2px solid var(--color-primary);
     color: var(--color-primary);
     /* text-decoration: none; */
