@@ -177,11 +177,11 @@ const ImmersionOverlay = forwardRef(({ side = 'left', title, content, onReady },
                         <DecryptedText
                             ref={titleRef}
                             text={title}
-                            speed={18}
+                            speed={6}
                             maxIterations={12}
                             sequential={true}
                             animateOn="never"
-                            characters="ABCD1234!?"
+                            characters="アシネツ!?"
                             className="revealed"
                             parentClassName="all-letters"
                             encryptedClassName="encrypted"
@@ -194,11 +194,11 @@ const ImmersionOverlay = forwardRef(({ side = 'left', title, content, onReady },
                         <DecryptedText
                             ref={contentRef}
                             text={content}
-                            speed={12}
-                            maxIterations={10}
+                            speed={6}
+                            maxIterations={12}
                             sequential={true}
                             animateOn="never"
-                            characters="ABCD1234!?"
+                            characters="アシネツ!?"
                             className="revealed"
                             parentClassName="all-letters"
                             encryptedClassName="encrypted"
