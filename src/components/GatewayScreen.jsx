@@ -14,6 +14,12 @@ export default function GatewayScreen({ onEnter }) {
     const [glitching, setGlitching] = useState(false);
 
     useEffect(() => {
+        // Bloquer les scrolls horizontal et vertical
+        document.documentElement.style.overflow = 'hidden';
+        document.body.style.overflowY = 'hidden';
+        document.body.style.height = '100vh';
+        window.scrollTo(0, 0);
+
         const tl = gsap.timeline({ delay: 0.4 });
 
         gsap.set([questionRef.current, sublineRef.current, buttonRef.current], {
@@ -37,6 +43,13 @@ export default function GatewayScreen({ onEnter }) {
             y: '100vh', duration: 3.5,
             repeat: -1, ease: 'none',
         });
+
+        // Nettoyage : réactiver scroll si composant démonte
+        return () => {
+            document.documentElement.style.overflow = 'auto';
+            document.body.style.overflowY = 'auto';
+            document.body.style.height = 'auto';
+        };
     }, []);
 
     const handleHover = () => {
@@ -49,7 +62,16 @@ export default function GatewayScreen({ onEnter }) {
         if (clicked) return;
         setClicked(true);
 
-        const tl = gsap.timeline({ onComplete: () => { if (onEnter) onEnter(); } });
+        const tl = gsap.timeline({ 
+            onComplete: () => {
+                // Réactiver le scroll et remonter en haut
+                document.documentElement.style.overflow = 'auto';
+                document.body.style.overflowY = 'auto';
+                document.body.style.height = 'auto';
+                window.scrollTo(0, 0);
+                if (onEnter) onEnter();
+            }
+        });
 
         tl.to(questionRef.current, {
             x: () => (Math.random() - 0.5) * 40,

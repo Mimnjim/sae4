@@ -1,0 +1,243 @@
+/* ── Section ────────────────────────────────────────────────── */
+
+.ma-section {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* ── Fond Grainient ─────────────────────────────────────────── */
+
+.ma-background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+/* ── Overlay lisibilité ─────────────────────────────────────── */
+
+.ma-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    /* background: rgba(0, 0, 0, 0.45); */
+    pointer-events: none;
+}
+
+/* ── Grille 2×2 ─────────────────────────────────────────────── */
+
+.ma-grid {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1200px;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 5rem 3rem;
+    display: grid;
+    grid-template-columns: 200px 1fr 200px;
+    grid-template-rows: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* ── Images ─────────────────────────────────────────────────── */
+
+.ma-img-wrap {
+    width: 200px;
+    height: 260px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.ma-img-wrap--tl { grid-column: 1; grid-row: 1; align-self: end; }
+.ma-img-wrap--tr { grid-column: 3; grid-row: 1; align-self: end; }
+.ma-img-wrap--bl { grid-column: 1; grid-row: 2; align-self: start; }
+.ma-img-wrap--br { grid-column: 3; grid-row: 2; align-self: start; }
+
+.ma-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.7;
+    transition: opacity 0.5s ease;
+}
+
+.ma-img-wrap:hover .ma-img {
+    opacity: 1;
+}
+
+/* ── Contenu central ────────────────────────────────────────── */
+
+.ma-center {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.8rem;
+    padding: 0 2rem;
+}
+
+/* ── Eyebrow ────────────────────────────────────────────────── */
+
+.ma-eyebrow {
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: clamp(0.55rem, 1vw, 0.7rem);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    /* color: rgba(255, 255, 255, 0.4); */
+    color: rgba(255, 255, 255, 1);
+}
+
+/* ── Titre ──────────────────────────────────────────────────── */
+
+.ma-title {
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+}
+
+/* ── Accroche courte ────────────────────────────────────────── */
+
+.ma-hook {
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    /* font-size: clamp(0.85rem, 1.4vw, 1rem); */
+    font-size: clamp(0.95rem, 1.4vw, 1.2rem);
+    color: rgba(255, 255, 255, 1);
+    line-height: 1.65;
+    max-width: 420px;
+    font-style: italic;
+}
+
+/* ── Règle décorative ───────────────────────────────────────── */
+
+.ma-rule {
+    width: 40px;
+    height: 1px;
+    background: rgba(255, 255, 255, 1);
+}
+
+/* ── Infos exposition ───────────────────────────────────────── */
+
+.ma-infos {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    width: 100%;
+    max-width: 380px;
+}
+
+.ma-info-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 1);
+    padding-bottom: 0.55rem;
+}
+
+.ma-info-label {
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: clamp(0.70rem, 0.9vw, 0.90rem);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 1);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.ma-info-value {
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: clamp(0.90rem, 1vw, 1.1rem);
+    color: rgba(255, 255, 255, 1);
+    text-align: right;
+}
+
+/* ── Pitch ──────────────────────────────────────────────────── */
+
+.ma-pitch {
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: clamp(1rem, 1.3vw, 1.4rem);
+    color: rgba(255, 255, 255, 1);
+    line-height: 1.1;
+    max-width: 500px;
+    text-align: left;
+}
+
+/* ── CTA ────────────────────────────────────────────────────── */
+
+.ma-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: clamp(0.65rem, 1.1vw, 0.8rem);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.9rem 2.5rem;
+    text-decoration: none;
+    transition: background 0.3s, border-color 0.3s;
+}
+
+.ma-cta:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.ma-cta-arrow {
+    transition: transform 0.3s;
+}
+
+.ma-cta:hover .ma-cta-arrow {
+    transform: translateX(4px);
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+    .ma-grid {
+        grid-template-columns: 140px 1fr 140px;
+        padding: 4rem 1.5rem;
+        gap: 1rem;
+    }
+
+    .ma-img-wrap {
+        width: 140px;
+        height: 185px;
+    }
+}
+
+@media (max-width: 600px) {
+    .ma-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        gap: 2rem;
+    }
+
+    .ma-img-wrap--tl,
+    .ma-img-wrap--tr,
+    .ma-img-wrap--bl,
+    .ma-img-wrap--br {
+        display: none;
+    }
+
+    .ma-center {
+        grid-column: 1;
+        grid-row: 1;
+        padding: 0;
+    }
+}
