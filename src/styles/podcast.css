@@ -1,0 +1,423 @@
+/* ── Section ────────────────────────────────────────────────── */
+
+.pod-section {
+    position: relative;
+    width: 100%;
+    padding: 8rem 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4rem;
+    box-sizing: border-box;
+}
+
+/* ── Header ─────────────────────────────────────────────────── */
+
+.pod-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    text-align: center;
+    max-width: 560px;
+}
+
+.pod-eyebrow {
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: clamp(0.55rem, 1vw, 0.7rem);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.pod-title {
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.pod-intro {
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: clamp(0.75rem, 1.2vw, 0.88rem);
+    color: rgba(255, 255, 255, 0.45);
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* ── Cartes ─────────────────────────────────────────────────── */
+
+.pod-cards {
+    display: flex;
+    gap: 2rem;
+    width: 100%;
+    max-width: 860px;
+    justify-content: center;
+}
+
+.pod-card {
+    flex: 1;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, background 0.3s;
+}
+
+.pod-card:hover {
+    border-color: rgba(255, 255, 255, 0.22);
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.pod-card-color-bar {
+    height: 2px;
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.pod-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 1.8rem 1.8rem 1.4rem;
+    flex: 1;
+}
+
+.pod-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.pod-card-duration {
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 0.25rem 0.6rem;
+}
+
+.pod-card-title {
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    font-weight: 700;
+    color: #fff;
+    margin: 0.4rem 0 0;
+    letter-spacing: -0.01em;
+}
+
+.pod-card-guest {
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: clamp(0.6rem, 1vw, 0.7rem);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.35);
+    margin: 0;
+}
+
+.pod-card-desc {
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: clamp(0.7rem, 1.1vw, 0.78rem);
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.7;
+    margin: 0.4rem 0 0;
+}
+
+.pod-card-play {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 1rem;
+    background: transparent;
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.6);
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.3s, background 0.3s;
+}
+
+.pod-card-play:hover {
+    color: var(--accent, #fff);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+/* ── Modal backdrop ─────────────────────────────────────────── */
+
+.pod-modal-backdrop {
+    /* position: fixed; */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 8000;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    box-sizing: border-box;
+    backdrop-filter: blur(6px);
+}
+
+/* ── Modal ──────────────────────────────────────────────────── */
+
+.pod-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    max-width: none;
+    background: rgba(8, 8, 10, 0.99);
+    border: none;
+    padding: 2rem 3.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.8rem;
+    box-sizing: border-box;
+    overflow-y: auto;
+    z-index: 8001;
+}
+
+/* ── Bouton fermer ──────────────────────────────────────────── */
+
+.pod-modal-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.5);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+.pod-modal-close:hover {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* ── Header modal ───────────────────────────────────────────── */
+
+.pod-modal-header {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.pod-modal-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.pod-modal-title {
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.pod-modal-guest {
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.35);
+    margin: 0.3rem 0 0;
+}
+
+/* ── Visualizer live (fréquences, barres animées) ───────────── */
+
+.pod-modal-live-viz {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.pod-live-canvas {
+    width: 100% !important;
+    height: 80px !important;
+}
+
+/* État idle — 3 barres statiques centrées */
+.pod-live-idle {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 4px;
+    width: 100%;
+    height: 100%;
+}
+
+.pod-live-idle span {
+    display: block;
+    width: 3px;
+    border-radius: 2px;
+    animation: pod-idle-pulse 1.8s ease-in-out infinite;
+}
+
+.pod-live-idle span:nth-child(1) { height: 20px; animation-delay: 0s; }
+.pod-live-idle span:nth-child(2) { height: 32px; animation-delay: 0.3s; }
+.pod-live-idle span:nth-child(3) { height: 14px; animation-delay: 0.6s; }
+
+@keyframes pod-idle-pulse {
+    0%, 100% { transform: scaleY(1); opacity: 0.5; }
+    50%       { transform: scaleY(0.4); opacity: 0.2; }
+}
+
+/* ── Waveform statique (seeking) ────────────────────────────── */
+
+.pod-modal-viz {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.pod-wave-canvas {
+    width: 100% !important;
+    height: 80px !important;
+}
+
+/* ── Loading ────────────────────────────────────────────────── */
+
+.pod-modal-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+.pod-modal-loading p {
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.3);
+    margin: 0;
+}
+
+@keyframes pod-load-scan {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(400%); }
+}
+
+.pod-loading-bar {
+    display: block;
+    width: 40%;
+    height: 1px;
+    background: var(--c, #fff);
+    opacity: 0.4;
+    animation: pod-load-scan 1.2s ease-in-out infinite;
+}
+
+/* ── Temps ──────────────────────────────────────────────────── */
+
+.pod-modal-times {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.3);
+    margin-top: -0.8rem;
+}
+
+/* ── Contrôles ──────────────────────────────────────────────── */
+
+.pod-modal-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
+}
+
+.pod-ctrl-play {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 1px solid var(--accent, rgba(255, 255, 255, 0.3));
+    background: transparent;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.25s, border-color 0.25s;
+}
+
+.pod-ctrl-play:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.pod-ctrl-skip {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.35);
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 0;
+}
+
+.pod-ctrl-skip:hover {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+
+@media (max-width: 680px) {
+    .pod-cards {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .pod-card {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .pod-modal {
+        padding: 2.5rem 1.5rem 2rem;
+    }
+
+    .pod-section {
+        padding: 5rem 1.5rem;
+    }
+}
