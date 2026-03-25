@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import '../styles/experiences-section.css';
+import { ArrowUpRight } from '@boxicons/react';
 
 export default function ExperienceSection() {
     const sectionRef = useRef(null);
@@ -64,8 +65,8 @@ export default function ExperienceSection() {
                     <p className="exp-reservation-sub">
                         Billets disponibles du 15 mars<br />au 30 juin 2025
                     </p>
-                    <Link to="/form-reservation" className="exp-reservation-link">
-                        Voir les dates →
+                    <Link to="/form-reservation" className="exp-reservation-link cursor-target">
+                        Voir les dates <ArrowUpRight />
                     </Link>
                 </div>
             </div>
@@ -94,9 +95,9 @@ export default function ExperienceSection() {
                     Code promo exclusif à débloquer en fin d'expérience
                 </div>
 
-                <a href="/experiences" className="exp-cta">
+                <a href="/experiences" className="exp-cta cursor-target">
                     Jouer maintenant
-                    <span className="exp-cta-arrow">→</span>
+                    <span className="exp-cta-arrow"><ArrowUpRight /></span>
                 </a>
 
             </div>

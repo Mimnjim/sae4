@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Akira3D from './Akira3D';
 import GIS3D from './GIS3D';
 import ImmersionOverlay from './ImmersionOverlay';
+import { ArrowUpRight } from '@boxicons/react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -172,7 +173,7 @@ export default function Hero({ title1, title2, subtitle }) {
                 opacity: 1,
                 y: 0,
                 filter: 'blur(0px)',
-                duration: 1,
+                duration: 1.6,
                 ease: 'power2.inOut'
             }, 9.5);
         }
@@ -293,8 +294,8 @@ export default function Hero({ title1, title2, subtitle }) {
                 <div className="footer-hero-container" ref={footerHeroRef}>
                     <p>"Quand la chair disparaît, que reste-t-il de l'humain ?"</p>
                     <div className="buttons-hero" ref={buttonsRef} style={{ position: 'relative', zIndex: 20 }}>
-                        <a href="#">teaser</a>
-                        <a href="#">tickets</a>
+                        <a href="#" className="cursor-target">teaser <ArrowUpRight /></a>
+                        <a href="#" className="cursor-target">tickets <ArrowUpRight /></a>
                     </div>
                 </div>
             </div>

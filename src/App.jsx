@@ -4,6 +4,7 @@ import TargetCursor from './components/TargetCursor';
 import Grainient from './components/Grainient';
 
 // Composants principaux
+import GatewayScreen from './components/GatewayScreen';
 import Navbar from './components/Navbar.jsx';
 import Hero from './components/Hero.jsx';
 import Section from './components/Section.jsx';
@@ -79,8 +80,14 @@ const Home = () => {
 
 // Composant principal de l'application
 const App = () => {
+  const [entered, setEntered] = useState(false);
+
+
   return (
     <>
+      {!entered && <GatewayScreen onEnter={() => setEntered(true)} />}
+
+
       {/* LE FOND : Positionné en fixed via CSS ou style inline pour être sûr */}
       <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: -1 }}>
         <Grainient
