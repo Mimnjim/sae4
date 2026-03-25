@@ -6,7 +6,8 @@
     gap: 8rem;
     /* background-color: red; */
     background-color: transparent;
-    padding: 2rem 6rem;
+    /* padding: 2rem 6rem; */
+    padding: 1rem 6rem;
     position: fixed;
     top: 0;
     z-index: 100;
@@ -59,18 +60,24 @@
 }
 
 /* visible */
-.navbar--visible {
+/* .navbar--visible {
     transform: translateY(0);
     opacity: 1;
-}
+} */
 
 /* cachée (remonte vers le haut) */
-.navbar--hidden {
+/* .navbar--hidden {
     transform: translateY(-100%);
     opacity: 0;
+} */
+
+.navbar--black {
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
-
+.navbar--noblack {
+    background-color: transparent;
+}
 
 
 /* === BOUTON CONNEXION (CTA) === */

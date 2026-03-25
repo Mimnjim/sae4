@@ -13,23 +13,29 @@ const Navbar = ({ user, setUser }) => {
   
 
   // Apparaition de la navbar au scroll
-  const [showNavbar, setShowNavbar] = useState(true);
+  const [showNavbarBlack, setShowNavbarBlack] = useState(false);
   const lastScrollY = useRef(0);
 
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+      // console.log(currentScrollY);
+      // if (currentScrollY < 50) {
+      //   // Toujours visible en haut
+      //   setShowNavbar(true);
+      // } else if (currentScrollY > lastScrollY.current) {
+      //   // scroll vers le bas → cacher
+      //   setShowNavbar(false);
+      // } else {
+      //   // scroll vers le haut → afficher
+      //   setShowNavbar(true);
+      // }
 
-      if (currentScrollY < 50) {
-        // Toujours visible en haut
-        setShowNavbar(true);
-      } else if (currentScrollY > lastScrollY.current) {
-        // scroll vers le bas → cacher
-        setShowNavbar(false);
+      if(currentScrollY > 4100) {
+        setShowNavbarBlack(true);
       } else {
-        // scroll vers le haut → afficher
-        setShowNavbar(true);
+        setShowNavbarBlack(false);
       }
 
       lastScrollY.current = currentScrollY;
@@ -85,7 +91,7 @@ const Navbar = ({ user, setUser }) => {
   }
 
   return (
-    <div className={`navbar ${showNavbar ? 'navbar--visible' : 'navbar--hidden'}`}>
+    <div className={`navbar ${showNavbarBlack ? 'navbar--black' : 'navbar--noblack'}`}>
       <div className="elements-nav">
         {/* <Link to="/"><img src="/img/Logo_expo.svg" alt="Logo" className="logo-expo cursor-target" /></Link> */}
         <Link to="/"><img src="/img/petit_logo_white.svg" alt="Logo" className="logo-expo cursor-target" /></Link>
