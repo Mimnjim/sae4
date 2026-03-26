@@ -46,6 +46,8 @@ function PodcastPlayer({ podcast }) {
     const animationFrameRef = useRef(null);
     const canvasRef = useRef(null);
     const shouldAnimateRef = useRef(false);
+    const barValuesRef = useRef(new Float32Array(64).fill(0)); // Stock les val de chaque barre
+    const peakRef = useRef(0); // Track le pic global
 
     useEffect(() => {
         if (!audioRef.current) return;
@@ -67,14 +69,21 @@ function PodcastPlayer({ podcast }) {
             setCurrentTime(0);
         };
 
+        const onPause = () => {
+            // Quand l'audio est mis en pause (par un autre podcast ou manuellement)
+            setIsPlaying(false);
+        };
+
         audio.addEventListener('timeupdate', onTimeUpdate);
         audio.addEventListener('loadedmetadata', onLoadedMetadata);
         audio.addEventListener('ended', onEnded);
+        audio.addEventListener('pause', onPause);
 
         return () => {
             audio.removeEventListener('timeupdate', onTimeUpdate);
             audio.removeEventListener('loadedmetadata', onLoadedMetadata);
             audio.removeEventListener('ended', onEnded);
+            audio.removeEventListener('pause', onPause);
         };
     }, []);
 
@@ -141,44 +150,109 @@ function PodcastPlayer({ podcast }) {
         // Lire les données RÉELLES de l'audio
         const currentTime = audio.currentTime || 0;
         const duration = audio.duration || 1;
-        const progress = currentTime / duration;
-        const volume = audio.volume || 1;
         
-        const now = Date.now() / 1000;
+        // Essayer de créer un AudioContext pour vraie analyse si possible
+        try {
+            if (!window.__audioContextPodcast) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                window.__audioContextPodcast = new AudioContext();
+                const ctx = window.__audioContextPodcast;
+                
+                if (!window.__podcastSource && audio) {
+                    try {
+                        window.__podcastSource = ctx.createMediaElementAudioSource(audio);
+                        const analyser = ctx.createAnalyser();
+                        analyser.fftSize = 256;
+                        analyser.smoothingTimeConstant = 0.7;
+                        window.__podcastAnalyser = analyser;
+                        window.__podcastFreqData = new Uint8Array(analyser.frequencyBinCount);
+                        
+                        window.__podcastSource.connect(analyser);
+                        analyser.connect(ctx.destination);
+                    } catch (e) {
+                        // Fallback si création source fail
+                    }
+                }
+            }
+        } catch (e) {
+            // Silent
+        }
+
+        const barValues = barValuesRef.current;
+        const barCount = 64;
         
-        const timeFrequency = Math.sin(progress * Math.PI * 4) * 0.5 + 0.5;
-        const pulseFrequency = Math.sin(now * 2) * 0.3 + 0.7;
-        const volumeInfluence = Math.pow(volume, 1.5);
+        // Lire les vraies fréquences si disponibles
+        if (window.__podcastAnalyser && window.__podcastFreqData) {
+            try {
+                window.__podcastAnalyser.getByteFrequencyData(window.__podcastFreqData);
+                
+                for (let i = 0; i < barCount; i++) {
+                    const freqIndex = Math.floor((i / barCount) * window.__podcastFreqData.length);
+                    const rawValue = (window.__podcastFreqData[freqIndex] || 0) / 255;
+                    
+                    // Appliquer decay/falloff (la barre tombe progressivement)
+                    barValues[i] = Math.max(barValues[i] * 0.85, rawValue);
+                }
+            } catch (e) {
+                // Fallback
+            }
+        } else {
+            // Fallback: analyser le volume + position + harmoniques
+            const audioVolume = audio.volume || 1;
+            
+            // Détacter des "peaks" basé sur progression et patterns
+            const progress = currentTime / duration;
+            const now = Date.now() / 1000;
+            
+            // Créer des bandes de fréquences simulées réactives
+            for (let i = 0; i < barCount; i++) {
+                const barPosition = i / barCount;
+                
+                // Bas fréquences (voix, basse): très sensible au volume
+                const bassIntensity = Math.sin(progress * Math.PI * 2 + i * 0.1) * 0.2 + 0.3;
+                const midIntensity = Math.sin(progress * Math.PI * 4 + i * 0.2) * 0.15 + 0.25;
+                const highIntensity = Math.sin(progress * Math.PI * 6 + i * 0.05) * 0.1 + 0.15;
+                
+                // Simuler une réaction réelle au volume
+                let value = (bassIntensity * 0.6 + midIntensity * 0.3 + highIntensity * 0.1);
+                value *= Math.pow(audioVolume, 1.2); // Plus réactif au volume
+                
+                // Ajouter du "spark" (petite variation aléatoire pour dynamique)
+                const randomFactor = Math.sin(now * 7 + i * Math.PI) * 0.1 + 0.9;
+                value *= randomFactor;
+                
+                // Falloff: la barre descend progressivement
+                barValues[i] = Math.max(barValues[i] * 0.88, value);
+            }
+        }
+
+        // Tracker le pic global
+        const maxValue = Math.max(...barValues);
+        peakRef.current = Math.max(peakRef.current * 0.95, maxValue);
         
+        // Dessiner
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        const barCount = 64;
         const barWidth = Math.max(1, Math.floor(canvas.width / (barCount * 1.8)));
         const gap = Math.max(0.5, Math.floor(canvas.width / barCount - barWidth));
 
         for (let i = 0; i < barCount; i++) {
-            const barPosition = i / barCount;
-            const frequencyBand = Math.sin(barPosition * Math.PI * 8 + progress * Math.PI * 2) * 0.3 + 0.4;
-            const harmonic1 = Math.sin((i / 4) + now * 3) * 0.2;
-            const harmonic2 = Math.sin((i / 8) + now * 2.5) * 0.15;
+            let normalizedValue = barValues[i];
             
-            let normalizedValue = (
-                frequencyBand * 0.5 +
-                harmonic1 * 0.2 +
-                harmonic2 * 0.1 +
-                pulseFrequency * 0.2
-            );
+            // Boost pour basses fréquences (voix basses)
+            if (i < barCount * 0.25) {
+                normalizedValue = Math.pow(normalizedValue, 0.7);
+            }
             
-            normalizedValue *= (0.5 + timeFrequency * 0.5);
-            normalizedValue = Math.pow(normalizedValue, 1 - volumeInfluence * 0.3);
-            normalizedValue = Math.max(0.2, Math.min(1, normalizedValue));
+            normalizedValue = Math.max(0.02, Math.min(1, normalizedValue));
             
-            const barHeight = Math.max(3, normalizedValue * canvas.height * 0.95);
+            const barHeight = Math.max(2, normalizedValue * canvas.height * 0.95);
 
             const x = i * (barWidth + gap);
             const yOffset = canvas.height - barHeight;
 
-            const lightness = 40 + normalizedValue * 50;
+            // Intensité de la lumière basée sur la hauteur
+            const lightness = 35 + normalizedValue * 60;
             ctx.fillStyle = `hsl(0, 0%, ${lightness}%)`;
             ctx.fillRect(x, yOffset, barWidth, barHeight);
         }
@@ -189,6 +263,10 @@ function PodcastPlayer({ podcast }) {
 
     useEffect(() => {
         if (isPlaying) {
+            // Réinitialiser les barres pour un fresh start
+            barValuesRef.current = new Float32Array(64).fill(0);
+            peakRef.current = 0;
+            
             shouldAnimateRef.current = true;
             // Élargir le canvas de 30-40% en largeur au play
             if (canvasRef.current) {
@@ -234,11 +312,32 @@ function PodcastPlayer({ podcast }) {
 
     const togglePlay = () => {
         console.log('togglePlay appelé, isPlaying actuellement:', isPlaying);
-        if (currentPlayingId !== null && currentPlayingId !== podcast.id) {
+        
+        // Vérifier si on change de podcast
+        const isChangingPodcast = currentPlayingId !== null && currentPlayingId !== podcast.id;
+        
+        if (isChangingPodcast) {
+            // Pause l'ancien podcast
             if (currentAudio) {
                 currentAudio.pause();
                 currentAudio.currentTime = 0;
             }
+            // Mise à jour des variables globales
+            currentPlayingId = podcast.id;
+            currentAudio = audioRef.current;
+            
+            // Lancer le nouveau podcast directement
+            const audio = audioRef.current;
+            const success = setupAudioContext();
+            if (!success) {
+                console.error('Impossible d\'initialiser le visualizer');
+                return;
+            }
+            
+            console.log('Lancement du nouveau podcast');
+            audio.play().catch(e => console.error('Erreur play:', e));
+            setIsPlaying(true);
+            return;
         }
 
         const audio = audioRef.current;
