@@ -3,7 +3,15 @@ import { motion } from 'motion/react';
 
 const styles = {
     wrapper: { display: 'inline-block', whiteSpace: 'pre-wrap' },
-    charSpan: { display: 'inline-block', lineHeight: '1', height: '1em' },
+    charSpan: { 
+        display: 'inline-block', 
+        lineHeight: '1', 
+        height: '1em',
+        verticalAlign: 'middle',
+        fontFeatureSettings: '"vert" 0',
+        transition: 'opacity 0.05s ease, color 0.05s ease',
+        overflow: 'hidden'
+    },
     srOnly: {
         position: 'absolute', width: '1px', height: '1px',
         padding: 0, margin: '-1px', overflow: 'hidden',
