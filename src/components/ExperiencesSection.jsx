@@ -58,15 +58,15 @@ export default function ExperienceSection() {
             {/* ── Triangle réservation — bas gauche ── */}
             <div ref={reserveRef} className="exp-reservation">
                 <div className="exp-reservation-inner">
-                    <span className="exp-reservation-label">Grand Palais · 2025</span>
+                    {/* <span className="exp-reservation-label">Grand Palais · 2025</span> */}
                     <h3 className="exp-reservation-title">
-                        Réservez<br />votre visite
+                        Réservez<br />votre visite !
                     </h3>
                     <p className="exp-reservation-sub">
                         Billets disponibles du 15 mars<br />au 30 juin 2025
                     </p>
                     <Link to="/form-reservation" className="exp-reservation-link cursor-target">
-                        Voir les dates <ArrowUpRight />
+                        Tickets <ArrowUpRight />
                     </Link>
                 </div>
             </div>

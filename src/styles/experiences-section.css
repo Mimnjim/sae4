@@ -18,6 +18,13 @@
     position: absolute;
     inset: 0;
     z-index: 0;
+    clip-path: polygon(8% 0, 100% 0, 100% 50%, 100% 100%, 58% 100%, 8% 55%);
+
+    /* clip-path: polygon(9% 0, 100% 0, 100% 50%, 100% 100%, 57% 100%, 9% 72%); */
+
+    /* clip-path: polygon(14% 0, 100% 0, 100% 50%, 100% 100%, 31% 100%, 14% 73%); */
+    /* clip-path: polygon(14% 0, 100% 0, 100% 50%, 100% 74%, 33% 74%, 14% 53%); */
+    /* clip-path: polygon(0 0, 100% 0, 100% 100%, 10% 100%, 0 90%); */
 }
 
 .exp-bg img {
@@ -55,8 +62,8 @@
     margin-right: clamp(40px, 6vw, 100px);
     padding: clamp(44px, 5vw, 64px) clamp(40px, 5vw, 60px);
     background: rgba(0, 0, 0, 0.65);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    /* backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px); */
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -161,23 +168,15 @@
     left: 0;
     /* Large : occupe ~45% de la largeur et ~60% de la hauteur */
     width: clamp(340px, 75vw, 960px);
-    height: clamp(280px, 58vh, 520px);
+    height: clamp(280px, 55vh, 500px);
     z-index: 3;
-    clip-path: polygon(0% 100%, 100% 100%, 0% 0%);
-    /* background: rgba(0, 0, 0, 0.78); */
-    /* background: transparent; */
-    background: linear-gradient(135deg, 
-        rgba(186, 18, 27, 0.80) 100%
-        /* rgba(82, 20, 20, 0.80) 50%, */
-        /* rgba(7, 90, 80, 0.80) 100% */
-    );
-
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: transparent;
+    /* backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px); */
     /* Légère bordure sur l'hypoténuse — effet de finesse */
     display: flex;
     align-items: flex-end;
-    padding: clamp(28px, 4vw, 52px) clamp(32px, 4.5vw, 60px);
+    padding: clamp(28px, 4.2vw, 10px) clamp(32px, 4.2vw, 90px);
 }
 
 /* Contenu positionné dans la zone visible du triangle (bas-gauche) */

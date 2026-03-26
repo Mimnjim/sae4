@@ -61,12 +61,12 @@ const Home = () => {
         <MangaArchive />
 
       
-        <SectionSeparator />
+        {/* <SectionSeparator /> */}
         <ExperiencesSection />
 
 
         {/* <SectionSeparator /> */}
-        {/* <Teaser /> */}
+        <Teaser />
 
         {/* <SectionSeparator /> */}
         <Podcast />
