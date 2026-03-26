@@ -22,6 +22,7 @@ const styles = {
 const DecryptedText = forwardRef(function DecryptedText({
     text,
     speed = 15,
+    charsPerFrame = 1,
     maxIterations = 10,
     sequential = false,
     revealDirection = 'start',
@@ -173,9 +174,12 @@ const DecryptedText = forwardRef(function DecryptedText({
                     if (sequential) {
                         if (direction === 'forward') {
                             if (prevRevealed.size < text.length) {
-                                const nextIndex    = getNextIndex(prevRevealed);
                                 const newRevealed  = new Set(prevRevealed);
-                                newRevealed.add(nextIndex);
+                                // Révéler charsPerFrame caractères par frame
+                                for (let i = 0; i < charsPerFrame && newRevealed.size < text.length; i++) {
+                                    const nextIndex = getNextIndex(newRevealed);
+                                    newRevealed.add(nextIndex);
+                                }
                                 setDisplayText(shuffleText(text, newRevealed));
                                 return newRevealed;
                             } else {
@@ -186,9 +190,12 @@ const DecryptedText = forwardRef(function DecryptedText({
                         }
                         if (direction === 'reverse') {
                             if (pointerRef.current < orderRef.current.length) {
-                                const idxToRemove = orderRef.current[pointerRef.current++];
                                 const newRevealed = new Set(prevRevealed);
-                                newRevealed.delete(idxToRemove);
+                                // Retirer charsPerFrame caractères par frame
+                                for (let i = 0; i < charsPerFrame && pointerRef.current < orderRef.current.length; i++) {
+                                    const idxToRemove = orderRef.current[pointerRef.current++];
+                                    newRevealed.delete(idxToRemove);
+                                }
                                 setDisplayText(shuffleText(text, newRevealed));
                                 if (newRevealed.size === 0) { setIsAnimating(false); setIsDecrypted(false); }
                                 return newRevealed;
@@ -228,7 +235,7 @@ const DecryptedText = forwardRef(function DecryptedText({
 
         animationFrameId = requestAnimationFrame(animate);
         return () => cancelAnimationFrame(animationFrameId);
-    }, [isAnimating, text, speed, maxIterations, sequential, revealDirection, shuffleText, direction, fillAllIndices, removeRandomIndices]);
+    }, [isAnimating, text, speed, charsPerFrame, maxIterations, sequential, revealDirection, shuffleText, direction, fillAllIndices, removeRandomIndices]);
 
     /* Click */
     const handleClick = () => {

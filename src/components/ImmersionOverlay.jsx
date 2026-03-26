@@ -33,11 +33,11 @@ const ImmersionOverlay = forwardRef(({ side = 'left', title, content, onReady },
                 <div className="text-box-frame">
 
                     <h2 className="overlay-title">
-                        {title}
-                        {/* <DecryptedText
+                        <DecryptedText
                             ref={titleRef}
                             text={title}
-                            speed={6}
+                            speed={5}
+                            charsPerFrame={3}
                             maxIterations={12}
                             sequential={true}
                             animateOn="never"
@@ -45,7 +45,7 @@ const ImmersionOverlay = forwardRef(({ side = 'left', title, content, onReady },
                             className="revealed"
                             parentClassName="all-letters"
                             encryptedClassName="encrypted"
-                        /> */}
+                        />
                     </h2>
 
                     <div className="overlay-bar" />
@@ -54,7 +54,8 @@ const ImmersionOverlay = forwardRef(({ side = 'left', title, content, onReady },
                         <DecryptedText
                             ref={contentRef}
                             text={content}
-                            speed={2}
+                            speed={30}
+                            charsPerFrame={10}
                             maxIterations={12}
                             sequential={true}
                             animateOn="never"

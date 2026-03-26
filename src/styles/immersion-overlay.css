@@ -55,9 +55,9 @@
     flex-direction: column;
     word-break: break-word;
     overflow-wrap: break-word;
-
     position: absolute;
     top: -160px;
+    transition: all 0.2s ease-out;
 }
 
 /* Décalage horizontal selon le côté */
@@ -76,6 +76,7 @@
     word-break: break-word;
     overflow-wrap: break-word;
     min-width: 0;
+    transition: all 0.15s ease-out;
 }
 
 /* .io-hud--left  .overlay-title { text-align: left; }
@@ -145,7 +146,7 @@
     line-height: 1;
     vertical-align: middle;
     font-feature-settings: "vert" 0;
-    transition: opacity 0.05s ease;
+    transition: opacity 0.03s ease, color 0.03s ease;
 }
 
 .overlay-title .all-letters span span,
