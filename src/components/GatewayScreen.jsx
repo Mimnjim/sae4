@@ -10,8 +10,30 @@ export default function GatewayScreen({ onEnter }) {
     const sublineRef  = useRef(null);
     const buttonRef   = useRef(null);
     const scanlineRef = useRef(null);
+    const dropdownRef = useRef(null);
     const [clicked, setClicked]     = useState(false);
     const [glitching, setGlitching] = useState(false);
+    const [lang, setLang] = useState(localStorage.getItem('lang') || 'FR');
+    const [openLang, setOpenLang] = useState(false);
+    const labelLang = lang === 'FR' ? 'Langues' : 'Languages';
+
+    // Fermer si clic extérieur
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+                setOpenLang(false);
+            }
+        };
+        document.addEventListener('click', handleClickOutside);
+        return () => document.removeEventListener('click', handleClickOutside);
+    }, []);
+
+    // Changer langue
+    const changeLang = (newLang) => {
+        setLang(newLang);
+        localStorage.setItem('lang', newLang);
+        setOpenLang(false);
+    };
 
     useEffect(() => {
         // Bloquer les scrolls horizontal et vertical
@@ -151,6 +173,22 @@ export default function GatewayScreen({ onEnter }) {
                     <BlinkingCursor /> Protocole d'accès en attente
                 </div>
 
+            </div>
+
+            {/* ── Sélecteur de langue ── */}
+            <div className="gateway__language" ref={dropdownRef}>
+                <div className="gateway__lang-dropdown">
+                    <button onClick={() => setOpenLang(!openLang)} className="gateway__lang-btn cursor-target">
+                        {labelLang} ({lang}) ▼
+                    </button>
+
+                    {openLang && (
+                        <div className="gateway__lang-menu">
+                            <div onClick={() => changeLang('FR')}>Français</div>
+                            <div onClick={() => changeLang('EN')}>English</div>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );

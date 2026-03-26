@@ -262,3 +262,58 @@
     0%   { transform: translateY(-100%); }
     100% { transform: translateY(400%); }
 }
+
+/* ── Sélecteur de langue – coin haut droit ────────────────── */
+
+.gateway__language {
+    position: fixed;
+    top: 3.6rem;
+    right: 3rem;
+    z-index: 10000;
+}
+
+.gateway__lang-dropdown {
+    position: relative;
+}
+
+.gateway__lang-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    font-family: var(--ff-family-main);
+    transition: opacity 0.3s ease;
+    padding: 0.3rem 0.6rem;
+}
+
+.gateway__lang-btn:hover {
+    opacity: 0.7;
+}
+
+.gateway__lang-menu {
+    position: absolute;
+    top: 120%;
+    right: 0;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    padding: 0.5rem 0;
+    min-width: 120px;
+    font-size: 0.9rem;
+    z-index: 10001;
+    animation: slideInDown 0.4s ease-out;
+    transform-origin: top center;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.gateway__lang-menu div {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-family: var(--ff-family-main);
+}
+
+.gateway__lang-menu div:hover {
+    background: rgba(255, 255, 255, 0.15);
+}

@@ -8,30 +8,50 @@ export default function ExperienceSection() {
     const sectionRef = useRef(null);
     const panelRef   = useRef(null);
     const reserveRef = useRef(null);
+    const bgRef      = useRef(null);
 
     useEffect(() => {
         const section = sectionRef.current;
         if (!section) return;
 
         const obs = new IntersectionObserver(([entry]) => {
-            if (!entry.isIntersecting) return;
+            if (entry.isIntersecting) {
+                // Animation d'entrée
+                // Image de fond : apparaît en fade
+                gsap.fromTo(bgRef.current,
+                    { opacity: 0 },
+                    { opacity: 1, duration: 0.8, ease: 'power2.out' }
+                );
 
-            // Panneau droit : glisse depuis la droite
-            gsap.fromTo(panelRef.current,
-                { x: 60, opacity: 0 },
-                { x: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: 0.1 }
-            );
+                // Panneau droit : glisse depuis la droite
+                gsap.fromTo(panelRef.current,
+                    { x: 60, opacity: 0 },
+                    { x: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: 0.2 }
+                );
 
-            // Triangle : glisse depuis le bas-gauche
-            gsap.fromTo(reserveRef.current,
-                { x: -80, y: 40, opacity: 0 },
-                { x: 0, y: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: 0.35 }
-            );
+                // Réservation : apparition avec délai
+                gsap.fromTo(reserveRef.current,
+                    { opacity: 0, x: -60, y: 40 },
+                    { x: 0, y: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: 0.6 }
+                );
+            } else {
+                // Animation de sortie (inverse)
+                gsap.to(reserveRef.current,
+                    { opacity: 0, x: -60, y: 40, duration: 0.4, ease: 'power3.in' }
+                );
 
-            obs.disconnect();
+                gsap.to(panelRef.current,
+                    { x: 60, opacity: 0, duration: 0.8, ease: 'power3.in', delay: 0.2 }
+                );
+
+                gsap.to(bgRef.current,
+                    { opacity: 0, duration: 0.8, ease: 'power3.in', delay: 0.4 }
+                );
+            }
         }, { threshold: 0.15 });
 
         obs.observe(section);
+
         return () => obs.disconnect();
     }, []);
 
@@ -39,7 +59,7 @@ export default function ExperienceSection() {
         <section ref={sectionRef} className="exp-section">
 
             {/* ── Image de fond ── */}
-            <div className="exp-bg">
+            <div ref={bgRef} className="exp-bg">
                 {/* <img
                     src="/img/Akira1.jpg"
                     alt="Aperçu de l'expérience immersive"
