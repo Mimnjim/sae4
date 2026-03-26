@@ -16,7 +16,7 @@
 /* ── Conteneur HUD ─────────────────────────────────────────────── */
 .io-hud {
     position: absolute;
-    bottom: 20%;
+    top: 300px;
     width: 600px;
     height: 300px;
     display: flex;
@@ -32,7 +32,7 @@
 
 /* Ancrage droite (GIS) */
 .io-hud--right {
-    right: 20%;
+    right: 25%;
     align-items: flex-end;
 }
 
@@ -60,7 +60,7 @@
     margin: 0;
     font-size: 2.4rem;
     opacity: 0;
-    font-family: var(--ff-family-main);
+    font-family: var(--ff-family-semibold);
 }
 
 /* .io-hud--left  .overlay-title { text-align: left; }
@@ -80,7 +80,8 @@
 .overlay-content {
     opacity: 0;
     font-size: 1.4rem;
-    line-height: 1.6;
+    font-family: var(--ff-family-medium);
+    /* line-height: 1.6; */
 }
 
 /* .io-hud--left  .overlay-content { text-align: left; }

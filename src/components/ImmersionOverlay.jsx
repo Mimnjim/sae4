@@ -53,7 +53,7 @@ const ImmersionOverlay = forwardRef(({ side = 'left', title, content, onReady },
                         <DecryptedText
                             ref={contentRef}
                             text={content}
-                            speed={6}
+                            speed={2}
                             maxIterations={12}
                             sequential={true}
                             animateOn="never"

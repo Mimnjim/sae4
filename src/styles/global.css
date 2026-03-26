@@ -1,5 +1,7 @@
 :root {
     --ff-family-main: 'Thunder', sans-serif;
+    --ff-family-medium: 'Thunder Medium', sans-serif;
+    --ff-family-semibold: 'Thunder Semibold', sans-serif;
     --color-black: #0000;
     --color-red: #D01212;
     --color-grey: #f1f1f1;
@@ -24,6 +26,19 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'Thunder Medium';
+    src: url('../assets/fonts/thunder/Fonts/OpenType-TT/Thunder-MediumLC.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Thunder Semibold';
+    src: url('../assets/fonts/thunder/Fonts/OpenType-TT/Thunder-SemiBoldLC.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 /* Obligatoire pour voir le jeu et le site */
 html, body, #root, .App {
   width: 100%;

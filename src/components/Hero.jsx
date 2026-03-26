@@ -9,24 +9,24 @@ import { ArrowUpRight } from '@boxicons/react';
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Hero({ title1, title2, subtitle }) {
-    const heroRef         = useRef(null);
-    const sloganRef       = useRef(null);
-    const akiraHeroRef    = useRef(null);
-    const gisHeroRef      = useRef(null);
-    const buttonsRef      = useRef(null);
-    const footerHeroRef   = useRef(null);
+    const heroRef = useRef(null);
+    const sloganRef = useRef(null);
+    const akiraHeroRef = useRef(null);
+    const gisHeroRef = useRef(null);
+    const buttonsRef = useRef(null);
+    const footerHeroRef = useRef(null);
     const overlayAkiraRef = useRef(null);
-    const overlayGisRef   = useRef(null);
-    const loaderRef       = useRef(null);
-    const scrollDownRef   = useRef(null);
-    const transitionRef   = useRef(null);
+    const overlayGisRef = useRef(null);
+    const loaderRef = useRef(null);
+    const scrollDownRef = useRef(null);
+    const transitionRef = useRef(null);
 
-    const akiraCam   = useRef({ camera: null, initialZ: null });
-    const gisCam     = useRef({ camera: null, initialZ: null });
+    const akiraCam = useRef({ camera: null, initialZ: null });
+    const gisCam = useRef({ camera: null, initialZ: null });
     const akiraModel = useRef(null);
-    const gisModel   = useRef(null);
+    const gisModel = useRef(null);
 
-    const built      = useRef(false);
+    const built = useRef(false);
     const readyCount = useRef(0);
 
     const [loadedCount, setLoadedCount] = useState(0);
@@ -45,7 +45,7 @@ export default function Hero({ title1, title2, subtitle }) {
             if (scrollDownRef.current) {
                 // Tuer toute animation existante
                 gsap.killTweensOf(scrollDownRef.current);
-                
+
                 // Créer la nouvelle animation flottante
                 floatingAnimRef.current = gsap.to(scrollDownRef.current, {
                     y: 10,
@@ -72,27 +72,27 @@ export default function Hero({ title1, title2, subtitle }) {
 
         ScrollTrigger.getAll().forEach(st => st.kill());
 
-        const akiraCamera   = akiraCam.current.camera;
-        const gisCamera     = gisCam.current.camera;
+        const akiraCamera = akiraCam.current.camera;
+        const gisCamera = gisCam.current.camera;
         const akiraInitialZ = akiraCam.current.initialZ;
-        const gisInitialZ   = gisCam.current.initialZ;
+        const gisInitialZ = gisCam.current.initialZ;
 
         if (!akiraCamera || !gisCamera) return;
 
         window.dispatchEvent(new Event('resize'));
 
         const akiraInitialY = akiraCamera.position.y;
-        const gisInitialY   = gisCamera.position.y;
-        const akiraProxy    = { z: akiraInitialZ, y: akiraInitialY, rotY: 0 };
-        const gisProxy      = { z: gisInitialZ,   y: gisInitialY,   rotY: 0 };
+        const gisInitialY = gisCamera.position.y;
+        const akiraProxy = { z: akiraInitialZ, y: akiraInitialY, rotY: 0 };
+        const gisProxy = { z: gisInitialZ, y: gisInitialY, rotY: 0 };
 
         // Filtrer les éléments null avant de les animer
         const elementsToAnimate = [sloganRef.current, buttonsRef.current, scrollDownRef.current, footerHeroRef.current].filter(Boolean);
         if (elementsToAnimate.length > 0) {
             gsap.set(elementsToAnimate, { opacity: 1, y: 0, visibility: 'visible' });
         }
-        gsap.set(akiraHeroRef.current,  { x: 0, opacity: 1, visibility: 'visible', scale: 1 });
-        gsap.set(gisHeroRef.current,    { x: 0, y: -30, opacity: 1, visibility: 'visible', scale: 1 });
+        gsap.set(akiraHeroRef.current, { x: 0, opacity: 1, visibility: 'visible', scale: 1 });
+        gsap.set(gisHeroRef.current, { x: 0, y: -30, opacity: 1, visibility: 'visible', scale: 1 });
         const overlayElements = [overlayAkiraRef.current?.element, overlayGisRef.current?.element].filter(Boolean);
         if (overlayElements.length > 0) gsap.set(overlayElements, { opacity: 0, pointerEvents: 'none' });
         gsap.set(transitionRef.current, { opacity: 0, pointerEvents: 'none' });
@@ -160,8 +160,8 @@ export default function Hero({ title1, title2, subtitle }) {
         }
 
         // PHASE 4 : TRANSITION SYNCHRO
-        tl.to(akiraHeroRef.current,    { x: -1200, opacity: 0, duration: 2, ease: 'power2.inOut' }, 4.0);
-        tl.to(gisHeroRef.current,      { x: 0, opacity: 1, duration: 2, ease: 'power2.out' }, 4.2);
+        tl.to(akiraHeroRef.current, { x: -1200, opacity: 0, duration: 2, ease: 'power2.inOut' }, 4.0);
+        tl.to(gisHeroRef.current, { x: 0, opacity: 1, duration: 2, ease: 'power2.out' }, 4.2);
         tl.to(overlayAkiraRef.current?.element, { opacity: 0, pointerEvents: 'none', duration: 0.5 }, 4.6);
 
         // PHASE 5 : ZOOM GIS
@@ -200,7 +200,7 @@ export default function Hero({ title1, title2, subtitle }) {
 
         // PHASE 7 : SORTIE GIS
         tl.to(overlayGisRef.current?.element, { opacity: 0, pointerEvents: 'none', duration: 0.5 }, 9.0);
-        tl.to(gisHeroRef.current,    { opacity: 0, pointerEvents: 'none', duration: 0.5 }, 9.0);
+        tl.to(gisHeroRef.current, { opacity: 0, pointerEvents: 'none', duration: 0.5 }, 9.0);
 
         // PHASE 8 : TRANSITION FLUIDE (contenu MangaArchive)
         const backgroundTransition = document.querySelector('.hero-to-archive-transition');
@@ -231,13 +231,13 @@ export default function Hero({ title1, title2, subtitle }) {
     }, []);
 
     const handleAkiraReady = useCallback(({ camera, initialZ, model }) => {
-        akiraCam.current   = { camera, initialZ };
+        akiraCam.current = { camera, initialZ };
         akiraModel.current = model;
         setLoadedCount(prev => prev + 1);
     }, []);
 
     const handleGisReady = useCallback(({ camera, initialZ, model }) => {
-        gisCam.current   = { camera, initialZ };
+        gisCam.current = { camera, initialZ };
         gisModel.current = model;
         setLoadedCount(prev => prev + 1);
     }, []);
@@ -278,8 +278,8 @@ export default function Hero({ title1, title2, subtitle }) {
             <ImmersionOverlay
                 ref={overlayAkiraRef}
                 side="left"
-                title="Akira"
-                content="1982. Katsuhiro Otomo imagine Neo-Tokyo — ville-monstre surgie de ses propres cendres. Tetsuo, adolescent brisé, devient le réceptacle d'une puissance inhumaine. Akira n'est pas un manga. C'est une prophétie."
+                title="Akira (1982 - 1990) : la chair et le chaos"
+                content="Créé en 1982 par Katsuhiro Ōtomo, Akira émerge d'un Japon en plein essor, encore marqué par le traumatisme nucléaire. Ici, la technologie n'est plus un progrès, mais une force de mutation qui déshumanise le corps. À travers une métamorphose brutale où la chair et la machine fusionnent, l'œuvre nous interroge : en voulant forcer notre évolution, ne risquons-nous pas de faire de l'humanité un simple vestige ?"
                 onReady={handleAkiraHUDReady}
             />
 
@@ -287,8 +287,8 @@ export default function Hero({ title1, title2, subtitle }) {
             <ImmersionOverlay
                 ref={overlayGisRef}
                 side="right"
-                title="Ghost in the Shell"
-                content="1989. Masamune Shirow pose la question qui hante notre siècle : si tout ce que tu es — tes souvenirs, tes sensations, ta pensée — peut être copié, effacé, reprogrammé, qu'est-ce qui reste de toi ? Le Major cherche encore."
+                title="Ghost in The Shell (1989 - 1991) : L’esprit hors de la chair"
+                content="Créé en 1989 par Masamune Shirow, Ghost in the Shell explore un futur où la frontière entre l'homme et la machine s'efface totalement. Dans cette société ultra-connectée, le corps n'est plus qu'une enveloppe cybernétique — une coquille (Shell) — que l'on peut améliorer ou remplacer. Ici, le progrès n'est plus une mutation subie, mais une aspiration à quitter la chair. En s'affranchissant des limites biologiques, l'œuvre nous confronte à l'ultime dilemme : que reste-t-il de notre humanité quand l'esprit se dissout dans l'infini des données ?"
                 onReady={handleGisHUDReady}
             />
 
@@ -321,9 +321,9 @@ export default function Hero({ title1, title2, subtitle }) {
                             <h1 className="slogan">{title2}</h1>
                             <div className="under-slogan"><h2>{subtitle}</h2></div>
                         </div> */}
-                        
+
                         <img src="/img/grand_logo_white.svg" ref={sloganRef} alt="Logo de l'exposition - Au delà de l'humain" />
-                        
+
                         <div ref={scrollDownRef} className="scroll-down">
                             <h3>Scroll pour en savoir plus</h3>
                             <div className="arrow"><span className="arrow-down" /></div>
