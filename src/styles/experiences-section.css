@@ -164,7 +164,7 @@
 ═══════════════════════════════════════════════════════════════ */
 .exp-reservation {
     position: absolute;
-    bottom: 0;
+    bottom: 40px;
     left: 0;
     /* Large : occupe ~45% de la largeur et ~60% de la hauteur */
     width: clamp(340px, 75vw, 960px);

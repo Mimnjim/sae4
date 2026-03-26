@@ -1,5 +1,5 @@
 :root {
-    --ff-family-main: 'Thunder', sans-serif;
+    --ff-family-main: 'Thunder Bold', sans-serif;
     --ff-family-medium: 'Thunder Medium', sans-serif;
     --ff-family-semibold: 'Thunder Semibold', sans-serif;
     --color-black: #0000;
@@ -20,7 +20,7 @@
 }
 
 @font-face {
-    font-family: 'Thunder';
+    font-family: 'Thunder Bold';
     src: url('../assets/fonts/thunder/Fonts/OpenType-TT/Thunder-BoldLC.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;

@@ -1,447 +1,236 @@
-/* ═══════════════════════════════════════════════════════════════
-   MANGA ARCHIVE — Grille 2×2, textes grands et accessibles
-   Règles :
-   - var(--ff-family-main) partout
-   - Aucun font-weight inférieur à 400
-   - Aucun texte en dessous de 0.85rem
-   - Couleurs : blanc pur ou quasi-pur sur fond sombre
-   - Opacités de texte minimum 0.65
-═══════════════════════════════════════════════════════════════ */
+/* ── Section ────────────────────────────────────────────────── */
 
 .ma-section {
-    --shadow:    0 2px 16px rgba(0,0,0,1), 0 0 48px rgba(0,0,0,0.85);
-    --shadow-sm: 0 2px 10px rgba(0,0,0,1);
-    --akira:     #00d4ff;
-    --gis:       #ff66cc;
-    --dur:       0.5s;
-
-    width: 100%;
-    background: transparent;
-    position: relative;
-}
-
-/* ── Header ────────────────────────────────────────────────────── */
-.ma-header {
-    text-align: center;
-    padding: clamp(60px, 30vh, 120px) 20px clamp(32px, 4vh, 56px);
-    position: relative;
-    z-index: 2;
-    /* background-color: #000; */
-}
-
-.ma-eyebrow {
-    display: block;
-    font-family: var(--ff-family-main);
-    font-size: clamp(0.85rem, 1.3vw, 1rem);
-    font-weight: 600;
-    letter-spacing: 8px;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.75);
-    margin-bottom: 16px;
-    text-shadow: var(--shadow);
-}
-
-.ma-header h2 {
-    font-family: var(--ff-family-main);
-    font-size: clamp(2.2rem, 3.6vw, 4.2rem);
-    font-weight: 900;
-    letter-spacing: 6px;
-    text-transform: uppercase;
-    color: #fff;
-    margin: 0 0 3rem;
-    line-height: 1.05;
-    text-shadow: var(--shadow);
-}
-
-.ma-header-rule {
-    display: block;
-    width: 50px; height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
-    margin: 0 auto;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   VIEWER
-═══════════════════════════════════════════════════════════════ */
-.ma-viewer {
     position: relative;
     width: 100%;
-    /* height: 60vh; */
-    height: 90vh;
-    display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 3px;
-    background: rgba(0,0,0,0.3);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
 
-/* ── Fond plein écran ──────────────────────────────────────────── */
-.ma-bg {
+/* ── Fond Grainient ─────────────────────────────────────────── */
+
+.ma-background {
     position: absolute;
     inset: 0;
     z-index: 0;
-    overflow: hidden;
-    height: 100%;
 }
 
-.ma-bg img {
-    position: absolute;
-    inset: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
-    object-position: center top;
-    filter: grayscale(0.3) brightness(0.32) contrast(1.1);
-    transition: opacity var(--dur) ease;
-}
+/* ── Overlay lisibilité ─────────────────────────────────────── */
 
-.ma-bg-overlay {
+.ma-overlay {
     position: absolute;
     inset: 0;
-    background: radial-gradient(
-        ellipse at center,
-        transparent 0%,
-        rgba(0,0,0,0.55) 55%,
-        rgba(0,0,0,0.88) 100%
-    );
     z-index: 1;
+    /* background: rgba(0, 0, 0, 0.45); */
+    pointer-events: none;
 }
 
-/* ── Miniatures ────────────────────────────────────────────────── */
-.ma-thumb {
+/* ── Grille 2×2 ─────────────────────────────────────────────── */
+
+.ma-grid {
     position: relative;
     z-index: 2;
+    width: 100%;
+    max-width: 1200px;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 5rem 3rem;
+    display: grid;
+    grid-template-columns: 200px 1fr 200px;
+    grid-template-rows: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* ── Images ─────────────────────────────────────────────────── */
+
+.ma-img-wrap {
+    width: 200px;
+    height: 260px;
     overflow: hidden;
-    cursor: pointer;
-    transition: transform var(--dur) ease;
+    border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-.ma-thumb:nth-child(1) { grid-column: 1; grid-row: 1; }
-.ma-thumb:nth-child(2) { grid-column: 3; grid-row: 1; }
-.ma-thumb:nth-child(3) { grid-column: 1; grid-row: 2; }
-.ma-thumb:nth-child(4) { grid-column: 3; grid-row: 2; }
+.ma-img-wrap--tl { grid-column: 1; grid-row: 1; align-self: end; }
+.ma-img-wrap--tr { grid-column: 3; grid-row: 1; align-self: end; }
+.ma-img-wrap--bl { grid-column: 1; grid-row: 2; align-self: start; }
+.ma-img-wrap--br { grid-column: 3; grid-row: 2; align-self: start; }
 
-.ma-thumb img {
-    position: absolute;
-    inset: 0;
-    width: 100%; height: 100%;
+.ma-img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    object-position: center top;
-    filter: grayscale(0.6) brightness(0.45) contrast(1.1);
-    transition: filter var(--dur) ease, transform var(--dur) ease;
-}
-
-.ma-thumb:hover img {
-    filter: grayscale(0.1) brightness(0.7) contrast(1.05);
-    transform: scale(1.04);
-}
-
-.ma-thumb.is-active img {
-    filter: grayscale(0) brightness(0.82) contrast(1.05);
-    transform: scale(1.04);
-}
-
-/* Bordure active */
-.ma-thumb.is-active::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 3;
-    border: 3px solid;
-}
-
-.ma-thumb.is-active.akira-active::after {
-    border-color: var(--akira);
-    box-shadow: inset 0 0 24px rgba(0,212,255,0.18);
-}
-.ma-thumb.is-active.gis-active::after {
-    border-color: var(--gis);
-    box-shadow: inset 0 0 24px rgba(255,102,204,0.18);
-}
-
-/* Overlay sur les inactives */
-.ma-thumb:not(.is-active)::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    /* background: rgba(0,0,0,0.2); */
-    background: rgba(0,0,0,0.0);
-    z-index: 2;
-    transition: opacity var(--dur) ease;
-}
-
-/* Label miniature */
-.ma-thumb-label {
-    position: absolute;
-    bottom: 14px;
-    left: 16px;
-    z-index: 4;
-    font-family: var(--ff-family-main);
-    font-size: clamp(0.78rem, 1.1vw, 0.95rem);
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: #fff;
-    text-shadow: var(--shadow-sm);
-    line-height: 1.4;
-}
-
-.ma-thumb-label span {
     display: block;
-    font-family: var(--ff-family-main);
-    font-size: clamp(0.65rem, 0.9vw, 0.78rem);
-    font-weight: 500;
-    letter-spacing: 1px;
-    color: rgba(255,255,255,0.7);
-    margin-top: 2px;
-    text-shadow: var(--shadow-sm);
+    opacity: 0.7;
+    transition: opacity 0.5s ease;
 }
 
-/* Point indicateur actif */
-.ma-thumb-dot {
-    position: absolute;
-    top: 14px; right: 14px;
-    width: 9px; height: 9px;
-    border-radius: 50%;
-    z-index: 4;
-    opacity: 0;
-    transform: scale(0);
-    transition: opacity var(--dur) ease, transform var(--dur) ease;
-}
-
-.ma-thumb.is-active .ma-thumb-dot {
+.ma-img-wrap:hover .ma-img {
     opacity: 1;
-    transform: scale(1);
 }
 
-.ma-thumb.akira-active .ma-thumb-dot {
-    background: var(--akira);
-    box-shadow: 0 0 12px var(--akira);
-}
-.ma-thumb.gis-active .ma-thumb-dot {
-    background: var(--gis);
-    box-shadow: 0 0 12px var(--gis);
-}
+/* ── Contenu central ────────────────────────────────────────── */
 
-/* ── Zone centrale ─────────────────────────────────────────────── */
 .ma-center {
     grid-column: 2;
     grid-row: 1 / 3;
-    position: relative;
-    z-index: 2;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: clamp(32px, 4vw, 60px);
     text-align: center;
-    background: rgba(0,0,0,0.12);
+    gap: 1.8rem;
+    padding: 0 2rem;
 }
 
-.ma-center-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    width: 100%;
-}
+/* ── Eyebrow ────────────────────────────────────────────────── */
 
-/* ── Tag ───────────────────────────────────────────────────────── */
-.ma-tag {
-    font-family: var(--ff-family-main);
-    font-size: clamp(0.85rem, 1.1vw, 1rem);
-    font-weight: 800;
-    letter-spacing: 7px;
+.ma-eyebrow {
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: clamp(1rem, 0.8vw, 1.3rem);
+    letter-spacing: 0.3em;
     text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
+    /* color: rgba(255, 255, 255, 0.4); */
+    color: rgba(255, 255, 255, 1);
 }
 
-.ma-tag-line {
-    display: block;
-    width: 24px; height: 2px;
-    flex-shrink: 0;
-    border-radius: 2px;
-}
-
-.ma-tag--akira              { color: var(--akira); text-shadow: 0 0 16px rgba(0,212,255,0.5); }
-.ma-tag--akira .ma-tag-line { background: var(--akira); box-shadow: 0 0 10px rgba(0,212,255,0.7); }
-.ma-tag--gis                { color: var(--gis);   text-shadow: 0 0 16px rgba(255,102,204,0.5); }
-.ma-tag--gis   .ma-tag-line { background: var(--gis);   box-shadow: 0 0 10px rgba(255,102,204,0.7); }
-
-/* ── Titres ────────────────────────────────────────────────────── */
-.ma-titles {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
+/* ── Titre ──────────────────────────────────────────────────── */
 
 .ma-title {
-    font-family: var(--ff-family-main);
-    font-size: clamp(3rem, 4.4vw, 3.8rem);
-    font-weight: 900;
-    letter-spacing: 2px;
-    text-transform: uppercase;
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: clamp(3rem, 6vw, 4.8rem);
+    font-weight: 700;
     color: #fff;
     margin: 0;
-    line-height: 0.88;
-    text-shadow: var(--shadow);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
 }
 
-.ma-subtitle {
-    font-family: var(--ff-family-main);
-    font-size: clamp(0.88rem, 1.2vw, 1.05rem);
-    font-weight: 500;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    /* Blanc à 65% minimum pour rester lisible */
-    color: rgba(255,255,255,0.65);
-    margin: 0;
-    text-shadow: var(--shadow-sm);
-}
+/* ── Accroche courte ────────────────────────────────────────── */
 
-/* ── Accroche ──────────────────────────────────────────────────── */
 .ma-hook {
-    max-width: 540px;
-}
-
-.ma-hook p {
-    font-family: var(--ff-family-main);
-    font-size: clamp(1.05rem, 1.4vw, 1.3rem);
-    line-height: 1.8;
-    width: 600px;
-    /* Blanc fort — texte principal */
-    color: rgba(255,255,255,0.92);
+    font-family: var(--ff-family-semibold, 'Courier New', monospace);
+    /* font-size: clamp(0.85rem, 1.4vw, 1rem); */
+    font-size: clamp(0.95rem, 1.4vw, 1.2rem);
+    color: rgba(255, 255, 255, 1);
+    line-height: 1.65;
+    max-width: 550px;
     font-style: italic;
-    font-weight: 400;
-    margin: 0;
-    text-shadow: var(--shadow-sm);
-    white-space: nowrap;
-
-}
-
-/* ── Question contemporaine ────────────────────────────────────── */
-.ma-question {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    max-width: 500px;
-}
-
-.ma-question-label {
-    font-family: var(--ff-family-main);
-    font-size: clamp(1.05rem, 1.4vw, 1.4rem);
-    /* font-size: clamp(0.72rem, 1.2vw, 1.2rem); */
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    /* Minimum 0.5 d'opacité */
-    color: rgba(255,255,255,0.55);
-    text-shadow: var(--shadow-sm);
-    /* align-self: start; */
-}
-
-.ma-question p {
-    font-family: var(--ff-family-main);
-    font-size: clamp(1rem, 1.8vw, 1.4rem);
-    line-height: 1.75;
-    color: rgba(255,255,255,0.82);
-    font-weight: 400;
-    margin: 0;
-    text-shadow: var(--shadow-sm);
-}
-
-/* ── Info exposition ───────────────────────────────────────────── */
-.ma-expo-info {
-    display: flex;
-    /* align-items: flex-start; */
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 20px;
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 4px;
-    background: rgba(0,0,0,0.38);
-    max-width: 520px;
-    width: 100%;
-}
-
-.ma-expo-badge {
-    font-family: var(--ff-family-main);
-    font-size: clamp(0.72rem, 1.1vw, 1.2rem);
-    font-weight: 800;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    /* Rouge expo bien visible */
-    color: #ff4444;
-    white-space: nowrap;
-    flex-shrink: 0;
-    text-shadow: 0 0 12px rgba(255,60,60,0.5);
-}
-
-.ma-expo-info p {
-    font-family: var(--ff-family-main);
-    font-size: clamp(0.88rem, 1.2vw, 1.3rem);
-    /* line-height: 1.6; */
-    color: rgba(255,255,255,0.75);
-    font-weight: 400;
-    font-style: italic;
-    margin: 0;
-    text-shadow: var(--shadow-sm);
     text-align: left;
 }
 
-/* ── Numéro décoratif ──────────────────────────────────────────── */
-.ma-big-number {
-    position: absolute;
-    bottom: 16px; right: 20px;
-    font-family: var(--ff-family-main);
-    font-size: clamp(4.5rem, 8vw, 7rem);
-    font-weight: 900;
-    color: rgba(255,255,255,0.05);
-    line-height: 1;
-    pointer-events: none;
-    user-select: none;
-    letter-spacing: -6px;
-    z-index: 1;
+/* ── Infos exposition ───────────────────────────────────────── */
+
+.ma-infos {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    width: 100%;
+    max-width: 380px;
 }
 
-/* ── Footer ────────────────────────────────────────────────────── */
-.ma-footer {
-    text-align: center;
-    padding: clamp(32px, 5vh, 60px) 20px;
+.ma-info-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 1);
+    padding-bottom: 0.55rem;
 }
 
-.ma-footer p {
-    font-family: var(--ff-family-main);
-    font-size: clamp(0.88rem, 1.1vw, 1rem);
-    font-weight: 600;
-    letter-spacing: 5px;
+.ma-info-label {
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: clamp(0.70rem, 0.9vw, 0.90rem);
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.65);
-    text-shadow: var(--shadow-sm);
+    color: rgba(255, 255, 255, 1);
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
-/* ── Responsive ────────────────────────────────────────────────── */
+.ma-info-value {
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: clamp(0.90rem, 1vw, 1.1rem);
+    color: rgba(255, 255, 255, 1);
+    text-align: right;
+}
+
+/* ── Pitch ──────────────────────────────────────────────────── */
+
+.ma-pitch {
+    font-family: var(--ff-family-medium, 'Courier New', monospace);
+    font-size: clamp(1rem, 1.3vw, 1.4rem);
+    color: rgba(255, 255, 255, 1);
+    line-height: 1.1;
+    max-width: 550px;
+    text-align: left;
+}
+
+/* ── CTA ────────────────────────────────────────────────────── */
+
+.ma-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: clamp(0.65rem, 1.1vw, 0.8rem);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.9rem 2.5rem;
+    text-decoration: none;
+    transition: background 0.3s, border-color 0.3s;
+}
+
+.ma-cta:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.ma-cta-arrow {
+    transition: transform 0.3s;
+}
+
+.ma-cta:hover .ma-cta-arrow {
+    transform: translateX(4px);
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+
 @media (max-width: 900px) {
-    .ma-viewer {
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 1fr 180px 180px;
-        height: auto;
+    .ma-grid {
+        grid-template-columns: 140px 1fr 140px;
+        padding: 4rem 1.5rem;
+        gap: 1rem;
     }
+
+    .ma-img-wrap {
+        width: 140px;
+        height: 185px;
+    }
+}
+
+@media (max-width: 600px) {
+    .ma-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        gap: 2rem;
+    }
+
+    .ma-img-wrap--tl,
+    .ma-img-wrap--tr,
+    .ma-img-wrap--bl,
+    .ma-img-wrap--br {
+        display: none;
+    }
+
     .ma-center {
-        grid-column: 1 / 3;
+        grid-column: 1;
         grid-row: 1;
-        min-height: 60vh;
-        padding: 40px 20px;
+        padding: 0;
     }
-    .ma-thumb:nth-child(1) { grid-column: 1; grid-row: 2; }
-    .ma-thumb:nth-child(2) { grid-column: 2; grid-row: 2; }
-    .ma-thumb:nth-child(3) { grid-column: 1; grid-row: 3; }
-    .ma-thumb:nth-child(4) { grid-column: 2; grid-row: 3; }
-    .ma-bg { display: none; }
-    .ma-title { font-size: clamp(2.4rem, 9vw, 4rem); }
-    .ma-hook p { font-size: clamp(1rem, 3.5vw, 1.2rem); }
 }
