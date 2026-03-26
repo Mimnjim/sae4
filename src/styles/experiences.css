@@ -1,22 +1,20 @@
 /* ============================================================
    1. VARIABLES GLOBALES
-
    ============================================================ */
 :root {
   --font-main: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   --font-display: 'Thunder', sans-serif;
 
   --color-white: #fff;
-  --color-white-soft: rgba(255, 255, 255, 0.85);
-  --color-white-faint: rgba(255, 255, 255, 0.06);
-  --color-accent-green: #9be15d;
+  --color-white-soft: #e0e0e0; /* Couleur solide plutôt qu'opacité pour garantir le contraste */
+  --color-white-faint: rgba(255, 255, 255, 0.15); /* Opacité augmentée pour la visibilité des boutons */
+  --color-accent-green: #117a37; /* Remplacement du noir transparent par un vrai vert accessible avec texte blanc */
   --color-accent-cyan: #00ffff;
 
-  --color-overlay-dark: rgba(2, 6, 12, 0.75);
-  --color-overlay-black: rgba(0, 0, 0, 0.5);
-  --color-card-bg: rgba(8, 12, 18, 0.72);
+  --color-overlay-dark: rgba(2, 6, 12, 0.85); /* Assombri pour mieux faire ressortir la modale */
+  --color-overlay-black: rgba(0, 0, 0, 0.7);
+  --color-card-bg: rgba(8, 12, 18, 0.9);
 
-  /* Z-index organisés en paliers clairs */
   --z-modal: 1200;
   --z-modal-content: 1210;
   --z-modal-close: 1220;
@@ -49,10 +47,9 @@
   color: var(--color-white-soft);
   margin-top: 0.2rem;
   margin-bottom: 1.6rem;
-  line-height: 1.3;
+  line-height: 1.5; /* Règle Opquast : interlignage augmenté pour la lisibilité */
 }
 
-/* Menu de sélection des niveaux */
 .levels-menu {
   display: flex;
   gap: 16px;
@@ -60,7 +57,6 @@
   margin-bottom: 8px;
 }
 
-/* Grille principale : timeline à gauche, cartes à droite */
 .levels-grid {
   display: grid;
   grid-template-columns: 80px 1fr;
@@ -78,9 +74,6 @@
 /* ============================================================
    4. CARTE DE NIVEAU (level card)
    ============================================================ */
-/* LevelCard styles moved to LevelCard.css */
-
-/* Panneau promo en bas de page */
 .promo-panel {
   margin-top: 36px;
   display: flex;
@@ -101,10 +94,24 @@
    5. BOUTONS
    ============================================================ */
 .btn {
-  padding: 0.5rem 0.75rem;
+  padding: 0.75rem 1rem; /* Zone tactile minimum 44px */
   border-radius: 6px;
-  border: none;
+  border: 2px solid transparent; /* Prépare le terrain pour le focus */
   cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+/* R165 : Rendre le focus explicite au clavier */
+.btn:focus-visible, 
+.play-btn:focus-visible, 
+.modal-close:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px #000000;
+}
+
+.btn:active {
+  transform: scale(0.98); /* Feedback natif au clic */
 }
 
 .btn-light {
@@ -112,44 +119,52 @@
   color: var(--color-white);
 }
 
-/* Bouton principal vert */
+.btn-light:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
 .btn-primary {
   background: var(--color-accent-green);
   border-radius: 8px;
-  padding: 0.6rem 1rem;
   color: var(--color-white);
+  font-weight: bold;
 }
 
-/* Bouton "Jouer" dans une carte de niveau */
+.btn-primary:hover {
+  background: #0d5c29;
+}
+
 .play-level.btn-primary {
   background: transparent;
   color: var(--color-white);
-  padding: 8px 6px;
+  padding: 8px 12px;
   border-radius: 6px;
+  border: 1px solid var(--color-white); /* Ajout d'une bordure pour bien le voir */
 }
 
-/* Petite flèche après le bouton jouer */
+.play-level.btn-primary:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
 .play-level.btn-primary::after {
   content: '↗';
   display: inline-block;
   margin-left: 10px;
   transform: translateY(-2px);
-  opacity: 0.9;
 }
 
-/* Bouton jouer désactivé */
 .play-level.btn-disabled {
   background: transparent;
-  color: rgba(255, 255, 255, 0.45);
+  color: #a0a0a0; /* Plus lisible que de l'opacité pure */
+  border-color: #a0a0a0;
   cursor: not-allowed;
 }
 
-/* Bouton simple dans la zone de jeu */
 .play-btn {
   padding: 0.8rem 1.2rem;
   background: var(--color-white-faint);
   color: var(--color-white);
-  border: none;
+  border: 2px solid transparent;
   border-radius: 8px;
   cursor: pointer;
 }
@@ -200,7 +215,6 @@
   background: transparent;
 }
 
-/* Boutons superposés sur la zone de jeu (plein écran, etc.) */
 .game-actions {
   position: absolute;
   right: 16px;
@@ -209,38 +223,25 @@
   gap: 8px;
 }
 
-.game-iframe:fullscreen,
-.game-wrapper:fullscreen,
-.game-area:fullscreen {
-  width: 100vw !important;
-  height: 100vh !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-}
-
 
 /* ============================================================
-   7. MODAL DU JEU
-   e
+   7. MODAL DU JEU (R162 : Bouton fermeture explicite)
    ============================================================ */
 .game-modal {
   position: fixed;
-  inset: 0; /* équivalent à top/right/bottom/left: 0 */
+  inset: 0;
   z-index: var(--z-modal);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Fond sombre derrière la modale */
 .game-modal-backdrop {
   position: absolute;
   inset: 0;
   background: var(--color-overlay-dark);
 }
 
-/* Contenu de la modale */
 .game-modal-content {
   position: relative;
   width: min(1200px, 95vw);
@@ -260,7 +261,6 @@
   z-index: var(--z-modal-content);
 }
 
-/* Bouton de fermeture de la modale */
 .modal-close {
   position: absolute;
   right: 8px;
@@ -268,14 +268,21 @@
   z-index: var(--z-modal-close);
   background: var(--color-overlay-black);
   color: var(--color-white);
-  border: none;
-  width: 36px;
-  height: 36px;
+  border: 2px solid transparent;
+  width: 44px; /* Agrandit pour faire 44x44px (cible tactile) */
+  height: 44px;
   border-radius: 999px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Panneau de résultat affiché après une partie */
+.modal-close:hover {
+  background: #000;
+  border-color: #fff;
+}
+
 .result-panel {
   position: absolute;
   left: 50%;
@@ -283,20 +290,16 @@
   transform: translate(-50%, -50%);
   z-index: var(--z-result-panel);
   background: var(--color-card-bg);
-  padding: 18px 22px;
+  padding: 24px; /* Aéré un peu plus */
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   min-width: 360px;
   color: var(--color-white);
   text-align: center;
-}
-
-.result-actions .btn {
-  margin-right: 8px;
-  pointer-events: auto; /* les boutons restent cliquables même dans un HUD */
+  border: 1px solid rgba(255,255,255,0.1); /* Démarcation claire du panneau */
 }
 
 
@@ -311,7 +314,6 @@
   pointer-events: none;
 }
 
-/* Score — coin haut droit */
 .parent-score {
   top: 12px;
   right: 14px;
@@ -324,7 +326,6 @@
   pointer-events: none;
 }
 
-/* Barre de boost — coin bas gauche */
 .parent-boost {
   left: 12px;
   bottom: 12px;
@@ -332,8 +333,8 @@
 
 .boost-track-parent {
   width: 160px;
-  height: 10px;
-  background: var(--color-white-faint);
+  height: 12px; /* Un peu plus épais pour la visibilité */
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 6px;
   overflow: hidden;
 }
@@ -344,13 +345,6 @@
   width: 0%;
 }
 
-.boost-status-parent {
-  font-size: 12px;
-  color: #9cc9d4;
-  margin-top: 6px;
-}
-
-/* Barre de santé — coin haut gauche */
 .parent-health {
   left: 14px;
   top: 12px;
@@ -360,8 +354,8 @@
 
 .health-track-parent {
   width: 140px;
-  height: 10px;
-  background: var(--color-white-faint);
+  height: 12px;
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 6px;
   overflow: hidden;
 }
@@ -372,13 +366,6 @@
   width: 100%;
 }
 
-.health-status-parent {
-  font-size: 12px;
-  color: #9cc9d4;
-  margin-top: 6px;
-}
-
-/* Barre de progression de course — haut centre */
 .parent-race {
   top: 12px;
   left: 50%;
@@ -389,8 +376,8 @@
 }
 
 .race-track {
-  height: 10px;
-  background: var(--color-white-faint);
+  height: 12px;
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 6px;
   overflow: hidden;
   margin: 0 auto;
@@ -398,45 +385,35 @@
 
 .race-bar {
   height: 100%;
-  background: var(--color-white-faint);
+  background: #fff; /* Contraste net sur la piste */
   width: 0%;
   transition: width 150ms linear;
-  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.06) inset;
-}
-
-.race-percent {
-  margin-top: 6px;
-  font-size: 12px;
-  color: #cfeef9;
 }
 
 
 /* ============================================================
-   9. RESPONSIVE
-   Adaptations pour les petits écrans
+   9. RESPONSIVE ET ACCESSIBILITÉ (R22)
    ============================================================ */
 @media (max-width: 900px) {
-  .level-card {
+  .levels-grid {
     grid-template-columns: 1fr;
-  }
-
-  .level-preview .preview-box {
-    width: 100%;
-    height: 160px;
-  }
-
-  .level-actions {
-    justify-self: start;
   }
 }
 
 @media (max-width: 720px) {
-  .level-btn {
-    min-width: 100%;
+  .btn {
+    width: 100%; /* Boutons pleine largeur plus faciles à cliquer sur mobile */
   }
 
   .game-area {
     height: 60vh;
     padding: 12px;
+  }
+}
+
+/* R22 : Désactivation des animations pour les personnes sensibles */
+@media (prefers-reduced-motion: reduce) {
+  .race-bar, .btn {
+    transition: none;
   }
 }

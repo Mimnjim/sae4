@@ -35,3 +35,31 @@
     display: flex;
     gap: 0.5rem; 
 }
+
+/* Logout button styling */
+.nav-logout {
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 0.45rem 0.9rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit; /* inherit the nav font-size so it matches links */
+    transition: background 160ms ease, transform 90ms ease, border-color 160ms ease;
+}
+
+.nav-logout:hover {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.18);
+    transform: translateY(-1px);
+}
+
+.nav-logout:active { transform: translateY(0); }
+
+/* Make links and buttons align visually */
+.navbar .elements-nav a,
+.navbar .elements-nav button {
+    font-size: 2rem;
+    font-family: inherit;
+}

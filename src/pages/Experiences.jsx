@@ -4,29 +4,20 @@ import LevelCard from '../components/LevelCard';
 import Timeline from '../components/Timeline';
 import '../styles/experiences.css';
 
-// ─── Constantes ──────────────────────────────────────────────────────────────
-
 const LEVELS = [
-  { id: 1, name: 'NIVEAU 01 : NEO-TOKYO RUN',       pilot: 'Kaneda' },
-  { id: 2, name: 'NIVEAU 02 : GHOST HACK',           pilot: 'Motoko' },
-  { id: 3, name: "NIVEAU 03 : AU-DELÀ DE L'HUMAIN",  pilot: '—'      },
+  { id: 1, name: 'NIVEAU 01 : NEO-TOKYO RUN',      pilot: 'Kaneda' },
+  { id: 2, name: 'NIVEAU 02 : GHOST HACK',          pilot: 'Motoko' },
+  { id: 3, name: "NIVEAU 03 : AU-DELÀ DE L'HUMAIN", pilot: '—'      },
 ];
 
-// Pourcentage minimum d'objets collectés pour débloquer le niveau suivant
 const UNLOCK_THRESHOLD = 0.7;
+const getProgressKey   = (levelId) => `game_progress_level_${levelId}`;
 
-// Clé localStorage pour la progression d'un niveau donné
-const getProgressKey = (levelId) => `game_progress_level_${levelId}`;
-
-// ─── Fonctions utilitaires ────────────────────────────────────────────────────
-
-// Calcule le ratio de complétion (entre 0 et 1) depuis un objet { collected, total }
 function getCompletionRatio(progress) {
   if (!progress || progress.total === 0) return 0;
   return progress.collected / progress.total;
 }
 
-// Lit et parse la progression de tous les niveaux depuis le localStorage
 function loadProgressFromStorage() {
   const result = {};
   LEVELS.forEach(level => {
@@ -36,44 +27,36 @@ function loadProgressFromStorage() {
   return result;
 }
 
-// Sauvegarde la progression d'un niveau dans le localStorage et met à jour le state
 function saveProgress(levelId, value, setProgressMap) {
   localStorage.setItem(getProgressKey(levelId), JSON.stringify(value));
   setProgressMap(prev => ({ ...prev, [levelId]: value }));
 }
 
-// ─── Sous-composant : panneau de résultat ────────────────────────────────────
-
-// Affiché par-dessus le jeu quand une partie se termine (victoire ou game over)
-// Sorti du JSX principal pour éliminer les IIFE illisibles
+// Panneau affiché en fin de partie
 function GameResultPanel({ gameResult, playingLevelId, progressMap, onReplay, onClose, onNextLevel, onClaimPromo }) {
   if (!gameResult) return null;
 
-  const isVictory   = gameResult === 'victory';
-  const isLastLevel = playingLevelId >= LEVELS.length;
-
-  const levelProgress    = progressMap[playingLevelId] || { collected: 0, total: 0 };
-  const completionRatio  = getCompletionRatio(levelProgress);
-  const hasEnoughItems   = completionRatio >= UNLOCK_THRESHOLD;
+  const isVictory      = gameResult === 'victory';
+  const isLastLevel    = playingLevelId >= LEVELS.length;
+  const levelProgress  = progressMap[playingLevelId] || { collected: 0, total: 0 };
+  const hasEnoughItems = getCompletionRatio(levelProgress) >= UNLOCK_THRESHOLD;
 
   return (
     <div className="result-panel">
-      <h3>{isVictory ? 'Victoire !' : 'Game Over'}</h3>
-
+      {/* R234 : h2 car c'est le titre principal de ce panneau */}
+      <h2>{isVictory ? 'Victoire !' : 'Game Over'}</h2>
       <div className="result-actions">
-        <button className="btn btn-light" onClick={onReplay}>Réessayer</button>
-        <button className="btn"           onClick={onClose}>Quitter</button>
+        <button type="button" className="btn btn-light" onClick={onReplay}>Réessayer</button>
+        <button type="button" className="btn"           onClick={onClose}>Quitter</button>
 
-        {/* En cas de victoire sur un niveau intermédiaire */}
         {isVictory && !isLastLevel && (
           hasEnoughItems
-            ? <button className="btn btn-primary" onClick={onNextLevel}>Niveau suivant</button>
-            : <button className="btn" disabled>Récoltez 70% des objets pour continuer</button>
+            ? <button type="button" className="btn btn-primary" onClick={onNextLevel}>Niveau suivant</button>
+            : <button type="button" className="btn" disabled>Récoltez 70% des objets pour continuer</button>
         )}
 
-        {/* En cas de victoire sur le dernier niveau avec assez d'objets */}
         {isVictory && isLastLevel && hasEnoughItems && (
-          <button className="btn btn-primary" onClick={onClaimPromo}>
+          <button type="button" className="btn btn-primary" onClick={onClaimPromo}>
             Récupérer le code promo
           </button>
         )}
@@ -82,105 +65,68 @@ function GameResultPanel({ gameResult, playingLevelId, progressMap, onReplay, on
   );
 }
 
-// ─── Composant principal ──────────────────────────────────────────────────────
-
 const Experiences = () => {
   const navigate = useNavigate();
-
-  // Refs pour l'iframe du jeu et le conteneur de la modal
   const iframeRef    = useRef(null);
   const containerRef = useRef(null);
 
-  // --- Sélection et lecture des niveaux ---
   const [selectedLevelId, setSelectedLevelId] = useState(null);
   const [playingLevelId,  setPlayingLevelId]  = useState(null);
+  const [progressMap,     setProgressMap]     = useState({});
+  const [promoUnlocked,   setPromoUnlocked]   = useState(false);
+  const [isGameFinished,  setIsGameFinished]  = useState(false);
+  const [gameResult,      setGameResult]      = useState(null);
+  const [boostState,      setBoostState]      = useState({ status: 'charging', percent: 0 });
+  const [healthPercent,   setHealthPercent]   = useState(100);
 
-  // --- Progression persistée ---
-  const [progressMap,   setProgressMap]   = useState({});
-  const [promoUnlocked, setPromoUnlocked] = useState(false);
-
-  // --- État d'une partie en cours ---
-  const [isGameFinished, setIsGameFinished] = useState(false);
-  const [gameResult,     setGameResult]     = useState(null); // 'victory' | 'over' | null
-
-  // --- Données HUD reçues de l'iframe via postMessage ---
-  const [boostState,    setBoostState]    = useState({ status: 'charging', percent: 0 });
-  const [healthPercent, setHealthPercent] = useState(100);
-
-  // Chargement initial depuis le localStorage
   useEffect(() => {
     setProgressMap(loadProgressFromStorage());
     if (localStorage.getItem('promo_unlocked') === '1') setPromoUnlocked(true);
   }, []);
 
-  // Calcule quels niveaux sont débloqués selon la progression du niveau précédent
-  // useMemo évite de recalculer à chaque rendu si progressMap n'a pas changé
   const unlockedMap = useMemo(() => {
     const map = {};
     LEVELS.forEach((level, index) => {
       if (index === 0) {
-        map[level.id] = true; // le premier niveau est toujours accessible
+        map[level.id] = true;
       } else {
-        const previousLevelId = LEVELS[index - 1].id;
-        const previousProgress = progressMap[previousLevelId];
+        const previousProgress = progressMap[LEVELS[index - 1].id];
         map[level.id] = getCompletionRatio(previousProgress) >= UNLOCK_THRESHOLD;
       }
     });
     return map;
   }, [progressMap]);
 
-  // Écoute les messages postMessage envoyés par l'iframe du jeu
   useEffect(() => {
     const handleMessage = (event) => {
       const msg = event.data;
-      if (!msg || !msg.type) return;
+      if (!msg?.type) return;
 
       if (msg.type === 'game_init' || msg.type === 'game_progress') {
         if (!msg.difficulty) return;
         const value = { collected: msg.collected || 0, total: msg.total || 0 };
         saveProgress(msg.difficulty, value, setProgressMap);
-        // game_init signale que le jeu vient de (re)démarrer
-        if (msg.type === 'game_init') {
-          setIsGameFinished(false);
-          setGameResult(null);
-        }
+        if (msg.type === 'game_init') { setIsGameFinished(false); setGameResult(null); }
       }
-
-      if (msg.type === 'game_boost') {
-        setBoostState({ status: msg.status || 'charging', percent: msg.percent || 0 });
-      }
-
-      if (msg.type === 'game_health') {
-        setHealthPercent(msg.percent || 0);
-      }
-
+      if (msg.type === 'game_boost')   setBoostState({ status: msg.status || 'charging', percent: msg.percent || 0 });
+      if (msg.type === 'game_health')  setHealthPercent(msg.percent || 0);
       if (msg.type === 'game_victory') {
         const value = { collected: msg.collected || 0, total: msg.total || 0 };
         saveProgress(msg.difficulty, value, setProgressMap);
-
-        // Débloque le code promo si le niveau 3 est terminé avec ≥70% des objets
         if (msg.difficulty === 3 && getCompletionRatio(value) >= UNLOCK_THRESHOLD) {
           localStorage.setItem('promo_unlocked', '1');
           setPromoUnlocked(true);
         }
-
         setIsGameFinished(true);
         setGameResult('victory');
       }
-
-      if (msg.type === 'game_over') {
-        setIsGameFinished(true);
-        setGameResult('over');
-      }
+      if (msg.type === 'game_over') { setIsGameFinished(true); setGameResult('over'); }
     };
 
     window.addEventListener('message', handleMessage);
-    // Nettoyage : on retire l'écouteur quand le composant est démonté
     return () => window.removeEventListener('message', handleMessage);
   }, []);
 
-  // Donne le focus à l'iframe dès qu'un niveau commence
-  // (nécessaire pour que les touches clavier soient capturées par le jeu)
   useEffect(() => {
     if (!playingLevelId || !iframeRef.current) return;
     const timer = setTimeout(() => {
@@ -190,61 +136,25 @@ const Experiences = () => {
     return () => clearTimeout(timer);
   }, [playingLevelId]);
 
-  // ─── Gestionnaires d'événements ─────────────────────────────────────────────
+  const handleSelectLevel  = (levelId) => { setSelectedLevelId(levelId); if (unlockedMap[levelId]) setPlayingLevelId(levelId); };
+  const handleIframeLoaded = () => iframeRef.current?.contentWindow?.postMessage({ type: 'start' }, '*');
+  const handleReplay       = () => { iframeRef.current?.contentWindow?.postMessage({ type: 'restart' }, '*'); setIsGameFinished(false); setGameResult(null); };
+  const handleCloseModal   = () => { setPlayingLevelId(null); setIsGameFinished(false); setGameResult(null); };
+  const handleNextLevel    = () => { if (!playingLevelId || playingLevelId >= LEVELS.length) return; setPlayingLevelId(playingLevelId + 1); setIsGameFinished(false); setGameResult(null); };
+  const handleClaimPromo   = () => navigate('/form-reservation', { state: { promoCode: 'HUMAIN5', promoApplied: true } });
 
-  const handleSelectLevel = (levelId) => {
-    setSelectedLevelId(levelId);
-    // Si le niveau est débloqué, on le lance directement
-    if (unlockedMap[levelId]) setPlayingLevelId(levelId);
-  };
-
-  const handleIframeLoaded = () => {
-    // Envoie le signal de démarrage à l'iframe une fois qu'elle est chargée
-    iframeRef.current?.contentWindow?.postMessage({ type: 'start' }, '*');
-  };
-
-  const handleReplay = () => {
-    iframeRef.current?.contentWindow?.postMessage({ type: 'restart' }, '*');
-    setIsGameFinished(false);
-    setGameResult(null);
-  };
-
-  const handleCloseModal = () => {
-    setPlayingLevelId(null);
-    setIsGameFinished(false);
-    setGameResult(null);
-  };
-
-  const handleNextLevel = () => {
-    if (!playingLevelId || playingLevelId >= LEVELS.length) return;
-    setPlayingLevelId(playingLevelId + 1);
-    setIsGameFinished(false);
-    setGameResult(null);
-  };
-
-  const handleClaimPromo = () => {
-    // Redirige vers le formulaire de réservation avec le code promo pré-appliqué
-    navigate('/form-reservation', { state: { promoCode: 'HUMAIN5', promoApplied: true } });
-  };
-
-  // Texte du statut boost affiché dans le HUD parent
-  const boostStatusLabel =
-    boostState.status === 'active' ? 'ACTIF' :
-    boostState.status === 'ready'  ? 'PRÊT'  : 'CHARGEMENT';
-
-  // ─── Rendu ───────────────────────────────────────────────────────────────────
+  const boostStatusLabel = boostState.status === 'active' ? 'ACTIF' : boostState.status === 'ready' ? 'PRÊT' : 'CHARGEMENT';
 
   return (
     <div className="experiences-page">
-      <h1>Jeu Expérience</h1>
-      <p>Présentation courte de Ghost in the Shell — plongez dans une expérience immersive inspirée des univers d'Akira et Ghost in the Shell.</p>
+      <h1>Expérience </h1>
+      <p> Plongez dans une expérience immersive inspirée des univers d'Akira et Ghost in the Shell. Reussisez les 3 niveaux pour débloquer une récompense !</p>
 
-      {/* Grille timeline + liste des niveaux */}
       <div className="levels-grid">
         <Timeline count={LEVELS.length} />
         <div className="levels-list">
           {LEVELS.map(level => {
-            const progress = progressMap[level.id] || { collected: 0, total: 0 };
+            const progress       = progressMap[level.id] || { collected: 0, total: 0 };
             const percentDisplay = Math.round(getCompletionRatio(progress) * 100);
             return (
               <LevelCard
@@ -260,14 +170,16 @@ const Experiences = () => {
         </div>
       </div>
 
-      {/* Zone de jeu */}
       <div className="experiences__game-section">
         {playingLevelId ? (
-
           <div className="game-modal">
             <div className="game-modal-backdrop" onClick={handleCloseModal} />
             <div className="game-modal-content" ref={containerRef}>
-              <button className="modal-close" onClick={handleCloseModal}>✕</button>
+
+              {/* R162 : bouton de fermeture explicite */}
+              <button type="button" className="modal-close" onClick={handleCloseModal}>
+                Fermer
+              </button>
 
               <div className="game-wrapper">
                 <iframe
@@ -279,7 +191,6 @@ const Experiences = () => {
                   onLoad={handleIframeLoaded}
                 />
 
-                {/* HUD parent : vie et boost affichés par-dessus l'iframe */}
                 <div className="parent-hud parent-health">
                   <div className="label">VIE</div>
                   <div className="health-track-parent">
@@ -297,7 +208,6 @@ const Experiences = () => {
                 </div>
               </div>
 
-              {/* Panneau de résultat (victoire ou game over) */}
               {isGameFinished && (
                 <GameResultPanel
                   gameResult={gameResult}
@@ -309,21 +219,20 @@ const Experiences = () => {
                   onClaimPromo={handleClaimPromo}
                 />
               )}
-
             </div>
           </div>
-
         ) : (
-          <p>Sélectionnez un niveau puis cliquez sur <strong>Commencer la course</strong>.</p>
+          <div className="game-placeholder">
+            <p>Sélectionnez un niveau pour commencer l'expérience de jeu.</p>
+          </div>
         )}
       </div>
 
-      {/* Bandeau promo affiché si le joueur a débloqué le code */}
       {promoUnlocked && (
         <div className="promo-panel">
-          <h3>Félicitations — code promo débloqué !</h3>
+          <h2>Félicitations ! Code promo débloqué !</h2>
           <p>Vous avez débloqué le code <strong>HUMAIN5</strong> — -5% sur votre réservation.</p>
-          <button className="btn btn-primary" onClick={handleClaimPromo}>
+          <button type="button" className="btn btn-primary" onClick={handleClaimPromo}>
             Réserver avec le code appliqué
           </button>
         </div>

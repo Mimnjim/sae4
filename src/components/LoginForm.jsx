@@ -2,9 +2,6 @@ import { useState } from 'react';
 import ButtonValidation from './ButtonValidation';
 
 // Formulaire de connexion
-// Props :
-//   onSuccess → appelé après une connexion réussie (pour rediriger l'utilisateur)
-//   setUser   → met à jour l'état global de l'utilisateur connecté
 function LoginForm({ onSuccess, setUser }) {
   const [email,        setEmail]        = useState('');
   const [password,     setPassword]     = useState('');
@@ -14,7 +11,7 @@ function LoginForm({ onSuccess, setUser }) {
 
   const handleSubmit = () => {
     setIsLoading(true);
-    setErrorMessage(''); // on efface l'erreur précédente à chaque nouvelle tentative
+    setErrorMessage('');
 
     fetch('https://apimusee.tomdelavigne.fr/api/login.php', {
       method: 'POST',
@@ -28,8 +25,6 @@ function LoginForm({ onSuccess, setUser }) {
           setIsLoading(false);
           return;
         }
-
-        // On stocke le token JWT et les infos utilisateur pour les réutiliser partout
         localStorage.setItem('jwt', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
         setUser(data.user);
@@ -37,7 +32,7 @@ function LoginForm({ onSuccess, setUser }) {
         onSuccess();
       })
       .catch(() => {
-        setErrorMessage('Erreur réseau — impossible de contacter le serveur.');
+        setErrorMessage('Erreur réseau');
         setIsLoading(false);
       });
   };
@@ -66,37 +61,33 @@ function LoginForm({ onSuccess, setUser }) {
             value={password}
             onChange={e => setPassword(e.target.value)}
           />
-          {/* Bouton pour afficher/masquer le mot de passe */}
+          {/* R76 : bouton afficher/masquer le mot de passe */}
           <button
             type="button"
             className="btn btn-light password-toggle"
-            aria-pressed={showPassword}
-            aria-label={showPassword ? 'Cacher le mot de passe' : 'Voir le mot de passe'}
             onClick={() => setShowPassword(current => !current)}
           >
-              {showPassword ? (
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
-                  <path d="M2 2l20 20" />
-                  <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-5 0-9.27-3-11-8a20.1 20.1 0 0 1 4.26-5.25" />
-                  <path d="M9.88 9.88A3 3 0 0 0 14.12 14.12" />
-                </svg>
-              ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
-                  <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
-                  <circle cx="12" cy="12" r="3" />
-                </svg>
-              )}
+            {showPassword ? (
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" focusable="false">
+                <path d="M2 2l20 20" />
+                <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-5 0-9.27-3-11-8a20.1 20.1 0 0 1 4.26-5.25" />
+                <path d="M9.88 9.88A3 3 0 0 0 14.12 14.12" />
+              </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" focusable="false">
+                <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            )}
           </button>
         </div>
       </div>
 
-      {/* Indication que tous les champs doivent être remplis */}
-      <p className="form-note" aria-hidden="false">Tous les champs sont obligatoires</p>
+      {/* R71 : tous les champs sont obligatoires */}
+      <p className="form-note">Tous les champs sont obligatoires</p>
 
-      {/* Message d'erreur affiché dans la page plutôt qu'une alert() navigateur */}
-      {errorMessage && (
-        <div className="form-error" role="alert">{errorMessage}</div>
-      )}
+      {/* R85 : message d'erreur dans le DOM */}
+      {errorMessage && <p className="form-error">{errorMessage}</p>}
 
       <ButtonValidation
         text={isLoading ? 'Connexion...' : 'Se connecter'}

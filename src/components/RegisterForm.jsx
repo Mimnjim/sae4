@@ -1,9 +1,20 @@
 import { useState } from 'react';
 import ButtonValidation from './ButtonValidation';
 
+// Évalue la force d'un mot de passe — retourne 0 (faible) à 3 (fort)
+function getPasswordStrength(pwd) {
+  let score = 0;
+  if (pwd.length >= 8)              score++;
+  if (/[A-Z]/.test(pwd))           score++;
+  if (/[0-9]/.test(pwd))           score++;
+  if (/[^A-Za-z0-9]/.test(pwd))    score++;
+  return score;
+}
+
+const STRENGTH_LABELS = ['', 'Faible', 'Moyen', 'Fort', 'Très fort'];
+const STRENGTH_CLASSES = ['', 'weak', 'medium', 'strong', 'very-strong'];
+
 // Formulaire d'inscription
-// Props :
-//   onSuccess → appelé après une inscription réussie (redirige vers la page de connexion)
 function RegisterForm({ onSuccess }) {
   const [firstname,    setFirstname]    = useState('');
   const [lastname,     setLastname]     = useState('');
@@ -13,8 +24,10 @@ function RegisterForm({ onSuccess }) {
   const [isLoading,    setIsLoading]    = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  // Le bouton est désactivé tant que tous les champs ne sont pas remplis
   const formIsComplete = Boolean(firstname && lastname && email && password);
+
+  // R203 : calcul de la force du mot de passe
+  const strengthScore = password ? getPasswordStrength(password) : 0;
 
   const handleSubmit = () => {
     setIsLoading(true);
@@ -32,9 +45,8 @@ function RegisterForm({ onSuccess }) {
           setIsLoading(false);
           return;
         }
-
         setIsLoading(false);
-        onSuccess(); // redirige vers la page de connexion
+        onSuccess();
       })
       .catch(() => {
         setErrorMessage("Erreur réseau — impossible de contacter le serveur.");
@@ -46,7 +58,8 @@ function RegisterForm({ onSuccess }) {
     <div className="register-form">
 
       <div className="register-form__field">
-        <label htmlFor="register-firstname">Prénom</label>
+        {/* R71 : * indique champ obligatoire */}
+        <label htmlFor="register-firstname">Prénom <span className="required">*</span></label>
         <input
           id="register-firstname"
           className="form-reservation__input"
@@ -57,7 +70,7 @@ function RegisterForm({ onSuccess }) {
       </div>
 
       <div className="register-form__field">
-        <label htmlFor="register-lastname">Nom</label>
+        <label htmlFor="register-lastname">Nom <span className="required">*</span></label>
         <input
           id="register-lastname"
           className="form-reservation__input"
@@ -68,7 +81,7 @@ function RegisterForm({ onSuccess }) {
       </div>
 
       <div className="register-form__field">
-        <label htmlFor="register-email">Email</label>
+        <label htmlFor="register-email">Email <span className="required">*</span></label>
         <input
           id="register-email"
           className="form-reservation__input"
@@ -79,7 +92,7 @@ function RegisterForm({ onSuccess }) {
       </div>
 
       <div className="register-form__field">
-        <label htmlFor="register-password">Mot de passe</label>
+        <label htmlFor="register-password">Mot de passe <span className="required">*</span></label>
         <div className="register-form__password-row">
           <input
             id="register-password"
@@ -88,37 +101,51 @@ function RegisterForm({ onSuccess }) {
             value={password}
             onChange={e => setPassword(e.target.value)}
           />
-          {/* Bouton pour afficher/masquer le mot de passe */}
+          {/* R76 : afficher/masquer le mot de passe */}
           <button
             type="button"
             className="btn btn-light password-toggle"
-            aria-pressed={showPassword}
-            aria-label={showPassword ? 'Cacher le mot de passe' : 'Voir le mot de passe'}
             onClick={() => setShowPassword(current => !current)}
           >
             {showPassword ? (
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" focusable="false">
                 <path d="M2 2l20 20" />
                 <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-5 0-9.27-3-11-8a20.1 20.1 0 0 1 4.26-5.25" />
                 <path d="M9.88 9.88A3 3 0 0 0 14.12 14.12" />
               </svg>
             ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" focusable="false">
                 <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
                 <circle cx="12" cy="12" r="3" />
               </svg>
             )}
           </button>
         </div>
+
+        {/* R203 : indicateur de force du mot de passe */}
+        {password && (
+          <div className={`password-strength password-strength--${STRENGTH_CLASSES[strengthScore]}`}>
+            <div className="password-strength__bar">
+              {[1, 2, 3, 4].map(i => (
+                <span
+                  key={i}
+                  className={`password-strength__segment ${i <= strengthScore ? 'active' : ''}`}
+                />
+              ))}
+            </div>
+            <p className="password-strength__label">{STRENGTH_LABELS[strengthScore]}</p>
+          </div>
+        )}
       </div>
 
-      {/* Indication que tous les champs doivent être remplis */}
-      <p className="form-note" aria-hidden="false">Tous les champs sont obligatoires</p>
+      {/* R71 : notice champs obligatoires */}
+      <p className="form-note">Les champs marqués d'un <span className="required">*</span> sont obligatoires.</p>
 
-      {/* Message d'erreur affiché sous les champs si l'API renvoie une erreur */}
-      {errorMessage && (
-        <div className="form-error" role="alert">{errorMessage}</div>
-      )}
+      {/* R85 : message d'erreur dans le DOM */}
+      {errorMessage && <p className="form-error">{errorMessage}</p>}
+
+      {/* R18 : informer l'utilisateur qu'un email de confirmation sera envoyé */}
+      <p className="form-note">Un email de confirmation vous sera envoyé après l'inscription.</p>
 
       <ButtonValidation
         text={isLoading ? "Inscription en cours..." : "S'inscrire"}

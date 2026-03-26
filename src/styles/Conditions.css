@@ -1,37 +1,35 @@
 /* =========================================
-   COMPOSANT : ACCORDION 
+   COMPOSANT : ACCORDION (100% Natif HTML)
    ========================================= */
 
-/* L'élément <details> global */
 .accordion__item {
-  background-color: rgba(0, 0, 0, 0.45);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: rgba(0, 0, 0, 0.65); /* Légèrement plus opaque pour le contraste */
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 8px;
-  padding: 0.6rem 0.8rem;
   margin-bottom: 0.6rem;
   color: #ffffff;
 }
 
-/* L'élément <summary>  */
 .accordion__header {
+  padding: 1rem; /* Zone tactile d'au moins 44px garantie */
   font-weight: 700;
   cursor: pointer;
   list-style: none; 
-  outline: none;
   display: flex; 
   align-items: center;
-  transition: color 150ms ease;
 }
 
+/* R165 : Contour bien visible et à l'intérieur pour ne pas déborder */
 .accordion__header:focus-visible {
-  color: var(--color-primary, #1087ff);
+  outline: 3px solid #ffffff;
+  outline-offset: -3px; 
+  background-color: rgba(255, 255, 255, 0.1); /* Petit retour visuel supplémentaire */
 }
 
 .accordion__header::-webkit-details-marker { 
   display: none; 
 }
 
-/* --- Notre flèche personnalisée --- */
 .accordion__header::before {
   content: '▸';
   display: inline-block;
@@ -43,11 +41,18 @@
   transform: rotate(90deg); 
 }
 
+/* R22 (Opquast 126) : Coupe l'animation de la flèche si l'utilisateur y est sensible */
+@media (prefers-reduced-motion: reduce) {
+  .accordion__header::before {
+    transition: none;
+  }
+}
+
 /* =========================================
    CONTENU DE L'ACCORDÉON 
    ========================================= */
 .accordion__body {
-  padding: 0.6rem 0.4rem 0 1.6rem;
+  padding: 0 1rem 1rem 2.2rem; /* Ajusté avec le nouveau padding du header */
 }
 
 .accordion__list {
@@ -64,7 +69,6 @@
   margin-bottom: 0;
 }
 
-/* Remplace le <strong> */
 .accordion__list-title {
   display: block;
   margin-bottom: 0.25rem;
@@ -72,10 +76,9 @@
   color: #ffffff;
 }
 
-/* Remplace le <p> */
 .accordion__list-text {
   margin: 0;
   font-size: 0.95rem;
-  line-height: 1.4; 
-  color: rgba(255, 255, 255, 0.85); 
+  line-height: 1.5; /* Plus aéré pour la lisibilité */
+  color: #e0e0e0; /* Couleur solide plutôt qu'une opacité pour un contraste parfait */
 }

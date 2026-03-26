@@ -2,8 +2,6 @@
    REGISTER CONTAINER
    ═══════════════════════════════════════════════════ */
 
-
-
 .register-container {
   display: flex;
   flex-direction: column;
@@ -20,21 +18,32 @@
   width: 90%;
   max-width: 920px;
   padding: 64px 56px;
-  background: rgba(8, 8, 8, 0.74);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(8, 8, 8, 0.85); /* Plus opaque pour la lisibilité sur fond animé */
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 18px;
+  box-sizing: border-box;
+  font-family: var(--ff-family-main);
+  color: #fff;
 }
 
-a {
-  color: rgba(255,255,255,0.9);
-  text-decoration: none;
-  font-size: 1.30rem;
+/* Liens globaux dans le formulaire */
+.register-card a {
+  color: #ffffff;
+  text-decoration: underline; /* Les liens doivent être soulignés par défaut pour l'accessibilité (pas juste une couleur) */
+  font-size: 1.1rem;
+  font-weight: 600;
 }
 
-a:hover {
-  text-decoration: underline;
-  color: rgba(255,255,255,0.95);
-  transition: color 0.3s ease;
+.register-card a:hover {
+  color: #e0e0e0;
+  text-decoration-thickness: 2px;
+}
+
+/* R165 : Focus sur les liens */
+.register-card a:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 4px;
+  border-radius: 2px;
 }
 
 /* ── Header ─────────────────────────────────────────── */
@@ -53,7 +62,7 @@ a:hover {
 
 .register-card__subtitle {
   font-size: 1.25rem;
-  color: var(--c-muted);
+  color: #e0e0e0; /* Couleur pleine plutôt qu'opacité */
   margin: 0;
 }
 
@@ -67,7 +76,8 @@ a:hover {
   flex-direction: column;
 }
 
-.register-form__group {
+.register-form__group,
+.register-form__field {
   display: flex;
   flex-direction: column;
   margin-bottom: 18px;
@@ -80,11 +90,15 @@ a:hover {
   margin-top: 8px;
 }
 
+/* Uniformisation des labels sans !important pour garder la flexibilité */
+.register-form label,
+.register-form__field > label,
 .label {
-  font-size: 2rem !important;
+  font-size: 1.1rem;
+  font-weight: 600;
   margin-bottom: 6px;
+  color: #ffffff;
 }
-
 
 /* ── Input ──────────────────────────────────────────── */
 
@@ -92,28 +106,29 @@ a:hover {
   width: 100%;
   height: 52px;
   padding: 14px 16px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.5); /* Plus sombre pour faire ressortir le texte */
+  border: 2px solid rgba(255, 255, 255, 0.4); /* Bordure solide de 2px pour le contraste */
   border-radius: 12px;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 1.25rem;
   color: #fff;
-  outline: none;
-  transition: border-color 140ms ease, box-shadow 140ms ease;
+  transition: border-color 140ms ease;
 }
 
 .register-form__input::placeholder {
-  color: var(--c-muted);
-  opacity: 0.6;
+  color: #b0b0b0; /* Un vrai gris lisible */
 }
 
 .register-form__input:hover {
-  border-color: var(--c-border-hover);
+  border-color: #ffffff;
 }
 
-.register-form__input:focus {
-  border-color: rgba(255, 255, 255, 0.16);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6), inset 0 0 0 6px rgba(255, 255, 255, 0.02);
+/* R165 : Remplacement de l'outline:none + box-shadow par un vrai contour natif */
+.register-form__input:focus,
+.register-form__input:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+  border-color: #ffffff;
 }
 
 
@@ -130,140 +145,88 @@ a:hover {
   min-width: 0;
 }
 
+/* R76 : Bouton d'affichage du mot de passe */
 .register-form__password-row .password-toggle {
   flex-shrink: 0;
   width: 52px;
   height: 52px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.06);
-}
-
-/* Labels inside register form */
-.register-form label,
-.register-form__field > label {
-  font-size: 1.25rem;
-  margin-bottom: 6px;
-  color: rgba(255,255,255,0.9);
-}
-
-/* Make register look like login: same card, fonts and spacing */
-.register-card {
-  width: 90%;
-  max-width: 920px;
-  padding: 64px 56px;
-  background: rgba(8, 8, 8, 0.74);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 18px;
-  box-sizing: border-box;
-  font-family: var(--ff-family-main);
-  color: #fff;
-}
-
-.register-card__header {
-  margin-bottom: 32px;
-  text-align: center;
-}
-
-.register-card__title {
-  font-family: var(--ff-family-main);
-  font-size: 3.3rem;
-  font-weight: 700;
-  margin: 0 0 10px;
-}
-
-.register-card__subtitle {
-  font-size: 1.25rem;
-  color: var(--c-muted);
-  margin: 0;
-}
-
-/* Form layout matching login form */
-.register-form {
-  display: flex;
-  flex-direction: column;
-}
-
-.register-form__field {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 18px;
-}
-
-.register-form__input {
-  width: 100%;
-  height: 52px;
-  padding: 14px 16px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 12px;
-  font-family: inherit;
-  font-size: 1.25rem;
-  color: #fff;
-  outline: none;
-}
-
-.form-note {
-  font-size: 1rem;
-  margin: 0.6rem 0 0.2rem;
-}
-
-/* Make primary buttons match login look when placed inside card */
-.register-card .validate-button {
-  width: 100%;
-  padding: 0.95rem 1.2rem;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.9);
-  border-color: transparent;
-  color: #111;
-  letter-spacing: 0.01em;
-}
-
-.register-card .validate-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.4);
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 140ms ease;
 }
 
-@media (max-width: 720px) {
-  .register-card {
-    width: calc(100% - 40px);
-    padding: 28px 20px;
-  }
-  .register-card__title { font-size: 1.6rem; }
-  .register-card__subtitle { font-size: 0.95rem; }
+.register-form__password-row .password-toggle svg {
+  width: 24px;
+  height: 24px;
+  stroke: #ffffff;
+  fill: none;
+  transition: transform 140ms ease;
 }
+
+.register-form__password-row .password-toggle:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.register-form__password-row .password-toggle:hover svg {
+  transform: scale(1.1);
+}
+
+.register-form__password-row .password-toggle:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+}
+
+/* ── Notes et erreurs de formulaire ─────────────────── */
+
+/* R203 : Rendu des textes d'aide lisibles */
+.form-note {
+  font-size: 0.95rem;
+  margin: 0.6rem 0 0.2rem;
+  color: #e0e0e0;
+  line-height: 1.4;
+}
+
 
 /* ── Submit button ──────────────────────────────────── */
 
 .register-card .validate-button {
   width: 100%;
-  padding: 0.95rem 1.2rem;
-  font-size: 1rem;
-  font-weight: 600;
+  padding: 1rem 1.2rem; /* Zone de clic ajustée */
+  font-size: 1.1rem;
+  font-weight: bold;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.9);
-  border-color: transparent;
-  color: #111;
-  letter-spacing: 0.01em;
+  background: #ffffff;
+  border: 2px solid transparent;
+  color: #000000; /* Texte noir sur fond blanc = contraste max */
+  cursor: pointer;
+  transition: background 140ms ease, transform 100ms ease;
 }
 
 .register-card .validate-button:hover {
-  background: #fff;
+  background: #e6e6e6;
+}
+
+.register-card .validate-button:active {
+  transform: scale(0.98);
+}
+
+/* R165 : Focus clavier explicite sur le bouton de validation */
+.register-card .validate-button:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px #000000; /* Contour noir autour du focus blanc */
 }
 
 .register-card .validate-button svg,
 .register-card .validate-button svg * {
-  stroke: #111;
-  fill: #111;
+  stroke: #000000;
+  fill: #000000;
 }
-
-/* Ensure toggles and generic .btn are clearly clickable */
-.password-toggle,
-.btn {
-  cursor: pointer;
-}
-
 
 /* ═══════════════════════════════════════════════════
    RESPONSIVE
@@ -271,10 +234,10 @@ a:hover {
 
 @media (max-width: 720px) {
   .register-card {
-    width: calc(100% - 40px);
-    padding: 28px 20px;
+    width: calc(100% - 32px); /* Un peu plus d'espace sur les bords */
+    padding: 32px 24px;
   }
 
-  .register-card__title    { font-size: 1.6rem; }
-  .register-card__subtitle { font-size: 0.95rem; }
+  .register-card__title    { font-size: 2rem; } /* Légèrement agrandi pour le mobile par rapport à ton 1.6rem */
+  .register-card__subtitle { font-size: 1rem; }
 }

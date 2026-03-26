@@ -1,7 +1,7 @@
 /* Boutons pour les jeux */
 .game-button {
   background-color: #00ffff;
-  color: #fff;
+  color: #000000; /* Texte noir obligatoire pour le contraste sur fond cyan */
   border: 2px solid #00ffff;
   padding: 15px 30px;
   font-size: 16px;
@@ -11,10 +11,19 @@
   cursor: pointer;
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
   margin: 10px;
+  transition: all 0.2s ease; /* Ajout d'une transition pour la fluidité */
+  border-radius: 6px;
 }
 
 .game-button:hover {
   background-color: transparent;
-  color: #00ffff;
+  color: #00ffff; /* Le texte cyan sur le fond sombre de ton site sera lisible */
   box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+}
+
+/* R165 : Le focus clavier bien visible et détaché du bouton */
+.game-button:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 4px;
+  background-color: #00cccc; /* Change légèrement la couleur pour double feedback */
 }

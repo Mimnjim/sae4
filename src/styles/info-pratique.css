@@ -4,81 +4,78 @@
 
 .info-pratique-container {
   --ip-accent: #e8002a;
-  --ip-border: rgba(255, 255, 255, 0.07);
-  --ip-surface: rgba(10, 10, 10, 0.96);
-  --ip-muted: rgb(255, 255, 255);
-  --ip-body: rgba(255, 255, 255, 0.725);
-  --ip-radius: 18px;
+  --ip-border: rgba(255, 255, 255, 0.2); /* Rendu plus visible pour structurer les blocs */
+  --ip-surface: rgba(0, 0, 0, 0.85); /* Fond plus opaque pour contraster avec le texte blanc */
+  --ip-muted: #ffffff;
+  --ip-body: #e0e0e0; /* Remplacement de l'opacité par une couleur solide */
+  --ip-radius: 12px; /* Un peu moins arrondi pour matcher le reste du site */
+  --ip-ease: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .info-pratique-container {
   padding: 80px 48px 120px;
   max-width: 1080px;
   margin: 0 auto;
-  color: #fff;
+  color: #ffffff;
 }
-
 
 /* ── Titre ──────────────────────────────────────────── */
 
-.info-pratique-container>h1 {
+.info-pratique-container > h1 {
   font-size: clamp(2.4rem, 5vw, 3.8rem);
   font-weight: 800;
   letter-spacing: -0.03em;
-  line-height: 1;
+  line-height: 1.2; /* Un peu plus d'air (Opquast) */
   margin: 0 0 64px;
   display: flex;
   align-items: center;
   gap: 20px;
+  outline: none; /* R165 : Evite l'outline par défaut du focus JS, qu'on gère manuellement si besoin */
 }
 
-.info-pratique-container>h1::before {
+.info-pratique-container > h1::before {
   content: '';
   display: block;
   width: 28px;
-  height: 4px;
+  height: 6px; /* Légèrement plus épais */
   background: var(--ip-accent);
-  border-radius: 2px;
+  border-radius: 3px;
   flex-shrink: 0;
 }
 
-
 /* ═══════════════════════════════════════════════════
-   BLOC PRINCIPAL — grille de lignes jointives
+   BLOC PRINCIPAL
    ═══════════════════════════════════════════════════ */
 
 .info-main {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 2rem;
 }
 
-
-/* ── Bloc cards (tarifs / horaires / accès / accessibilité) */
+/* ── Bloc cards */
 
 .info-content {
-  border: 1px solid var(--ip-border);
+  border: 2px solid var(--ip-border); /* 2px pour mieux délimiter sur fond animé */
   border-radius: var(--ip-radius);
   overflow: hidden;
-  /* Les gaps entre cards = 1px de fond visible */
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px; /* Ligne de séparation plus visible */
   background: var(--ip-border);
 }
 
 .info-card {
   display: grid;
-  grid-template-columns: 180px 1fr;
+  grid-template-columns: 200px 1fr; /* Colonne de gauche légèrement élargie */
   align-items: start;
-  gap: 0 56px;
+  gap: 0 40px;
   padding: 32px 40px;
   background: var(--ip-surface);
   position: relative;
   transition: background 180ms var(--ip-ease);
 }
 
-/* Trait accent rouge à gauche au hover */
 .info-card::before {
   content: '';
   position: absolute;
@@ -91,101 +88,116 @@
 }
 
 .info-card:hover {
-  background: rgba(20, 20, 20, 0.98);
+  background: #000000;
 }
 
 .info-card:hover::before {
-  width: 3px;
+  width: 6px; /* Marqueur de survol plus évident */
 }
 
 /* Colonne gauche : label */
-.info-card>h3 {
+.info-card > h3 {
   margin: 3px 0 0;
-  font-size: 1,4rem;
+  font-size: 1.4rem; /* CORRIGÉ : 1.4rem au lieu de 1,4rem */
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   line-height: 1.4;
+  color: #ffffff;
 }
 
 /* Colonne droite : contenu */
-.info-card>p,
-.info-card>ul,
-.info-card>address {
-  margin: 0;
+.info-card > p,
+.info-card > ul,
+.info-card > address {
+  margin: 0 0 0.5rem 0; /* Ajout de marge bas pour aérer les paragraphes multiples */
   font-size: 1.1rem;
   line-height: 1.75;
   color: var(--ip-body);
   font-style: normal;
 }
+.info-card > p:last-child { margin-bottom: 0; }
 
 /* FAQ : details/summary dans une info-card */
-.info-card>details {
-  border-bottom: 1px solid var(--ip-border);
-  padding-bottom: 14px;
-  margin-bottom: 14px;
+.info-card > details {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
-.info-card>details:last-child {
+.info-card > details:last-child {
   border-bottom: none;
   padding-bottom: 0;
   margin-bottom: 0;
 }
 
-.info-card>details summary {
-  font-size: 1rem;
+.info-card > details summary {
+  font-size: 1.15rem; /* Augmenté pour la lisibilité */
   font-weight: 600;
-  color: #fff;
+  color: #ffffff;
   cursor: pointer;
-  list-style: none;
+  list-style: none; /* Cache la flèche native Safari/Chrome */
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  padding: 0.5rem 0; /* Zone cliquable plus grande */
   transition: color 160ms var(--ip-ease);
 }
 
-.info-card>details summary::-webkit-details-marker {
+.info-card > details summary::-webkit-details-marker {
   display: none;
 }
 
-.info-card>details summary::before {
-  content: '';
-  display: block;
-  width: 16px;
-  height: 16px;
+/* L'icône maison (plus propre que le base64 dans le code) */
+.info-card > details summary::before {
+  content: '▸'; /* Utilisation d'un caractère Unicode simple et robuste */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
   flex-shrink: 0;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 1.2rem;
+  border: 2px solid rgba(255, 255, 255, 0.4);
   border-radius: 50%;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath d='M2 4l3 3 3-3' fill='none' stroke='rgba(255,255,255,0.6)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: center;
   transition: transform 200ms var(--ip-ease), border-color 160ms var(--ip-ease);
 }
 
-.info-card>details[open] summary::before {
-  transform: rotate(180deg);
+.info-card > details[open] summary::before {
+  transform: rotate(90deg);
   border-color: var(--ip-accent);
-}
-
-.info-card>details summary:hover {
   color: var(--ip-accent);
 }
 
-.info-card>details>p {
-  margin: 12px 0 0 26px;
-  font-size: 1rem;
+.info-card > details summary:hover {
+  color: #cccccc;
+}
+
+/* R165 : Le focus sur le summary */
+.info-card > details summary:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 4px;
+  border-radius: 4px;
+  color: #ffffff;
+}
+
+.info-card > details > p {
+  margin: 12px 0 0 36px; /* Aligné avec le texte du summary, passé l'icône */
+  font-size: 1.05rem;
   line-height: 1.7;
   color: var(--ip-body);
 }
 
-/* La card FAQ prend toute la largeur (pas de label à gauche) */
+/* La card FAQ prend toute la largeur */
 .info-card.info-card--faq {
   grid-template-columns: 1fr;
   gap: 0;
 }
 
-.info-card.info-card--faq>h3 {
-  margin-bottom: 20px;
+.info-card.info-card--faq > h2 { /* Passage de h3 à h2 selon correction JSX */
+  margin-bottom: 24px;
+  font-size: 1.8rem;
+  color: #ffffff;
 }
 
 
@@ -194,37 +206,37 @@
    ═══════════════════════════════════════════════════ */
 
 .map-section {
-  border: 1px solid var(--ip-border);
+  border: 2px solid var(--ip-border);
   border-radius: var(--ip-radius);
   overflow: hidden;
 }
 
-.map-section>h2 {
+.map-section > h2 {
   margin: 0;
-  padding: 18px 40px;
-  font-size: 1rem;
+  padding: 1.25rem 2.5rem;
+  font-size: 1.2rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--ip-muted);
+  color: #ffffff;
   background: var(--ip-surface);
-  border-bottom: 1px solid var(--ip-border);
+  border-bottom: 2px solid var(--ip-border);
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
-.map-section>h2::before {
+.map-section > h2::before {
   content: '';
-  width: 5px;
-  height: 5px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: var(--ip-accent);
   flex-shrink: 0;
 }
 
 .map-section .leaflet-container {
-  height: 400px;
+  height: 450px; /* Un peu plus grand pour faciliter la navigation tactile */
   width: 100%;
   display: block;
 }
@@ -234,43 +246,11 @@
    CONTACT SECTION
    ═══════════════════════════════════════════════════ */
 
-/* Le composant ContactSection génère une .contact-section imbriquée */
-.info-main>.contact-section,
-.info-main>.contact-section>.contact-section {
-  border: 1px solid var(--ip-border);
+.info-main > section:has(.contact-section) {
+  border: 2px solid var(--ip-border);
   border-radius: var(--ip-radius);
   overflow: hidden;
   background: var(--ip-surface);
-}
-
-/* On neutralise le double-wrapping du composant */
-.info-main>.contact-section>.contact-section {
-  border: none;
-  border-radius: 0;
-  background: transparent;
-}
-
-.contact-section>h2 {
-  margin: 0;
-  padding: 18px 40px;
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--ip-muted);
-  border-bottom: 1px solid var(--ip-border);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.contact-section>h2::before {
-  content: '';
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--ip-accent);
-  flex-shrink: 0;
 }
 
 .contact-list {
@@ -279,84 +259,68 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
   background: var(--ip-border);
 }
 
 .contact-list li {
   display: grid;
-  grid-template-columns: 180px 1fr;
+  grid-template-columns: 200px 1fr;
   align-items: center;
-  gap: 0 56px;
-  padding: 20px 40px;
+  gap: 0 40px;
+  padding: 24px 40px;
   background: var(--ip-surface);
   transition: background 180ms var(--ip-ease);
 }
 
 .contact-list li:hover {
-  background: rgba(20, 20, 20, 0.98);
+  background: #000000;
 }
 
 .contact-list strong {
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--ip-muted);
+  color: #ffffff;
 }
 
 .contact-list a {
-  font-size: 1.1rem;
-  color: #fff;
+  font-size: 1.2rem;
+  color: #ffffff;
   text-decoration: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-  transition: border-color 160ms var(--ip-ease), color 160ms var(--ip-ease);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  padding-bottom: 2px;
+  transition: border-color 160ms var(--ip-ease);
   width: fit-content;
 }
 
 .contact-list a:hover {
-  color: #fff;
   border-color: var(--ip-accent);
+}
+
+/* R165 : Focus sur les liens de contact */
+.contact-list a:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 4px;
+  border-radius: 2px;
 }
 
 
 /* ═══════════════════════════════════════════════════
-   ANIMATIONS D'ENTRÉE
+   ANIMATIONS D'ENTRÉE (Conditionnées R22)
    ═══════════════════════════════════════════════════ */
 
 @keyframes ip-in {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.info-pratique-container>h1 {
-  animation: ip-in 450ms var(--ip-ease) both;
-}
-
-.info-content {
-  animation: ip-in 450ms 80ms var(--ip-ease) both;
-}
-
-.map-section {
-  animation: ip-in 450ms 140ms var(--ip-ease) both;
-}
-
-.info-main>.contact-section {
-  animation: ip-in 450ms 180ms var(--ip-ease) both;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .info-pratique-container * {
-    animation: none !important;
-    transition: none !important;
-  }
+@media (prefers-reduced-motion: no-preference) {
+  .info-pratique-container > h1 { animation: ip-in 450ms var(--ip-ease) both; }
+  .info-content { animation: ip-in 450ms 80ms var(--ip-ease) both; }
+  .map-section { animation: ip-in 450ms 140ms var(--ip-ease) both; }
+  .info-main > section:has(.contact-section) { animation: ip-in 450ms 180ms var(--ip-ease) both; }
 }
 
 
@@ -365,32 +329,15 @@
    ═══════════════════════════════════════════════════ */
 
 @media (max-width: 860px) {
-  .info-pratique-container {
-    padding: 52px 20px 80px;
-  }
+  .info-pratique-container { padding: 40px 20px 80px; }
+  .info-pratique-container > h1 { margin-bottom: 32px; font-size: 2.2rem; }
 
-  .info-pratique-container>h1 {
-    margin-bottom: 40px;
-  }
-
-  .info-card {
+  .info-card, .contact-list li {
     grid-template-columns: 1fr;
-    gap: 8px;
+    gap: 12px;
     padding: 24px 20px;
   }
 
-  .contact-list li {
-    grid-template-columns: 1fr;
-    gap: 4px;
-    padding: 18px 20px;
-  }
-
-  .map-section>h2,
-  .contact-section>h2 {
-    padding: 16px 20px;
-  }
-
-  .map-section .leaflet-container {
-    height: 280px;
-  }
+  .map-section > h2 { padding: 1.2rem 1.5rem; }
+  .map-section .leaflet-container { height: 350px; }
 }

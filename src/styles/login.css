@@ -18,8 +18,8 @@
   width: 90%;
   max-width: 920px;
   padding: 64px 56px;
-  background: rgba(8, 8, 8, 0.74);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(8, 8, 8, 0.85); /* Fond très légèrement plus opaque pour garantir le contraste */
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 18px;
 }
 
@@ -36,11 +36,12 @@
   font-size: 3.3rem;
   font-weight: 700;
   margin: 0 0 10px;
+  color: #ffffff;
 }
 
 .login-card__subtitle {
   font-size: 1.50rem;
-  color: var(--c-muted);
+  color: #e0e0e0; /* Couleur pleine au lieu d'une variable potentiellement trop claire */
   margin: 0;
 }
 
@@ -72,36 +73,36 @@
 
 .login-form__input {
   width: 100%;
-  height: 52px;
+  height: 52px; /* Super, > 44px pour le tactile */
   padding: 14px 16px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.5); /* Assombri pour contraster avec le texte tapé */
+  border: 2px solid rgba(255, 255, 255, 0.4); /* Bordure passée à 2px pour être bien visible */
   border-radius: 12px;
   font-family: inherit;
   font-size: 1.50rem;
-  color: #fff;
-  outline: none;
-  transition: border-color 140ms ease, box-shadow 140ms ease;
+  color: #ffffff;
+  transition: border-color 140ms ease;
 }
 
 .login-form__input::placeholder {
-  color: var(--c-muted);
-  opacity: 0.6;
+  color: #b0b0b0; /* Plus d'opacité, une vraie couleur lisible */
 }
 
 .login-form__input:hover {
-  border-color: var(--c-border-hover);
+  border-color: #ffffff;
 }
 
-.login-form__input:focus {
-  border-color: rgba(255, 255, 255, 0.16);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6), inset 0 0 0 6px rgba(255, 255, 255, 0.02);
+/* R165 : Le focus natif est le plus robuste, surtout pour les modes "contraste élevé" */
+.login-form__input:focus,
+.login-form__input:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+  border-color: #ffffff;
 }
 
 
 /* ── Password row ───────────────────────────────────── */
 
-/* Le wrapper aligne input + toggle côte à côte */
 .login-form__password-row {
   display: flex;
   align-items: center;
@@ -113,21 +114,21 @@
   min-width: 0;
 }
 
-/* Toggle séparé, même hauteur que l'input */
+/* R76 : Bouton d'affichage du mot de passe */
 .login-form__password-row .password-toggle {
   flex-shrink: 0;
   width: 52px;
-  height: 52px;
+  height: 52px; /* Parfait pour la zone tactile */
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.4);
 }
 
-/* Labels inside login form */
 .login-form label {
-  font-size: 1.05rem;
+  font-size: 1.1rem;
+  font-weight: 600;
   margin-bottom: 6px;
-  color: rgba(255,255,255,0.9);
+  color: #ffffff;
 }
 
 
@@ -141,18 +142,20 @@
   justify-content: center;
   gap: 8px;
   padding: 12px 16px;
-  border: 1px solid transparent;
+  border: 2px solid transparent;
   border-radius: 10px;
   font-family: inherit;
-  font-size: 0.95rem;
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  outline: none;
-  transition: background 140ms ease, box-shadow 140ms ease, transform 100ms ease;
+  transition: background 140ms ease, transform 100ms ease;
 }
 
+/* R165 : Remplacement de box-shadow par outline pour une vraie accessibilité au clavier */
 .btn:focus-visible {
-  box-shadow: 0 0 0 3px var(--c-accent-ring);
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px #000000;
 }
 
 .btn:active {
@@ -160,49 +163,33 @@
 }
 
 .btn--primary {
-  background: var(--c-accent);
-  border-color: var(--c-accent);
-  color: #000;
+  background: var(--c-accent, #ffffff);
+  color: #000000;
 }
 
 .btn--primary:hover {
-  background: var(--c-accent-hover);
+  background: #e6e6e6;
 }
 
-.btn--ghost {
-  background: var(--c-surface-2);
-  border-color: var(--c-border);
-  color: var(--c-text);
-}
-
-.btn--ghost:hover {
-  border-color: var(--c-border-hover);
-}
-
-/* Full-width primary button inside the card */
 .login-card .validate-button {
   width: 100%;
-  padding: 0.95rem 1.2rem;
-  font-size: 1rem;
-  font-weight: 600;
+  padding: 1rem 1.2rem;
+  font-size: 1.1rem;
+  font-weight: bold;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.9);
-  border-color: transparent;
-  color: #111;
-  letter-spacing: 0.01em;
+  background: #ffffff;
+  color: #000000;
+  cursor: pointer;
+  border: 2px solid transparent;
 }
-
-.login-card .validate-button { cursor: pointer; }
 
 .login-card .validate-button:hover {
-  background: #fff;
+  background: #e6e6e6;
 }
 
-/* Icône flèche dans le bouton — la rendre visible sur fond clair */
-.login-card .validate-button svg,
 .login-card .validate-button svg * {
-  stroke: #111;
-  fill: #111;
+  stroke: #000000;
+  fill: #000000;
 }
 
 
@@ -215,43 +202,30 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  background: var(--c-surface-2);
-  border: 1px solid var(--c-border);
-  border-radius: 10px;
   cursor: pointer;
-  outline: none;
   transition: background 140ms ease;
 }
 
 .password-toggle svg {
   display: block;
-  width: 18px;
-  height: 18px;
-  stroke: #fff;
-  fill: #fff;
-  transition: stroke 160ms ease, fill 160ms ease, transform 160ms ease;
+  width: 24px; /* Un peu plus grand pour être bien visible */
+  height: 24px;
+  stroke: #ffffff;
+  fill: none; /* Généralement préférable pour les icônes de type 'œil' */
+  transition: transform 160ms ease;
 }
 
 .password-toggle:hover {
-  border-color: var(--c-border-hover);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .password-toggle:hover svg {
-  stroke: #000;
-  fill: #000;
-  transform: scale(1.02);
+  transform: scale(1.1);
 }
 
 .password-toggle:focus-visible {
-  box-shadow: 0 0 0 3px var(--c-accent-ring);
-}
-
-/* Lighter style inside the login card */
-.login-card .password-toggle {
-  background: rgba(255, 255, 255, 0.03);
-  border-color: rgba(255, 255, 255, 0.06);
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
 }
 
 
@@ -259,46 +233,45 @@
    UTILITY
    ═══════════════════════════════════════════════════ */
 
+/* R185 : Version moderne et robuste du screen-reader only */
 .sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 
 /* ═══════════════════════════════════════════════════
-   RESPONSIVE
+   RESPONSIVE & MESSAGES
    ═══════════════════════════════════════════════════ */
 
 @media (max-width: 720px) {
   .login-card {
-    width: calc(100% - 40px);
-    padding: 28px 20px;
+    width: calc(100% - 32px);
+    padding: 32px 24px;
   }
-
-  .login-card__title    { font-size: 1.6rem; }
-  .login-card__subtitle { font-size: 0.95rem; }
 }
 
-/* Shared form messages (identical in login and register) */
 .form-note {
   font-size: 1rem;
   margin: 0.6rem 0 0.2rem;
-  opacity: 0.95;
+  color: #e0e0e0;
 }
 
 .form-error {
-  color: #ff4d4f;
-  background: rgba(255, 77, 79, 0.06);
-  border: 1px solid rgba(255, 77, 79, 0.12);
-  padding: 0.55rem 0.75rem;
+  color: #ffb3b3; /* Rouge plus clair pour être lisible sur fond noir */
+  background: rgba(200, 0, 0, 0.2);
+  border: 2px solid #ffb3b3;
+  padding: 0.75rem 1rem;
   border-radius: 6px;
-  margin-top: 0.4rem;
-  font-size: 0.95rem;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
 }

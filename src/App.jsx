@@ -10,6 +10,7 @@ import Footer from './components/Footer.jsx';
 // Pages
 import Experiences from './pages/Experiences.jsx';
 import FormReservationPage from './pages/Form_reservation.jsx';
+import ReservationDetails from './pages/ReservationDetails.jsx';
 import ConfirmationPage from './pages/Confirmation.jsx';
 import InfoPratique from './pages/Info_pratique.jsx';
 import Login from './pages/Login.jsx';
@@ -106,6 +107,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/experiences" element={<Experiences />} />
           <Route path="/form-reservation" element={<FormReservationPage />} />
+          <Route path="/form-reservation/coordonnees" element={<ReservationDetails />} />
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/register/sent" element={<RegisterSent />} />

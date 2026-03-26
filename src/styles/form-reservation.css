@@ -1,14 +1,14 @@
 /* BEM structure, variables, responsive, performant */
 :root {
   --form-bg: transparent;
-  --form-border: rgba(255,255,255,0.12);
-  --form-title: #fff;
-  --form-label: #fff;
-  --form-input-bg: rgb(35, 35, 35);
-  --form-input-border: rgba(255, 255, 255, 0.641);
-  --form-input-focus: #fff;
-  --form-btn-bg: rgba(0, 0, 0, 0.446);
-  --form-btn-color: #fff;
+  --form-border: rgba(255,255,255,0.15); /* Contraste légèrement augmenté */
+  --form-title: #ffffff;
+  --form-label: #e0e0e0; /* Couleur solide pour le label */
+  --form-input-bg: rgba(0, 0, 0, 0.6); /* Fond plus sombre pour contraster avec le texte blanc */
+  --form-input-border: rgba(255, 255, 255, 0.4);
+  --form-input-focus: #ffffff;
+  --form-btn-bg: #0056b3; /* Vrai bouton visible plutôt que gris transparent */
+  --form-btn-color: #ffffff;
   --form-gap: 2rem;
 }
 
@@ -19,7 +19,23 @@
   background: transparent;
   padding: 2rem;
   border-radius: 12px;
+}
 
+/* Quand la sélection est la vue principale, centrer la colonne gauche */
+.form-reservation--centered .form-reservation__left {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* Récapitulatif latéral : rester visible pendant le scroll */
+.form-reservation__right {
+  position: relative;
+  min-width: 300px;
+}
+
+.form-reservation__summary {
+  position: sticky;
+  top: 24px;
 }
 
 .form-reservation__left,
@@ -41,23 +57,34 @@
   font-weight: bold;
   color: var(--form-label);
   margin-bottom: 0.5rem;
+  display: block; /* S'assure que le label prend toute la largeur au dessus de l'input */
+}
+
+/* R71 : Indique visuellement ce qui est obligatoire sans utiliser content:"*" (mieux lu par les lecteurs d'écran) */
+.required-star {
+  color: #ff6b6b;
+  margin-left: 0.25rem;
+  font-weight: bold;
 }
 
 .form-reservation__input {
   background: var(--form-input-bg);
-  border: 1px solid var(--form-input-border);
+  border: 2px solid var(--form-input-border); /* 2px pour une bordure bien visible */
   border-radius: 6px;
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1rem; /* Padding augmenté pour zone tactile (44px) */
   font-size: 1rem;
   margin-bottom: 1rem;
   box-sizing: border-box;
   width: 100%;
-  color: #fff;
+  color: #ffffff;
 }
 
-.form-reservation__input:focus {
+/* R165 : Focus clavier très visible sur les inputs */
+.form-reservation__input:focus,
+.form-reservation__input:focus-visible {
   border-color: var(--form-input-focus);
-  outline: none;
+  outline: 3px solid #000000; /* Contour noir autour de la bordure blanche */
+  outline-offset: 1px;
 }
 
 .form-reservation__tickets {
@@ -66,181 +93,272 @@
   gap: 0.5rem;
 }
 
+/* Créneaux horaires visibles */
+.time-slots {
+  display: grid;
+  /* 4 créneaux alignés sur desktop */
+  grid-template-columns: repeat(4, minmax(140px, 1fr));
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+
+.time-slot {
+  background: rgba(0,0,0,0.55); /* fond plus noir */
+  border: 1px solid rgba(255,255,255,0.06);
+  color: #ffffff;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-weight: 700;
+  transition: transform 140ms cubic-bezier(.2,.9,.2,1), box-shadow 140ms ease, background 140ms ease;
+}
+
+
+.time-slot:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.time-slot--selected {
+  /* Changement : supprimer le bleu, utiliser un vert chaud et conserver le texte blanc */
+  background: linear-gradient(90deg,#16a34a,#22c55e);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 10px 30px rgba(34,197,94,0.12);
+  transform: translateY(-3px);
+}
+
+
+.time-slot__start { font-size: 1.05rem; }
+.time-slot__end { font-size: 0.95rem; color: #ffffff; }
+
+.time-slot__sep { color: #ffffff; }
+
+/* Hover subtil */
+.time-slot:not(:disabled):hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+  background: rgba(0,0,0,0.7);
+}
+
+@media (max-width: 900px) {
+  .time-slots { grid-template-columns: repeat(2, 1fr); }
+}
+
 .form-reservation__ticket-row {
   display: grid;
-  grid-template-columns: 1fr minmax(160px, 240px) 64px 64px 64px;
+  grid-template-columns: 1fr minmax(140px, auto) 44px 44px 44px; /* Fixé à 44px minimum pour l'accessibilité tactile */
   gap: 1rem;
   align-items: center;
   padding: 1.2rem 0;
-  border-bottom: 1px dashed rgba(255,255,255,0.06);
+  border-bottom: 1px dashed rgba(255,255,255,0.2);
 }
 
 .form-reservation__btn {
   background: var(--form-btn-bg);
   color: var(--form-btn-color);
-  border: none;
+  border: 2px solid transparent;
   border-radius: 6px;
   font-size: 1rem;
+  font-weight: bold;
+  padding: 0.75rem 1rem;
   cursor: pointer;
   transition: background 0.12s ease, transform 120ms ease;
 }
 
+/* R165 : Focus visible pour tous les boutons du formulaire */
 .form-reservation__btn:focus-visible {
-  outline: 3px solid rgba(34,34,34,0.15);
+  outline: 3px solid #ffffff;
   outline-offset: 2px;
+  box-shadow: 0 0 0 4px #000000;
 }
 
 .form-reservation__btn:disabled {
-  background: rgba(255,255,255,0.04);
+  background: #444444; /* Gris solide pour le disabled */
+  color: #aaaaaa;
   cursor: not-allowed;
+  border-color: transparent;
 }
 
 .form-reservation__conditions {
   font-size: 0.95rem;
-  color: #fff;
+  color: #e0e0e0;
   margin-top: 1rem;
+  line-height: 1.5; /* Règle Opquast : interligne */
 }
 
+/* Classe standard et parfaite pour cacher du texte visuellement mais pas aux lecteurs d'écran (R185) */
 .sr-only {
   position: absolute !important;
   height: 1px;
   width: 1px;
   overflow: hidden;
   clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
   white-space: nowrap;
 }
 
 /* Ticket helpers */
-.tickets-fieldset { border: none; padding: 0; margin: 0; }
+.tickets-fieldset { 
+  border: none; 
+  padding: 0; 
+  margin: 0; 
+}
+
+/* R69/R234 : Le legend du fieldset est crucial en accessibilité */
+.tickets-legend {
+  font-weight: bold;
+  font-size: 1.25rem;
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+
 .ticket-label {
   font-weight: 600;
   font-size: 1rem;
-  color: #fff;
+  color: #ffffff;
   font-family: inherit;
 }
+
 .ticket-price {
-  color: #fff;
+  color: #e0e0e0;
   font-size: 0.95rem;
   font-weight: 600;
-  text-align: center;
+  text-align: right; /* Aligné à droite pour se rapprocher des boutons */
 }
+
 .ticket-count {
   text-align: center;
   font-weight: 700;
-  font-size: 0.95rem;
-  width: 40px;
+  font-size: 1.1rem;
+  width: 44px; /* Aligné avec la grille */
 }
 
-/* Minimal +/- controls: only symbols, no circular background */
+/* Contrôles +/- : rendus accessibles tactilement */
 .form-reservation__ticket-row .form-reservation__btn {
-  background: transparent;
-  color: #fff;
-  border: none;
-  padding: 0.2rem 0.6rem;
-  font-size: 1.6rem;
-  line-height: 1;
-  min-width: 40px;
-  height: auto;
-  box-shadow: none;
-  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0;
+  width: 44px; /* Zone tactile 44x44px */
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  border-radius: 6px;
 }
-.form-reservation__ticket-row .form-reservation__btn:disabled { opacity: 0.4; }
+
 .form-reservation__ticket-row .form-reservation__btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
   transform: translateY(-2px);
 }
 
 @media (max-width: 700px) {
   .form-reservation__ticket-row {
-    grid-template-columns: 1fr 110px 40px 40px 40px;
+    grid-template-columns: 1fr 80px 44px 44px 44px;
     gap: 0.5rem;
   }
-  .form-reservation__ticket-row .form-reservation__btn { font-size: 1.25rem; min-width: 36px; }
-  .ticket-label { font-size: clamp(1rem, 4vw, 1.4rem); }
-  .ticket-price { font-size: clamp(0.95rem, 3.6vw, 1.2rem); }
 }
 
-/* Focus styles for inputs */
-.form-reservation__input:focus-visible {
-  outline: 3px solid rgba(34,34,34,0.12);
-  outline-offset: 2px;
+.form-error { 
+  color: #ff8080; /* Rouge éclairci pour contraster sur fond sombre */
+  margin-top: 0.25rem; 
+  margin-bottom: 1rem;
+  font-size: 0.95rem; 
+  font-weight: bold;
+  display: block;
 }
-
-/* Ensure details/content stretch */
-.form-reservation__conditions details { width: 100%; }
-.form-reservation__conditions summary { padding: 0.2rem 0.4rem; }
-
-.form-error { color: #ff6b6b; margin-top: 0.4rem; font-size: 0.95rem; }
 
 .promo-section {
   margin-top: 0.5rem;
 }
+
 .promo-label {
   display: block;
   margin-bottom: 0.25rem;
   font-weight: 600;
 }
+
 .promo-row {
   display: flex;
   gap: 0.5rem;
-  align-items: center;
+  align-items: stretch; /* Permet au bouton de faire la même hauteur que l'input */
 }
-.promo-message {
-  margin-top: 0.25rem;
-  font-size: 0.95rem;
-}
-.promo-message.error { color: #ffb3b3; }
-.promo-message.success { color: #b6f5c0; }
 
-.form-reservation__summary { margin: 1rem 0; }
-/* Large total block (styled to match design) */
+.promo-message {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: bold;
+}
+
+.promo-message.error { color: #ff8080; }
+.promo-message.success { color: #85e085; }
+
+/* Large total block */
 .form-reservation__summary {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   align-items: stretch;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 .summary-divider {
   height: 2px;
-  background: rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.2);
   border-radius: 2px;
-  margin: 0.25rem 0 0.75rem 0;
+  margin: 0.5rem 0;
 }
-.summary-final {
-  font-size: clamp(1.6rem, 4vw, 2.8rem);
-  font-weight: 700;
-  text-align: center;
-  color: #fff;
-}
-.summary-final.center { text-align: center; }
 
-/* Make the confirmation button sit full-width and large inside the reservation right column */
+.summary-final {
+  font-size: clamp(1.6rem, 4vw, 2.5rem);
+  font-weight: 700;
+  text-align: right;
+  color: #ffffff;
+}
+
 .form-reservation__right .validate-button {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 1.1rem 1.3rem;
-  font-size: clamp(1rem, 2.6vw, 1.6rem);
-  border-radius: 10px;
+  justify-content: center; /* Plus standard pour un bouton de validation */
+  gap: 1rem;
+  padding: 1.25rem;
+  font-size: 1.25rem;
+  border-radius: 8px;
+  background: #117a37; /* Vert accessible */
+  margin-top: 1rem;
 }
 
-.form-reservation__right .summary-subtotal,
-.form-reservation__right .summary-discount,
-.form-reservation__right .summary-remaining {
-  color: rgba(255,255,255,0.9);
+.form-reservation__right .validate-button:hover:not(:disabled) {
+  background: #0d5c29;
 }
-.summary-subtotal { margin-top: 0.5rem; }
-.summary-discount { color: green; }
-.summary-final { margin-top: 0.5rem; font-weight: 600; }
-.summary-final { margin-top: 0.5rem; font-weight: 600; }
-.summary-max { color: crimson; margin-top: 0.5rem; }
-.summary-remaining { color: #fff; margin-top: 0.5rem; }
+
+.summary-subtotal,
+.summary-discount,
+.summary-remaining {
+  color: #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.1rem;
+}
+
+.summary-discount { color: #85e085; }
+.summary-max { color: #ff8080; margin-top: 0.5rem; font-weight: bold; }
 
 @media (max-width: 900px) {
   .form-reservation {
     flex-direction: column;
-    gap: 1rem;
+    gap: 2rem;
   }
+  .form-reservation__summary { position: static; }
 }
-
-/* Conditions styles moved to src/styles/Conditions.css */
