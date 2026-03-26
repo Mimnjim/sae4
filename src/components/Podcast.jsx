@@ -48,6 +48,9 @@ function PodcastPlayer({ podcast }) {
     const shouldAnimateRef = useRef(false);
     const barValuesRef = useRef(new Float32Array(64).fill(0)); // Stock les val de chaque barre
     const peakRef = useRef(0); // Track le pic global
+    const lastVolumeRef = useRef(0); // Détecte les changements de volume
+    const volumeHistoryRef = useRef([]); // Historique pour analyser les patterns
+    const frequencyPhasesRef = useRef(new Float32Array(64).fill(0)); // Phases individuelles
 
     useEffect(() => {
         if (!audioRef.current) return;
@@ -197,38 +200,74 @@ function PodcastPlayer({ podcast }) {
                 // Fallback
             }
         } else {
-            // Fallback: analyser le volume + position + harmoniques
+            // ✨ Fallback avancé: simulation réaliste de visualiseur
             const audioVolume = audio.volume || 1;
-            
-            // Détacter des "peaks" basé sur progression et patterns
-            const progress = currentTime / duration;
             const now = Date.now() / 1000;
             
-            // Créer des bandes de fréquences simulées réactives
+            // Détecter les changements de volume (pour simuler des "transients" audio)
+            const volumeChange = Math.abs(audioVolume - lastVolumeRef.current);
+            lastVolumeRef.current = audioVolume;
+            
+            // Garder un historique des volumes (max 10 valeurs)
+            volumeHistoryRef.current.push(audioVolume);
+            if (volumeHistoryRef.current.length > 10) {
+                volumeHistoryRef.current.shift();
+            }
+            
+            // Calculer la variation moyenne du volume (détecte les "attacks" et "releases")
+            const avgVolumeChange = volumeHistoryRef.current.length > 1 
+                ? Array.from(volumeHistoryRef.current).reduce((a, b) => a + Math.abs(b - audioVolume), 0) / volumeHistoryRef.current.length
+                : 0;
+            
+            // Créer des bandes de fréquences simulées + réactives au volume RÉEL
             for (let i = 0; i < barCount; i++) {
                 const barPosition = i / barCount;
                 
-                // Bas fréquences (voix, basse): très sensible au volume
-                const bassIntensity = Math.sin(progress * Math.PI * 2 + i * 0.1) * 0.2 + 0.3;
-                const midIntensity = Math.sin(progress * Math.PI * 4 + i * 0.2) * 0.15 + 0.25;
-                const highIntensity = Math.sin(progress * Math.PI * 6 + i * 0.05) * 0.1 + 0.15;
+                // Augmenter progressivement les phases individuelles (simule le streaming audio)
+                frequencyPhasesRef.current[i] += 0.02 + (barPosition * 0.01);
+                const phase = frequencyPhasesRef.current[i];
                 
-                // Simuler une réaction réelle au volume
-                let value = (bassIntensity * 0.6 + midIntensity * 0.3 + highIntensity * 0.1);
-                value *= Math.pow(audioVolume, 1.2); // Plus réactif au volume
+                // === Simulation de fréquences réalistes ===
+                // Les basses fréquences (0-20) dominent généralement dans la parole
+                let value = 0;
                 
-                // Ajouter du "spark" (petite variation aléatoire pour dynamique)
-                const randomFactor = Math.sin(now * 7 + i * Math.PI) * 0.1 + 0.9;
-                value *= randomFactor;
+                if (i < 10) {
+                    // BASS: Très réactif au volume, oscillation lente
+                    value = Math.sin(phase * 0.5) * 0.3;
+                    value += Math.sin(phase * 0.3 + i) * 0.2;
+                    value *= Math.pow(audioVolume, 0.8) * 0.7;
+                } else if (i < 32) {
+                    // MIDS: Oscillation moyenne, réactif au volume change
+                    value = Math.sin(phase * 1.2) * 0.25;
+                    value += Math.sin(phase * 0.8 + i * 0.1) * 0.15;
+                    value += Math.sin(phase * 2.5) * 0.1;
+                    value *= Math.pow(audioVolume, 0.9) * 0.6;
+                } else {
+                    // HIGHS: Plus rapide et moins stable
+                    value = Math.sin(phase * 3.2 + i * 0.3) * 0.2;
+                    value += Math.sin(phase * 2.1 + i * 0.1) * 0.15;
+                    value *= audioVolume * 0.4;
+                }
                 
-                // Falloff: la barre descend progressivement
-                barValues[i] = Math.max(barValues[i] * 0.88, value);
+                // === Réactivité au changement d'amplitude ===
+                // Quand le volume change brusquement (transitoire), augmenter la réaction
+                const transientBoost = Math.pow(volumeChange + avgVolumeChange, 0.6) * 0.5;
+                value += transientBoost * Math.sin(now * 5 + i);
+                
+                // === Bruit perturbateur intelligent ===
+                // Utiliser une fonction de bruit pseudo-aléatoire basée sur le temps
+                const noise = Math.sin(now * 11.731 + i * 31.337) * 0.08;
+                const noise2 = Math.sin(now * 7.123 + i * 17.891 + phase) * 0.06;
+                value += noise + noise2;
+                
+                // === Effets de damping (la barre descend naturellement) ===
+                barValues[i] = Math.max(barValues[i] * 0.87, Math.max(0, value));
             }
         }
 
         // Tracker le pic global
         const maxValue = Math.max(...barValues);
-        peakRef.current = Math.max(peakRef.current * 0.95, maxValue);
+        peakRef.current = Math.max(peakRef.current * 0.93, maxValue);
         
         // Dessiner
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -239,23 +278,34 @@ function PodcastPlayer({ podcast }) {
         for (let i = 0; i < barCount; i++) {
             let normalizedValue = barValues[i];
             
-            // Boost pour basses fréquences (voix basses)
-            if (i < barCount * 0.25) {
-                normalizedValue = Math.pow(normalizedValue, 0.7);
+            // Boost pour basses fréquences (voix basses dominent généralement)
+            if (i < barCount * 0.2) {
+                normalizedValue = Math.pow(normalizedValue, 0.65);
             }
             
             normalizedValue = Math.max(0.02, Math.min(1, normalizedValue));
             
-            const barHeight = Math.max(2, normalizedValue * canvas.height * 0.95);
+            const barHeight = Math.max(2, normalizedValue * canvas.height * 0.92);
 
             const x = i * (barWidth + gap);
             const yOffset = canvas.height - barHeight;
 
-            // Intensité de la lumière basée sur la hauteur
-            const lightness = 35 + normalizedValue * 60;
-            ctx.fillStyle = `hsl(0, 0%, ${lightness}%)`;
+            // Couleur plus dynamique basée sur la hauteur + position
+            const hue = 200 + (i / barCount) * 40; // Bleu à cyan
+            const colorIntensity = 40 + normalizedValue * 55;
+            const saturation = 40 + normalizedValue * 40;
+            ctx.fillStyle = `hsl(${hue}, ${saturation}%, ${colorIntensity}%)`;
+            
+            // Légère ombre pour la profondeur
+            ctx.shadowColor = `hsl(${hue}, ${saturation}%, 10%)`;
+            ctx.shadowBlur = 3;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 1;
+            
             ctx.fillRect(x, yOffset, barWidth, barHeight);
         }
+        
+        ctx.shadowColor = 'transparent';
 
         // Continue l'animation
         animationFrameRef.current = requestAnimationFrame(draw);
@@ -266,6 +316,9 @@ function PodcastPlayer({ podcast }) {
             // Réinitialiser les barres pour un fresh start
             barValuesRef.current = new Float32Array(64).fill(0);
             peakRef.current = 0;
+            lastVolumeRef.current = 0;
+            volumeHistoryRef.current = [];
+            frequencyPhasesRef.current = new Float32Array(64).fill(0);
             
             shouldAnimateRef.current = true;
             // Élargir le canvas de 30-40% en largeur au play
