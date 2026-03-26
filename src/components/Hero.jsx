@@ -38,12 +38,32 @@ export default function Hero({ title1, title2, subtitle }) {
         window.scrollTo(0, 0);
     }, []);
 
+    // Animation flottante du texte "Scroll pour en savoir plus"
     useEffect(() => {
-        if (!scrollDownRef.current) return;
-        floatingAnimRef.current = gsap.to(scrollDownRef.current, {
-            y: 10, duration: 0.8, repeat: -1, yoyo: true, ease: 'sine.inOut',
-        });
-        return () => floatingAnimRef.current?.kill();
+        // Petit délai pour s'assurer que le DOM est prêt
+        const timeoutId = setTimeout(() => {
+            if (scrollDownRef.current) {
+                // Tuer toute animation existante
+                gsap.killTweensOf(scrollDownRef.current);
+                
+                // Créer la nouvelle animation flottante
+                floatingAnimRef.current = gsap.to(scrollDownRef.current, {
+                    y: 10,
+                    duration: 0.8,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: 'sine.inOut',
+                });
+            }
+        }, 200);
+
+        return () => {
+            clearTimeout(timeoutId);
+            if (floatingAnimRef.current) {
+                floatingAnimRef.current.kill();
+                floatingAnimRef.current = null;
+            }
+        };
     }, []);
 
     const buildTimeline = useCallback(() => {
@@ -85,13 +105,18 @@ export default function Hero({ title1, title2, subtitle }) {
                 scrub: 2,
                 pin: true,
                 invalidateOnRefresh: true,
+                onUpdate: (self) => {
+                    // Pause l'animation flottante quand on commence à scroller
+                    if (self.getProgress() > 0 && floatingAnimRef.current) {
+                        floatingAnimRef.current.pause();
+                    }
+                }
             }
         });
 
         // PHASE 1 : DÉPART
         tl.to(scrollDownRef.current, {
             opacity: 0, y: -50, duration: 1,
-            onStart: () => floatingAnimRef.current?.pause(),
         }, 0);
         const elementsToHide = [sloganRef.current, buttonsRef.current, footerHeroRef.current].filter(Boolean);
         if (elementsToHide.length > 0) {

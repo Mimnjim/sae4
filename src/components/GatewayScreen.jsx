@@ -184,8 +184,8 @@ export default function GatewayScreen({ onEnter }) {
 
                     {openLang && (
                         <div className="gateway__lang-menu">
-                            <div onClick={() => changeLang('FR')}>Français</div>
-                            <div onClick={() => changeLang('EN')}>English</div>
+                            <div onClick={() => changeLang('FR')} className="cursor-target">Français</div>
+                            <div onClick={() => changeLang('EN')} className="cursor-target">English</div>
                         </div>
                     )}
                 </div>
