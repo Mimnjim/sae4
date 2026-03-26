@@ -1,1055 +1,345 @@
-// import { useState, useRef, useEffect, useCallback, forwardRef } from 'react';
-// import gsap from 'gsap';
-// import '../styles/podcast.css';
-
-// const podcasts = [
-//     {
-//         id:       'tech-in-comic',
-//         title:    'Tech In Comic',
-//         guest:    'Tom Delavigne × Jimmy TE',
-//         desc:     'Intelligence artificielle, interfaces neuronales, mégalopoles du futur — comment Otomo et Shirow ont anticipé notre réalité technologique.',
-//         duration: '42 min',
-//         src:      '/podcast/Tech_In_Comic-Delavigne_Tom-TE_Jimmy.mp3',
-//         color:    '#00d4ff',
-//     },
-//     {
-//         id:       'au-dela-chair',
-//         title:    'Au-Delà de la Chair',
-//         guest:    'Épisode 2 — Cyborg & Identité',
-//         desc:     'Quand le corps devient machine, que reste-t-il de l\'humanité ? Retour sur les thèmes philosophiques qui traversent Ghost in the Shell.',
-//         duration: '38 min',
-//         src:      '/podcast/podcast_akira_GITS_melina_lana_deborah_alexis.mp3',
-//         color:    '#ff6ec7',
-//     },
-// ];
-
-// export default function Podcast() {
-//     const [activePodcast, setActivePodcast] = useState(null);
-//     const modalRef = useRef(null);
-
-//     const openModal = useCallback((podcast) => {
-//         setActivePodcast(podcast);
-//     }, []);
-
-//     const closeModal = useCallback(() => {
-//         if (!modalRef.current) return;
-//         gsap.to(modalRef.current, {
-//             opacity: 0, scale: 0.97,
-//             duration: 0.35, ease: 'power3.in',
-//             onComplete: () => setActivePodcast(null),
-//         });
-//     }, []);
-
-//     // Entrée modal
-//     useEffect(() => {
-//         if (!activePodcast || !modalRef.current) return;
-//         gsap.fromTo(modalRef.current,
-//             { opacity: 0, scale: 0.97 },
-//             { opacity: 1, scale: 1, duration: 0.4, ease: 'power3.out' }
-//         );
-//     }, [activePodcast]);
-
-//     // Fermer sur Escape
-//     useEffect(() => {
-//         const handler = (e) => { if (e.key === 'Escape') closeModal(); };
-//         window.addEventListener('keydown', handler);
-//         return () => window.removeEventListener('keydown', handler);
-//     }, [closeModal]);
-
-//     return (
-//         <section className="pod-section">
-
-//             <header className="pod-header">
-//                 <span className="pod-eyebrow">Écouter · Découvrir</span>
-//                 <h2 className="pod-title">Les Podcasts<br />de l'Exposition</h2>
-//                 <p className="pod-intro">
-//                     Deux épisodes exclusifs pour prolonger l'expérience.
-//                     Des voix, des idées, et des questions qui restent.
-//                 </p>
-//             </header>
-
-//             <div className="pod-cards">
-//                 {podcasts.map((p) => (
-//                     <PodcastCard key={p.id} podcast={p} onPlay={() => openModal(p)} />
-//                 ))}
-//             </div>
-
-//             {activePodcast && (
-//                 <PodcastModal
-//                     ref={modalRef}
-//                     podcast={activePodcast}
-//                     onClose={closeModal}
-//                 />
-//             )}
-
-//         </section>
-//     );
-// }
-
-// /* ── Carte podcast ──────────────────────────────────────────── */
-
-// function PodcastCard({ podcast, onPlay }) {
-//     return (
-//         <div className="pod-card">
-//             <div className="pod-card-color-bar" style={{ background: podcast.color }} />
-//             <div className="pod-card-body">
-//                 <div className="pod-card-meta">
-//                     <span className="pod-card-duration">{podcast.duration}</span>
-//                 </div>
-//                 <h3 className="pod-card-title">{podcast.title}</h3>
-//                 <p className="pod-card-guest">{podcast.guest}</p>
-//                 <p className="pod-card-desc">{podcast.desc}</p>
-//             </div>
-//             <button
-//                 className="pod-card-play"
-//                 onClick={onPlay}
-//                 style={{ '--accent': podcast.color }}
-//                 aria-label={`Écouter ${podcast.title}`}
-//             >
-//                 <PlayIcon />
-//                 <span>Écouter</span>
-//             </button>
-//         </div>
-//     );
-// }
-
-// /* ── Modal player ───────────────────────────────────────────── */
-
-// const PodcastModal = forwardRef(function PodcastModal({ podcast, onClose }, ref) {
-//     const audioRef      = useRef(null);
-//     const canvasRef     = useRef(null);
-//     const rafRef        = useRef(null);
-//     const analyserRef   = useRef(null);
-//     const audioCtxRef   = useRef(null);
-//     const sourceRef     = useRef(null);
-//     const waveformRef   = useRef(null);
-//     const waveCanvasRef = useRef(null);
-
-//     const [isPlaying, setIsPlaying]     = useState(false);
-//     const [currentTime, setCurrentTime] = useState(0);
-//     const [duration, setDuration]       = useState(0);
-//     const [loading, setLoading]         = useState(true);
-
-//     useEffect(() => {
-//         setLoading(true);
-//         const offlineCtx = new (window.OfflineAudioContext || window.webkitOfflineAudioContext)(1, 44100 * 30, 44100);
-
-//         fetch(podcast.src)
-//             .then(r => r.arrayBuffer())
-//             .then(buf => offlineCtx.decodeAudioData(buf))
-//             .then(audioBuf => {
-//                 const raw    = audioBuf.getChannelData(0);
-//                 const bins   = 200;
-//                 const step   = Math.floor(raw.length / bins);
-//                 const peaks  = [];
-//                 for (let i = 0; i < bins; i++) {
-//                     let max = 0;
-//                     for (let j = 0; j < step; j++) {
-//                         const v = Math.abs(raw[i * step + j]);
-//                         if (v > max) max = v;
-//                     }
-//                     peaks.push(max);
-//                 }
-//                 waveformRef.current = peaks;
-//                 setLoading(false);
-//             })
-//             .catch(() => setLoading(false));
-//     }, [podcast.src]);
-
-//     useEffect(() => {
-//         if (loading || !waveformRef.current || !waveCanvasRef.current) return;
-//         drawWaveform(currentTime, duration);
-//     }, [loading, currentTime, duration]);
-
-//     const drawWaveform = useCallback((ct, dur) => {
-//         const canvas = waveCanvasRef.current;
-//         if (!canvas || !waveformRef.current) return;
-//         const ctx    = canvas.getContext('2d');
-//         const W      = canvas.width;
-//         const H      = canvas.height;
-//         const peaks  = waveformRef.current;
-//         const bins   = peaks.length;
-//         const barW   = (W / bins) * 0.6;
-//         const gap    = (W / bins) * 0.4;
-//         const progress = dur ? ct / dur : 0;
-
-//         ctx.clearRect(0, 0, W, H);
-
-//         peaks.forEach((p, i) => {
-//             const x       = i * (barW + gap);
-//             const barH    = Math.max(2, p * H * 0.85);
-//             const y       = (H - barH) / 2;
-//             const played  = i / bins < progress;
-//             ctx.fillStyle = played ? podcast.color : 'rgba(255,255,255,0.18)';
-//             ctx.fillRect(x, y, barW, barH);
-//         });
-//     }, [podcast.color]);
-
-//     useEffect(() => {
-//         if (!loading) drawWaveform(currentTime, duration);
-//     }, [currentTime, duration, loading, drawWaveform]);
-
-//     const startVisualizer = useCallback(() => {
-//         const canvas = canvasRef.current;
-//         if (!canvas || !analyserRef.current) return;
-//         const ctx     = canvas.getContext('2d');
-//         const analyse = analyserRef.current;
-//         const bufLen  = analyse.frequencyBinCount;
-//         const dataArr = new Uint8Array(bufLen);
-
-//         const draw = () => {
-//             rafRef.current = requestAnimationFrame(draw);
-//             analyse.getByteFrequencyData(dataArr);
-//             ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-//             const bars = 80;
-//             const barW = canvas.width / bars;
-//             for (let i = 0; i < bars; i++) {
-//                 const idx  = Math.floor(i * bufLen / bars);
-//                 const val  = dataArr[idx] / 255;
-//                 const barH = val * canvas.height;
-//                 const alpha = 0.4 + val * 0.6;
-//                 ctx.fillStyle = podcast.color + Math.round(alpha * 255).toString(16).padStart(2, '0');
-//                 ctx.fillRect(i * barW + 1, canvas.height - barH, barW - 2, barH);
-//             }
-//         };
-//         draw();
-//     }, [podcast.color]);
-
-//     const stopVisualizer = useCallback(() => {
-//         if (rafRef.current) cancelAnimationFrame(rafRef.current);
-//     }, []);
-
-//     const initAudioCtx = useCallback(() => {
-//         if (audioCtxRef.current) return;
-//         const ctx     = new (window.AudioContext || window.webkitAudioContext)();
-//         const analyser = ctx.createAnalyser();
-//         analyser.fftSize = 256;
-//         const source  = ctx.createMediaElementSource(audioRef.current);
-//         source.connect(analyser);
-//         analyser.connect(ctx.destination);
-//         audioCtxRef.current = ctx;
-//         analyserRef.current = analyser;
-//         sourceRef.current   = source;
-//     }, []);
-
-//     useEffect(() => {
-//         const audio = audioRef.current;
-//         if (!audio) return;
-//         const onTime = () => setCurrentTime(audio.currentTime);
-//         const onMeta = () => setDuration(audio.duration);
-//         const onEnd  = () => { setIsPlaying(false); setCurrentTime(0); stopVisualizer(); };
-//         audio.addEventListener('timeupdate', onTime);
-//         audio.addEventListener('loadedmetadata', onMeta);
-//         audio.addEventListener('ended', onEnd);
-//         return () => {
-//             audio.removeEventListener('timeupdate', onTime);
-//             audio.removeEventListener('loadedmetadata', onMeta);
-//             audio.removeEventListener('ended', onEnd);
-//         };
-//     }, [stopVisualizer]);
-
-//     useEffect(() => {
-//         return () => {
-//             stopVisualizer();
-//             audioRef.current?.pause();
-//         };
-//     }, [stopVisualizer]);
-
-//     const togglePlay = () => {
-//         const audio = audioRef.current;
-//         if (!audio) return;
-//         initAudioCtx();
-//         if (isPlaying) {
-//             audio.pause();
-//             setIsPlaying(false);
-//             stopVisualizer();
-//         } else {
-//             audio.play();
-//             setIsPlaying(true);
-//             startVisualizer();
-//         }
-//     };
-
-//     const seekFromWaveform = (e) => {
-//         const audio = audioRef.current;
-//         if (!audio || !duration) return;
-//         const rect  = e.currentTarget.getBoundingClientRect();
-//         const ratio = (e.clientX - rect.left) / rect.width;
-//         audio.currentTime = ratio * duration;
-//     };
-
-//     const fmt = (s) => {
-//         if (!s || isNaN(s)) return '0:00';
-//         const m   = Math.floor(s / 60);
-//         const sec = Math.floor(s % 60);
-//         return `${m}:${sec.toString().padStart(2, '0')}`;
-//     };
-
-//     return (
-//         <div
-//             className="pod-modal-backdrop"
-//             onClick={(e) => e.target === e.currentTarget && onClose()}
-//         >
-//             <div ref={ref} className="pod-modal">
-
-//                 <button className="pod-modal-close" onClick={onClose} aria-label="Fermer">
-//                     <CloseIcon />
-//                 </button>
-
-//                 <div className="pod-modal-header">
-//                     <div className="pod-modal-dot" style={{ background: podcast.color }} />
-//                     <div>
-//                         <h2 className="pod-modal-title">{podcast.title}</h2>
-//                         <p className="pod-modal-guest">{podcast.guest}</p>
-//                     </div>
-//                 </div>
-
-//                 <div className="pod-modal-live-viz">
-//                     {isPlaying
-//                         ? <canvas ref={canvasRef} className="pod-live-canvas" width={900} height={80} />
-//                         : <div className="pod-live-idle">
-//                             <span style={{ background: podcast.color }} />
-//                             <span style={{ background: podcast.color, opacity: 0.5 }} />
-//                             <span style={{ background: podcast.color, opacity: 0.25 }} />
-//                           </div>
-//                     }
-//                 </div>
-
-//                 <div className="pod-modal-viz" onClick={seekFromWaveform}>
-//                     {loading
-//                         ? <div className="pod-modal-loading">
-//                             <span className="pod-loading-bar" style={{ '--c': podcast.color }} />
-//                             <p>Analyse de l'audio…</p>
-//                           </div>
-//                         : <canvas
-//                             ref={waveCanvasRef}
-//                             className="pod-wave-canvas"
-//                             width={900}
-//                             height={80}
-//                           />
-//                     }
-//                 </div>
-
-//                 <div className="pod-modal-times">
-//                     <span>{fmt(currentTime)}</span>
-//                     <span>{fmt(duration)}</span>
-//                 </div>
-
-//                 <div className="pod-modal-controls">
-//                     <button
-//                         className="pod-ctrl-skip"
-//                         onClick={() => { audioRef.current.currentTime -= 15; }}
-//                         aria-label="Reculer 15s"
-//                     >
-//                         <SkipBackIcon /> <span>15s</span>
-//                     </button>
-
-//                     <button
-//                         className="pod-ctrl-play"
-//                         onClick={togglePlay}
-//                         style={{ '--accent': podcast.color }}
-//                         aria-label={isPlaying ? 'Pause' : 'Play'}
-//                     >
-//                         {isPlaying ? <PauseIcon /> : <PlayIcon />}
-//                     </button>
-
-//                     <button
-//                         className="pod-ctrl-skip"
-//                         onClick={() => { audioRef.current.currentTime += 15; }}
-//                         aria-label="Avancer 15s"
-//                     >
-//                         <span>15s</span> <SkipFwdIcon />
-//                     </button>
-//                 </div>
-
-//                 <audio ref={audioRef} src={podcast.src} preload="metadata" />
-//             </div>
-//         </div>
-//     );
-// });
-
-// /* ── Icônes ─────────────────────────────────────────────────── */
-
-// function PlayIcon() {
-//     return (
-//         <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-//             <polygon points="5,3 19,12 5,21" />
-//         </svg>
-//     );
-// }
-
-// function PauseIcon() {
-//     return (
-//         <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
-//             <rect x="5" y="3" width="4" height="18" rx="1" />
-//             <rect x="15" y="3" width="4" height="18" rx="1" />
-//         </svg>
-//     );
-// }
-
-// function CloseIcon() {
-//     return (
-//         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="20" height="20">
-//             <line x1="18" y1="6" x2="6" y2="18" />
-//             <line x1="6" y1="6" x2="18" y2="18" />
-//         </svg>
-//     );
-// }
-
-// function SkipBackIcon() {
-//     return (
-//         <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
-//             <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
-//         </svg>
-//     );
-// }
-
-// function SkipFwdIcon() {
-//     return (
-//         <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
-//             <path d="M12 5V1l5 5-5 5V7c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6h2c0 4.42-3.58 8-8 8s-8-3.58-8-8 3.58-8 8-8z" />
-//         </svg>
-//     );
-// }
-//             <div className="pod-card-color-bar" style={{ background: podcast.color }} />
-
-//             <div className="pod-card-body">
-//                 <div className="pod-card-meta">
-//                     <span className="pod-card-duration">{podcast.duration}</span>
-//                 </div>
-
-//                 <h3 className="pod-card-title">{podcast.title}</h3>
-//                 <p className="pod-card-guest">{podcast.guest}</p>
-//                 <p className="pod-card-desc">{podcast.desc}</p>
-//             </div>
-
-//             <button
-//                 className="pod-card-play"
-//                 onClick={onPlay}
-//                 style={{ '--accent': podcast.color }}
-//                 aria-label={`Écouter ${podcast.title}`}
-//             >
-//                 <PlayIcon />
-//                 <span>Écouter</span>
-//             </button>
-//         </div>
-//     );
-// }
-
-// /* ── Modal player ───────────────────────────────────────────── */
-
-// import { forwardRef } from 'react';
-
-// const PodcastModal = forwardRef(function PodcastModal({ podcast, onClose }, ref) {
-//     const audioRef        = useRef(null);
-//     const visualizerRef   = useRef(null);
-//     const [blob, setBlob]             = useState(null);
-//     const [isPlaying, setIsPlaying]   = useState(false);
-//     const [currentTime, setCurrentTime] = useState(0);
-//     const [duration, setDuration]     = useState(0);
-//     const [loading, setLoading]       = useState(true);
-
-//     // Fetch du fichier audio en blob
-//     useEffect(() => {
-//         setLoading(true);
-//         fetch(podcast.src)
-//             .then(r => r.blob())
-//             .then(b => { setBlob(b); setLoading(false); })
-//             .catch(() => setLoading(false));
-//     }, [podcast.src]);
-
-//     // Sync currentTime
-//     useEffect(() => {
-//         const audio = audioRef.current;
-//         if (!audio) return;
-
-//         const onTime = () => setCurrentTime(audio.currentTime);
-//         const onMeta = () => setDuration(audio.duration);
-//         const onEnd  = () => { setIsPlaying(false); setCurrentTime(0); };
-
-//         audio.addEventListener('timeupdate', onTime);
-//         audio.addEventListener('loadedmetadata', onMeta);
-//         audio.addEventListener('ended', onEnd);
-//         return () => {
-//             audio.removeEventListener('timeupdate', onTime);
-//             audio.removeEventListener('loadedmetadata', onMeta);
-//             audio.removeEventListener('ended', onEnd);
-//         };
-//     }, []);
-
-//     const togglePlay = () => {
-//         const audio = audioRef.current;
-//         if (!audio) return;
-//         if (isPlaying) { audio.pause(); setIsPlaying(false); }
-//         else           { audio.play();  setIsPlaying(true); }
-//     };
-
-//     const seek = (e) => {
-//         const audio = audioRef.current;
-//         if (!audio || !duration) return;
-//         const rect = e.currentTarget.getBoundingClientRect();
-//         const ratio = (e.clientX - rect.left) / rect.width;
-//         audio.currentTime = ratio * duration;
-//     };
-
-//     const fmt = (s) => {
-//         if (!s || isNaN(s)) return '0:00';
-//         const m = Math.floor(s / 60);
-//         const sec = Math.floor(s % 60);
-//         return `${m}:${sec.toString().padStart(2, '0')}`;
-//     };
-
-//     return (
-//         <div className="pod-modal-backdrop" onClick={(e) => e.target === e.currentTarget && onClose()}>
-//             <div ref={ref} className="pod-modal">
-
-//                 {/* Fermer */}
-//                 <button className="pod-modal-close" onClick={onClose} aria-label="Fermer">
-//                     <CloseIcon />
-//                 </button>
-
-//                 {/* Infos podcast */}
-//                 <div className="pod-modal-header">
-//                     <div className="pod-modal-dot" style={{ background: podcast.color }} />
-//                     <div>
-//                         <h2 className="pod-modal-title">{podcast.title}</h2>
-//                         <p className="pod-modal-guest">{podcast.guest}</p>
-//                     </div>
-//                 </div>
-
-//                 {/* Visualizer */}
-//                 <div className="pod-modal-viz">
-//                     {loading && (
-//                         <div className="pod-modal-loading">
-//                             <span className="pod-loading-bar" style={{ '--c': podcast.color }} />
-//                             <p>Chargement de l'audio…</p>
-//                         </div>
-//                     )}
-//                     {!loading && blob && (
-//                         <AudioVisualizer
-//                             ref={visualizerRef}
-//                             blob={blob}
-//                             width={900}
-//                             height={120}
-//                             barWidth={2}
-//                             gap={1}
-//                             backgroundColor="transparent"
-//                             barColor="rgba(255,255,255,0.15)"
-//                             barPlayedColor={podcast.color}
-//                             currentTime={currentTime}
-//                             style={{ width: '100%', height: '120px', cursor: 'pointer' }}
-//                             onClick={seek}
-//                         />
-//                     )}
-//                 </div>
-
-//                 {/* Barre de progression cliquable */}
-//                 <div className="pod-modal-progress" onClick={seek} role="slider" aria-label="Progression">
-//                     <div
-//                         className="pod-modal-progress-fill"
-//                         style={{
-//                             width: duration ? `${(currentTime / duration) * 100}%` : '0%',
-//                             background: podcast.color,
-//                         }}
-//                     />
-//                 </div>
-
-//                 {/* Temps */}
-//                 <div className="pod-modal-times">
-//                     <span>{fmt(currentTime)}</span>
-//                     <span>{fmt(duration)}</span>
-//                 </div>
-
-//                 {/* Contrôles */}
-//                 <div className="pod-modal-controls">
-//                     <button className="pod-ctrl-skip" onClick={() => { audioRef.current.currentTime -= 15; }} aria-label="Reculer 15s">
-//                         <SkipBackIcon /> <span>15s</span>
-//                     </button>
-
-//                     <button
-//                         className="pod-ctrl-play"
-//                         onClick={togglePlay}
-//                         style={{ '--accent': podcast.color }}
-//                         aria-label={isPlaying ? 'Pause' : 'Play'}
-//                     >
-//                         {isPlaying ? <PauseIcon /> : <PlayIcon />}
-//                     </button>
-
-//                     <button className="pod-ctrl-skip" onClick={() => { audioRef.current.currentTime += 15; }} aria-label="Avancer 15s">
-//                         <span>15s</span> <SkipFwdIcon />
-//                     </button>
-//                 </div>
-
-//                 {/* Audio natif caché */}
-//                 <audio ref={audioRef} src={podcast.src} preload="metadata" />
-//             </div>
-//         </div>
-//     );
-// });
-
-// /* ── Icônes SVG ─────────────────────────────────────────────── */
-
-// function PlayIcon() {
-//     return (
-//         <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-//             <polygon points="5,3 19,12 5,21" />
-//         </svg>
-//     );
-// }
-
-// function PauseIcon() {
-//     return (
-//         <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
-//             <rect x="5" y="3" width="4" height="18" rx="1" />
-//             <rect x="15" y="3" width="4" height="18" rx="1" />
-//         </svg>
-//     );
-// }
-
-// function CloseIcon() {
-//     return (
-//         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="20" height="20">
-//             <line x1="18" y1="6" x2="6" y2="18" />
-//             <line x1="6" y1="6" x2="18" y2="18" />
-//         </svg>
-//     );
-// }
-
-// function SkipBackIcon() {
-//     return (
-//         <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
-//             <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
-//         </svg>
-//     );
-// }
-
-// function SkipFwdIcon() {
-//     return (
-//         <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
-//             <path d="M12 5V1l5 5-5 5V7c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6h2c0 4.42-3.58 8-8 8s-8-3.58-8-8 3.58-8 8-8z"/>
-//         </svg>
-//     );
-// }
-
-
-import { useState, useRef, useEffect, useCallback, forwardRef } from 'react';
-import gsap from 'gsap';
+import { useState, useRef, useEffect } from 'react';
 import '../styles/podcast.css';
 
-const podcasts = [
+const PODCASTS = [
     {
-        id:       'tech-in-comic',
-        title:    'Tech In Comic',
-        guest:    'Tom Delavigne × Jimmy TE',
-        desc:     'Intelligence artificielle, interfaces neuronales, mégalopoles du futur — comment Otomo et Shirow ont anticipé notre réalité technologique.',
-        duration: '42 min',
-        src:      '/podcast/Tech_In_Comic-Delavigne_Tom-TE_Jimmy.mp3',
-        color:    '#00d4ff',
+        id: 'tech-in-comic',
+        title: 'Tech In Comic',
+        guest: 'Tom Delavigne x Jimmy TE',
+        duration: '7 min',
+        src: '/podcast/Tech_In_Comic-Delavigne_Tom-TE_Jimmy.mp3',
     },
     {
-        id:       'au-dela-chair',
-        title:    'Au-Delà de la Chair',
-        guest:    'Épisode 2 — Cyborg & Identité',
-        desc:     "Quand le corps devient machine, que reste-t-il de l'humanité ? Retour sur les thèmes philosophiques qui traversent Ghost in the Shell.",
-        duration: '38 min',
-        src:      '/podcast/podcast_akira_GITS_melina_lana_deborah_alexis.mp3',
-        color:    '#ff6ec7',
+        id: 'au-dela-chair',
+        title: 'Au-Delà de la Chair',
+        guest: 'Mélina x Lana x Déborah x Alexis',
+        duration: '15 min',
+        src: '/podcast/podcast_akira_GITS_melina_lana_deborah_alexis.mp3',
     },
 ];
 
+let currentPlayingId = null;
+let currentAudio = null;
+
 export default function Podcast() {
-    const [activePodcast, setActivePodcast] = useState(null);
-    const modalRef = useRef(null);
-
-    const openModal = useCallback((podcast) => {
-        setActivePodcast(podcast);
-    }, []);
-
-    const closeModal = useCallback(() => {
-        if (!modalRef.current) return;
-        gsap.to(modalRef.current, {
-            opacity: 0, scale: 0.97,
-            duration: 0.35, ease: 'power3.in',
-            onComplete: () => setActivePodcast(null),
-        });
-    }, []);
-
-    useEffect(() => {
-        if (!activePodcast || !modalRef.current) return;
-        gsap.fromTo(modalRef.current,
-            { opacity: 0, scale: 0.97 },
-            { opacity: 1, scale: 1, duration: 0.4, ease: 'power3.out' }
-        );
-    }, [activePodcast]);
-
-    useEffect(() => {
-        const handler = (e) => { if (e.key === 'Escape') closeModal(); };
-        window.addEventListener('keydown', handler);
-        return () => window.removeEventListener('keydown', handler);
-    }, [closeModal]);
-
     return (
         <section className="pod-section">
-
             <header className="pod-header">
-                <span className="pod-eyebrow">Écouter · Découvrir</span>
-                <h2 className="pod-title">Les Podcasts<br />de l'Exposition</h2>
-                <p className="pod-intro">
-                    Deux épisodes exclusifs pour prolonger l'expérience.
-                    Des voix, des idées, et des questions qui restent.
-                </p>
+                <span className="pod-eyebrow">Écouter x Découvrir</span>
+                <h2 className="pod-title">Les Podcasts</h2>
             </header>
 
             <div className="pod-cards">
-                {podcasts.map((p) => (
-                    <PodcastCard key={p.id} podcast={p} onPlay={() => openModal(p)} />
+                {PODCASTS.map((p) => (
+                    <PodcastPlayer key={p.id} podcast={p} />
                 ))}
             </div>
-
-            {activePodcast && (
-                <PodcastModal
-                    ref={modalRef}
-                    podcast={activePodcast}
-                    onClose={closeModal}
-                />
-            )}
-
         </section>
     );
 }
 
-/* ── Carte podcast ──────────────────────────────────────────── */
-
-function PodcastCard({ podcast, onPlay }) {
-    return (
-        <div className="pod-card">
-            <div className="pod-card-color-bar" style={{ background: podcast.color }} />
-            <div className="pod-card-body">
-                <div className="pod-card-meta">
-                    <span className="pod-card-duration">{podcast.duration}</span>
-                </div>
-                <h3 className="pod-card-title">{podcast.title}</h3>
-                <p className="pod-card-guest">{podcast.guest}</p>
-                <p className="pod-card-desc">{podcast.desc}</p>
-            </div>
-            <button
-                className="pod-card-play"
-                onClick={onPlay}
-                style={{ '--accent': podcast.color }}
-                aria-label={`Écouter ${podcast.title}`}
-            >
-                <PlayIcon />
-                <span>Écouter</span>
-            </button>
-        </div>
-    );
-}
-
-/* ── Modal player ───────────────────────────────────────────── */
-
-const PodcastModal = forwardRef(function PodcastModal({ podcast, onClose }, ref) {
-    const audioRef      = useRef(null);
-    const canvasRef     = useRef(null);
-    const rafRef        = useRef(null);
-    const analyserRef   = useRef(null);
-    const audioCtxRef   = useRef(null);
-    const sourceRef     = useRef(null);
-    const waveformRef   = useRef(null); // données waveform statique
-    const waveCanvasRef = useRef(null);
-
-    const [isPlaying, setIsPlaying]     = useState(false);
+function PodcastPlayer({ podcast }) {
+    const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
-    const [duration, setDuration]       = useState(0);
-    const [loading, setLoading]         = useState(true);
+    const [duration, setDuration] = useState(0);
+    const audioRef = useRef(null);
+    const animationFrameRef = useRef(null);
+    const canvasRef = useRef(null);
+    const shouldAnimateRef = useRef(false);
 
-    // ── Charger la waveform statique via AudioBuffer ────────────
     useEffect(() => {
-        setLoading(true);
-        const offlineCtx = new (window.OfflineAudioContext || window.webkitOfflineAudioContext)(1, 44100 * 30, 44100);
+        if (!audioRef.current) return;
 
-        fetch(podcast.src)
-            .then(r => r.arrayBuffer())
-            .then(buf => offlineCtx.decodeAudioData(buf))
-            .then(audioBuf => {
-                const raw    = audioBuf.getChannelData(0);
-                const bins   = 200;
-                const step   = Math.floor(raw.length / bins);
-                const peaks  = [];
-                for (let i = 0; i < bins; i++) {
-                    let max = 0;
-                    for (let j = 0; j < step; j++) {
-                        const v = Math.abs(raw[i * step + j]);
-                        if (v > max) max = v;
-                    }
-                    peaks.push(max);
-                }
-                waveformRef.current = peaks;
-                setLoading(false);
-            })
-            .catch(() => setLoading(false));
-    }, [podcast.src]);
-
-    // ── Dessiner la waveform statique ───────────────────────────
-    useEffect(() => {
-        if (loading || !waveformRef.current || !waveCanvasRef.current) return;
-        drawWaveform(currentTime, duration);
-    }, [loading, currentTime, duration]);
-
-    const drawWaveform = useCallback((ct, dur) => {
-        const canvas = waveCanvasRef.current;
-        if (!canvas || !waveformRef.current) return;
-        const ctx    = canvas.getContext('2d');
-        const W      = canvas.width;
-        const H      = canvas.height;
-        const peaks  = waveformRef.current;
-        const bins   = peaks.length;
-        const barW   = (W / bins) * 0.6;
-        const gap    = (W / bins) * 0.4;
-        const progress = dur ? ct / dur : 0;
-
-        ctx.clearRect(0, 0, W, H);
-
-        peaks.forEach((p, i) => {
-            const x       = i * (barW + gap);
-            const barH    = Math.max(2, p * H * 0.85);
-            const y       = (H - barH) / 2;
-            const played  = i / bins < progress;
-            ctx.fillStyle = played ? podcast.color : 'rgba(255,255,255,0.18)';
-            ctx.fillRect(x, y, barW, barH);
-        });
-    }, [podcast.color]);
-
-    // ── Redessiner quand le temps change ────────────────────────
-    useEffect(() => {
-        if (!loading) drawWaveform(currentTime, duration);
-    }, [currentTime, duration, loading, drawWaveform]);
-
-    // ── Visualizer live (barres animées) ────────────────────────
-    const startVisualizer = useCallback(() => {
-        const canvas = canvasRef.current;
-        if (!canvas || !analyserRef.current) return;
-        const ctx     = canvas.getContext('2d');
-        const analyse = analyserRef.current;
-        const bufLen  = analyse.frequencyBinCount;
-        const dataArr = new Uint8Array(bufLen);
-
-        const draw = () => {
-            rafRef.current = requestAnimationFrame(draw);
-            analyse.getByteFrequencyData(dataArr);
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            const bars = 80;
-            const barW = canvas.width / bars;
-            for (let i = 0; i < bars; i++) {
-                const idx  = Math.floor(i * bufLen / bars);
-                const val  = dataArr[idx] / 255;
-                const barH = val * canvas.height;
-                const alpha = 0.4 + val * 0.6;
-                ctx.fillStyle = podcast.color + Math.round(alpha * 255).toString(16).padStart(2, '0');
-                ctx.fillRect(i * barW + 1, canvas.height - barH, barW - 2, barH);
-            }
-        };
-        draw();
-    }, [podcast.color]);
-
-    const stopVisualizer = useCallback(() => {
-        if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    }, []);
-
-    // ── Init Web Audio ──────────────────────────────────────────
-    const initAudioCtx = useCallback(() => {
-        if (audioCtxRef.current) return;
-        const ctx     = new (window.AudioContext || window.webkitAudioContext)();
-        const analyser = ctx.createAnalyser();
-        analyser.fftSize = 256;
-        const source  = ctx.createMediaElementSource(audioRef.current);
-        source.connect(analyser);
-        analyser.connect(ctx.destination);
-        audioCtxRef.current = ctx;
-        analyserRef.current = analyser;
-        sourceRef.current   = source;
-    }, []);
-
-    // ── Sync currentTime ────────────────────────────────────────
-    useEffect(() => {
+        // Les événements audio
         const audio = audioRef.current;
-        if (!audio) return;
-        const onTime = () => setCurrentTime(audio.currentTime);
-        const onMeta = () => setDuration(audio.duration);
-        const onEnd  = () => { setIsPlaying(false); setCurrentTime(0); stopVisualizer(); };
-        audio.addEventListener('timeupdate', onTime);
-        audio.addEventListener('loadedmetadata', onMeta);
-        audio.addEventListener('ended', onEnd);
-        return () => {
-            audio.removeEventListener('timeupdate', onTime);
-            audio.removeEventListener('loadedmetadata', onMeta);
-            audio.removeEventListener('ended', onEnd);
-        };
-    }, [stopVisualizer]);
 
-    // ── Cleanup au démontage ─────────────────────────────────────
-    useEffect(() => {
-        return () => {
-            stopVisualizer();
-            audioRef.current?.pause();
+        const onTimeUpdate = () => {
+            setCurrentTime(audio.currentTime);
         };
-    }, [stopVisualizer]);
+        
+        const onLoadedMetadata = () => {
+            console.log('Audio chargé, durée:', audio.duration);
+            setDuration(audio.duration);
+        };
 
-    const togglePlay = () => {
-        const audio = audioRef.current;
-        if (!audio) return;
-        initAudioCtx();
-        if (isPlaying) {
-            audio.pause();
+        const onEnded = () => {
             setIsPlaying(false);
-            stopVisualizer();
-        } else {
-            audio.play();
-            setIsPlaying(true);
-            startVisualizer();
+            setCurrentTime(0);
+        };
+
+        audio.addEventListener('timeupdate', onTimeUpdate);
+        audio.addEventListener('loadedmetadata', onLoadedMetadata);
+        audio.addEventListener('ended', onEnded);
+
+        return () => {
+            audio.removeEventListener('timeupdate', onTimeUpdate);
+            audio.removeEventListener('loadedmetadata', onLoadedMetadata);
+            audio.removeEventListener('ended', onEnded);
+        };
+    }, []);
+
+    // Solution alternative: Analyser le temps + volume de l'audio element
+    const setupAudioContext = () => {
+        try {
+            const audio = audioRef.current;
+            if (!audio) {
+                console.error('❌ Audio element not found');
+                return false;
+            }
+
+            console.log('✅ Setup visualizer: audio element OK');
+            return true;
+        } catch (error) {
+            console.error('❌ Erreur setup:', error);
+            return false;
         }
     };
 
-    const seekFromWaveform = (e) => {
-        const audio = audioRef.current;
-        if (!audio || !duration) return;
-        const rect  = e.currentTarget.getBoundingClientRect();
-        const ratio = (e.clientX - rect.left) / rect.width;
-        audio.currentTime = ratio * duration;
+    const drawIdle = () => {
+        if (!canvasRef.current) return;
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
+        
+        // Pas de fond - transparent
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Juste quelques barres blanches statiques pour indiquer le visualiseur
+        const barCount = 12;
+        const barWidth = Math.max(1, Math.floor(canvas.width / (barCount * 2.5)));
+        const gap = Math.max(1, Math.floor(canvas.width / barCount - barWidth));
+        
+        for (let i = 0; i < barCount; i++) {
+            const x = i * (barWidth + gap);
+            const height = 6 + (i % 3) * 2; // Variation légère pour plus de dynamique
+            const y = canvas.height / 2 - height / 2;
+            
+            ctx.fillStyle = '#ffffff'; // Blanc simple
+            ctx.globalAlpha = 0.6; // Légère transparence pour indiquer c'est pas actif
+            ctx.fillRect(x, y, barWidth, height);
+        }
+        ctx.globalAlpha = 1.0; // Reset
     };
 
-    const fmt = (s) => {
-        if (!s || isNaN(s)) return '0:00';
-        const m   = Math.floor(s / 60);
-        const sec = Math.floor(s % 60);
-        return `${m}:${sec.toString().padStart(2, '0')}`;
+    const draw = () => {
+        if (!canvasRef.current) return;
+
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
+        const audio = audioRef.current;
+
+        // Si on ne doit pas animer, arrêter
+        if (!shouldAnimateRef.current) {
+            return;
+        }
+
+        if (!audio) {
+            // Continue quand même en attendant l'audio
+            animationFrameRef.current = requestAnimationFrame(draw);
+            return;
+        }
+
+        // Lire les données RÉELLES de l'audio
+        const currentTime = audio.currentTime || 0;
+        const duration = audio.duration || 1;
+        const progress = currentTime / duration;
+        const volume = audio.volume || 1;
+        
+        const now = Date.now() / 1000;
+        
+        const timeFrequency = Math.sin(progress * Math.PI * 4) * 0.5 + 0.5;
+        const pulseFrequency = Math.sin(now * 2) * 0.3 + 0.7;
+        const volumeInfluence = Math.pow(volume, 1.5);
+        
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const barCount = 64;
+        const barWidth = Math.max(1, Math.floor(canvas.width / (barCount * 1.8)));
+        const gap = Math.max(0.5, Math.floor(canvas.width / barCount - barWidth));
+
+        for (let i = 0; i < barCount; i++) {
+            const barPosition = i / barCount;
+            const frequencyBand = Math.sin(barPosition * Math.PI * 8 + progress * Math.PI * 2) * 0.3 + 0.4;
+            const harmonic1 = Math.sin((i / 4) + now * 3) * 0.2;
+            const harmonic2 = Math.sin((i / 8) + now * 2.5) * 0.15;
+            
+            let normalizedValue = (
+                frequencyBand * 0.5 +
+                harmonic1 * 0.2 +
+                harmonic2 * 0.1 +
+                pulseFrequency * 0.2
+            );
+            
+            normalizedValue *= (0.5 + timeFrequency * 0.5);
+            normalizedValue = Math.pow(normalizedValue, 1 - volumeInfluence * 0.3);
+            normalizedValue = Math.max(0.2, Math.min(1, normalizedValue));
+            
+            const barHeight = Math.max(3, normalizedValue * canvas.height * 0.95);
+
+            const x = i * (barWidth + gap);
+            const yOffset = canvas.height - barHeight;
+
+            const lightness = 40 + normalizedValue * 50;
+            ctx.fillStyle = `hsl(0, 0%, ${lightness}%)`;
+            ctx.fillRect(x, yOffset, barWidth, barHeight);
+        }
+
+        // Continue l'animation
+        animationFrameRef.current = requestAnimationFrame(draw);
+    };
+
+    useEffect(() => {
+        if (isPlaying) {
+            shouldAnimateRef.current = true;
+            // Élargir le canvas de 30-40% en largeur au play
+            if (canvasRef.current) {
+                const idleWidth = 150;
+                const playingWidth = Math.round(idleWidth * 1.35);
+                canvasRef.current.width = playingWidth;
+                canvasRef.current.height = 60;
+                console.log(`📊 Canvas en play: ${playingWidth}x60`);
+                // Lancer l'animation
+                draw();
+            }
+        } else {
+            shouldAnimateRef.current = false;
+            // Annuler l'animation en cours
+            if (animationFrameRef.current) {
+                cancelAnimationFrame(animationFrameRef.current);
+                animationFrameRef.current = null;
+            }
+            
+            // Revenir à la taille idle
+            if (canvasRef.current) {
+                canvasRef.current.width = 150;
+                canvasRef.current.height = 60;
+                drawIdle();
+            }
+        }
+
+        return () => {
+            if (animationFrameRef.current) {
+                cancelAnimationFrame(animationFrameRef.current);
+            }
+        };
+    }, [isPlaying]);
+
+    useEffect(() => {
+        // Initialiser le canvas en mode idle
+        if (canvasRef.current) {
+            canvasRef.current.width = 150;
+            canvasRef.current.height = 60;
+            drawIdle();
+        }
+    }, []);
+
+    const togglePlay = () => {
+        console.log('togglePlay appelé, isPlaying actuellement:', isPlaying);
+        if (currentPlayingId !== null && currentPlayingId !== podcast.id) {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+        }
+
+        const audio = audioRef.current;
+        if (isPlaying) {
+            console.log('Pause de l\'audio');
+            audio.pause();
+            setIsPlaying(false);
+            currentPlayingId = null;
+            currentAudio = null;
+        } else {
+            console.log('Démarrage de la lecture');
+            // Initialiser le visualizer
+            const success = setupAudioContext();
+            console.log('setupAudioContext result:', success);
+            if (!success) {
+                console.error('Impossible d\'initialiser le visualizer');
+                return;
+            }
+            
+            console.log('Appel de audio.play()');
+            audio.play().catch(e => console.error('Erreur play:', e));
+            setIsPlaying(true);
+            currentPlayingId = podcast.id;
+            currentAudio = audio;
+        }
+    };
+
+    const handleProgressClick = (e) => {
+        if (!audioRef.current || duration === 0) return;
+        const rect = e.currentTarget.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const percentage = clickX / rect.width;
+        audioRef.current.currentTime = percentage * duration;
+    };
+
+    const formatTime = (time) => {
+        if (!time || isNaN(time)) return '0:00';
+        const minutes = Math.floor(time / 60);
+        const seconds = Math.floor(time % 60);
+        return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    };
+
+    const skip = (seconds) => {
+        if (audioRef.current) {
+            audioRef.current.currentTime = Math.max(0, Math.min(audioRef.current.currentTime + seconds, duration));
+        }
     };
 
     return (
-        <div
-            className="pod-modal-backdrop"
-            onClick={(e) => e.target === e.currentTarget && onClose()}
-        >
-            <div ref={ref} className="pod-modal">
+        <div className={`pod-player ${isPlaying ? 'pod-player--active pod-player--expanded' : ''}`}>
+            {/* Élément audio caché pour la Web Audio API */}
+            <audio ref={audioRef} src={podcast.src} crossOrigin="anonymous" style={{ display: 'none' }} />
+            
+            <div className="pod-visualizer-container">
+                <canvas
+                    ref={canvasRef}
+                    className={`pod-visualizer ${isPlaying ? 'pod-visualizer--playing' : ''}`}
+                />
+            </div>
 
-                <button className="pod-modal-close" onClick={onClose} aria-label="Fermer">
-                    <CloseIcon />
+            <div className="pod-info">
+                <h3 className="pod-name">{podcast.title}</h3>
+                <p className="pod-time">{podcast.guest} - {podcast.duration}</p>
+                
+                <div className="pod-progress" onClick={handleProgressClick}>
+                    <div 
+                        className="pod-progress-fill" 
+                        style={{ width: duration ? `${(currentTime / duration) * 100}%` : '0%' }}
+                    />
+                </div>
+                <div className="pod-time-display">
+                    <span>{formatTime(currentTime)}</span>
+                    <span>{formatTime(duration)}</span>
+                </div>
+            </div>
+
+            <div className="pod-controls">
+                <button
+                    className="pod-btn pod-btn--back"
+                    onClick={() => skip(-10)}
+                    title="Reculer 10s"
+                >
+                    <img src="/icons/Next.svg" className="reverse" alt="Reculer" />
                 </button>
 
-                {/* Header */}
-                <div className="pod-modal-header">
-                    <div className="pod-modal-dot" style={{ background: podcast.color }} />
-                    <div>
-                        <h2 className="pod-modal-title">{podcast.title}</h2>
-                        <p className="pod-modal-guest">{podcast.guest}</p>
-                    </div>
-                </div>
+                <button
+                    className={`pod-btn pod-btn--play ${isPlaying ? 'pod-btn--pause' : ''}`}
+                    onClick={togglePlay}
+                    title={isPlaying ? 'Pause' : 'Play'}
+                >
+                    {isPlaying ? '⏸' : '▶'}
+                </button>
 
-                {/* Visualizer live — barres fréquences */}
-                <div className="pod-modal-live-viz">
-                    {isPlaying
-                        ? <canvas ref={canvasRef} className="pod-live-canvas" width={900} height={80} />
-                        : <div className="pod-live-idle">
-                            <span style={{ background: podcast.color }} />
-                            <span style={{ background: podcast.color, opacity: 0.5 }} />
-                            <span style={{ background: podcast.color, opacity: 0.25 }} />
-                          </div>
-                    }
-                </div>
-
-                {/* Waveform statique + seeking */}
-                <div className="pod-modal-viz" onClick={seekFromWaveform}>
-                    {loading
-                        ? <div className="pod-modal-loading">
-                            <span className="pod-loading-bar" style={{ '--c': podcast.color }} />
-                            <p>Analyse de l'audio…</p>
-                          </div>
-                        : <canvas
-                            ref={waveCanvasRef}
-                            className="pod-wave-canvas"
-                            width={900}
-                            height={80}
-                          />
-                    }
-                </div>
-
-                {/* Temps */}
-                <div className="pod-modal-times">
-                    <span>{fmt(currentTime)}</span>
-                    <span>{fmt(duration)}</span>
-                </div>
-
-                {/* Contrôles */}
-                <div className="pod-modal-controls">
-                    <button
-                        className="pod-ctrl-skip"
-                        onClick={() => { audioRef.current.currentTime -= 15; }}
-                        aria-label="Reculer 15s"
-                    >
-                        <SkipBackIcon /> <span>15s</span>
-                    </button>
-
-                    <button
-                        className="pod-ctrl-play"
-                        onClick={togglePlay}
-                        style={{ '--accent': podcast.color }}
-                        aria-label={isPlaying ? 'Pause' : 'Play'}
-                    >
-                        {isPlaying ? <PauseIcon /> : <PlayIcon />}
-                    </button>
-
-                    <button
-                        className="pod-ctrl-skip"
-                        onClick={() => { audioRef.current.currentTime += 15; }}
-                        aria-label="Avancer 15s"
-                    >
-                        <span>15s</span> <SkipFwdIcon />
-                    </button>
-                </div>
-
-                <audio ref={audioRef} src={podcast.src} preload="metadata" />
+                <button
+                    className="pod-btn pod-btn--next"
+                    onClick={() => skip(10)}
+                    title="Avancer 10s"
+                >
+                    <img src="/icons/Next.svg" alt="Avancer" />
+                </button>
             </div>
         </div>
-    );
-});
-
-/* ── Icônes ─────────────────────────────────────────────────── */
-
-function PlayIcon() {
-    return (
-        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-            <polygon points="5,3 19,12 5,21" />
-        </svg>
-    );
-}
-function PauseIcon() {
-    return (
-        <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
-            <rect x="5" y="3" width="4" height="18" rx="1" />
-            <rect x="15" y="3" width="4" height="18" rx="1" />
-        </svg>
-    );
-}
-function CloseIcon() {
-    return (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="20" height="20">
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-        </svg>
-    );
-}
-function SkipBackIcon() {
-    return (
-        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
-            <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
-        </svg>
-    );
-}
-function SkipFwdIcon() {
-    return (
-        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
-            <path d="M12 5V1l5 5-5 5V7c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6h2c0 4.42-3.58 8-8 8s-8-3.58-8-8 3.58-8 8-8z" />
-        </svg>
     );
 }
