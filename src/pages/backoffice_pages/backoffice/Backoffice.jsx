@@ -93,10 +93,8 @@ const Backoffice = () => {
     return (
       <div className="backoffice-access-denied">
         <div className="access-denied-card">
-          <div className="access-denied-icon">🔒</div>
-          <h1>Accès Restreint</h1>
-          <p>Vous devez être connecté pour accéder au backoffice.</p>
-          <p className="access-denied-detail">Seuls les administrateurs peuvent accéder à cette section.</p>
+          <h1>Zone Admin</h1>
+          <p>Connecte-toi en tant qu'admin pour continuer et accéder à cette page.</p>
           <a href="/login" className="access-denied-button">Se connecter →</a>
         </div>
       </div>
@@ -118,10 +116,8 @@ const Backoffice = () => {
     return (
       <div className="backoffice-access-denied">
         <div className="access-denied-card denied">
-          <div className="access-denied-icon">⛔</div>
-          <h1>Accès Refusé</h1>
-          <p>Vous n'avez pas les permissions nécessaires.</p>
-          <p className="access-denied-detail">Seuls les administrateurs peuvent accéder au backoffice.</p>
+          <h1>Pas d'Accès</h1>
+          <p>Tu n'as pas les permissions pour accéder à cette zone.</p>
           <div style={{display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap'}}>
             <a href="/" className="access-denied-button secondary">Retour à l'accueil →</a>
             <a href="/login" className="access-denied-button" onClick={() => localStorage.removeItem('jwt')} style={{cursor: 'pointer'}}>Changer de compte →</a>
@@ -134,11 +130,11 @@ const Backoffice = () => {
   return (
     <div className="backoffice">
       <div className="backoffice-header">
-        <h1 className="backoffice-title">⚙️ Dashboard Admin</h1>
+        <h1 className="backoffice-title">Dashboard Admin</h1>
         <div className="backoffice-nav">
-          <button className={tab === 'stats' ? 'active' : ''} onClick={() => setTab('stats')}>📊 Stats</button>
-          <button className={tab === 'users' ? 'active' : ''} onClick={() => setTab('users')}>👥 Utilisateurs</button>
-          <button className={tab === 'reservations' ? 'active' : ''} onClick={() => setTab('reservations')}>📅 Réservations</button>
+          <button className={tab === 'stats' ? 'active' : ''} onClick={() => setTab('stats')}>Stats</button>
+          <button className={tab === 'users' ? 'active' : ''} onClick={() => setTab('users')}>Utilisateurs</button>
+          <button className={tab === 'reservations' ? 'active' : ''} onClick={() => setTab('reservations')}>Réservations</button>
         </div>
       </div>
 

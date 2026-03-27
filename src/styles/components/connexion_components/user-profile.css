@@ -210,6 +210,24 @@
 .user-profile__logout-section {
   display: flex;
   align-items: flex-start;
+  gap: 1.5rem;
+  /* flex: 1; */
+}
+
+.user-profile__logout-section .btn {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 200ms ease;
+  /* min-width: 180px; */
+  font-family: var(--ff-family-main);
+  white-space: nowrap;
+  flex: 1;
+  text-align: center;
+
 }
 
 .user-profile__actions {
@@ -239,7 +257,6 @@
 
 .btn-primary:hover {
   background: #f0f0f0;
-  transform: translateY(-2px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 

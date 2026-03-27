@@ -89,6 +89,18 @@ const App = () => {
   const [entered, setEntered] = useState(false);
   const [user, setUser] = useState(null);
 
+  // Récupérer l'utilisateur depuis localStorage au montage
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (e) {
+        console.error('Erreur au parsing du user stocké:', e);
+      }
+    }
+  }, []);
+
 
   return (
     <>
@@ -165,7 +177,7 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/register/sent" element={<RegisterSent />} />
             <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/profile" element={<UserProfile />} />
+            <Route path="/profile" element={<UserProfile user={user} setUser={setUser} />} />
             <Route path="/backoffice" element={<Backoffice />} />
             <Route path="/activate" element={<Activate />} />
             <Route path="/confirmation" element={<ConfirmationPage />} />

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import '../../styles/components/connexion_components/user-profile.css';
 
 function getJwt() {
@@ -15,11 +15,11 @@ function getAuthHeaders(extraHeaders = {}) {
   };
 }
 
-export default function UserProfile() {
+export default function UserProfile({ user: propUser = null, setUser: propSetUser = null }) {
   const navigate = useNavigate();
 
-  const [user,           setUser]           = useState(null);
-  const [isLoading,      setIsLoading]      = useState(true);
+  const [user,           setUser]           = useState(propUser);
+  const [isLoading,      setIsLoading]      = useState(!propUser);  // Si propUser existe, pas besoin de charger
   const [showPassword,   setShowPassword]   = useState(false);
   const [errorMessage,   setErrorMessage]   = useState('');
   const [successMessage, setSuccessMessage] = useState('');
@@ -29,12 +29,27 @@ export default function UserProfile() {
   const [toastMessage,   setToastMessage]   = useState('');
   const [showToast,      setShowToast]      = useState(false);
 
-  const [form, setForm] = useState({ firstname: '', lastname: '', email: '', password: '' });
+  const [form, setForm] = useState(propUser ? { firstname: propUser.firstname || '', lastname: propUser.lastname || '', email: propUser.email || '', password: '' } : { firstname: '', lastname: '', email: '', password: '' });
+
+  // Utiliser setUser du prop si disponible, sinon utiliser l'état local
+  const updateUser = propSetUser || setUser;
 
   useEffect(() => {
     const jwt = getJwt();
     if (!jwt) { navigate('/login'); return; }
 
+    // Si propUser est fourni depuis App.jsx, passer directement aux réservations
+    if (propUser) {
+      setForm({ firstname: propUser.firstname || '', lastname: propUser.lastname || '', email: propUser.email || '', password: '' });
+      fetch(`https://apimusee.tomdelavigne.fr/api/reservations.php?user_id=${propUser.id}`, { headers: getAuthHeaders() })
+        .then(r => r.json())
+        .then(list => { if (list) setReservations(list); })
+        .catch(() => setErrorMessage('Erreur réseau, veuillez réessayer.'))
+        .finally(() => setIsLoading(false));
+      return;
+    }
+
+    // Sinon, charger l'utilisateur depuis l'API
     fetch('https://apimusee.tomdelavigne.fr/api/users.php', { headers: getAuthHeaders() })
       .then(r => r.json())
       .then(data => {
@@ -48,7 +63,7 @@ export default function UserProfile() {
       .then(list => { if (list) setReservations(list); })
       .catch(() => setErrorMessage('Erreur réseau, veuillez réessayer.'))
       .finally(() => setIsLoading(false));
-  }, []);
+  }, [propUser]);
 
   const handleChange = (e) => setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
 
@@ -64,7 +79,7 @@ export default function UserProfile() {
       .then(r => r.json())
       .then(data => {
         if (data.success && data.user) {
-          setUser(data.user);
+          updateUser(data.user);  // Utiliser updateUser qui peut être propSetUser ou setUser local
           localStorage.setItem('user', JSON.stringify(data.user));
           setSuccessMessage('Profil mis à jour avec succès.');
         } else {
@@ -96,6 +111,7 @@ export default function UserProfile() {
 
   const handleLogout = () => {
     localStorage.clear();
+    updateUser(null);  // Met à jour le state App.jsx
     navigate('/');
   };
 
@@ -109,6 +125,11 @@ export default function UserProfile() {
           <h2>Mon profil</h2>
         </div>
         <div className="user-profile__logout-section">
+          {user.role === 'admin' && (
+            <Link to="/backoffice" className="btn btn-primary">
+              Dashboard
+            </Link>
+          )}
           <button type="button" className="btn btn-danger" onClick={handleLogout}>Se déconnecter</button>
         </div>
       </div>
