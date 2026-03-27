@@ -52,7 +52,7 @@ const FormReservation = () => {
   const [promoApplied, setPromoApplied] = useState(false);
   const [promoError,   setPromoError]   = useState('');
   const [submitError,  setSubmitError]  = useState(''); // R85 : erreur dans le DOM
-  const [step] = useState(1); // on garde step=1 ici; la suite est une autre page
+  const [step1Error,   setStep1Error]   = useState(''); // Erreur validation étape 1
 
   const totalTickets = pleinTarif + tarifReduit + gratuit;
   const subtotal     = pleinTarif * PRIX_PLEIN + tarifReduit * PRIX_REDUIT;
@@ -124,7 +124,13 @@ const FormReservation = () => {
   };
 
   const goNext = () => {
-    if (!step1IsComplete) return;
+    setStep1Error('');
+    if (!step1IsComplete) {
+      if (!date) setStep1Error('Veuillez sélectionner une date');
+      else if (!time) setStep1Error('Veuillez sélectionner un créneau horaire');
+      else if (totalTickets === 0) setStep1Error('Veuillez sélectionner au moins un billet');
+      return;
+    }
     navigate('/form-reservation/coordonnees', {
       state: {
         date: date instanceof Date ? date.toISOString() : date,
@@ -139,13 +145,21 @@ const FormReservation = () => {
     });
   };
 
-  const goBack = () => {}; // noop: step 2 is a separate page
+  const goBack = () => {
+    setStep(1);
+  };
 
   return (
     <div className="form-reservation form-reservation--centered">
 
       {/* ── Colonne gauche ── sélection (toujours visible) ── */}
       <div className="form-reservation__left">
+
+        <div className="reservation-intro">
+          <h1 className="reservation-intro__title">Au-delà de l'Humain</h1>
+          <p className="reservation-intro__subtitle">Exposition immersive</p>
+          <p className="reservation-intro__description">Réservez vos places pour une visite inoubliable</p>
+        </div>
 
         {/* R234 : titres sémantiques */}
         <h2 className="form-reservation__title">Sélectionner la date</h2>
@@ -203,106 +217,36 @@ const FormReservation = () => {
         <div className="form-reservation__conditions">
           <Conditions />
         </div>
-      
-        {step === 1 && (
-          <div style={{ marginTop: 18, textAlign: 'center' }}>
-            <button className="btn btn-primary" onClick={goNext} disabled={!step1IsComplete}>
-              Suivant
-            </button>
-          </div>
-        )}
       </div>
 
       <div className="form-reservation__right">
-        {step === 1 ? (
-          <>
-            <h2 className="form-reservation__title">Récapitulatif</h2>
-            <div className="form-reservation__summary">
-              <div><strong>Date :</strong> {date ? (date instanceof Date ? date.toLocaleDateString('fr-FR') : String(date)) : '—'}</div>
-              <div><strong>Heure :</strong> {time || '—'}</div>
-              <div><strong>Langue :</strong> {langue === 'fr' ? 'Français' : 'Anglais'}</div>
-              <div style={{ marginTop: 8 }}><strong>Billets :</strong></div>
-              <div>Plein tarif : {pleinTarif}</div>
-              <div>Tarif réduit : {tarifReduit}</div>
-              <div>Gratuit : {gratuit}</div>
-              {promoApplied && <div className="summary-discount">Réduction ({VALID_PROMO_CODE}) : -{discount.toFixed(2)}€</div>}
-              <div className="summary-final">Total : {finalTotal.toFixed(2)}€</div>
-              <div className="summary-divider" />
-              {totalTickets >= MAX_TICKETS && <div className="summary-max">Nombre maximum de places atteint ({MAX_TICKETS})</div>}
-              {totalTickets > 0 && totalTickets < MAX_TICKETS && <div className="summary-remaining">{MAX_TICKETS - totalTickets} place(s) restante(s)</div>}
-            </div>
-          </>
-        ) : (
-          <>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h2 className="form-reservation__title">Coordonnées</h2>
-              <button className="btn" onClick={goBack}>Retour</button>
-            </div>
-
-            <p className="form-required-notice">Les champs marqués d'un <span className="required">*</span> sont obligatoires.</p>
-
-            <div className="form-recap-small" style={{ marginBottom: 12, background: 'rgba(0,0,0,0.06)', padding: 8, borderRadius: 8 }}>
-              <div><strong>Date choisie :</strong> {date ? (date instanceof Date ? date.toLocaleDateString('fr-FR') : String(date)) : '—'}</div>
-              <div><strong>Heure :</strong> {time || '—'}</div>
-            </div>
-
-            <label className="form-reservation__label" htmlFor="res-prenom">
-              Prénom <span className="required">*</span>
-            </label>
-            <input id="res-prenom" className="form-reservation__input" type="text" placeholder="prénom" value={prenom} onChange={e => setPrenom(e.target.value)} />
-
-            <label className="form-reservation__label" htmlFor="res-nom">
-              Nom <span className="required">*</span>
-            </label>
-            <input id="res-nom" className="form-reservation__input" type="text" placeholder="nom" value={nom} onChange={e => setNom(e.target.value)} />
-
-            <label className="form-reservation__label" htmlFor="res-email">
-              E-mail <span className="required">*</span>
-            </label>
-            <input id="res-email" className="form-reservation__input" type="email" placeholder="e-mail" value={email} onChange={e => setEmail(e.target.value)} />
-
-            <label className="form-reservation__label" htmlFor="res-email-confirm">
-              Confirmez votre e-mail <span className="required">*</span>
-            </label>
-            <input id="res-email-confirm" className="form-reservation__input" type="email" placeholder="confirmez votre e-mail" value={emailConfirm} onChange={e => setEmailConfirm(e.target.value)} />
-            {email && emailConfirm && email !== emailConfirm && (
-              <p className="form-error">Les adresses e-mail ne correspondent pas.</p>
-            )}
-
-            <div className="promo-section">
-              <label className="promo-label" htmlFor="res-promo">Code promo</label>
-              <div className="promo-row">
-                <input
-                  id="res-promo"
-                  className="form-reservation__input"
-                  type="text"
-                  placeholder="Entrez le code promo"
-                  value={promoCode}
-                  onChange={e => { setPromoCode(e.target.value); setPromoError(''); }}
-                  disabled={promoApplied}
-                />
-                <button
-                  type="button"
-                  className="form-reservation__btn"
-                  onClick={handleApplyPromo}
-                  disabled={promoApplied || !promoCode.trim()}
-                >
-                  Appliquer
-                </button>
-              </div>
-              {promoError   && <p className="promo-message error">{promoError}</p>}
-              {promoApplied && <p className="promo-message success">Réduction de 5% appliquée</p>}
-            </div>
-
-            {submitError && <p className="form-error">{submitError}</p>}
-
-            <ButtonValidation
-              text="Confirmer ma réservation"
-              onClick={handleSubmit}
-              disabled={!formIsComplete}
-            />
-          </>
-        )}
+        <div className="form-reservation__sticky-wrapper">
+          <h2 className="form-reservation__title">Récapitulatif</h2>
+          <div className="form-reservation__summary">
+            <div><strong>Date :</strong> {date ? (date instanceof Date ? date.toLocaleDateString('fr-FR') : String(date)) : '—'}</div>
+            <div><strong>Heure :</strong> {time || '—'}</div>
+            <div><strong>Langue :</strong> {langue === 'fr' ? 'Français' : 'Anglais'}</div>
+            <div style={{ marginTop: 8 }}><strong>Billets :</strong></div>
+            <div>Plein tarif : {pleinTarif}</div>
+            <div>Tarif réduit : {tarifReduit}</div>
+            <div>Gratuit : {gratuit}</div>
+            {promoApplied && <div className="summary-discount">Réduction ({VALID_PROMO_CODE}) : -{discount.toFixed(2)}€</div>}
+            <div className="summary-final">Total : {finalTotal.toFixed(2)}€</div>
+            <div className="summary-divider" />
+            {totalTickets >= MAX_TICKETS && <div className="summary-max">Nombre maximum de places atteint ({MAX_TICKETS})</div>}
+            {totalTickets > 0 && totalTickets < MAX_TICKETS && <div className="summary-remaining">{MAX_TICKETS - totalTickets} place(s) restante(s)</div>}
+          </div>
+          
+          {step1Error && <p className="form-error">{step1Error}</p>}
+          
+          <button 
+            className="btn btn-primary" 
+            onClick={goNext} 
+            disabled={!step1IsComplete}
+          >
+            Suivant
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -82,12 +82,7 @@ const Navbar = ({ user, setUser }) => {
   let authLinks;
   if (user) {
     authLinks = (
-      <>
-        <Link to="/profile">{user.firstname}</Link>
-        <button onClick={handleLogout} className="nav-logout cursor-target" aria-label="Logout">
-          {t('navbar.logout')} <ArrowUpRight />
-        </button>
-      </>
+      <Link to="/profile" className="cursor-target">Mon compte</Link>
     );
   } else {
     authLinks = (

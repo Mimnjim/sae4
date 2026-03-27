@@ -90,6 +90,11 @@ export default function UserProfile() {
       .finally(() => setConfirmDeleteId(null));
   };
 
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate('/');
+  };
+
   if (isLoading) return <div className="user-profile__loading">Chargement...</div>;
   if (!user)     return <div className="user-profile__error">Utilisateur non connecté.</div>;
 
@@ -130,6 +135,7 @@ export default function UserProfile() {
 
       <div className="user-profile__actions">
         <button type="button" className="btn btn-primary" onClick={handleSave}>Enregistrer</button>
+        <button type="button" className="btn btn-danger" onClick={handleLogout}>Se déconnecter</button>
       </div>
 
       <h3 className="user-profile__section-title">Mes réservations</h3>
