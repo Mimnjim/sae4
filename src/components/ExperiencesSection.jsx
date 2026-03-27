@@ -1,10 +1,12 @@
 import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import '../styles/experiences-section.css';
 import { ArrowUpRight } from '@boxicons/react';
 
 export default function ExperienceSection() {
+    const { t } = useTranslation();
     const sectionRef = useRef(null);
     const panelRef   = useRef(null);
     const reserveRef = useRef(null);
@@ -80,13 +82,13 @@ export default function ExperienceSection() {
                 <div className="exp-reservation-inner">
                     {/* <span className="exp-reservation-label">Grand Palais · 2025</span> */}
                     <h3 className="exp-reservation-title">
-                        Réservez<br />votre visite !
+                        {t('experiences.reserveVisit')}
                     </h3>
                     <p className="exp-reservation-sub">
-                        Billets disponibles du 15 mars<br />au 30 juin 2025
+                        {t('experiences.reservationSub')}
                     </p>
                     <Link to="/form-reservation" className="exp-reservation-link cursor-target">
-                        Tickets <ArrowUpRight />
+                        {t('experiences.tickets_link')} <ArrowUpRight />
                     </Link>
                 </div>
             </div>
@@ -95,28 +97,26 @@ export default function ExperienceSection() {
             <div ref={panelRef} className="exp-panel">
 
                 <span className="exp-eyebrow">
-                    Expérience Interactive
+                    {t('experiences.eyebrow')}
                 </span>
 
                 <h2 className="exp-title">
-                    Entrez dans<br />l'univers
+                    {t('experiences.enterUniverse')}
                 </h2>
 
                 <span className="exp-rule" />
 
                 <p className="exp-description">
-                    Plongez dans une expérience immersive unique conçue pour l'exposition.
-                    Traversez Neo-Tokyo, infiltrez la Section 9 — et terminez votre mission
-                    pour repartir avec un code exclusif sur la billetterie.
+                    {t('experiences.description')}
                 </p>
 
                 <div className="exp-promo">
                     <span className="exp-promo-star">★</span>
-                    Code promo exclusif à débloquer en fin d'expérience
+                    {t('experiences.promoText')}
                 </div>
 
                 <a href="/experiences" className="exp-cta cursor-target">
-                    Jouer maintenant
+                    {t('experiences.playNow')}
                     <span className="exp-cta-arrow"><ArrowUpRight /></span>
                 </a>
 

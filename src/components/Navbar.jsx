@@ -1,18 +1,23 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ArrowUpRight } from '@boxicons/react';
 
 const Navbar = ({ user, setUser }) => {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
 
   // Langues
   const [openLang, setOpenLang] = useState(false);
-  const [lang, setLang] = useState(localStorage.getItem('lang') || 'FR');
+  const [lang, setLang] = useState((localStorage.getItem('lang') || 'fr').toUpperCase());
   const dropdownRef = useRef(null);
-  const labelLang = lang === 'FR' ? 'Langues' : 'Languages';
+  const labelLang = t('gateway.languages');
   
 
-  // Apparaition de la navbar au scroll
+  // Synchroniser l'état lang avec i18n.language directement
+  useEffect(() => {
+    setLang((i18n.language || 'fr').toUpperCase());
+  }, [i18n.language]);
   const [showNavbarBlack, setShowNavbarBlack] = useState(false);
   const lastScrollY = useRef(0);
 
@@ -67,8 +72,10 @@ const Navbar = ({ user, setUser }) => {
 
   // Changer langue
   const changeLang = (newLang) => {
+    const langCode = newLang === 'FR' ? 'fr' : 'en';
+    i18n.changeLanguage(langCode);
     setLang(newLang);
-    localStorage.setItem('lang', newLang);
+    localStorage.setItem('lang', langCode);
     setOpenLang(false);
   };
 
@@ -77,15 +84,15 @@ const Navbar = ({ user, setUser }) => {
     authLinks = (
       <>
         <Link to="/profile">{user.firstname}</Link>
-        <button onClick={handleLogout} className="nav-logout cursor-target" aria-label="Se déconnecter">
-          Déconnexion <ArrowUpRight />
+        <button onClick={handleLogout} className="nav-logout cursor-target" aria-label="Logout">
+          {t('navbar.logout')} <ArrowUpRight />
         </button>
       </>
     );
   } else {
     authLinks = (
       <>
-        <Link to="/login" className="login-btn cursor-target">Connexion <ArrowUpRight /></Link>
+        <Link to="/login" className="login-btn cursor-target">{t('navbar.login')} <ArrowUpRight /></Link>
       </>
     );
   }
@@ -97,9 +104,9 @@ const Navbar = ({ user, setUser }) => {
         <Link to="/"><img src="/img/petit_logo_white.svg" alt="Logo" className="logo-expo cursor-target" /></Link>
 
         <div className="elements-nav__infos">
-          <Link to="/experiences" className="cursor-target">Expériences <ArrowUpRight /></Link>
-          <Link to="/form-reservation" className="cursor-target">Réserver <ArrowUpRight /></Link>
-          <Link to="/info-pratique" className="cursor-target">Infos pratiques <ArrowUpRight /></Link>
+          <Link to="/experiences" className="cursor-target">{t('navbar.experiences')} <ArrowUpRight /></Link>
+          <Link to="/form-reservation" className="cursor-target">{t('navbar.reservation')} <ArrowUpRight /></Link>
+          <Link to="/infos-pratiques" className="cursor-target">{t('navbar.info')} <ArrowUpRight /></Link>
         </div>
       </div>
 
@@ -114,8 +121,8 @@ const Navbar = ({ user, setUser }) => {
 
           {openLang && (
             <div className="lang-menu">
-              <div onClick={() => changeLang('FR')} className="cursor-target">Français</div>
-              <div onClick={() => changeLang('EN')} className="cursor-target">English</div>
+              <div onClick={() => changeLang('FR')} className="cursor-target">{t('gateway.french')}</div>
+              <div onClick={() => changeLang('EN')} className="cursor-target">{t('gateway.english')}</div>
             </div>
           )}
         </div>

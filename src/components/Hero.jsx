@@ -1,4 +1,5 @@
 import { useRef, useEffect, useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Akira3D from './Akira3D';
@@ -9,6 +10,7 @@ import { ArrowUpRight } from '@boxicons/react';
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Hero({ title1, title2, subtitle }) {
+    const { t } = useTranslation();
     const heroRef = useRef(null);
     const sloganRef = useRef(null);
     const akiraHeroRef = useRef(null);
@@ -278,8 +280,8 @@ export default function Hero({ title1, title2, subtitle }) {
             <ImmersionOverlay
                 ref={overlayAkiraRef}
                 side="left"
-                title="Akira (1982 - 1990) : la chair et le chaos"
-                content="Créé en 1982 par Katsuhiro Ōtomo, Akira émerge d'un Japon en plein essor, encore marqué par le traumatisme nucléaire. Ici, la technologie n'est plus un progrès, mais une force de mutation qui déshumanise le corps. À travers une métamorphose brutale où la chair et la machine fusionnent, l'œuvre nous interroge : en voulant forcer notre évolution, ne risquons-nous pas de faire de l'humanité un simple vestige ?"
+                title={t('hero.akiraTitle')}
+                content={t('hero.akiraContent')}
                 onReady={handleAkiraHUDReady}
             />
 
@@ -287,8 +289,8 @@ export default function Hero({ title1, title2, subtitle }) {
             <ImmersionOverlay
                 ref={overlayGisRef}
                 side="right"
-                title="Ghost in The Shell (1989 - 1991) : L’esprit hors de la chair"
-                content="Créé en 1989 par Masamune Shirow, Ghost in the Shell explore un futur où la frontière entre l'homme et la machine s'efface totalement. Dans cette société ultra-connectée, le corps n'est plus qu'une enveloppe cybernétique — une coquille (Shell) — que l'on peut améliorer ou remplacer. Ici, le progrès n'est plus une mutation subie, mais une aspiration à quitter la chair. En s'affranchissant des limites biologiques, l'œuvre nous confronte à l'ultime dilemme : que reste-t-il de notre humanité quand l'esprit se dissout dans l'infini des données ?"
+                title={t('hero.gisTitle')}
+                content={t('hero.gisContent')}
                 onReady={handleGisHUDReady}
             />
 
@@ -299,7 +301,7 @@ export default function Hero({ title1, title2, subtitle }) {
                 justifyContent: 'center', gap: '2rem'
             }}>
                 <p style={{ fontFamily: 'var(--ff-family-main)', letterSpacing: '6px', textTransform: 'uppercase', color: '#fff', opacity: 0.6 }}>
-                    Chargement de l'expérience
+                    {t('hero.loading')}
                 </p>
                 <div style={{ width: 'clamp(200px, 40vw, 400px)', height: '2px', background: 'rgba(255,255,255,0.1)', position: 'relative', overflow: 'hidden' }}>
                     <div style={{ position: 'absolute', top: 0, left: 0, height: '100%', width: `${loadPercent}%`, background: 'linear-gradient(to right, #00d4ff, #ff00ff)', transition: 'width 0.4s ease' }} />
@@ -325,7 +327,7 @@ export default function Hero({ title1, title2, subtitle }) {
                         <img src="/img/grand_logo_white.svg" ref={sloganRef} alt="Logo de l'exposition - Au delà de l'humain" />
 
                         <div ref={scrollDownRef} className="scroll-down">
-                            <h3>Scroll pour en savoir plus</h3>
+                            <h3>{t('hero.scroll')}</h3>
                             <div className="arrow"><span className="arrow-down" /></div>
                         </div>
                     </div>
@@ -336,10 +338,10 @@ export default function Hero({ title1, title2, subtitle }) {
                 </div>
 
                 <div className="footer-hero-container" ref={footerHeroRef}>
-                    <p>"Quand la chair disparaît, que reste-t-il de l'humain ?"</p>
+                    <p>{t('hero.quote')}</p>
                     <div className="buttons-hero" ref={buttonsRef} style={{ position: 'relative', zIndex: 20 }}>
-                        <a href="#" className="cursor-target">teaser <ArrowUpRight /></a>
-                        <a href="#" className="cursor-target">tickets <ArrowUpRight /></a>
+                        <a href="#" className="cursor-target">{t('hero.teaser')} <ArrowUpRight /></a>
+                        <a href="#" className="cursor-target">{t('hero.tickets')} <ArrowUpRight /></a>
                     </div>
                 </div>
             </div>

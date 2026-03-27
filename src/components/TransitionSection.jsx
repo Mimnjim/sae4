@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import '../styles/transition-section.css';
 
@@ -13,6 +14,7 @@ import '../styles/transition-section.css';
 // 7. Compteur + scroll hint (2.4s)
 
 export default function TransitionSection() {
+    const { t } = useTranslation();
     const sectionRef   = useRef(null);
     const beamRef      = useRef(null);
     const cornersRef   = useRef([]);
@@ -135,7 +137,7 @@ export default function TransitionSection() {
 
                 {/* Grand titre */}
                 <h2 ref={titleRef} className="ts-title">
-                    Au-delà<br />de l'humain
+                    {t('transition.title')}
                 </h2>
 
                 {/* Séparateur */}
@@ -143,24 +145,24 @@ export default function TransitionSection() {
 
                 {/* Sous-titre */}
                 <p ref={subtitleRef} className="ts-subtitle">
-                    Une exposition sur les limites du corps et de la conscience
+                    {t('transition.subtitle')}
                 </p>
 
                 {/* Blocs d'info */}
                 <div ref={infosRef} className="ts-infos">
                     <div className="ts-info-block">
-                        <span className="ts-info-label">Lieu</span>
-                        <span className="ts-info-value">Grand Palais Éphémère</span>
+                        <span className="ts-info-label">{t('transition.location')}</span>
+                        <span className="ts-info-value">{t('transition.locationValue')}</span>
                     </div>
                     <div className="ts-info-sep" />
                     <div className="ts-info-block">
-                        <span className="ts-info-label">Dates</span>
-                        <span className="ts-info-value">15 Mars — 30 Juin 2025</span>
+                        <span className="ts-info-label">{t('transition.dates')}</span>
+                        <span className="ts-info-value">{t('transition.datesValue')}</span>
                     </div>
                     <div className="ts-info-sep" />
                     <div className="ts-info-block">
-                        <span className="ts-info-label">Œuvres</span>
-                        <span className="ts-info-value">2 univers · 4 salles</span>
+                        <span className="ts-info-label">{t('transition.works')}</span>
+                        <span className="ts-info-value">{t('transition.worksValue')}</span>
                     </div>
                 </div>
 

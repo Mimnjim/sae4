@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import ButtonValidation from './ButtonValidation';
 
 // Évalue la force d'un mot de passe — retourne 0 (faible) à 3 (fort)
@@ -11,11 +12,11 @@ function getPasswordStrength(pwd) {
   return score;
 }
 
-const STRENGTH_LABELS = ['', 'Faible', 'Moyen', 'Fort', 'Très fort'];
-const STRENGTH_CLASSES = ['', 'weak', 'medium', 'strong', 'very-strong'];
-
 // Formulaire d'inscription
 function RegisterForm({ onSuccess }) {
+  const { t } = useTranslation();
+  const STRENGTH_LABELS = ['', t('auth.weak'), t('auth.medium'), t('auth.strong'), t('auth.veryStrong')];
+  const STRENGTH_CLASSES = ['', 'weak', 'medium', 'strong', 'very-strong'];
   const [firstname,    setFirstname]    = useState('');
   const [lastname,     setLastname]     = useState('');
   const [email,        setEmail]        = useState('');
@@ -41,7 +42,7 @@ function RegisterForm({ onSuccess }) {
       .then(async (res) => {
         const data = await res.json().catch(() => ({}));
         if (!res.ok || data.success === false) {
-          setErrorMessage(data.message || "Erreur lors de l'inscription. Vérifiez les champs.");
+          setErrorMessage(data.message || t('auth.registrationError'));
           setIsLoading(false);
           return;
         }
@@ -49,7 +50,7 @@ function RegisterForm({ onSuccess }) {
         onSuccess();
       })
       .catch(() => {
-        setErrorMessage("Erreur réseau — impossible de contacter le serveur.");
+        setErrorMessage(t('auth.networkErrorContact'));
         setIsLoading(false);
       });
   };
@@ -59,7 +60,7 @@ function RegisterForm({ onSuccess }) {
 
       <div className="register-form__field">
         {/* R71 : * indique champ obligatoire */}
-        <label htmlFor="register-firstname">Prénom <span className="required">*</span></label>
+        <label htmlFor="register-firstname">{t('form.firstName')} <span className="required">*</span></label>
         <input
           id="register-firstname"
           className="form-reservation__input"
@@ -70,7 +71,7 @@ function RegisterForm({ onSuccess }) {
       </div>
 
       <div className="register-form__field">
-        <label htmlFor="register-lastname">Nom <span className="required">*</span></label>
+        <label htmlFor="register-lastname">{t('form.lastName')} <span className="required">*</span></label>
         <input
           id="register-lastname"
           className="form-reservation__input"
@@ -81,7 +82,7 @@ function RegisterForm({ onSuccess }) {
       </div>
 
       <div className="register-form__field">
-        <label htmlFor="register-email">Email <span className="required">*</span></label>
+        <label htmlFor="register-email">{t('form.email')} <span className="required">*</span></label>
         <input
           id="register-email"
           className="form-reservation__input"
@@ -92,7 +93,7 @@ function RegisterForm({ onSuccess }) {
       </div>
 
       <div className="register-form__field">
-        <label htmlFor="register-password">Mot de passe <span className="required">*</span></label>
+        <label htmlFor="register-password">{t('form.password')} <span className="required">*</span></label>
         <div className="register-form__password-row">
           <input
             id="register-password"
@@ -139,13 +140,13 @@ function RegisterForm({ onSuccess }) {
       </div>
 
       {/* R71 : notice champs obligatoires */}
-      <p className="form-note">Les champs marqués d'un <span className="required">*</span> sont obligatoires.</p>
+      <p className="form-note">{t('form.required')}</p>
 
       {/* R85 : message d'erreur dans le DOM */}
       {errorMessage && <p className="form-error">{errorMessage}</p>}
 
       {/* R18 : informer l'utilisateur qu'un email de confirmation sera envoyé */}
-      <p className="form-note">Un email de confirmation vous sera envoyé après l'inscription.</p>
+      <p className="form-note">{t('auth.confirmEmail')}</p>
 
       <ButtonValidation
         text={isLoading ? "Inscription en cours..." : "S'inscrire"}

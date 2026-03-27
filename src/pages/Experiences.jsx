@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import LevelCard from '../components/LevelCard';
 import Timeline from '../components/Timeline';
 import '../styles/experiences.css';
@@ -33,7 +34,7 @@ function saveProgress(levelId, value, setProgressMap) {
 }
 
 // Panneau affiché en fin de partie
-function GameResultPanel({ gameResult, playingLevelId, progressMap, onReplay, onClose, onNextLevel, onClaimPromo }) {
+function GameResultPanel({ gameResult, playingLevelId, progressMap, onReplay, onClose, onNextLevel, onClaimPromo, t }) {
   if (!gameResult) return null;
 
   const isVictory      = gameResult === 'victory';
@@ -44,20 +45,20 @@ function GameResultPanel({ gameResult, playingLevelId, progressMap, onReplay, on
   return (
     <div className="result-panel">
       {/* R234 : h2 car c'est le titre principal de ce panneau */}
-      <h2>{isVictory ? 'Victoire !' : 'Game Over'}</h2>
+      <h2>{isVictory ? t('pages.experiences.victory') : t('pages.experiences.gameOver')}</h2>
       <div className="result-actions">
-        <button type="button" className="btn btn-light" onClick={onReplay}>Réessayer</button>
-        <button type="button" className="btn"           onClick={onClose}>Quitter</button>
+        <button type="button" className="btn btn-light" onClick={onReplay}>{t('pages.experiences.retry')}</button>
+        <button type="button" className="btn"           onClick={onClose}>{t('pages.experiences.quit')}</button>
 
         {isVictory && !isLastLevel && (
           hasEnoughItems
-            ? <button type="button" className="btn btn-primary" onClick={onNextLevel}>Niveau suivant</button>
-            : <button type="button" className="btn" disabled>Récoltez 70% des objets pour continuer</button>
+            ? <button type="button" className="btn btn-primary" onClick={onNextLevel}>{t('pages.experiences.nextLevel')}</button>
+            : <button type="button" className="btn" disabled>{t('pages.experiences.collectItems')}</button>
         )}
 
         {isVictory && isLastLevel && hasEnoughItems && (
           <button type="button" className="btn btn-primary" onClick={onClaimPromo}>
-            Récupérer le code promo
+            {t('pages.experiences.claimPromo')}
           </button>
         )}
       </div>
@@ -67,6 +68,7 @@ function GameResultPanel({ gameResult, playingLevelId, progressMap, onReplay, on
 
 const Experiences = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const iframeRef    = useRef(null);
   const containerRef = useRef(null);
 
@@ -147,8 +149,8 @@ const Experiences = () => {
 
   return (
     <div className="experiences-page">
-      <h1>Expérience </h1>
-      <p> Plongez dans une expérience immersive inspirée des univers d'Akira et Ghost in the Shell. Reussisez les 3 niveaux pour débloquer une récompense !</p>
+      <h1>{t('pages.experiences.title')}</h1>
+      <p>{t('pages.experiences.description')}</p>
 
       <div className="levels-grid">
         <Timeline count={LEVELS.length} />
@@ -178,7 +180,7 @@ const Experiences = () => {
 
               {/* R162 : bouton de fermeture explicite */}
               <button type="button" className="modal-close" onClick={handleCloseModal}>
-                Fermer
+                {t('pages.experiences.close')}
               </button>
 
               <div className="game-wrapper">
@@ -192,7 +194,7 @@ const Experiences = () => {
                 />
 
                 <div className="parent-hud parent-health">
-                  <div className="label">VIE</div>
+                  <div className="label">{t('pages.experiences.health')}</div>
                   <div className="health-track-parent">
                     <div className="health-bar-parent" style={{ width: `${healthPercent}%` }} />
                   </div>
@@ -200,7 +202,7 @@ const Experiences = () => {
                 </div>
 
                 <div className="parent-hud parent-boost">
-                  <div className="label">BOOST</div>
+                  <div className="label">{t('pages.experiences.boost')}</div>
                   <div className="boost-track-parent">
                     <div className="boost-bar-parent" style={{ width: `${boostState.percent}%` }} />
                   </div>
@@ -217,23 +219,24 @@ const Experiences = () => {
                   onClose={handleCloseModal}
                   onNextLevel={handleNextLevel}
                   onClaimPromo={handleClaimPromo}
+                  t={t}
                 />
               )}
             </div>
           </div>
         ) : (
           <div className="game-placeholder">
-            <p>Sélectionnez un niveau pour commencer l'expérience de jeu.</p>
+            <p>{t('pages.experiences.selectLevel')}</p>
           </div>
         )}
       </div>
 
       {promoUnlocked && (
         <div className="promo-panel">
-          <h2>Félicitations ! Code promo débloqué !</h2>
-          <p>Vous avez débloqué le code <strong>HUMAIN5</strong> — -5% sur votre réservation.</p>
+          <h2>{t('pages.experiences.congratulations')}</h2>
+          <p>{t('pages.experiences.promoUnlockedText')}</p>
           <button type="button" className="btn btn-primary" onClick={handleClaimPromo}>
-            Réserver avec le code appliqué
+            {t('pages.experiences.bookWithPromo')}
           </button>
         </div>
       )}

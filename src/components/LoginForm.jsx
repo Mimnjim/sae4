@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import ButtonValidation from './ButtonValidation';
 
 // Formulaire de connexion
 function LoginForm({ onSuccess, setUser }) {
+  const { t } = useTranslation();
   const [email,        setEmail]        = useState('');
   const [password,     setPassword]     = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -21,7 +23,7 @@ function LoginForm({ onSuccess, setUser }) {
       .then(async (res) => {
         const data = await res.json().catch(() => ({}));
         if (!res.ok || data.success === false) {
-          setErrorMessage(data.message || 'Email ou mot de passe invalide');
+          setErrorMessage(data.message || t('auth.invalidCredentials'));
           setIsLoading(false);
           return;
         }
@@ -32,7 +34,7 @@ function LoginForm({ onSuccess, setUser }) {
         onSuccess();
       })
       .catch(() => {
-        setErrorMessage('Erreur réseau');
+        setErrorMessage(t('auth.networkError'));
         setIsLoading(false);
       });
   };
@@ -41,7 +43,7 @@ function LoginForm({ onSuccess, setUser }) {
     <div className="login-form">
 
       <div className="login-form__field">
-        <label htmlFor="login-email">Email</label>
+        <label htmlFor="login-email">{t('form.email')}</label>
         <input
           id="login-email"
           className="form-reservation__input"
@@ -52,7 +54,7 @@ function LoginForm({ onSuccess, setUser }) {
       </div>
 
       <div className="login-form__field">
-        <label htmlFor="login-password">Mot de passe</label>
+        <label htmlFor="login-password">{t('form.password')}</label>
         <div className="login-form__password-row">
           <input
             id="login-password"

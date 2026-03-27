@@ -2,7 +2,7 @@
    INFOS PRATIQUES
    ═══════════════════════════════════════════════════ */
 
-.info-pratique-container {
+.infos-pratiques-container {
   --ip-accent: #e8002a;
   --ip-border: rgba(255, 255, 255, 0.2); /* Rendu plus visible pour structurer les blocs */
   --ip-surface: rgba(0, 0, 0, 0.85); /* Fond plus opaque pour contraster avec le texte blanc */
@@ -12,7 +12,7 @@
   --ip-ease: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.info-pratique-container {
+.infos-pratiques-container {
   padding: 80px 48px 120px;
   max-width: 1080px;
   margin: 0 auto;
@@ -21,7 +21,7 @@
 
 /* ── Titre ──────────────────────────────────────────── */
 
-.info-pratique-container > h1 {
+.infos-pratiques-container > h1 {
   font-size: clamp(2.4rem, 5vw, 3.8rem);
   font-weight: 800;
   letter-spacing: -0.03em;
@@ -33,7 +33,7 @@
   outline: none; /* R165 : Evite l'outline par défaut du focus JS, qu'on gère manuellement si besoin */
 }
 
-.info-pratique-container > h1::before {
+.infos-pratiques-container > h1::before {
   content: '';
   display: block;
   width: 28px;
@@ -317,7 +317,7 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .info-pratique-container > h1 { animation: ip-in 450ms var(--ip-ease) both; }
+  .infos-pratiques-container > h1 { animation: ip-in 450ms var(--ip-ease) both; }
   .info-content { animation: ip-in 450ms 80ms var(--ip-ease) both; }
   .map-section { animation: ip-in 450ms 140ms var(--ip-ease) both; }
   .info-main > section:has(.contact-section) { animation: ip-in 450ms 180ms var(--ip-ease) both; }
@@ -329,8 +329,8 @@
    ═══════════════════════════════════════════════════ */
 
 @media (max-width: 860px) {
-  .info-pratique-container { padding: 40px 20px 80px; }
-  .info-pratique-container > h1 { margin-bottom: 32px; font-size: 2.2rem; }
+  .infos-pratiques-container { padding: 40px 20px 80px; }
+  .infos-pratiques-container > h1 { margin-bottom: 32px; font-size: 2.2rem; }
 
   .info-card, .contact-list li {
     grid-template-columns: 1fr;

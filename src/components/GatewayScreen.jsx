@@ -1,10 +1,12 @@
 import { useRef, useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import Grainient from './Grainient';
 import ArrowUpRight from '@boxicons/react/ArrowUpRight';
 import '../styles/gateway-screen.css';
 
 export default function GatewayScreen({ onEnter }) {
+    const { t, i18n } = useTranslation();
     const gatewayRef  = useRef(null);
     const questionRef = useRef(null);
     const sublineRef  = useRef(null);
@@ -13,9 +15,9 @@ export default function GatewayScreen({ onEnter }) {
     const dropdownRef = useRef(null);
     const [clicked, setClicked]     = useState(false);
     const [glitching, setGlitching] = useState(false);
-    const [lang, setLang] = useState(localStorage.getItem('lang') || 'FR');
+    const [lang, setLang] = useState((localStorage.getItem('lang') || 'fr').toUpperCase());
     const [openLang, setOpenLang] = useState(false);
-    const labelLang = lang === 'FR' ? 'Langues' : 'Languages';
+    const labelLang = t('gateway.languages');
 
     // Fermer si clic extérieur
     useEffect(() => {
@@ -28,10 +30,17 @@ export default function GatewayScreen({ onEnter }) {
         return () => document.removeEventListener('click', handleClickOutside);
     }, []);
 
+    // Synchroniser l'état lang avec i18n.language directement
+    useEffect(() => {
+        setLang((i18n.language || 'fr').toUpperCase());
+    }, [i18n.language]);
+
     // Changer langue
     const changeLang = (newLang) => {
+        const langCode = newLang === 'FR' ? 'fr' : 'en';
+        i18n.changeLanguage(langCode);
         setLang(newLang);
-        localStorage.setItem('lang', newLang);
+        localStorage.setItem('lang', langCode);
         setOpenLang(false);
     };
 
@@ -155,14 +164,14 @@ export default function GatewayScreen({ onEnter }) {
             <div className="gateway__content">
 
                 <div ref={sublineRef} className="gateway__badge">
-                    Exposition Immersive — Akira · Ghost in the Shell
+                    {t('gateway.badge')}
                 </div>
 
                 <h1
                     ref={questionRef}
                     className={`gateway__question${glitching ? ' gateway-glitch' : ''}`}
                 >
-                    Êtes-vous réellement humain ?
+                    {t('gateway.question')}
                 </h1>
 
                 <div ref={buttonRef} className="gateway__btn-wrapper">
@@ -170,7 +179,7 @@ export default function GatewayScreen({ onEnter }) {
                 </div>
 
                 <div className="gateway__protocol">
-                    <BlinkingCursor /> Protocole d'accès en attente
+                    <BlinkingCursor /> {t('gateway.protocol')}
                 </div>
 
             </div>
@@ -184,8 +193,8 @@ export default function GatewayScreen({ onEnter }) {
 
                     {openLang && (
                         <div className="gateway__lang-menu">
-                            <div onClick={() => changeLang('FR')} className="cursor-target">Français</div>
-                            <div onClick={() => changeLang('EN')} className="cursor-target">English</div>
+                            <div onClick={() => changeLang('FR')} className="cursor-target">{t('gateway.french')}</div>
+                            <div onClick={() => changeLang('EN')} className="cursor-target">{t('gateway.english')}</div>
                         </div>
                     )}
                 </div>
@@ -196,6 +205,7 @@ export default function GatewayScreen({ onEnter }) {
 
 function GatewayButton({ onClick, onMouseEnter, disabled }) {
     const [hovered, setHovered] = useState(false);
+    const { t } = useTranslation();
 
     return (
         <button
@@ -207,7 +217,7 @@ function GatewayButton({ onClick, onMouseEnter, disabled }) {
         >
             {hovered && <span className="gateway__btn-scan" />}
             <span className="gateway__btn-dot" />
-                Oui, entrer <ArrowUpRight />
+                {t('gateway.enterButton')} <ArrowUpRight />
             <span className="gateway__btn-arrow">
             </span>
         </button>

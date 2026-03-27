@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import '../styles/podcast.css';
 
 const PODCASTS = [
@@ -22,11 +23,13 @@ let currentPlayingId = null;
 let currentAudio = null;
 
 export default function Podcast() {
+    const { t } = useTranslation();
+
     return (
         <section className="pod-section">
             <header className="pod-header">
-                <span className="pod-eyebrow">Écouter x Découvrir</span>
-                <h2 className="pod-title">Les Podcasts</h2>
+                <span className="pod-eyebrow">{t('podcast.eyebrow')}</span>
+                <h2 className="pod-title">{t('podcast.title')}</h2>
             </header>
 
             <div className="pod-cards">
@@ -62,7 +65,7 @@ function PodcastPlayer({ podcast }) {
             setCurrentTime(audio.currentTime);
         };
         
-        
+
         const onLoadedMetadata = () => {
             console.log('Audio chargé, durée:', audio.duration);
             setDuration(audio.duration);

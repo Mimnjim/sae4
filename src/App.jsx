@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import TargetCursor from './components/TargetCursor';
 import Grainient from './components/Grainient';
 
@@ -21,7 +22,7 @@ import Experiences from './pages/Experiences.jsx';
 import FormReservationPage from './pages/Form_reservation.jsx';
 import ReservationDetails from './pages/ReservationDetails.jsx';
 import ConfirmationPage from './pages/Confirmation.jsx';
-import InfoPratique from './pages/Info_pratique.jsx';
+import InfoPratique from './pages/InfosPratiques.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import RegisterSent from './pages/RegisterSent.jsx';
@@ -45,14 +46,15 @@ import './styles/podcast.css';
 
 // Page d'accueil
 const Home = () => {
+  const { t } = useTranslation();
   return (
     <div className="home-container">
       {/* Les sections vont flotter au-dessus du Grainient */}
 
       <Hero
-        title1="AKIRA"
-        title2="GHOST IN THE SHELL"
-        subtitle="Au-delà de l'humain"
+        title1={t('hero.title1')}
+        title2={t('hero.title2')}
+        subtitle={t('hero.subtitle')}
       />
 
       {/* ── Image de fond de transition de fin de section*/}
@@ -142,7 +144,7 @@ const App = () => {
               <Route path="/experiences" element={<Experiences />} />
               <Route path="/form-reservation" element={<FormReservationPage />} />
               <Route path="/confirmation" element={<ConfirmationPage />} />
-              <Route path="/info-pratique" element={<InfoPratique />} />
+              <Route path="/infos-pratiques" element={<InfoPratique />} />
             </Routes>
           </main> */}
 
@@ -162,7 +164,7 @@ const App = () => {
             <Route path="/backoffice" element={<Backoffice />} />
             <Route path="/activate" element={<Activate />} />
             <Route path="/confirmation" element={<ConfirmationPage />} />
-            <Route path="/info-pratique" element={<InfoPratique />} />
+            <Route path="/infos-pratiques" element={<InfoPratique />} />
             </Routes>
           </main>
           <Footer />
