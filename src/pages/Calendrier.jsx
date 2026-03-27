@@ -1,5 +1,5 @@
-import Calendrier from '../components/Calendrier';
-import '../styles/calendrier.css';
+import Calendrier from '../components/book_components/Calendrier';
+import '../styles/components/book_components/calendrier.css';
 
 const CalendrierPage = () => {
   return (

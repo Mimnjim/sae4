@@ -1,0 +1,244 @@
+/* ═══════════════════════════════════════════════════════════════
+   TRANSITION SECTION — Sas Hero 3D → MangaArchive
+   Textes grands, accessibles, letter-spacing réduit
+═══════════════════════════════════════════════════════════════ */
+
+.ts-section {
+    position: relative;
+    width: 100%;
+    height: 110vh;
+    /* background: linear-gradient(135deg, 
+        rgba(10, 10, 20, 0.9) 0%,
+        rgba(20, 5, 40, 0.8) 25%,
+        rgba(40, 5, 20, 0.7) 50%,
+        rgba(15, 15, 30, 0.85) 75%,
+        rgba(10, 10, 20, 0.9) 100%
+    ); */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: inset 0 0 80px rgba(255, 0, 80, 0.15), inset 0 0 120px rgba(0, 150, 255, 0.1);
+}
+
+/* ── Scanlines CRT ──────────────────────────────────────────────── */
+.ts-scanlines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 3px,
+        rgba(255, 255, 255, 0.018) 3px,
+        rgba(255, 255, 255, 0.018) 4px
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* ── Beam de scan ───────────────────────────────────────────────── */
+.ts-beam {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(0, 212, 255, 0.6) 40%,
+        rgba(0, 212, 255, 0.9) 50%,
+        rgba(0, 212, 255, 0.6) 60%,
+        transparent
+    );
+    box-shadow: 0 0 18px rgba(0, 212, 255, 0.5);
+    top: -2px;
+    z-index: 2;
+    opacity: 0;
+}
+
+/* ── Contenu central ────────────────────────────────────────────── */
+.ts-content {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0;
+}
+
+/* ── Data line ──────────────────────────────────────────────────── */
+.ts-data-line {
+    font-family: var(--ff-family-main);
+    font-size: clamp(0.78rem, 1.1vw, 0.95rem);
+    font-weight: 600;
+    letter-spacing: 2px;               /* réduit */
+    text-transform: uppercase;
+    color: rgba(0, 212, 255, 0.8);
+    margin-bottom: 36px;
+    opacity: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 0;
+    text-shadow: 0 0 12px rgba(0, 212, 255, 0.4);
+}
+
+/* ── Grand titre ────────────────────────────────────────────────── */
+.ts-title {
+    font-family: var(--ff-family-main);
+    font-size: clamp(4rem, 10vw, 11rem);
+    font-weight: 900;
+    letter-spacing: -3px;              /* négatif pour les grands titres — naturel */
+    text-transform: uppercase;
+    color: #fff;
+    margin: 0;
+    line-height: 0.88;
+    clip-path: inset(0 100% 0 0);
+    text-shadow: 0 2px 40px rgba(255, 255, 255, 0.1);
+}
+
+/* ── Sous-titre ─────────────────────────────────────────────────── */
+.ts-subtitle {
+    font-family: var(--ff-family-main);
+    font-size: clamp(1rem, 1.6vw, 1.3rem);
+    font-weight: 400;
+    letter-spacing: 1px;               /* quasi-normal */
+    color: rgba(255, 255, 255, 0.6);
+    margin: 20px 0 0;
+    opacity: 0;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.9);
+}
+
+/* ── Séparateur ─────────────────────────────────────────────────── */
+.ts-rule {
+    width: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    margin: 28px auto;
+}
+
+/* ── Blocs d'info ───────────────────────────────────────────────── */
+.ts-infos {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    opacity: 0;
+    transform: translateY(16px);
+}
+
+.ts-info-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.ts-info-label {
+    font-family: var(--ff-family-main);
+    font-size: clamp(0.72rem, 1vw, 0.85rem);
+    font-weight: 600;
+    letter-spacing: 3px;               /* réduit */
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.35);
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
+}
+
+.ts-info-value {
+    font-family: var(--ff-family-main);
+    font-size: clamp(1rem, 1.4vw, 1.2rem);
+    font-weight: 700;
+    letter-spacing: 0px;               /* aucun — naturel */
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
+}
+
+.ts-info-sep {
+    width: 1px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* ── Coins de ciblage ───────────────────────────────────────────── */
+.ts-corner {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    z-index: 2;
+    opacity: 0;
+}
+
+.ts-corner::before,
+.ts-corner::after {
+    content: '';
+    position: absolute;
+    background: rgba(0, 212, 255, 0.65);
+}
+
+.ts-corner::before { width: 14px; height: 1px; top: 0; left: 0; }
+.ts-corner::after  { width: 1px; height: 14px; top: 0; left: 0; }
+
+.ts-corner--tl { top: clamp(20px, 4vh, 48px); left: clamp(20px, 4vw, 60px); }
+.ts-corner--tr {
+    top: clamp(20px, 4vh, 48px);
+    right: clamp(20px, 4vw, 60px);
+    transform: scaleX(-1);
+}
+.ts-corner--bl {
+    bottom: clamp(20px, 4vh, 48px);
+    left: clamp(20px, 4vw, 60px);
+    transform: scaleY(-1);
+}
+.ts-corner--br {
+    bottom: clamp(20px, 4vh, 48px);
+    right: clamp(20px, 4vw, 60px);
+    transform: scale(-1);
+}
+
+/* ── Compteur ───────────────────────────────────────────────────── */
+.ts-counter {
+    position: absolute;
+    bottom: clamp(20px, 4vh, 48px);
+    right: clamp(60px, 8vw, 100px);
+    font-family: var(--ff-family-main);
+    font-size: clamp(0.72rem, 1vw, 0.85rem);
+    font-weight: 500;
+    letter-spacing: 2px;
+    color: rgba(0, 212, 255, 0.5);
+    z-index: 2;
+    opacity: 0;
+}
+
+/* ── Scroll hint ────────────────────────────────────────────────── */
+.ts-scroll-hint {
+    position: absolute;
+    bottom: clamp(24px, 5vh, 52px);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    z-index: 3;
+    opacity: 0;
+}
+
+.ts-scroll-label {
+    font-family: var(--ff-family-main);
+    font-size: clamp(0.75rem, 1vw, 0.88rem);
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.ts-scroll-line {
+    width: 1px;
+    height: 36px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.45), transparent);
+    animation: tsScrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes tsScrollPulse {
+    0%, 100% { opacity: 0.4; transform: scaleY(1); }
+    50%       { opacity: 1;   transform: scaleY(1.2); }
+}

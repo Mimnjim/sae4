@@ -1,4 +1,4 @@
-import FormReservation from '../components/Form_reservation';
+import FormReservation from '../components/book_components/Form_reservation';
 
 const FormReservationPage = () => {
   return (

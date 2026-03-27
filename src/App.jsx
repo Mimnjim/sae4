@@ -1,21 +1,20 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import TargetCursor from './components/TargetCursor';
-import Grainient from './components/Grainient';
+import TargetCursor from './animations/TargetCursor';
+import Grainient from './animations/Grainient';
 
 // Composants principaux
-import GatewayScreen from './components/GatewayScreen';
-import Navbar from './components/Navbar.jsx';
-import Hero from './components/Hero.jsx';
-import Section from './components/Section.jsx';
-import Footer from './components/Footer.jsx';
-import MangaArchive from './components/MangaArchive.jsx';
-import ExperiencesSection from './components/ExperiencesSection.jsx';
-import TransitionSection from './components/TransitionSection.jsx';
-import SectionSeparator from './components/SectionSeparator.jsx';
-import Podcast from './components/Podcast.jsx';
-import Teaser from './components/Teaser.jsx';
+import GatewayScreen from './components/global_components/GatewayScreen';
+import Navbar from './components/global_components/Navbar.jsx';
+import Hero from './components/homepage_components/herosections_components/Hero.jsx';
+import Footer from './components/global_components/Footer.jsx';
+import MangaArchive from './components/homepage_components/MangaArchive.jsx';
+import ExperiencesSection from './components/homepage_components/ExperiencesSection.jsx';
+import TransitionSection from './components/homepage_components/TransitionSection.jsx';
+import SectionSeparator from './components/global_components/SectionSeparator.jsx';
+import Podcast from './components/homepage_components/Podcast.jsx';
+import Teaser from './components/homepage_components/Teaser.jsx';
 
 // Pages
 import Experiences from './pages/Experiences.jsx';
@@ -32,18 +31,20 @@ import Backoffice from './pages/backoffice/Backoffice.jsx';
 import Activate from './pages/Activate.jsx';
 
 // Styles
-import './styles/global.css';
-import './styles/navbar.css';
+import './styles/components/global_components/global.css';
 import './styles/app.css';
-import './styles/hero.css';
-import './styles/section.css';
-import './styles/TargetCursor.css';
-import './styles/Grainient.css';
-import './styles/manga-archive.css';
-import './styles/immersion-overlay.css';
-import './styles/transition-section.css';
-import './styles/teaser.css';
-import './styles/podcast.css';
+import './styles/animations/TargetCursor.css';
+import './styles/animations/Grainient.css';
+import './styles/components/homepage_components/herosections_components/hero.css';
+import './styles/components/homepage_components/herosections_components/immersion-overlay.css';
+import './styles/components/homepage_components/experiences-section.css';
+import './styles/components/homepage_components/manga-archive.css';
+import './styles/components/homepage_components/transition-section.css';
+import './styles/components/homepage_components/teaser.css';
+import './styles/components/homepage_components/podcast.css';
+import './styles/components/global_components/navbar.css';
+import './styles/components/global_components/footer.css';
+import './styles/components/global_components/gateway-screen.css';
 
 // Page d'accueil
 const Home = () => {

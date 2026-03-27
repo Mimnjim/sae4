@@ -1,0 +1,225 @@
+/* ── Section ────────────────────────────────────────────────── */
+
+.pod-section {
+    position: relative;
+    width: 100%;
+    padding: 3rem 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4rem;
+    box-sizing: border-box;
+}
+
+/* ── Header ─────────────────────────────────────────────────– */
+
+.pod-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    text-align: center;
+    max-width: 560px;
+}
+
+.pod-eyebrow {
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: clamp(1rem, 1.2vw, 1.2rem);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.65);
+    font-weight: 600;
+}
+
+.pod-title {
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+/* ── Conteneur des lecteurs ─────────────────────────────────── */
+
+.pod-cards {
+    display: flex;
+    gap: 4rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+/* ── Lecteur podcast ────────────────────────────────────────– */
+
+.pod-player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2.5rem 2rem;
+    background: transparent;
+    border: 4px solid rgba(255, 255, 255, 0.25);
+    border-radius: 8px;
+    width: 280px;
+    transition: all 0.4s ease;
+}
+
+.pod-player--active {
+    border-color: rgba(0, 212, 255, 0.5);
+    background: transparent;
+}
+
+.pod-player--expanded {
+    width: 40%;
+    min-width: 350px;
+}
+
+/* ── Visualiseur ────────────────────────────────────────────– */
+
+.pod-visualizer-container {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.pod-visualizer {
+    width: 150px;
+    height: 60px;
+    display: block;
+    transition: all 0.4s ease;
+}
+
+.pod-visualizer--playing {
+    width: 203px;
+    height: 60px;
+}
+
+.pod-player--expanded .pod-visualizer--playing {
+    width: 100%;
+}
+
+/* ── Contrôles ──────────────────────────────────────────────– */
+
+.pod-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.pod-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.18);
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+.pod-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: scale(1.1);
+}
+
+.pod-btn img {
+    width: 20px;
+    height: 20px;
+    filter: brightness(1.2);
+}
+
+.pod-btn--play {
+    width: 56px;
+    height: 56px;
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.35);
+    border-width: 1.5px;
+    font-size: 1.4rem;
+    box-shadow: none;
+}
+
+.pod-btn--play:hover {
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: none;
+    transform: scale(1.1);
+}
+
+/* ── Info et progression ────────────────────────────────────– */
+
+.pod-info {
+    width: 100%;
+}
+
+.pod-name {
+    margin: 0 0 1rem 0;
+    font-family: var(--ff-family-medium);
+    font-size: 1.25rem;
+    color: #fff;
+    text-align: center;
+    font-weight: 600;
+}
+
+.pod-progress-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.pod-time {
+    font-family: var(--ff-family-main);
+    font-size: 1.2rem;
+    margin-bottom: 1.6rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+}
+
+.pod-progress {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 0.8rem 0 0.4rem 0;
+    cursor: pointer;
+    transition: height 0.2s ease;
+}
+
+.pod-progress:hover {
+    height: 8px;
+}
+
+.pod-progress-fill {
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    width: 0%;
+    transition: width 0.1s linear;
+}
+
+.pod-time-display {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--ff-family-main);
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.75);
+    width: 100%;
+}
+
+.reverse {
+    transform: rotate(180deg);
+}

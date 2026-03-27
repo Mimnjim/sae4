@@ -1,0 +1,235 @@
+/* =========================================
+   COMPOSANT : ACCORDION (100% Natif HTML)
+   ========================================= */
+
+.accordion__item {
+  background-color: rgba(0, 0, 0, 0.65); /* Légèrement plus opaque pour le contraste */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  margin-bottom: 0.6rem;
+  color: #ffffff;
+}
+
+.accordion__header {
+  padding: 1rem; /* Zone tactile d'au moins 44px garantie */
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none; 
+  display: flex; 
+  align-items: center;
+}
+
+/* R165 : Contour bien visible et à l'intérieur pour ne pas déborder */
+.accordion__header:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: -3px; 
+  background-color: rgba(255, 255, 255, 0.1); /* Petit retour visuel supplémentaire */
+}
+
+.accordion__header::-webkit-details-marker { 
+  display: none; 
+}
+
+.accordion__header::before {
+  content: '▸';
+  display: inline-block;
+  margin-right: 0.5rem;
+  transition: transform 150ms ease;
+}
+
+.accordion__item[open] .accordion__header::before { 
+  transform: rotate(90deg); 
+}
+
+/* R22 (Opquast 126) : Coupe l'animation de la flèche si l'utilisateur y est sensible */
+@media (prefers-reduced-motion: reduce) {
+  .accordion__header::before {
+    transition: none;
+  }
+}
+
+/* =========================================
+   CONTENU DE L'ACCORDÉON 
+   ========================================= */
+.accordion__body {
+  padding: 0 1rem 1rem 2.2rem; /* Ajusté avec le nouveau padding du header */
+}
+
+.accordion__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.accordion__list-item {
+  margin-bottom: 1rem;
+}
+
+.accordion__list-item:last-child {
+  margin-bottom: 0;
+}
+
+.accordion__list-title {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.accordion__list-text {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5; /* Plus aéré pour la lisibilité */
+  color: #e0e0e0; /* Couleur solide plutôt qu'une opacité pour un contraste parfait */
+}
+
+/* =========================================
+   CONDITIONS TARIFAIRES - ACCORDÉONS NATIFS
+   ========================================= */
+
+.conditions {
+  font-family: var(--ff-family-medium);
+}
+
+.conditions__title {
+  font-family: var(--ff-family-main);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Accordéon (balise details) */
+details {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+/* En-tête de l'accordéon (summary) */
+summary {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #ffffff;
+  user-select: none;
+  transition: all 200ms ease;
+  list-style: none;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary::before {
+  content: '▶';
+  display: inline-block;
+  font-size: 1rem;
+  color: #ffffff;
+  transition: transform 300ms ease;
+  flex-shrink: 0;
+}
+
+details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+summary:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+summary:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: -3px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* Flèche d'accordéon */
+summary::marker {
+  color: #ffffff;
+  font-size: 1.3rem;
+}
+
+details[open] summary {
+  background: rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Contenu de l'accordéon */
+.cond-list {
+  padding: 1.5rem 1.5rem 1.5rem 3rem;
+  /* padding-top ajouté pour l'espacement + grand padding à gauche pour bien montrer que c'est du contenu indentée */
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  animation: slideDown 300ms ease-out;
+  transform-origin: top;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Élément de condition */
+.cond-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-left: 1rem;
+  border-left: 3px solid rgba(255, 255, 255, 0.3);
+  transition: border-color 200ms ease;
+}
+
+.cond-item:hover {
+  border-left-color: rgba(255, 255, 255, 0.6);
+}
+
+.cond-item strong {
+  font-family: var(--ff-family-semibold, var(--ff-family-main));
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+}
+
+.cond-item p {
+  font-family: var(--ff-family-medium);
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Animation smooth pour la fermeture */
+@media (prefers-reduced-motion: reduce) {
+  .cond-list {
+    animation: none;
+  }
+  
+  summary {
+    transition: none;
+  }
+  
+  summary::before {
+    transition: none;
+  }
+  
+  .cond-item {
+    transition: none;
+  }
+}

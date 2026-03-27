@@ -1,0 +1,605 @@
+/* ═══════════════════════════════════════════════════
+   INFOS PRATIQUES - SIDEBAR NAVIGATION
+   ═══════════════════════════════════════════════════ */
+
+.infos-pratiques-container {
+  padding-top: 10rem;
+  padding-bottom: 4rem;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* HERO SECTION - PRÉSENTATION */
+.infos-pratiques__hero {
+  max-width: 1300px;
+  margin: 0 auto 4rem;
+  padding: 0 2rem;
+
+}
+
+.infos-pratiques__title {
+  font-size: clamp(2.5rem, 4vw, 3.2rem);
+  margin: 0 0 1.5rem 0;
+  color: #ffffff;
+  font-family: var(--ff-family-main);
+}
+
+.infos-pratiques__description {
+  font-size: 1.15rem;
+  font-size: clamp(1.2rem, 1.6vw, 1.4rem);
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+  max-width: 700px;
+  margin: 0 auto;
+  font-family: var(--ff-family-medium);
+  font-weight: 500;
+}
+
+.infos-pratiques__layout {
+  display: flex;
+  /* align-items: flex-start; */
+  gap: 4rem;
+  width: 60%;
+  max-width: 1300px;
+  margin: 0 auto 4rem;
+  
+  padding: 0 2rem;
+  position: relative;
+}
+
+/* ═══════════════════════════════════════════════════
+   SIDEBAR - FIXED NAVIGATION
+   ═══════════════════════════════════════════════════ */
+
+.infos-pratiques__sidebar {
+  position: fixed;
+  top: 10rem;
+  left: 2rem;
+  width: 280px;
+  height: fit-content;
+  z-index: 20;
+  flex-shrink: 0;
+}
+
+.infos-pratiques__menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-family: var(--ff-family-semibold);
+}
+
+.infos-pratiques__link {
+  display: block;
+  padding: 1rem 1.5rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  border-radius: 8px;
+  transition: all 220ms ease;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: rgba(0, 0, 0, 0.3);
+  line-height: 1.5;
+}
+
+.infos-pratiques__link:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+  padding-left: 1.5rem;
+}
+
+.infos-pratiques__link.active {
+  color: #ffffff;
+  border-left-color: #ffffff;
+  background: rgba(255, 255, 255, 0.15);
+  font-weight: 700;
+  padding-left: 1.5rem;
+}
+
+/* ═══════════════════════════════════════════════════
+   MAIN CONTENT
+   ═══════════════════════════════════════════════════ */
+
+.infos-pratiques__content {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  margin-left: 150px;
+  flex-grow: 1;
+  width: 100%;
+  /* max-width: calc(1500px * 0.65); */
+}
+
+.infos-pratiques__section {
+  scroll-margin-top: 10rem;
+}
+
+.infos-pratiques__section-title {
+  font-size: clamp(1.8rem, 2.5vw, 2.5rem);
+  font-weight: 800;
+  margin: 0 0 1.75rem 0;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  font-family: var(--ff-family-main);
+}
+
+/* ───────────────────────────────────────────────── */
+/* TARIFS SECTION */
+/* ───────────────────────────────────────────────── */
+
+.infos-pratiques__tarifs {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.infos-pratiques__tarif-item {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 2rem;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+}
+
+.infos-pratiques__tarif-label {
+  font-weight: 600;
+  color: #ffffff;
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
+  font-family: var(--ff-family-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.infos-pratiques__tarif-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.infos-pratiques__tarif-content p {
+  margin: 0;
+  font-size: clamp(1rem, 1.2vw, 1.6rem);
+  color: #ffffff;
+  line-height: 1.6;
+  font-family: var(--ff-family-medium);
+}
+
+.infos-pratiques__card {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 2rem;
+  font-family: var(--ff-family-medium);
+}
+
+.infos-pratiques__text {
+  margin: 0;
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
+  line-height: 1.8;
+  color: #ffffff;
+  font-family: var(--ff-family-medium);
+  font-weight: 500;
+}
+
+.infos-pratiques__map-wrapper {
+  margin-top: 1.5rem;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* ───────────────────────────────────────────────── */
+/* HORAIRES & ACCES SECTIONS */
+/* ───────────────────────────────────────────────── */
+
+.infos-pratiques__list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.infos-pratiques__item {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 2rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+}
+
+.infos-pratiques__item-label {
+  font-weight: 600;
+  color: #ffffff;
+  font-size: 1.05rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-family: var(--ff-family-semibold);
+}
+
+.infos-pratiques__item-value {
+  color: #ffffff;
+  font-size: 1rem;
+  line-height: 1.7;
+  font-family: var(--ff-family-medium);
+}
+
+.infos-pratiques__item-value p {
+  margin: 0;
+}
+
+.infos-pratiques__item-value p + p {
+  margin-top: 0.5rem;
+}
+
+/* ───────────────────────────────────────────────── */
+/* FAQ SECTION - ACCORDÉONS COMME DANS RÉSERVER */
+/* ───────────────────────────────────────────────── */
+
+.infos-pratiques__faq-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  font-family: var(--ff-family-medium);
+}
+
+.infos-pratiques__faq-item {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.infos-pratiques__faq-item summary {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1.1rem;
+  font-family: var(--ff-family-semibold);
+  list-style: none;
+  user-select: none;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.35);
+  transition: all 220ms ease;
+  line-height: 1.5;
+}
+
+.infos-pratiques__faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.infos-pratiques__faq-item summary::before {
+  content: '▶';
+  display: inline-block;
+  font-size: 1rem;
+  color: #ffffff;
+  transition: transform 300ms ease;
+  flex-shrink: 0;
+}
+
+.infos-pratiques__faq-item details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.infos-pratiques__faq-item summary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  padding-left: 1.75rem;
+}
+
+.infos-pratiques__faq-item summary:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: -3px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.infos-pratiques__faq-item details[open] summary {
+  background: rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.infos-pratiques__faq-content {
+  padding: 1.5rem 1.5rem 1.5rem 3rem;
+  color: #ffffff;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  font-family: var(--ff-family-medium);
+  animation: slideDown 300ms ease-out;
+  transform-origin: top;
+  font-weight: 500;
+}
+
+.infos-pratiques__faq-content p {
+  margin: 0;
+}
+
+.infos-pratiques__faq-content p + p {
+  margin-top: 1rem;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   CONTACT SECTION
+   ═══════════════════════════════════════════════════ */
+
+.infos-pratiques__section--contact {
+  border-top: 2px solid rgba(255, 255, 255, 0.1);
+  padding-top: 3rem;
+  margin-top: 2rem;
+}
+
+.contact-section {
+  width: 100%;
+}
+
+.contact-section h2 {
+  display: none;
+}
+
+.contact-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  font-family: var(--ff-family-medium);
+}
+
+.contact-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  transition: all 220ms ease;
+}
+
+.contact-list li:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.contact-list strong {
+  font-family: var(--ff-family-semibold);
+  font-size: 1.05rem;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+
+.contact-list a {
+  font-size: 1rem;
+  color: #ffffff;
+  text-decoration: none;
+  word-break: break-all;
+  transition: all 200ms ease;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  padding-bottom: 0.25rem;
+  display: inline-block;
+  line-height: 1.6;
+}
+
+.contact-list a:hover {
+  border-bottom-color: #ffffff;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.contact-list a:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* ═══════════════════════════════════════════════════
+   ANIMATIONS & ACCESSIBILITY
+   ═══════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  .infos-pratiques__faq-item summary::before,
+  .infos-pratiques__link,
+  .infos-pratiques__faq-content {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE - TABLETS (1000px and below)
+   ═══════════════════════════════════════════════════ */
+
+@media (max-width: 1000px) {
+  .infos-pratiques__layout {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .infos-pratiques__sidebar {
+    position: static;
+    top: auto;
+    left: auto;
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  .infos-pratiques__content {
+    margin-left: 0;
+  }
+
+  .infos-pratiques__menu {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .infos-pratiques__link {
+    flex: 0 1 auto;
+    padding: 0.9rem 1.2rem;
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: all 200ms ease;
+  }
+
+  .infos-pratiques__link:hover {
+    padding-left: 1rem;
+  }
+
+  .infos-pratiques__link.active {
+    border-left: none;
+    border-bottom-color: #ffffff;
+    background: rgba(255, 255, 255, 0.15);
+    padding-left: 1rem;
+  }
+
+  .infos-pratiques__tarif-item,
+  .infos-pratiques__item {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE - MOBILE (700px and below)
+   ═══════════════════════════════════════════════════ */
+
+@media (max-width: 700px) {
+  .infos-pratiques {
+    padding-top: 6rem;
+    padding-bottom: 2rem;
+  }
+
+  .infos-pratiques__hero {
+    margin: 0 auto 2.5rem;
+    padding: 0 1rem;
+  }
+
+  .infos-pratiques__title {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+  }
+
+  .infos-pratiques__description {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .infos-pratiques__layout {
+    padding: 0 1rem;
+    gap: 2rem;
+    flex-direction: column;
+  }
+
+  .infos-pratiques__content {
+    margin-left: 0;
+  }
+
+  .infos-pratiques__section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .infos-pratiques__menu {
+    gap: 0.5rem;
+  }
+
+  .infos-pratiques__link {
+    padding: 0.9rem 1.2rem;
+    font-size: 0.95rem;
+  }
+
+  .infos-pratiques__tarif-item,
+  .infos-pratiques__item {
+    padding: 1.25rem;
+  }
+
+  .infos-pratiques__text {
+    font-size: 0.95rem;
+  }
+
+  .infos-pratiques__faq-item summary {
+    padding: 1.25rem;
+    font-size: 1rem;
+  }
+
+  .infos-pratiques__faq-content {
+    padding: 1.25rem 1.25rem 1.25rem 2.75rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE - SMALL DEVICES (520px and below)
+   ═══════════════════════════════════════════════════ */
+
+@media (max-width: 520px) {
+  .infos-pratiques__layout {
+    padding: 0 0.75rem;
+    flex-direction: column;
+  }
+
+  .infos-pratiques__content {
+    margin-left: 0;
+  }
+
+  .infos-pratiques__section-title {
+    font-size: 1.3rem;
+  }
+
+  .infos-pratiques__menu {
+    gap: 0.3rem;
+  }
+
+  .infos-pratiques__link {
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .infos-pratiques__item-label {
+    font-size: 0.95rem;
+  }
+
+  .infos-pratiques__item-value {
+    font-size: 0.9rem;
+  }
+
+  .infos-pratiques__text {
+    font-size: 0.9rem;
+  }
+
+  .infos-pratiques__faq-item summary {
+    padding: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .infos-pratiques__faq-content {
+    padding: 1rem 1rem 1rem 2.5rem;
+    font-size: 0.9rem;
+  }
+}

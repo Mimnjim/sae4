@@ -1,6 +1,6 @@
 import { useNavigate, Link } from 'react-router-dom';
-import LoginForm from '../components/LoginForm';
-import '../styles/login.css';
+import LoginForm from '../components/connexion_components/LoginForm';
+import '../styles/components/connexion_components/login.css';
 
 // Page de connexion
 function Login({ setUser }) {

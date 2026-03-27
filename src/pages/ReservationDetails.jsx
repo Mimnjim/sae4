@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import ButtonValidation from '../components/ButtonValidation';
-import Conditions from '../components/Conditions';
-import '../styles/form-reservation.css';
+import ButtonValidation from '../components/book_components/ButtonValidation';
+import Conditions from '../components/book_components/Conditions';
+import '../styles/components/book_components/form-reservation.css';
 
 const PRIX_PLEIN  = 9;
 const PRIX_REDUIT = 6;

@@ -1,0 +1,159 @@
+/* ═══════════════════════════════════════════════════════════════
+   IMMERSION OVERLAY — HUD 3D sur les modèles Akira / GIS
+═══════════════════════════════════════════════════════════════ */
+
+/* ── Wrapper plein écran ───────────────────────────────────────── */
+.io-root {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    opacity: 0;
+    pointer-events: none;
+    color: #fff;
+    height: 100vh;
+}
+
+/* ── Conteneur HUD ─────────────────────────────────────────────── */
+.io-hud {
+    position: absolute;
+    top: 300px;
+    width: 600px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+/* Ancrage gauche (Akira) */
+.io-hud--left {
+    left: 20%;
+    align-items: flex-start;
+}
+
+/* Ancrage droite (GIS) */
+.io-hud--right {
+    right: 25%;
+    align-items: flex-end;
+}
+
+/* ── Encadré texte ─────────────────────────────────────────────── */
+.text-box-frame {
+    width: 550px;
+    /* max-width: 550px; */
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid #fff;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    margin-bottom: -2px;
+    opacity: 0;
+    transform: translateY(20px);
+    visibility: hidden;
+    font-family: var(--ff-family-main);
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    word-break: normal;
+    overflow-wrap: normal;
+    position: absolute;
+    top: -160px;
+    transition: all 0.2s ease-out;
+}
+
+/* Décalage horizontal selon le côté */
+.io-hud--left  .text-box-frame { margin-left: 450px; }
+.io-hud--right .text-box-frame { margin-right: 450px; }
+
+/* ── Titre ─────────────────────────────────────────────────────── */
+.overlay-title {
+    margin: 0;
+    font-size: 2.4rem;
+    opacity: 0;
+    font-family: var(--ff-family-semibold);
+    line-height: 1.2;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    word-break: normal;
+    overflow-wrap: normal;
+    transition: all 0.15s ease-out;
+}
+
+/* .io-hud--left  .overlay-title { text-align: left; }
+.io-hud--right .overlay-title { text-align: right; } */
+
+/* ── Barre ─────────────────────────────────────────────────────── */
+.overlay-bar {
+    width: 0;
+    height: 2px;
+    background: #fff;
+    margin: 0.8rem 0;
+}
+
+.io-hud--right .overlay-bar { align-self: flex-end; }
+
+/* ── Contenu texte ─────────────────────────────────────────────── */
+.overlay-content {
+    opacity: 0;
+    font-size: 1.4rem;
+    font-family: var(--ff-family-medium);
+    line-height: 1.6;
+    display: flex;
+    flex-wrap: wrap;
+    word-break: normal;
+    overflow-wrap: normal;
+}
+
+/* .io-hud--left  .overlay-content { text-align: left; }
+.io-hud--right .overlay-content { text-align: right; } */
+
+/* ── Tracé SVG ─────────────────────────────────────────────────── */
+.io-svg-wrapper {
+    position: relative;
+    width: 300px;
+    height: 150px;
+}
+
+/* ── Losange (point d'ancrage) ─────────────────────────────────── */
+.hud-pointer {
+    position: absolute;
+    bottom: -5px;
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    transform: rotate(45deg);
+    opacity: 0;
+}
+
+.io-hud--left  .hud-pointer { left: -5px; }
+.io-hud--right .hud-pointer { right: -5px; }
+
+/* ── Ligne SVG ─────────────────────────────────────────────────── */
+.hud-line {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+}
+
+/* ── Caractères individuels — Normalisation hauteur ────────────── */
+.all-letters {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: visible;
+    word-break: keep-all;
+}
+
+.overlay-title span span,
+.overlay-content span span {
+    display: inline;
+    vertical-align: middle;
+    font-feature-settings: "vert" 0;
+    transition: opacity 0.03s ease, color 0.03s ease;
+}
+
+.overlay-title .all-letters span span,
+.overlay-content .all-letters span span {
+    overflow: visible !important;
+    height: auto !important;
+    display: inline !important;
+    white-space: normal;
+}
