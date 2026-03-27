@@ -27,7 +27,7 @@
     "eyebrow": "Expérience Interactive",
     "enterUniverse": "Entrez dans l'univers",
     "description": "Plongez dans une expérience immersive unique conçue pour l'exposition. Traversez Neo-Tokyo, infiltrez la Section 9 — et terminez votre mission pour repartir avec un code exclusif sur la billetterie.",
-    "reservationSub": "Billets disponibles du 15 mars au 30 juin 2025",
+    "reservationSub": "Billets disponibles du 15 mars au 30 juin 2026",
     "discover": "Découvrir",
     "tickets_link": "Tickets",
     "reserveVisit": "Réservez votre visite !",
@@ -126,19 +126,19 @@
     "title": "Au-delà de l'humain",
     "subtitle": "Une exposition sur les limites du corps et de la conscience",
     "location": "Lieu",
-    "locationValue": "Grand Palais Éphémère",
+    "locationValue": "Musée Guimet",
     "dates": "Dates",
-    "datesValue": "15 Mars — 30 Juin 2025",
+    "datesValue": "15 Mars — 30 Juin 2026",
     "works": "Œuvres",
     "worksValue": "2 univers · 4 salles"
   },
   "manga": {
     "title": "Archive Manga",
     "description": "Explorez les univers de Akira et Ghost in the Shell à travers les pages de ces grands classiques du manga.",
-    "eyebrow": "Grand Palais Éphémère · Paris · 2025",
+    "eyebrow": "Musée Guimet · Paris · 2026",
     "mainTitle": "Au-delà de l'humain : une exposition immersive",
     "hook": "Cette exposition immersive vous plonge au cœur de cette dualité : entre la chair en mutation d'Akira et la conscience numérique de Ghost in the Shell.",
-    "pitch": "À travers un parcours immersif, nous vous invitons à franchir la frontière du réel pour explorer les limites de l'humain. Entre projections monumentales et paysages sonores, vivez la collision entre le chaos organique et l'infini des données.\n\nCette exposition immersive confronte deux trajectoires : la chair en mutation d'Akira et la conscience numérique de Ghost in the Shell. À travers un parcours de projections et de paysages sonores, nous interrogeons la finalité de nos outils et les limites de l'humain. En plongeant au cœur de cette collision entre le chaos organique et l'infini des données, une interrogation demeure : cherchons-nous à augmenter la vie ou à nous en affranchir ? Franchissez la frontière du réel, là où le progrès bascule."
+    "pitch": "À travers un parcours immersif, nous vous invitons à franchir la frontière du réel pour explorer les limites de l'humain. Entre projections monumentales et paysages sonores, plongez-vous dans l’univers de ces deux mangas iconiques."
   },
   "podcast": {
     "title": "Les Podcasts",

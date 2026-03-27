@@ -2,6 +2,7 @@
     --ff-family-main: 'Thunder Bold', sans-serif;
     --ff-family-medium: 'Thunder Medium', sans-serif;
     --ff-family-semibold: 'Thunder Semibold', sans-serif;
+    --ff-family-extrabold-italic: 'Thunder ExtraBold Italic', sans-serif;
     --color-black: #0000;
     --color-red: #D01212;
     --color-grey: #f1f1f1;
@@ -39,6 +40,14 @@
     font-weight: normal;
     font-style: normal;
 }
+
+@font-face {
+    font-family: 'Thunder ExtraBold Italic';
+    src: url('../assets/fonts/thunder/Fonts/OpenType-TT/Thunder-ExtraBoldItalicLC.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* Obligatoire pour voir le jeu et le site */
 html, body, #root, .App {
   width: 100%;

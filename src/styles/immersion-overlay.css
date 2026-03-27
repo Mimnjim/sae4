@@ -6,7 +6,7 @@
 .io-root {
     position: fixed;
     inset: 0;
-    z-index: 100;
+    z-index: 50;
     opacity: 0;
     pointer-events: none;
     color: #fff;
@@ -53,8 +53,8 @@
     height: auto;
     display: flex;
     flex-direction: column;
-    word-break: break-word;
-    overflow-wrap: break-word;
+    word-break: normal;
+    overflow-wrap: normal;
     position: absolute;
     top: -160px;
     transition: all 0.2s ease-out;
@@ -72,10 +72,10 @@
     font-family: var(--ff-family-semibold);
     line-height: 1.2;
     height: auto;
-    display: block;
-    word-break: break-word;
-    overflow-wrap: break-word;
-    min-width: 0;
+    display: flex;
+    flex-wrap: wrap;
+    word-break: normal;
+    overflow-wrap: normal;
     transition: all 0.15s ease-out;
 }
 
@@ -98,9 +98,10 @@
     font-size: 1.4rem;
     font-family: var(--ff-family-medium);
     line-height: 1.6;
-    word-break: break-word;
-    overflow-wrap: break-word;
-    min-width: 0;
+    display: flex;
+    flex-wrap: wrap;
+    word-break: normal;
+    overflow-wrap: normal;
 }
 
 /* .io-hud--left  .overlay-content { text-align: left; }
@@ -135,15 +136,15 @@
 
 /* ── Caractères individuels — Normalisation hauteur ────────────── */
 .all-letters {
-    display: inline;
-    word-break: break-word;
-    overflow-wrap: break-word;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: visible;
+    word-break: keep-all;
 }
 
 .overlay-title span span,
 .overlay-content span span {
     display: inline;
-    line-height: 1;
     vertical-align: middle;
     font-feature-settings: "vert" 0;
     transition: opacity 0.03s ease, color 0.03s ease;
@@ -151,5 +152,8 @@
 
 .overlay-title .all-letters span span,
 .overlay-content .all-letters span span {
-    overflow: hidden;
+    overflow: visible !important;
+    height: auto !important;
+    display: inline !important;
+    white-space: normal;
 }

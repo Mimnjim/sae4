@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import Grainient from './Grainient';
 import { ArrowUpRight } from '@boxicons/react';
 import '../styles/manga-archive.css';
@@ -41,6 +42,10 @@ export default function MangaArchive() {
                     <p className="ma-pitch">
                         {t('manga.pitch')}
                     </p>
+
+                    <Link to="/form-reservation" className="exp-reservation-link cursor-target">
+                        {t('experiences.tickets_link')} <ArrowUpRight />
+                    </Link>
 
                     {/* <a href="#tickets" className="ma-cta">
                         Réserver sa place

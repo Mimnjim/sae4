@@ -222,17 +222,19 @@
 
 .exp-reservation-link {
     display: inline-flex;
-    align-items: center;
+    width: fit-content;
+    padding: 0.3rem 0.6rem;
+    /* align-items: center; */
     gap: 8px;
     margin-top: 4px;
     font-family: var(--ff-family-main);
-    font-size: clamp(0.85rem, 1.2vw, 1rem);
+    font-size: clamp(0.85rem, 2vw, 1.6rem);
     font-weight: 700;
     letter-spacing: 3px;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     color: #fff;
     /* text-decoration: none; */
-    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
+    /* text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9); */
     transition: gap 0.2s;
 }
 

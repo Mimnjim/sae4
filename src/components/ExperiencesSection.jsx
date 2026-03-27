@@ -84,9 +84,9 @@ export default function ExperienceSection() {
                     <h3 className="exp-reservation-title">
                         {t('experiences.reserveVisit')}
                     </h3>
-                    <p className="exp-reservation-sub">
+                    {/* <p className="exp-reservation-sub">
                         {t('experiences.reservationSub')}
-                    </p>
+                    </p> */}
                     <Link to="/form-reservation" className="exp-reservation-link cursor-target">
                         {t('experiences.tickets_link')} <ArrowUpRight />
                     </Link>
