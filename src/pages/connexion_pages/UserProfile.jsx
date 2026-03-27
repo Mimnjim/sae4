@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/components/connexion_components/user-profile.css';
+import '../../styles/components/connexion_components/user-profile.css';
 
 function getJwt() {
   return localStorage.getItem('jwt') || localStorage.getItem('token');

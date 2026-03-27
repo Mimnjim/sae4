@@ -1,4 +1,4 @@
-import Scene from '../components/Game/Scene.jsx';
+import Scene from '../../components/Game/Scene.jsx';
 
 const GamePage = () => {
   return (

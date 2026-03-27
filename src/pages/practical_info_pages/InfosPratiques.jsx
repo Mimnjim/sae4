@@ -1,8 +1,8 @@
 import { useEffect, useRef, Fragment, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Map from '../components/practical_info_components/Map';
-import ContactSection from '../components/practical_info_components/ContactSection';
-import '../styles/components/practical_info_components/infos-pratiques.css';
+import Map from '../../components/practical_info_components/Map';
+import ContactSection from '../../components/practical_info_components/ContactSection';
+import '../../styles/components/practical_info_components/infos-pratiques.css';
 
 const InfoPratique = () => {
   const { t } = useTranslation();

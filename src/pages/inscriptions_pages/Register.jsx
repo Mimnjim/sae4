@@ -1,6 +1,6 @@
 import { useNavigate, Link } from 'react-router-dom';
-import RegisterForm from '../components/inscription_components/RegisterForm';
-import '../styles/components/inscription_components/register.css';
+import RegisterForm from '../../components/inscription_components/RegisterForm';
+import '../../styles/components/inscription_components/register.css';
 
 // Page d'inscription
 function Register() {

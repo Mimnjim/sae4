@@ -7,6 +7,7 @@ import Grainient from './animations/Grainient';
 // Composants principaux
 import GatewayScreen from './components/global_components/GatewayScreen';
 import Navbar from './components/global_components/Navbar.jsx';
+import ScrollToTop from './components/global_components/ScrollToTop.jsx';
 import Hero from './components/homepage_components/herosections_components/Hero.jsx';
 import Footer from './components/global_components/Footer.jsx';
 import MangaArchive from './components/homepage_components/MangaArchive.jsx';
@@ -17,18 +18,18 @@ import Podcast from './components/homepage_components/Podcast.jsx';
 import Teaser from './components/homepage_components/Teaser.jsx';
 
 // Pages
-import Experiences from './pages/Experiences.jsx';
-import FormReservationPage from './pages/Form_reservation.jsx';
-import ReservationDetails from './pages/ReservationDetails.jsx';
-import ConfirmationPage from './pages/Confirmation.jsx';
-import InfoPratique from './pages/InfosPratiques.jsx';
-import Login from './pages/Login.jsx';
-import Register from './pages/Register.jsx';
-import RegisterSent from './pages/RegisterSent.jsx';
-import ResetPassword from './pages/Reset-password.jsx';
-import UserProfile from './pages/UserProfile.jsx';
-import Backoffice from './pages/backoffice/Backoffice.jsx';
-import Activate from './pages/Activate.jsx';
+import Experiences from './pages/experiences_pages/Experiences.jsx';
+import FormReservationPage from './pages/book_pages/Form_reservation.jsx';
+import ReservationDetails from './pages/book_pages/ReservationDetails.jsx';
+import ConfirmationPage from './pages/book_pages/Confirmation.jsx';
+import InfoPratique from './pages/practical_info_pages/InfosPratiques.jsx';
+import Login from './pages/connexion_pages/Login.jsx';
+import Register from './pages/inscriptions_pages/Register.jsx';
+import RegisterSent from './pages/inscriptions_pages/RegisterSent.jsx';
+import ResetPassword from './pages/connexion_pages/Reset-password.jsx';
+import UserProfile from './pages/connexion_pages/UserProfile.jsx';
+import Backoffice from './pages/backoffice_pages/backoffice/Backoffice.jsx';
+import Activate from './pages/inscriptions_pages/Activate.jsx';
 
 // Styles
 import './styles/components/global_components/global.css';
@@ -134,6 +135,7 @@ const App = () => {
       />
 
       <Router>
+        <ScrollToTop />
         {/* LE CONTENU : On le force au-dessus du Grainient */}
         <div className="App-wrapper" style={{ position: 'relative', zIndex: 10 }}>
           

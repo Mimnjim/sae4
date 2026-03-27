@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import LevelCard from '../components/experiences_components/LevelCard';
-import Timeline from '../components/global_components/Timeline';
-import '../styles/components/homepage_components/experiences.css';
+import LevelCard from '../../components/experiences_components/LevelCard';
+import Timeline from '../../components/global_components/Timeline';
+import '../../styles/components/homepage_components/experiences.css';
 
 const LEVELS = [
   { id: 1, name: 'NIVEAU 01 : NEO-TOKYO RUN',      pilot: 'Kaneda' },

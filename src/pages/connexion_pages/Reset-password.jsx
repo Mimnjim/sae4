@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import ResetPasswordForm from '../components/connexion_components/ResetPasswordForm';
-import '../styles/components/connexion_components/reset-password.css';
+import ResetPasswordForm from '../../components/connexion_components/ResetPasswordForm';
+import '../../styles/components/connexion_components/reset-password.css';
 
 // Page de réinitialisation du mot de passe
 function ResetPassword() {

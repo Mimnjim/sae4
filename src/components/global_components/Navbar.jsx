@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ArrowUpRight } from '@boxicons/react';
@@ -6,6 +6,7 @@ import { ArrowUpRight } from '@boxicons/react';
 const Navbar = ({ user, setUser }) => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Langues
   const [openLang, setOpenLang] = useState(false);
@@ -20,36 +21,36 @@ const Navbar = ({ user, setUser }) => {
   }, [i18n.language]);
   const [showNavbarBlack, setShowNavbarBlack] = useState(false);
   const lastScrollY = useRef(0);
-
+  
+  // Déterminer si on est sur la page d'accueil
+  const isHomepage = location.pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      // console.log(currentScrollY);
-      // if (currentScrollY < 50) {
-      //   // Toujours visible en haut
-      //   setShowNavbar(true);
-      // } else if (currentScrollY > lastScrollY.current) {
-      //   // scroll vers le bas → cacher
-      //   setShowNavbar(false);
-      // } else {
-      //   // scroll vers le haut → afficher
-      //   setShowNavbar(true);
-      // }
-
-      if(currentScrollY > 4100) {
-        setShowNavbarBlack(true);
+      
+      // Sur la page d'accueil: transparent au début, noir à partir de 4100px
+      // Sur les autres pages: toujours noir
+      if (isHomepage) {
+        if(currentScrollY > 4100) {
+          setShowNavbarBlack(true);
+        } else {
+          setShowNavbarBlack(false);
+        }
       } else {
-        setShowNavbarBlack(false);
+        // Sur les autres pages, toujours afficher la navbar noire
+        setShowNavbarBlack(true);
       }
 
       lastScrollY.current = currentScrollY;
     };
 
     window.addEventListener('scroll', handleScroll);
-
+    // Vérifier l'état initial au montage
+    handleScroll();
+    
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isHomepage]);
 
 
 
