@@ -12,6 +12,7 @@
     flex-direction: column;
     gap: clamp(3rem, 4vw, 5rem);
     position: relative;
+    z-index: 9999;
 }
 
 /* Léger opacité en haut avec effet de shadow */
