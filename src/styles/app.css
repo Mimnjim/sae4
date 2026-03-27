@@ -134,7 +134,7 @@
 /* ============================================================
    6. FOOTER
    ============================================================ */
-footer {
+/* footer {
   background: rgba(0, 0, 0, 0.55);
   color: var(--color-white);
   text-align: center;
@@ -164,4 +164,4 @@ footer .socials {
 
 .main-content {
   flex: 1 1 auto;
-}
+} */

@@ -82,6 +82,7 @@ const Home = () => {
 // Composant principal de l'application
 const App = () => {
   const [entered, setEntered] = useState(false);
+  const [user, setUser] = useState(null);
 
 
   return (

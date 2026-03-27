@@ -107,7 +107,7 @@ export default function Hero({ title1, title2, subtitle }) {
                 invalidateOnRefresh: true,
                 onUpdate: (self) => {
                     // Pause l'animation flottante quand on commence à scroller
-                    if (self.getProgress() > 0 && floatingAnimRef.current) {
+                    if (self.progress > 0 && floatingAnimRef.current) {
                         floatingAnimRef.current.pause();
                     }
                 }
