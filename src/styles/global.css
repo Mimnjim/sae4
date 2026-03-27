@@ -54,11 +54,12 @@ html, body, #root, .App {
   height: 100%;
   margin: 0;
   padding: 0;
+  scroll-behavior: smooth;
+
 }
 
 body {
   overflow-x: hidden;
-  /* background-color: var(--color-grey); */
   height: 800vh; /* Permet de faire défiler la page pour voir les sections */
 }
 

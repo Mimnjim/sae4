@@ -1,256 +1,362 @@
 /* ═══════════════════════════════════════════════════
-   INFOS PRATIQUES
+   INFOS PRATIQUES - SIDEBAR NAVIGATION
    ═══════════════════════════════════════════════════ */
 
 .infos-pratiques-container {
-  --ip-accent: #e8002a;
-  --ip-border: rgba(255, 255, 255, 0.2); /* Rendu plus visible pour structurer les blocs */
-  --ip-surface: rgba(0, 0, 0, 0.85); /* Fond plus opaque pour contraster avec le texte blanc */
-  --ip-muted: #ffffff;
-  --ip-body: #e0e0e0; /* Remplacement de l'opacité par une couleur solide */
-  --ip-radius: 12px; /* Un peu moins arrondi pour matcher le reste du site */
-  --ip-ease: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.infos-pratiques-container {
-  padding: 80px 48px 120px;
-  max-width: 1080px;
-  margin: 0 auto;
+  padding-top: 10rem;
+  padding-bottom: 4rem;
   color: #ffffff;
-}
-
-/* ── Titre ──────────────────────────────────────────── */
-
-.infos-pratiques-container > h1 {
-  font-size: clamp(2.4rem, 5vw, 3.8rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.2; /* Un peu plus d'air (Opquast) */
-  margin: 0 0 64px;
   display: flex;
-  align-items: center;
-  gap: 20px;
-  outline: none; /* R165 : Evite l'outline par défaut du focus JS, qu'on gère manuellement si besoin */
+  flex-direction: column;
+  justify-content: center;
 }
 
-.infos-pratiques-container > h1::before {
-  content: '';
-  display: block;
-  width: 28px;
-  height: 6px; /* Légèrement plus épais */
-  background: var(--ip-accent);
-  border-radius: 3px;
-  flex-shrink: 0;
+/* HERO SECTION - PRÉSENTATION */
+.infos-pratiques__hero {
+  max-width: 1300px;
+  margin: 0 auto 4rem;
+  padding: 0 2rem;
+
+}
+
+.infos-pratiques__title {
+  font-size: clamp(2.5rem, 4vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  margin: 0 0 1.5rem 0;
+  color: #ffffff;
+  font-family: var(--ff-family-main);
+}
+
+.infos-pratiques__description {
+  font-size: 1.15rem;
+  font-size: clamp(1.2rem, 1.6vw, 1.4rem);
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+  max-width: 700px;
+  margin: 0 auto;
+  font-family: var(--ff-family-medium);
+  font-weight: 500;
+}
+
+.infos-pratiques__layout {
+  display: flex;
+  /* align-items: flex-start; */
+  gap: 4rem;
+  width: 60%;
+  max-width: 1300px;
+  margin: 0 auto 4rem;
+  
+  padding: 0 2rem;
+  position: relative;
 }
 
 /* ═══════════════════════════════════════════════════
-   BLOC PRINCIPAL
+   SIDEBAR - FIXED NAVIGATION
    ═══════════════════════════════════════════════════ */
 
-.info-main {
+.infos-pratiques__sidebar {
+  position: fixed;
+  top: 10rem;
+  left: 2rem;
+  width: 280px;
+  height: fit-content;
+  z-index: 20;
+  flex-shrink: 0;
+}
+
+.infos-pratiques__menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 0.5rem;
+  font-family: var(--ff-family-semibold);
 }
 
-/* ── Bloc cards */
-
-.info-content {
-  border: 2px solid var(--ip-border); /* 2px pour mieux délimiter sur fond animé */
-  border-radius: var(--ip-radius);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  gap: 2px; /* Ligne de séparation plus visible */
-  background: var(--ip-border);
+.infos-pratiques__link {
+  display: block;
+  padding: 1rem 1.5rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  border-radius: 8px;
+  transition: all 220ms ease;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: rgba(0, 0, 0, 0.3);
+  line-height: 1.5;
 }
 
-.info-card {
-  display: grid;
-  grid-template-columns: 200px 1fr; /* Colonne de gauche légèrement élargie */
-  align-items: start;
-  gap: 0 40px;
-  padding: 32px 40px;
-  background: var(--ip-surface);
-  position: relative;
-  transition: background 180ms var(--ip-ease);
-}
-
-.info-card::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 0;
-  background: var(--ip-accent);
-  transition: width 240ms var(--ip-ease);
-}
-
-.info-card:hover {
-  background: #000000;
-}
-
-.info-card:hover::before {
-  width: 6px; /* Marqueur de survol plus évident */
-}
-
-/* Colonne gauche : label */
-.info-card > h3 {
-  margin: 3px 0 0;
-  font-size: 1.4rem; /* CORRIGÉ : 1.4rem au lieu de 1,4rem */
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  line-height: 1.4;
+.infos-pratiques__link:hover {
   color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+  padding-left: 1.5rem;
 }
 
-/* Colonne droite : contenu */
-.info-card > p,
-.info-card > ul,
-.info-card > address {
-  margin: 0 0 0.5rem 0; /* Ajout de marge bas pour aérer les paragraphes multiples */
-  font-size: 1.1rem;
-  line-height: 1.75;
-  color: var(--ip-body);
-  font-style: normal;
-}
-.info-card > p:last-child { margin-bottom: 0; }
-
-/* FAQ : details/summary dans une info-card */
-.info-card > details {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  padding-bottom: 1rem;
-  margin-bottom: 1rem;
+.infos-pratiques__link.active {
+  color: #ffffff;
+  border-left-color: #ffffff;
+  background: rgba(255, 255, 255, 0.15);
+  font-weight: 700;
+  padding-left: 1.5rem;
 }
 
-.info-card > details:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
-  margin-bottom: 0;
+/* ═══════════════════════════════════════════════════
+   MAIN CONTENT
+   ═══════════════════════════════════════════════════ */
+
+.infos-pratiques__content {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  margin-left: 150px;
+  flex-grow: 1;
+  width: 100%;
+  /* max-width: calc(1500px * 0.65); */
 }
 
-.info-card > details summary {
-  font-size: 1.15rem; /* Augmenté pour la lisibilité */
+.infos-pratiques__section {
+  scroll-margin-top: 10rem;
+}
+
+.infos-pratiques__section-title {
+  font-size: clamp(1.8rem, 2.5vw, 2.5rem);
+  font-weight: 800;
+  margin: 0 0 1.75rem 0;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  font-family: var(--ff-family-main);
+}
+
+/* ───────────────────────────────────────────────── */
+/* TARIFS SECTION */
+/* ───────────────────────────────────────────────── */
+
+.infos-pratiques__tarifs {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.infos-pratiques__tarif-item {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 2rem;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+}
+
+.infos-pratiques__tarif-label {
   font-weight: 600;
   color: #ffffff;
-  cursor: pointer;
-  list-style: none; /* Cache la flèche native Safari/Chrome */
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 0.5rem 0; /* Zone cliquable plus grande */
-  transition: color 160ms var(--ip-ease);
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
+  font-family: var(--ff-family-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.info-card > details summary::-webkit-details-marker {
+.infos-pratiques__tarif-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.infos-pratiques__tarif-content p {
+  margin: 0;
+  font-size: clamp(1rem, 1.2vw, 1.6rem);
+  color: #ffffff;
+  line-height: 1.6;
+  font-family: var(--ff-family-medium);
+}
+
+.infos-pratiques__card {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 2rem;
+  font-family: var(--ff-family-medium);
+}
+
+.infos-pratiques__text {
+  margin: 0;
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
+  line-height: 1.8;
+  color: #ffffff;
+  font-family: var(--ff-family-medium);
+  font-weight: 500;
+}
+
+.infos-pratiques__map-wrapper {
+  margin-top: 1.5rem;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* ───────────────────────────────────────────────── */
+/* HORAIRES & ACCES SECTIONS */
+/* ───────────────────────────────────────────────── */
+
+.infos-pratiques__list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.infos-pratiques__item {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 2rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+}
+
+.infos-pratiques__item-label {
+  font-weight: 600;
+  color: #ffffff;
+  font-size: 1.05rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-family: var(--ff-family-semibold);
+}
+
+.infos-pratiques__item-value {
+  color: #ffffff;
+  font-size: 1rem;
+  line-height: 1.7;
+  font-family: var(--ff-family-medium);
+}
+
+.infos-pratiques__item-value p {
+  margin: 0;
+}
+
+.infos-pratiques__item-value p + p {
+  margin-top: 0.5rem;
+}
+
+/* ───────────────────────────────────────────────── */
+/* FAQ SECTION - ACCORDÉONS COMME DANS RÉSERVER */
+/* ───────────────────────────────────────────────── */
+
+.infos-pratiques__faq-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  font-family: var(--ff-family-medium);
+}
+
+.infos-pratiques__faq-item {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.infos-pratiques__faq-item summary {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1.1rem;
+  font-family: var(--ff-family-semibold);
+  list-style: none;
+  user-select: none;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.35);
+  transition: all 220ms ease;
+  line-height: 1.5;
+}
+
+.infos-pratiques__faq-item summary::-webkit-details-marker {
   display: none;
 }
 
-/* L'icône maison (plus propre que le base64 dans le code) */
-.info-card > details summary::before {
-  content: '▸'; /* Utilisation d'un caractère Unicode simple et robuste */
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
+.infos-pratiques__faq-item summary::before {
+  content: '▶';
+  display: inline-block;
+  font-size: 1rem;
+  color: #ffffff;
+  transition: transform 300ms ease;
   flex-shrink: 0;
-  font-size: 1.2rem;
-  border: 2px solid rgba(255, 255, 255, 0.4);
-  border-radius: 50%;
-  transition: transform 200ms var(--ip-ease), border-color 160ms var(--ip-ease);
 }
 
-.info-card > details[open] summary::before {
+.infos-pratiques__faq-item details[open] summary::before {
   transform: rotate(90deg);
-  border-color: var(--ip-accent);
-  color: var(--ip-accent);
 }
 
-.info-card > details summary:hover {
-  color: #cccccc;
+.infos-pratiques__faq-item summary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  padding-left: 1.75rem;
 }
 
-/* R165 : Le focus sur le summary */
-.info-card > details summary:focus-visible {
+.infos-pratiques__faq-item summary:focus-visible {
   outline: 3px solid #ffffff;
-  outline-offset: 4px;
-  border-radius: 4px;
-  color: #ffffff;
+  outline-offset: -3px;
+  background: rgba(255, 255, 255, 0.12);
 }
 
-.info-card > details > p {
-  margin: 12px 0 0 36px; /* Aligné avec le texte du summary, passé l'icône */
+.infos-pratiques__faq-item details[open] summary {
+  background: rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.infos-pratiques__faq-content {
+  padding: 1.5rem 1.5rem 1.5rem 3rem;
+  color: #ffffff;
   font-size: 1.05rem;
-  line-height: 1.7;
-  color: var(--ip-body);
+  line-height: 1.8;
+  font-family: var(--ff-family-medium);
+  animation: slideDown 300ms ease-out;
+  transform-origin: top;
+  font-weight: 500;
 }
 
-/* La card FAQ prend toute la largeur */
-.info-card.info-card--faq {
-  grid-template-columns: 1fr;
-  gap: 0;
-}
-
-.info-card.info-card--faq > h2 { /* Passage de h3 à h2 selon correction JSX */
-  margin-bottom: 24px;
-  font-size: 1.8rem;
-  color: #ffffff;
-}
-
-
-/* ═══════════════════════════════════════════════════
-   CARTE / MAP
-   ═══════════════════════════════════════════════════ */
-
-.map-section {
-  border: 2px solid var(--ip-border);
-  border-radius: var(--ip-radius);
-  overflow: hidden;
-}
-
-.map-section > h2 {
+.infos-pratiques__faq-content p {
   margin: 0;
-  padding: 1.25rem 2.5rem;
-  font-size: 1.2rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #ffffff;
-  background: var(--ip-surface);
-  border-bottom: 2px solid var(--ip-border);
-  display: flex;
-  align-items: center;
-  gap: 12px;
 }
 
-.map-section > h2::before {
-  content: '';
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--ip-accent);
-  flex-shrink: 0;
+.infos-pratiques__faq-content p + p {
+  margin-top: 1rem;
 }
 
-.map-section .leaflet-container {
-  height: 450px; /* Un peu plus grand pour faciliter la navigation tactile */
-  width: 100%;
-  display: block;
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-
 
 /* ═══════════════════════════════════════════════════
    CONTACT SECTION
    ═══════════════════════════════════════════════════ */
 
-.info-main > section:has(.contact-section) {
-  border: 2px solid var(--ip-border);
-  border-radius: var(--ip-radius);
-  overflow: hidden;
-  background: var(--ip-surface);
+.infos-pratiques__section--contact {
+  border-top: 2px solid rgba(255, 255, 255, 0.1);
+  padding-top: 3rem;
+  margin-top: 2rem;
+}
+
+.contact-section {
+  width: 100%;
+}
+
+.contact-section h2 {
+  display: none;
 }
 
 .contact-list {
@@ -259,85 +365,243 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  background: var(--ip-border);
+  gap: 1.5rem;
+  font-family: var(--ff-family-medium);
 }
 
 .contact-list li {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  align-items: center;
-  gap: 0 40px;
-  padding: 24px 40px;
-  background: var(--ip-surface);
-  transition: background 180ms var(--ip-ease);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  transition: all 220ms ease;
 }
 
 .contact-list li:hover {
-  background: #000000;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
 .contact-list strong {
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-family: var(--ff-family-semibold);
+  font-size: 1.05rem;
   color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
 }
 
 .contact-list a {
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: #ffffff;
   text-decoration: none;
+  word-break: break-all;
+  transition: all 200ms ease;
   border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-  padding-bottom: 2px;
-  transition: border-color 160ms var(--ip-ease);
-  width: fit-content;
+  padding-bottom: 0.25rem;
+  display: inline-block;
+  line-height: 1.6;
 }
 
 .contact-list a:hover {
-  border-color: var(--ip-accent);
+  border-bottom-color: #ffffff;
+  color: rgba(255, 255, 255, 0.95);
 }
 
-/* R165 : Focus sur les liens de contact */
 .contact-list a:focus-visible {
   outline: 3px solid #ffffff;
   outline-offset: 4px;
   border-radius: 2px;
 }
 
-
 /* ═══════════════════════════════════════════════════
-   ANIMATIONS D'ENTRÉE (Conditionnées R22)
+   ANIMATIONS & ACCESSIBILITY
    ═══════════════════════════════════════════════════ */
 
-@keyframes ip-in {
-  from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  .infos-pratiques__faq-item summary::before,
+  .infos-pratiques__link,
+  .infos-pratiques__faq-content {
+    transition: none;
+    animation: none;
+  }
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .infos-pratiques-container > h1 { animation: ip-in 450ms var(--ip-ease) both; }
-  .info-content { animation: ip-in 450ms 80ms var(--ip-ease) both; }
-  .map-section { animation: ip-in 450ms 140ms var(--ip-ease) both; }
-  .info-main > section:has(.contact-section) { animation: ip-in 450ms 180ms var(--ip-ease) both; }
-}
-
 
 /* ═══════════════════════════════════════════════════
-   RESPONSIVE
+   RESPONSIVE - TABLETS (1000px and below)
    ═══════════════════════════════════════════════════ */
 
-@media (max-width: 860px) {
-  .infos-pratiques-container { padding: 40px 20px 80px; }
-  .infos-pratiques-container > h1 { margin-bottom: 32px; font-size: 2.2rem; }
-
-  .info-card, .contact-list li {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    padding: 24px 20px;
+@media (max-width: 1000px) {
+  .infos-pratiques__layout {
+    flex-direction: column;
+    gap: 2rem;
   }
 
-  .map-section > h2 { padding: 1.2rem 1.5rem; }
-  .map-section .leaflet-container { height: 350px; }
+  .infos-pratiques__sidebar {
+    position: static;
+    top: auto;
+    left: auto;
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  .infos-pratiques__content {
+    margin-left: 0;
+  }
+
+  .infos-pratiques__menu {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .infos-pratiques__link {
+    flex: 0 1 auto;
+    padding: 0.9rem 1.2rem;
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: all 200ms ease;
+  }
+
+  .infos-pratiques__link:hover {
+    padding-left: 1rem;
+  }
+
+  .infos-pratiques__link.active {
+    border-left: none;
+    border-bottom-color: #ffffff;
+    background: rgba(255, 255, 255, 0.15);
+    padding-left: 1rem;
+  }
+
+  .infos-pratiques__tarif-item,
+  .infos-pratiques__item {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE - MOBILE (700px and below)
+   ═══════════════════════════════════════════════════ */
+
+@media (max-width: 700px) {
+  .infos-pratiques {
+    padding-top: 6rem;
+    padding-bottom: 2rem;
+  }
+
+  .infos-pratiques__hero {
+    margin: 0 auto 2.5rem;
+    padding: 0 1rem;
+  }
+
+  .infos-pratiques__title {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+  }
+
+  .infos-pratiques__description {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .infos-pratiques__layout {
+    padding: 0 1rem;
+    gap: 2rem;
+    flex-direction: column;
+  }
+
+  .infos-pratiques__content {
+    margin-left: 0;
+  }
+
+  .infos-pratiques__section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .infos-pratiques__menu {
+    gap: 0.5rem;
+  }
+
+  .infos-pratiques__link {
+    padding: 0.9rem 1.2rem;
+    font-size: 0.95rem;
+  }
+
+  .infos-pratiques__tarif-item,
+  .infos-pratiques__item {
+    padding: 1.25rem;
+  }
+
+  .infos-pratiques__text {
+    font-size: 0.95rem;
+  }
+
+  .infos-pratiques__faq-item summary {
+    padding: 1.25rem;
+    font-size: 1rem;
+  }
+
+  .infos-pratiques__faq-content {
+    padding: 1.25rem 1.25rem 1.25rem 2.75rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE - SMALL DEVICES (520px and below)
+   ═══════════════════════════════════════════════════ */
+
+@media (max-width: 520px) {
+  .infos-pratiques__layout {
+    padding: 0 0.75rem;
+    flex-direction: column;
+  }
+
+  .infos-pratiques__content {
+    margin-left: 0;
+  }
+
+  .infos-pratiques__section-title {
+    font-size: 1.3rem;
+  }
+
+  .infos-pratiques__menu {
+    gap: 0.3rem;
+  }
+
+  .infos-pratiques__link {
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .infos-pratiques__item-label {
+    font-size: 0.95rem;
+  }
+
+  .infos-pratiques__item-value {
+    font-size: 0.9rem;
+  }
+
+  .infos-pratiques__text {
+    font-size: 0.9rem;
+  }
+
+  .infos-pratiques__faq-item summary {
+    padding: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .infos-pratiques__faq-content {
+    padding: 1rem 1rem 1rem 2.5rem;
+    font-size: 0.9rem;
+  }
 }
