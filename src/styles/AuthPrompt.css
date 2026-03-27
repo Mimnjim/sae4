@@ -1,37 +1,60 @@
 .auth-prompt {
-  padding: 2rem;
-  border: 1px solid rgba(255,255,255,0.08);
+  padding: 2.5rem 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 8px;
   text-align: center;
-  background: rgba(0,0,0,0.45);
+  background: rgba(0, 0, 0, 0.75); /* Plus opaque pour garantir la lisibilité */
+  backdrop-filter: blur(6px);
   color: #fff;
 }
+
 .auth-prompt__title {
   margin-bottom: 0.5rem;
   font-size: 1.25rem;
 }
+
 .auth-prompt__desc {
   margin-bottom: 1rem;
-  color: rgba(255,255,255,0.75);
+  color: #e0e0e0; /* Couleur pleine plutôt que rgba() pour un contraste fiable */
 }
+
 .auth-prompt__actions {
   display: flex;
-  gap: 0.5rem;
+  gap: 1rem; /* Espace augmenté pour éviter les clics accidentels */
   justify-content: center;
+  flex-wrap: wrap;
 }
+
 .auth-prompt__btn {
-  padding: 0.6rem 1rem;
+  padding: 0.75rem 1.25rem; /* Zone tactile d'au moins 44px (critère mobile) */
   border-radius: 6px;
-  border: none;
+  border: 2px solid transparent;
   cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s; /* On évite de baisser l'opacité au hover */
 }
+
+/* R165 : Double contour (blanc + noir) pour être visible sur n'importe quel fond */
+.auth-prompt__btn:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px #000;
+}
+
 .auth-prompt__btn--primary {
-  background: #007bff;
+  background: #0056b3; /* Bleu légèrement assombri pour un contraste valide avec le blanc */
   color: #fff;
-  border: 1px solid #007bff;
 }
+
+.auth-prompt__btn--primary:hover {
+  background: #004494;
+}
+
 .auth-prompt__btn--secondary {
-  background: #fff;
-  color: #333;
-  border: 1px solid #666;
+  background: transparent;
+  color: #fff;
+  border: 1px solid #fff; /* Bordure pleine pour la visibilité */
+}
+
+.auth-prompt__btn--secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
 }

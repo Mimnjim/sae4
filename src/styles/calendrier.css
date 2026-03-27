@@ -1,5 +1,5 @@
 /* =========================================
-   COMPOSANT : CALENDAR WRAPPER (Conteneur global)
+   COMPOSANT : CALENDAR WRAPPER
    ========================================= */
 .calendar-wrapper {
   max-width: 1200px;
@@ -28,20 +28,17 @@
   max-width: 600px;
   margin: 0 auto;
   padding: 1.5rem;
-  
-  /* LE FAMEUX FOND POUR LA LISIBILITÉ 👇 */
-  background-color: rgba(15, 15, 15, 0.75); /* Fond noir transparent */
-  backdrop-filter: blur(12px); /* Effet verre dépoli */
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px; /* Un peu plus arrondi, c'est plus doux */
-  
+  background-color: rgba(15,15,15,0.75);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
   font-family: inherit;
   line-height: 1.125em;
   box-sizing: border-box;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); /* Légère ombre pour le détacher */
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
 }
 
-/* --- Navigation du calendrier (Mois/Années) --- */
+/* Navigation */
 .react-calendar__navigation {
   display: flex;
   height: 44px;
@@ -61,31 +58,36 @@
 }
 
 .react-calendar__navigation button:disabled {
-  background-color: rgba(255, 255, 255, 0.02);
+  background-color: rgba(255,255,255,0.02);
   cursor: not-allowed;
   opacity: 0.5;
 }
 
-.react-calendar__navigation button:enabled:hover,
-.react-calendar__navigation button:enabled:focus {
-  background-color: rgba(255, 255, 255, 0.1);
+.react-calendar__navigation button:enabled:hover {
+  background-color: rgba(255,255,255,0.1);
 }
 
-/* --- Jours de la semaine (Lun, Mar, Mer...) --- */
+/* R165 : focus clavier visible sur la navigation */
+.react-calendar__navigation button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* Jours de la semaine */
 .react-calendar__month-view__weekdays {
   text-align: center;
   text-transform: uppercase;
   font-weight: bold;
   font-size: 0.85rem;
   padding: 0.5rem 0;
-  color: rgba(255, 255, 255, 0.6); /* Un peu grisé pour hiérarchiser */
+  color: rgba(255,255,255,0.6);
 }
 
 .react-calendar__month-view__weekdays__weekday abbr {
-  text-decoration: none; /* Enlève les pointillés moches sous les jours */
+  text-decoration: none;
 }
 
-/* --- Cases du calendrier (Tuiles) --- */
+/* Tuiles */
 .react-calendar__tile {
   max-width: 100%;
   padding: 12px 6px;
@@ -100,39 +102,42 @@
 }
 
 .react-calendar__tile:disabled {
-  background-color: rgba(255, 255, 255, 0.02);
-  color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(255,255,255,0.02);
+  color: rgba(255,255,255,0.3);
   cursor: not-allowed;
 }
 
-.react-calendar__tile:enabled:hover,
-.react-calendar__tile:enabled:focus {
-  background-color: rgba(255, 255, 255, 0.1);
+.react-calendar__tile:enabled:hover {
+  background-color: rgba(255,255,255,0.1);
 }
 
-/* --- États spécifiques des tuiles --- */
-/* Le jour d'aujourd'hui */
+/* R165 : focus clavier visible sur les tuiles */
+.react-calendar__tile:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* Aujourd'hui */
 .react-calendar__tile--now {
-  background-color: rgba(255, 255, 118, 0.9);
+  background-color: rgba(255,255,118,0.9);
   color: #000000;
   font-weight: bold;
 }
 
-.react-calendar__tile--now:enabled:hover,
-.react-calendar__tile--now:enabled:focus {
+.react-calendar__tile--now:enabled:hover {
   background-color: #ffffa9;
 }
 
-/* Le jour sélectionné (Actif) */
+/* Jour sélectionné */
 .react-calendar__tile--active {
   background-color: var(--color-primary, #1087ff) !important;
   color: #ffffff !important;
   font-weight: bold;
 }
 
-/* Jours du mois précédent/suivant */
+/* Jours hors mois */
 .react-calendar__month-view__days__day--neighboringMonth {
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255,255,255,0.3);
 }
 
 /* Week-end */
@@ -141,7 +146,7 @@
 }
 
 /* =========================================
-   COMPOSANT : TIME SLOTS (Créneaux horaires)
+   TIME SLOTS
    ========================================= */
 .time-slot-list {
   list-style: none;
@@ -150,13 +155,13 @@
   margin: 1.5rem auto 0;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem; 
+  gap: 0.5rem;
 }
 
 .time-slot-item {
   padding: 1rem;
-  background-color: rgba(0, 0, 0, 0.45);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.15);
   border-radius: 8px;
   color: #ffffff;
   font-size: 1.1rem;
@@ -166,8 +171,14 @@
 }
 
 .time-slot-item:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  transform: translateY(-2px); 
+  background-color: rgba(255,255,255,0.1);
+  transform: translateY(-2px);
+}
+
+/* R165 : focus clavier visible sur les créneaux */
+.time-slot-item:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
 }
 
 .time-slot-item--selected {
@@ -178,7 +189,7 @@
 }
 
 /* =========================================
-   BOUTON DE VALIDATION DU CALENDRIER
+   BOUTON DE VALIDATION
    ========================================= */
 .calendar-wrapper__submit-btn {
   display: block;
@@ -198,6 +209,12 @@
 }
 
 .calendar-wrapper__submit-btn:hover {
-  background-color: #0b68c9; 
+  background-color: #0b68c9;
   transform: scale(1.02);
+}
+
+/* R165 : focus clavier visible sur le bouton de validation */
+.calendar-wrapper__submit-btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
 }

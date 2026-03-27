@@ -77,7 +77,7 @@ const Navbar = ({ user, setUser }) => {
     authLinks = (
       <>
         <Link to="/profile">{user.firstname}</Link>
-        <button onClick={handleLogout} className="cursor-target">
+        <button onClick={handleLogout} className="nav-logout cursor-target" aria-label="Se déconnecter">
           Déconnexion <ArrowUpRight />
         </button>
       </>

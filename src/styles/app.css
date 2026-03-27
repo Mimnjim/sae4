@@ -158,23 +158,10 @@ footer p {
 
 footer .socials {
   display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-footer .socials a {
-  color: var(--color-white);
-  font-size: 1.2rem;
-  transition: color 0.3s ease;
-}
-
-footer .socials a:hover {
-  color: #ff003c;
-}
-
-footer small {
-  display: block;
-  opacity: 0.4;
-  margin-top: 1rem;
+.main-content {
+  flex: 1 1 auto;
 }

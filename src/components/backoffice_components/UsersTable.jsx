@@ -1,30 +1,48 @@
-import React from 'react';
-
-const UsersTable = ({users, onDelete, onChangeRole}) => {
-  return (
-    <div>
-      <h3>Utilisateurs</h3>
-      <table style={{width:'100%', borderCollapse:'collapse'}}>
+const UsersTable = ({ users, onDelete, onChangeRole }) => (
+  <div>
+    <h3>Utilisateurs</h3>
+    <div className="bo-table-wrap table-wrap">
+      <table className="bo-table">
         <thead>
-          <tr><th>ID</th><th>Email</th><th>Nom</th><th>Role</th><th>Actions</th></tr>
+          <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Nom</th>
+            <th>Rôle</th>
+            <th>Actions</th>
+          </tr>
         </thead>
         <tbody>
-          {users.map(u => (
-            <tr key={u.id} style={{borderTop:'1px solid #ddd'}}>
-              <td>{u.id}</td>
-              <td>{u.email}</td>
-              <td>{u.firstname} {u.lastname}</td>
-              <td>{u.role}</td>
+          {users.map(user => (
+            <tr key={user.id}>
+              <td>{user.id}</td>
+              <td>{user.email}</td>
+              <td>{user.firstname} {user.lastname}</td>
               <td>
-                <button onClick={() => { const r = prompt('Nouveau rôle', u.role); if (r) onChangeRole(u.id, r); }}>Changer rôle</button>
-                <button onClick={() => onDelete(u.id)} style={{marginLeft:8}}>Supprimer</button>
+                {/* R93 + R162 : select inline plutôt qu'un prompt() natif */}
+                <label htmlFor={`role-${user.id}`} className="sr-only">
+                  Rôle de {user.firstname}
+                </label>
+                <select
+                  id={`role-${user.id}`}
+                  value={user.role}
+                  onChange={e => onChangeRole(user.id, e.target.value)}
+                >
+                  <option value="user">Utilisateur</option>
+                  <option value="admin">Administrateur</option>
+                </select>
+              </td>
+              <td className="bo-actions">
+                <button type="button" className="delete" onClick={() => onDelete(user.id)}>
+                  Supprimer
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
-  );
-};
+  </div>
+);
 
 export default UsersTable;

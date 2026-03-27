@@ -1,16 +1,10 @@
 import '../styles/Timeline.css';
 
-// Affiche une barre verticale avec un point par niveau
-// Props :
-//   count → nombre de niveaux (= nombre de points à afficher)
+// Barre verticale décorative avec un point par niveau
 export default function Timeline({ count }) {
   return (
     <div className="timeline">
-
-      {/* Barre verticale continue */}
       <div className="timeline-line" />
-
-      {/* Un point par niveau, espacés régulièrement en hauteur */}
       {Array.from({ length: count }).map((_, index) => (
         <div
           key={index}
@@ -18,7 +12,6 @@ export default function Timeline({ count }) {
           style={{ top: `${10 + index * 30}%` }}
         />
       ))}
-
     </div>
   );
 }

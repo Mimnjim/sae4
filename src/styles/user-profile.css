@@ -1,14 +1,34 @@
 /* =========================================
    COMPOSANT : USER PROFILE (Structure globale)
    ========================================= */
-.user-profile {
+.user-profile h2 {
+  font-family: var(--font-display, 'Thunder', sans-serif);
+  font-size: 1.6rem;
+  margin: 0 0 10px 0;
   color: #ffffff;
 }
 
+.user-profile h3 {
+  font-family: var(--font-display, 'Thunder', sans-serif);
+  font-size: 1.25rem; /* Augmenté légèrement pour la hiérarchie et lisibilité */
+  color: #ffffff; /* Couleur solide pour meilleur contraste */
+  margin: 18px 0 8px 0;
+}
+
+:root {
+  --up-bg-1: #000000;
+  --up-muted: #e0e0e0; /* Remplacement de rgba par une couleur pleine contrastée */
+  --up-card: rgba(0, 0, 0, 0.6); /* Fond plus sombre pour contraster avec le texte blanc */
+  --up-radius: 12px;
+  --up-gap: 1rem;
+}
+
+/* Card look for the whole profile area */
 .user-profile__container {
-  max-width: 900px;
-  margin: 2rem auto;
-  padding: 1rem;
+  padding: 28px;
+  border-radius: 12px;
+  background: var(--up-card); /* Ajout du fond défini plus haut */
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .user-profile__title {
@@ -17,12 +37,24 @@
 
 .user-profile__section-title {
   margin-top: 2rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #ffffff;
 }
 
 .user-profile__grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  grid-template-columns: 1fr 380px;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+/* Right column summary (if present) */
+.profile-summary {
+  background: rgba(0, 0, 0, 0.5); /* Assombri pour contraste */
+  border-radius: var(--up-radius);
+  padding: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .user-profile__actions {
@@ -37,31 +69,63 @@
   flex-direction: column;
 }
 
+/* Support the JSX classes used in the component */
+.user-label,
+.form-group__label {
+  font-size: 1.1rem; /* 1rem minimum pour la lisibilité */
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+/* On regroupe les styles des inputs pour éviter les doublons */
+.user-input,
+.form-group__input {
+  font-size: 1.1rem; /* Passage de 16px à rem */
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.6); /* Fond sombre */
+  border: 2px solid rgba(255, 255, 255, 0.4); /* Bordure 2px bien visible */
+  padding: 0.75rem 1rem; /* Hauteur suffisante pour zone tactile > 44px */
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 150ms ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* R165 : Focus clavier natif et fort */
+.user-input:focus,
+.user-input:focus-visible,
+.form-group__input:focus,
+.form-group__input:focus-visible {
+  border-color: #ffffff;
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+}
+
+/* Messages : Amélioration du contraste (R85) */
+.form-error {
+  background: rgba(200, 0, 0, 0.2);
+  color: #ffb3b3;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 2px solid #ffb3b3;
+  margin: 8px 0;
+  font-weight: bold;
+}
+
+.form-success {
+  background: rgba(0, 150, 50, 0.2);
+  color: #85e085;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 2px solid #85e085;
+  margin: 8px 0;
+  font-weight: bold;
+}
+
 .form-group--full-width {
   grid-column: 1 / -1;
-}
-
-.form-group__label {
-  font-size: 14px;
-  font-weight: 600;
-  color: #ffffff;
-  margin-bottom: 0.35rem;
-}
-
-.form-group__input {
-  font-size: 16px;
-  color: #ffffff;
-  background-color: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  padding: 10px 12px;
-  border-radius: 6px;
-  outline: none;
-  transition: border-color 150ms ease, box-shadow 150ms ease; 
-}
-
-.form-group__input:focus {
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.04);
 }
 
 /* --- Section mot de passe --- */
@@ -71,62 +135,205 @@
   gap: 0.5rem;
 }
 
+.user-profile__password-toggle,
 .form-group__password-toggle {
-  padding: 0.25rem 0.5rem;
-  background-color: transparent;
+  padding: 0;
+  width: 44px; /* Zone tactile (Opquast mobile) */
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.1);
   color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 4px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 6px;
   cursor: pointer;
   transition: background-color 150ms ease;
 }
 
 .form-group__password-toggle:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* R165 : Focus sur le bouton oeil */
+.form-group__password-toggle:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
 }
 
 /* =========================================
    COMPOSANT : RESERVATION CARD
    ========================================= */
+
 .reservation-card {
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 0.5rem;
-  margin-bottom: 0.5rem;
-  border-radius: 6px;
-  background-color: rgba(255, 255, 255, 0.02); 
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Contraste augmenté */
+  padding: 1rem;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  align-items: center;
+}
+
+.reservation-card .meta {
+  color: var(--up-muted);
+  font-size: 0.95rem;
+}
+
+.user-profile__reservation-actions button {
+  padding: 0.75rem 1rem; /* Zone tactile 44px */
+  border-radius: 8px;
+  border: 2px solid transparent; /* Prépare le focus */
+}
+
+/* R165 */
+.user-profile__reservation-actions button:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
 }
 
 .reservation-card__actions {
   margin-top: 0.5rem;
 }
 
+/* Modernize reservation list appearance */
+.user-profile__reservations {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.user-profile__reservation {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: transform 160ms ease, border-color 160ms ease;
+}
+
+.user-profile__reservation:hover {
+  transform: translateY(-4px); /* Légèrement réduit pour être moins agressif */
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.reservation-pill {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #000000;
+  background: #ffffff; /* S'assure d'un bon contraste */
+}
+
+.user-profile__reservation .meta,
+.user-profile__reservations p {
+  color: var(--up-muted);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.user-profile__reservation>div {
+  min-width: 180px;
+}
+
+.user-profile__reservation strong {
+  color: #ffffff;
+}
+
+.user-profile__reservation .user-profile__reservation-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.user-profile__reservation .btn-light {
+  background: transparent;
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+.user-profile__reservation .btn-light:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #ffffff;
+}
+
 /* =========================================
    BOUTON PRIMAIRE 
    ========================================= */
 .btn-primary {
-  background-color: #007bff;
-  color: #ffffff;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 6px;
+  color: #000000; /* Texte noir sur fond clair pour le contraste */
+  background: #ffffff; /* Par défaut, on va supposer un bouton blanc ou d'une couleur d'accent claire */
+  border: 2px solid transparent;
+  padding: 0.75rem 1.25rem; /* Zone de clic 44px */
+  border-radius: 10px;
   cursor: pointer;
-  font-weight: 500;
-  transition: transform 100ms ease, background-color 150ms ease;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: background 120ms ease, transform 120ms ease;
 }
 
 .btn-primary:hover {
-  background-color: #0069d9; 
+  background: #e6e6e6;
+  transform: translateY(-2px);
 }
 
 .btn-primary:active {
-  transform: translateY(1px);
+  transform: translateY(0);
+}
+
+/* R165 : Focus clavier net */
+.btn-primary:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px #000000;
 }
 
 /* =========================================
-   RESPONSIVE 
+   RESPONSIVE (et Accessibilité R22)
    ========================================= */
 @media (max-width: 700px) {
   .user-profile__grid {
     grid-template-columns: 1fr;
+  }
+
+  .user-profile__container {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .user-profile__reservation {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .user-profile__reservation>div {
+    min-width: 100%;
+  }
+
+  .user-profile__reservation .user-profile__reservation-actions {
+    justify-content: flex-end;
+  }
+}
+
+/* R22 : Désactivation des animations (hover de la carte, etc.) */
+@media (prefers-reduced-motion: reduce) {
+  .user-profile__reservation,
+  .btn-primary,
+  .form-group__password-toggle {
+    transition: none;
+  }
+  .user-profile__reservation:hover {
+    transform: none;
   }
 }

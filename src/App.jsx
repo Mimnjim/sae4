@@ -19,6 +19,7 @@ import Teaser from './components/Teaser.jsx';
 // Pages
 import Experiences from './pages/Experiences.jsx';
 import FormReservationPage from './pages/Form_reservation.jsx';
+import ReservationDetails from './pages/ReservationDetails.jsx';
 import ConfirmationPage from './pages/Confirmation.jsx';
 import InfoPratique from './pages/Info_pratique.jsx';
 import Login from './pages/Login.jsx';
@@ -115,6 +116,8 @@ const App = () => {
           zoom={0.65}
           className="page-gradient"
         />
+
+        {/* Background canvas (Grainient) mounted above */}
       </div>
 
       {/* LE CURSEUR : Toujours au sommet */}
@@ -128,19 +131,39 @@ const App = () => {
       <Router>
         {/* LE CONTENU : On le force au-dessus du Grainient */}
         <div className="App-wrapper" style={{ position: 'relative', zIndex: 10 }}>
-          <Navbar />
           
-          <main>
+          {/* Old version - before Tom's merge */}
+          
+          {/* <Navbar /> */}
+          {/* <main>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/experiences" element={<Experiences />} />
-              {/* <Route path="/calendrier" element={<CalendrierPage />} /> */}
               <Route path="/form-reservation" element={<FormReservationPage />} />
               <Route path="/confirmation" element={<ConfirmationPage />} />
               <Route path="/info-pratique" element={<InfoPratique />} />
             </Routes>
-          </main>
+          </main> */}
 
+
+          <Navbar user={user} setUser={setUser} />
+
+          <main className="main-content">
+            <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/experiences" element={<Experiences />} />
+            <Route path="/form-reservation" element={<FormReservationPage />} />
+            <Route path="/form-reservation/coordonnees" element={<ReservationDetails />} />
+            <Route path="/login" element={<Login setUser={setUser} />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/register/sent" element={<RegisterSent />} />
+            <Route path="/profile" element={<UserProfile />} />
+            <Route path="/backoffice" element={<Backoffice />} />
+            <Route path="/activate" element={<Activate />} />
+            <Route path="/confirmation" element={<ConfirmationPage />} />
+            <Route path="/info-pratique" element={<InfoPratique />} />
+            </Routes>
+          </main>
           <Footer />
         </div>
       </Router>

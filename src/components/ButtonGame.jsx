@@ -4,12 +4,8 @@ import '../styles/game-button.css';
 const ButtonGame = ({ text, navigateTo }) => {
   const navigate = useNavigate();
 
-  const handleClick = () => {
-    navigate(navigateTo);
-  };
-
   return (
-    <button className="game-button" onClick={handleClick}>
+    <button className="game-button" onClick={() => navigate(navigateTo)}>
       {text}
     </button>
   );

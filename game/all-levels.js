@@ -2,25 +2,6 @@ import * as THREE from "three";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import Stats from 'stats.js';
 
-// ============================================================
-// GAME.JS — Jeu de moto en Three.js
-// Structure du fichier :
-//   1. Configuration & difficulté
-//   2. État du jeu (gameState)
-//   3. Scène, caméra, renderer
-//   4. HUD en jeu
-//   5. Lumières
-//   6. Route & décor
-//   7. Joueur
-//   8. Ennemis
-//   9. Items à collecter
-//  10. Contrôles clavier
-//  11. Physique & mouvement (variables)
-//  12. Fonctions utilitaires (collisions, UI)
-//  13. Boucle principale (tick)
-//  14. Initialisation
-// ============================================================
-
 
 // ============================================================
 // 1. CONFIGURATION & DIFFICULTÉ

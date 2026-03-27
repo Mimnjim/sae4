@@ -1,13 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import '../styles/AuthPrompt.css';
 
-// Message affiché par défaut si le parent n'en passe pas un via la prop "message"
 const DEFAULT_MESSAGE = 'Vous devez être connecté pour réserver';
 
-// Ce composant s'affiche quand un utilisateur non connecté essaie de faire une action réservée
-// Il reçoit une prop "message" optionnelle pour personnaliser le titre
+// Invite l'utilisateur non connecté à se connecter ou s'inscrire
 export default function AuthPrompt({ message }) {
-  // useNavigate permet de changer de page sans recharger (navigation React Router)
   const navigate = useNavigate();
 
   return (
