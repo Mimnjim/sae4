@@ -26,6 +26,7 @@ import InfoPratique from './pages/InfosPratiques.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import RegisterSent from './pages/RegisterSent.jsx';
+import ResetPassword from './pages/Reset-password.jsx';
 import UserProfile from './pages/UserProfile.jsx';
 import Backoffice from './pages/backoffice/Backoffice.jsx';
 import Activate from './pages/Activate.jsx';
@@ -160,6 +161,7 @@ const App = () => {
             <Route path="/login" element={<Login setUser={setUser} />} />
             <Route path="/register" element={<Register />} />
             <Route path="/register/sent" element={<RegisterSent />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/backoffice" element={<Backoffice />} />
             <Route path="/activate" element={<Activate />} />

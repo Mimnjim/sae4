@@ -23,6 +23,14 @@
   border-radius: 18px;
 }
 
+.register-card > p {
+  margin-top: 1.2rem;
+  font-family: var(--ff-family-medium);
+  font-size: clamp(1.15rem, 2vw, 1.4rem);
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+}
+
 /* ── Header ── */
 
 .register-card__header {
@@ -206,7 +214,7 @@
 .register-container a,
 .register-card a {
   color: #ffffff;
-  font-weight: 600;
+  font-weight: 400;
   text-decoration: none;
   transition: all 150ms ease;
   border-bottom: 2px solid rgba(255, 255, 255, 0.4);

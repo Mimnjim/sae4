@@ -250,19 +250,19 @@
 
 .btn-danger {
   color: #ffffff;
-  background: rgba(220, 50, 50, 0.8);
-  border: 2px solid rgba(220, 50, 50, 1);
+  background: #dc3232;
+  border: 1.6px solid #ffffff;
 }
 
 .btn-danger:hover {
-  background: rgba(220, 50, 50, 1);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(220, 50, 50, 0.4);
+  background: #ed4444;
+  border-color: #ffffff;
 }
 
 .btn-danger:focus-visible {
-  outline: 3px solid rgba(220, 50, 50, 1);
+  outline: 3px solid #ffffff;
   outline-offset: 2px;
+  background: #ed4444;
 }
 
 .btn-light {
@@ -805,5 +805,4 @@
   font-size: 1.2rem;
   font-family: var(--ff-family-medium);
   font-weight: 600;
-}
 }

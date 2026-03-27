@@ -242,7 +242,7 @@ const FormReservation = () => {
           <button 
             className="btn btn-primary" 
             onClick={goNext} 
-            disabled={!step1IsComplete}
+            disabled={!formIsComplete}
           >
             Suivant
           </button>
