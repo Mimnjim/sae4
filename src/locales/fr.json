@@ -184,7 +184,8 @@
     },
     "experiences": {
       "title": "Expérience",
-      "description": "Plongez dans une expérience immersive inspirée des univers d'Akira et Ghost in the Shell. Reussisez les 3 niveaux pour débloquer une récompense !",
+      "description": "Lancez-vous dans une course effrénée pour récupérer tous les fragments de cyborg, et évitez les véhicules ennemis si vous souhaitez atteindre votre destination ...",
+      "sub_description": "Un cadeau vous attendra peut-être à l’arrivée. ",
       "selectLevel": "Sélectionnez un niveau pour commencer l'expérience de jeu.",
       "victory": "Victoire !",
       "gameOver": "Game Over",

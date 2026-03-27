@@ -151,6 +151,7 @@ const Experiences = () => {
     <div className="experiences-page">
       <h1>{t('pages.experiences.title')}</h1>
       <p>{t('pages.experiences.description')}</p>
+      <p>{t('pages.experiences.sub_description')}</p>
 
       <div className="levels-grid">
         <Timeline count={LEVELS.length} />

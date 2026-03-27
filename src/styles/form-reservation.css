@@ -17,7 +17,7 @@
   display: flex;
   gap: var(--form-gap);
   background: transparent;
-  padding: 2rem;
+  padding: 9rem 5rem;
   border-radius: 12px;
 }
 
@@ -47,8 +47,8 @@
 }
 
 .form-reservation__title {
-  font-family: 'Thunder', sans-serif;
-  font-size: 1.5rem;
+  font-family: var(--ff-family-main);
+  font-size: clamp(1.1rem, 3vw, 1.8rem);
   color: var(--form-title);
   margin-bottom: 1rem;
 }
