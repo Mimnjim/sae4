@@ -99,6 +99,18 @@ export default function Hero({ title1, title2, subtitle }) {
         if (overlayElements.length > 0) gsap.set(overlayElements, { opacity: 0, pointerEvents: 'none' });
         gsap.set(transitionRef.current, { opacity: 0, pointerEvents: 'none' });
 
+        // Relancer l'animation flottante du scrollDown
+        if (scrollDownRef.current && !floatingAnimRef.current?.isActive()) {
+            gsap.killTweensOf(scrollDownRef.current);
+            floatingAnimRef.current = gsap.to(scrollDownRef.current, {
+                y: 10,
+                duration: 0.8,
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut',
+            });
+        }
+
         const tl = gsap.timeline({
             scrollTrigger: {
                 trigger: heroRef.current,
@@ -108,9 +120,16 @@ export default function Hero({ title1, title2, subtitle }) {
                 pin: true,
                 invalidateOnRefresh: true,
                 onUpdate: (self) => {
-                    // Pause l'animation flottante quand on commence à scroller
-                    if (self.progress > 0 && floatingAnimRef.current) {
-                        floatingAnimRef.current.pause();
+                    // Pause l'animation flottante quand on commence à scroller vers le bas
+                    if (self.progress > 0.01) {
+                        if (floatingAnimRef.current && !floatingAnimRef.current.paused()) {
+                            floatingAnimRef.current.pause();
+                        }
+                    } else {
+                        // Relancer l'animation quand on revient vers le top
+                        if (floatingAnimRef.current && floatingAnimRef.current.paused()) {
+                            floatingAnimRef.current.play();
+                        }
                     }
                 }
             }

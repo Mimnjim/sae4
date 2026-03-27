@@ -29,14 +29,23 @@
     "description": "Immerse yourself in a unique experience designed for this exhibition. Cross Neo-Tokyo, infiltrate Section 9 — and complete your mission to leave with an exclusive code for ticketing.",
     "reservationSub": "Tickets available from March 15 to June 30, 2025",
     "discover": "Discover",
-    "tickets_link": "Tickets",
+    "tickets_link": "Book",
     "reserveVisit": "Book your visit!",
     "promoText": "Exclusive promo code to unlock at the end of the experience",
     "playNow": "Play now"
   },
   "footer": {
     "credit": "Immersive exhibitions | Akira & Ghost in the Shell",
-    "allRights": "© 2026 AzerT Agency. All rights reserved."
+    "copyright": "All rights reserved.",
+    "museum": "Musée Guimet",
+    "address": "6, Place d'Iena, Paris 75116",
+    "home": "Home",
+    "practicalities": "Practical Info",
+    "experiences": "Experiences",
+    "tickets": "Tickets",
+    "legal": "Legal Notice",
+    "privacy": "Privacy Policy",
+    "sources": "Sources"
   },
   "navbar": {
     "home": "Home",

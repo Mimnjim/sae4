@@ -1,45 +1,120 @@
-/* Footer styles extracted from app.css */
-footer {
-  background: rgb(0, 0, 0);
-  color: var(--color-white);
-  text-align: center;
-  padding: 4rem 2rem;
-  font-family: var(--ff-family-main);
-  letter-spacing: 1px;
-  position: relative;
+/* ═══════════════════════════════════════════════════════════════
+   FOOTER — nouveau design
+═══════════════════════════════════════════════════════════════ */
+
+.footer {
+    background-color: #000;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 60%);
+    color: #fff;
+    font-family: var(--ff-family-medium);
+    padding: clamp(4rem, 6vw, 8rem) clamp(3rem, 5vw, 8rem);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(3rem, 4vw, 5rem);
+    position: relative;
 }
 
-footer .footer-logo {
-  font-size: 1.8rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
+/* Léger opacité en haut avec effet de shadow */
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), transparent);
+    pointer-events: none;
 }
 
-footer p {
-  font-size: 0.9rem;
-  opacity: 0.6;
-  margin-bottom: 1.5rem;
+/* Copyright en haut */
+.footer-copyright {
+    font-size: clamp(0.82rem, 1.1vw, 1rem);
+    letter-spacing: 1px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    padding-bottom: clamp(2rem, 3vw, 3rem);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    z-index: 1;
 }
 
-footer .socials {
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+/* 3 zones en flex row */
+.footer-content {
+    display: flex;
+    flex-direction: row;
+    gap: clamp(4rem, 8vw, 12rem);
+    justify-content: space-between;
+    position: relative;
+    z-index: 1;
 }
 
-footer .socials a {
-  color: var(--color-white);
-  font-size: 1.2rem;
-  transition: color 0.3s ease;
+/* Zone générale */
+.footer-zone {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1.2rem, 2vw, 2rem);
 }
 
-footer .socials a:hover {
-  color: #ff003c;
+/* Zone 1 : Logo + Adresse */
+.footer-zone:first-child {
+    align-items: flex-start;
 }
 
-footer small {
-  display: block;
-  opacity: 0.4;
-  margin-top: 1rem;
+.footer-logo {
+    height: clamp(60px, 8vw, 100px);
+    width: auto;
+    margin-bottom: 1rem;
+}
+
+.footer-address {
+    font-family: var(--ff-family-extralight-italic);
+    font-size: clamp(0.85rem, 1.1vw, 1rem);
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.75);
+    margin: 0;
+}
+
+/* Zones 2 et 3 : Listes de liens */
+.footer-zone:nth-child(2),
+.footer-zone:nth-child(3) {
+    justify-content: flex-start;
+}
+
+.footer-zone a {
+    font-size: clamp(0.88rem, 1.2vw, 1.1rem);
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease, letter-spacing 0.3s ease;
+    letter-spacing: 0.5px;
+}
+
+.footer-zone a:hover {
+    color: rgba(255, 255, 255, 0.7);
+    letter-spacing: 1px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .footer {
+        padding: 3rem 2rem;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .footer-zone {
+        gap: 1rem;
+    }
+
+    .footer-zone:first-child {
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-address {
+        text-align: center;
+    }
 }

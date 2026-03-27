@@ -19,6 +19,9 @@ export default function ExperienceSection() {
         const obs = new IntersectionObserver(([entry]) => {
             if (entry.isIntersecting) {
                 // Animation d'entrée
+                // Tuer les animations précédentes pour éviter les conflits
+                gsap.killTweensOf([bgRef.current, panelRef.current, reserveRef.current]);
+                
                 // Image de fond : apparaît en fade
                 gsap.fromTo(bgRef.current,
                     { opacity: 0 },
@@ -37,20 +40,11 @@ export default function ExperienceSection() {
                     { x: 0, y: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: 0.6 }
                 );
             } else {
-                // Animation de sortie (inverse)
-                gsap.to(reserveRef.current,
-                    { opacity: 0, x: -60, y: 40, duration: 0.4, ease: 'power3.in' }
-                );
-
-                gsap.to(panelRef.current,
-                    { x: 60, opacity: 0, duration: 0.8, ease: 'power3.in', delay: 0.2 }
-                );
-
-                gsap.to(bgRef.current,
-                    { opacity: 0, duration: 0.8, ease: 'power3.in', delay: 0.4 }
-                );
+                // Animation de sortie (inverse) - mais on ne la fait pas pour éviter les problèmes
+                // Garder les états actuels sans animation de retour
+                gsap.killTweensOf([bgRef.current, panelRef.current, reserveRef.current]);
             }
-        }, { threshold: 0.15 });
+        }, { threshold: 0.25 });
 
         obs.observe(section);
 

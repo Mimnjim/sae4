@@ -333,6 +333,7 @@
 .footer-hero-container p {
     font-size: 1.4rem;
     width: 250px;
+    font-family: var(--ff-family-semibold);
 }
 
 .buttons-hero {
