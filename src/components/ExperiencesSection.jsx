@@ -22,10 +22,10 @@ export default function ExperienceSection() {
                 // Tuer les animations précédentes pour éviter les conflits
                 gsap.killTweensOf([bgRef.current, panelRef.current, reserveRef.current]);
                 
-                // Image de fond : apparaît en fade
+                // Image de fond : apparaît en fade + scale
                 gsap.fromTo(bgRef.current,
-                    { opacity: 0 },
-                    { opacity: 1, duration: 0.8, ease: 'power2.out' }
+                    { opacity: 0, y: 40 },
+                    { opacity: 1, y: 0, duration: 1, ease: 'power2.out' }
                 );
 
                 // Panneau droit : glisse depuis la droite
@@ -40,9 +40,23 @@ export default function ExperienceSection() {
                     { x: 0, y: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: 0.6 }
                 );
             } else {
-                // Animation de sortie (inverse) - mais on ne la fait pas pour éviter les problèmes
-                // Garder les états actuels sans animation de retour
+                // Animation de sortie
                 gsap.killTweensOf([bgRef.current, panelRef.current, reserveRef.current]);
+                
+                // Image de fond : disparaît en fade + scale
+                gsap.to(bgRef.current,
+                    { opacity: 0, y: -40, duration: 0.8, ease: 'power2.in' }
+                );
+
+                // Panneau droit : glisse vers la droite
+                gsap.to(panelRef.current,
+                    { x: 60, opacity: 0, duration: 0.8, ease: 'power3.in' }
+                );
+
+                // Réservation : disparition
+                gsap.to(reserveRef.current,
+                    { opacity: 0, x: -60, y: 40, duration: 0.6, ease: 'power3.in' }
+                );
             }
         }, { threshold: 0.25 });
 

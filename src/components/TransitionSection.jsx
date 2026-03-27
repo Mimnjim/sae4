@@ -1,10 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
-import '../styles/transition-section.css';
+import '../styles/immersion-gateway.css';
 
 // ─── Séquence d'animation ────────────────────────────────────────
 // Durée totale : ~3.2s
+// Présentation immersive de l'exposition avant la galerie manga
 // 1. Beam de scan traverse l'écran (0s → 0.6s)
 // 2. Coins de ciblage apparaissent (0.3s)
 // 3. Data line se tape (0.4s → 1.2s)
@@ -13,7 +14,7 @@ import '../styles/transition-section.css';
 // 6. Blocs d'info (2.0s)
 // 7. Compteur + scroll hint (2.4s)
 
-export default function TransitionSection() {
+export default function ImmersionGateway() {
     const { t } = useTranslation();
     const sectionRef   = useRef(null);
     const beamRef      = useRef(null);

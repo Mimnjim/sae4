@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import gsap from 'gsap';
 import '../styles/podcast.css';
 
 const PODCASTS = [
@@ -24,15 +25,59 @@ let currentAudio = null;
 
 export default function Podcast() {
     const { t } = useTranslation();
+    const sectionRef = useRef(null);
+    const headerRef = useRef(null);
+    const cardsRef = useRef(null);
+
+    useEffect(() => {
+        const section = sectionRef.current;
+        if (!section) return;
+
+        const obs = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting) {
+                // Animation d'entrée
+                gsap.killTweensOf([headerRef.current, cardsRef.current?.children]);
+                
+                // Header : apparaît en fade + slide down
+                gsap.fromTo(headerRef.current,
+                    { opacity: 0, y: -30 },
+                    { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }
+                );
+
+                // Cards : apparaissent avec stagger
+                gsap.fromTo(cardsRef.current?.children,
+                    { opacity: 0, y: 40 },
+                    { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out', stagger: 0.08, delay: 0.1 }
+                );
+            } else {
+                // Animation de sortie
+                gsap.killTweensOf([headerRef.current, cardsRef.current?.children]);
+                
+                // Header : disparaît en fade + slide up
+                gsap.to(headerRef.current,
+                    { opacity: 0, y: -30, duration: 0.4, ease: 'power2.in' }
+                );
+
+                // Cards : disparaissent avec stagger inverse
+                gsap.to(cardsRef.current?.children,
+                    { opacity: 0, y: 40, duration: 0.4, ease: 'power3.in', stagger: 0.06 }
+                );
+            }
+        }, { threshold: 0.2 });
+
+        obs.observe(section);
+
+        return () => obs.disconnect();
+    }, []);
 
     return (
-        <section className="pod-section">
-            <header className="pod-header">
+        <section ref={sectionRef} className="pod-section">
+            <header ref={headerRef} className="pod-header">
                 <span className="pod-eyebrow">{t('podcast.eyebrow')}</span>
                 <h2 className="pod-title">{t('podcast.title')}</h2>
             </header>
 
-            <div className="pod-cards">
+            <div ref={cardsRef} className="pod-cards">
                 {PODCASTS.map((p) => (
                     <PodcastPlayer key={p.id} podcast={p} />
                 ))}
@@ -129,8 +174,8 @@ function PodcastPlayer({ podcast }) {
             const height = 6 + (i % 3) * 2; // Variation légère pour plus de dynamique
             const y = canvas.height / 2 - height / 2;
             
-            ctx.fillStyle = '#ffffff'; // Blanc simple
-            ctx.globalAlpha = 0.6; // Légère transparence pour indiquer c'est pas actif
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)'; // Blanc transparent
+            ctx.globalAlpha = 1;
             ctx.fillRect(x, y, barWidth, height);
         }
         ctx.globalAlpha = 1.0; // Reset
@@ -294,14 +339,12 @@ function PodcastPlayer({ podcast }) {
             const x = i * (barWidth + gap);
             const yOffset = canvas.height - barHeight;
 
-            // Couleur plus dynamique basée sur la hauteur + position
-            const hue = 200 + (i / barCount) * 40; // Bleu à cyan
-            const colorIntensity = 40 + normalizedValue * 55;
-            const saturation = 40 + normalizedValue * 40;
-            ctx.fillStyle = `hsl(${hue}, ${saturation}%, ${colorIntensity}%)`;
+            // Couleur bleu techno unie avec variation d'opacité basée sur la hauteur
+            const opacity = 0.5 + (normalizedValue * 0.5);
+            ctx.fillStyle = `rgba(0, 212, 255, ${opacity})`;
             
             // Légère ombre pour la profondeur
-            ctx.shadowColor = `hsl(${hue}, ${saturation}%, 10%)`;
+            ctx.shadowColor = 'rgba(0, 212, 255, 0.3)';
             ctx.shadowBlur = 3;
             ctx.shadowOffsetX = 0;
             ctx.shadowOffsetY = 1;

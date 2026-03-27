@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   TRANSITION SECTION — Sas Hero 3D → MangaArchive
+   IMMERSION GATEWAY — Sas immersif Hero 3D → MangaArchive
+   Présentation cybertech de l'exposition avec harmonie de couleurs
    Textes grands, accessibles, letter-spacing réduit
 ═══════════════════════════════════════════════════════════════ */
 
@@ -7,18 +8,18 @@
     position: relative;
     width: 100%;
     height: 110vh;
-    /* background: linear-gradient(135deg, 
-        rgba(10, 10, 20, 0.9) 0%,
-        rgba(20, 5, 40, 0.8) 25%,
-        rgba(40, 5, 20, 0.7) 50%,
-        rgba(15, 15, 30, 0.85) 75%,
-        rgba(10, 10, 20, 0.9) 100%
-    ); */
+    background: linear-gradient(135deg,
+        rgba(11, 10, 16, 0.95) 0%,
+        rgba(90, 20, 20, 0.4) 30%,
+        rgba(7, 90, 80, 0.25) 60%,
+        rgba(82, 20, 20, 0.3) 85%,
+        rgba(11, 10, 16, 0.95) 100%
+    );
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    box-shadow: inset 0 0 80px rgba(255, 0, 80, 0.15), inset 0 0 120px rgba(0, 150, 255, 0.1);
+    box-shadow: inset 0 0 80px rgba(186, 18, 27, 0.12), inset 0 0 100px rgba(7, 90, 80, 0.08);
 }
 
 /* ── Scanlines CRT ──────────────────────────────────────────────── */
@@ -36,7 +37,7 @@
     z-index: 1;
 }
 
-/* ── Beam de scan ───────────────────────────────────────────────── */
+/* ── Beam de scan ───────────────────────────────────────────────– */
 .ts-beam {
     position: absolute;
     left: 0;
@@ -46,17 +47,17 @@
         90deg,
         transparent,
         rgba(0, 212, 255, 0.6) 40%,
-        rgba(0, 212, 255, 0.9) 50%,
+        rgba(0, 212, 255, 0.95) 50%,
         rgba(0, 212, 255, 0.6) 60%,
         transparent
     );
-    box-shadow: 0 0 18px rgba(0, 212, 255, 0.5);
+    box-shadow: 0 0 28px rgba(0, 212, 255, 0.8), 0 0 18px rgba(0, 212, 255, 0.5), 0 0 8px rgba(0, 212, 255, 0.9);
     top: -2px;
     z-index: 2;
     opacity: 0;
 }
 
-/* ── Contenu central ────────────────────────────────────────────── */
+/* ── Contenu central ────────────────────────────────────────────– */
 .ts-content {
     position: relative;
     z-index: 3;
@@ -67,59 +68,62 @@
     gap: 0;
 }
 
-/* ── Data line ──────────────────────────────────────────────────── */
+/* ── Data line ──────────────────────────────────────────────────– */
 .ts-data-line {
     font-family: var(--ff-family-main);
     font-size: clamp(0.78rem, 1.1vw, 0.95rem);
     font-weight: 600;
-    letter-spacing: 2px;               /* réduit */
+    letter-spacing: 2px;
     text-transform: uppercase;
-    color: rgba(0, 212, 255, 0.8);
+    color: #00d4ff;
     margin-bottom: 36px;
     opacity: 0;
     overflow: hidden;
     white-space: nowrap;
     width: 0;
-    text-shadow: 0 0 12px rgba(0, 212, 255, 0.4);
+    text-shadow: 0 0 16px rgba(0, 212, 255, 0.7), 0 0 8px rgba(0, 212, 255, 0.4);
 }
 
-/* ── Grand titre ────────────────────────────────────────────────── */
+/* ── Grand titre ────────────────────────────────────────────────– */
 .ts-title {
     font-family: var(--ff-family-main);
     font-size: clamp(4rem, 10vw, 11rem);
     font-weight: 900;
-    letter-spacing: -3px;              /* négatif pour les grands titres — naturel */
+    letter-spacing: -3px;
     text-transform: uppercase;
     color: #fff;
     margin: 0;
     line-height: 0.88;
     clip-path: inset(0 100% 0 0);
-    text-shadow: 0 2px 40px rgba(255, 255, 255, 0.1);
+    text-shadow: 0 2px 20px rgba(255, 255, 255, 0.15),
+                 0 0 50px rgba(0, 212, 255, 0.4),
+                 0 0 40px rgba(0, 212, 255, 0.25),
+                 0 0 20px rgba(0, 212, 255, 0.15);
 }
 
-/* ── Sous-titre ─────────────────────────────────────────────────── */
+/* ── Sous-titre ─────────────────────────────────────────────────– */
 .ts-subtitle {
     font-family: var(--ff-family-main);
     font-size: clamp(1rem, 1.6vw, 1.3rem);
     font-weight: 400;
-    letter-spacing: 1px;               /* quasi-normal */
-    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.7);
     margin: 20px 0 0;
     opacity: 0;
     text-shadow: 0 1px 10px rgba(0, 0, 0, 0.9);
 }
 
-/* ── Séparateur ─────────────────────────────────────────────────── */
+/* ── Séparateur ─────────────────────────────────────────────────– */
 .ts-rule {
     width: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(0, 212, 255, 0.6),
+        rgba(0, 212, 255, 0.8),
+        transparent);
     margin: 28px auto;
-}
-
-/* ── Blocs d'info ───────────────────────────────────────────────── */
-.ts-infos {
-    display: flex;
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.5), 0 0 12px rgba(0, 212, 255, 0.3);
     align-items: center;
     gap: 40px;
     opacity: 0;
@@ -137,7 +141,7 @@
     font-family: var(--ff-family-main);
     font-size: clamp(0.72rem, 1vw, 0.85rem);
     font-weight: 600;
-    letter-spacing: 3px;               /* réduit */
+    letter-spacing: 3px;
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.35);
     text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
@@ -147,18 +151,21 @@
     font-family: var(--ff-family-main);
     font-size: clamp(1rem, 1.4vw, 1.2rem);
     font-weight: 700;
-    letter-spacing: 0px;               /* aucun — naturel */
-    color: rgba(255, 255, 255, 0.9);
+    letter-spacing: 0px;
+    color: #fff;
     text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
 }
 
 .ts-info-sep {
     width: 1px;
     height: 40px;
-    background: rgba(255, 255, 255, 0.12);
+    background: linear-gradient(to bottom, 
+        rgba(0, 212, 255, 0.8), 
+        rgba(0, 212, 255, 0.5));
+    box-shadow: 0 0 12px rgba(0, 212, 255, 0.4);
 }
 
-/* ── Coins de ciblage ───────────────────────────────────────────── */
+/* ── Coins de ciblage ───────────────────────────────────────────– */
 .ts-corner {
     position: absolute;
     width: 32px;
@@ -171,7 +178,8 @@
 .ts-corner::after {
     content: '';
     position: absolute;
-    background: rgba(0, 212, 255, 0.65);
+    background: linear-gradient(90deg, rgba(0, 212, 255, 0.9), rgba(0, 212, 255, 0.8));
+    box-shadow: 0 0 12px rgba(0, 212, 255, 0.6), 0 0 8px rgba(0, 212, 255, 0.4);
 }
 
 .ts-corner::before { width: 14px; height: 1px; top: 0; left: 0; }
@@ -194,7 +202,7 @@
     transform: scale(-1);
 }
 
-/* ── Compteur ───────────────────────────────────────────────────── */
+/* ── Compteur ───────────────────────────────────────────────────– */
 .ts-counter {
     position: absolute;
     bottom: clamp(20px, 4vh, 48px);
@@ -203,12 +211,13 @@
     font-size: clamp(0.72rem, 1vw, 0.85rem);
     font-weight: 500;
     letter-spacing: 2px;
-    color: rgba(0, 212, 255, 0.5);
+    color: #00d4ff;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
     z-index: 2;
     opacity: 0;
 }
 
-/* ── Scroll hint ────────────────────────────────────────────────── */
+/* ── Scroll hint ────────────────────────────────────────────────– */
 .ts-scroll-hint {
     position: absolute;
     bottom: clamp(24px, 5vh, 52px);
@@ -234,11 +243,14 @@
 .ts-scroll-line {
     width: 1px;
     height: 36px;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.45), transparent);
-    animation: tsScrollPulse 2s ease-in-out infinite;
+    background: linear-gradient(to bottom, 
+        rgba(0, 212, 255, 0.7),
+        rgba(0, 212, 255, 0.4));
+    box-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
+    animation: scroll-pulse 1.5s ease-in-out infinite;
 }
 
-@keyframes tsScrollPulse {
-    0%, 100% { opacity: 0.4; transform: scaleY(1); }
-    50%       { opacity: 1;   transform: scaleY(1.2); }
+@keyframes scroll-pulse {
+    0%, 100% { opacity: 0.5; transform: scaleY(1); }
+    50%       { opacity: 1;   transform: scaleY(1.3); }
 }
