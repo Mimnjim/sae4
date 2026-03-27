@@ -1,195 +1,400 @@
-/* ═══════════════════════════════════════════════════
-   LOGIN CARD
-   ═══════════════════════════════════════════════════ */
+/* =========================================
+   LOGIN - Design cohérent avec AuthPrompt
+   ========================================= */
 
 .login-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 48px 16px;
-}
-
-.login-container p {
-  margin-top: 18px;
+  min-height: 60vh;
+  padding: 4rem 2rem;
+  margin: 3rem auto;
+  gap: 1.5rem;
+  max-width: 1200px;
 }
 
 .login-card {
-  width: 90%;
-  max-width: 920px;
-  padding: 64px 56px;
-  background: rgba(8, 8, 8, 0.85); /* Fond très légèrement plus opaque pour garantir le contraste */
+  width: 100%;
+  max-width: 580px;
+  padding: 4rem 3rem;
+  background: rgba(8, 8, 8, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 18px;
 }
 
-
-/* ── Header ─────────────────────────────────────────── */
+/* ── Header ── */
 
 .login-card__header {
-  margin-bottom: 32px;
+  margin-bottom: 2rem;
   text-align: center;
 }
 
 .login-card__title {
   font-family: var(--ff-family-main);
-  font-size: 3.3rem;
+  font-size: 2.5rem;
   font-weight: 700;
-  margin: 0 0 10px;
+  margin: 0;
   color: #ffffff;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
 }
 
 .login-card__subtitle {
-  font-size: 1.50rem;
-  color: #e0e0e0; /* Couleur pleine au lieu d'une variable potentiellement trop claire */
+  font-family: var(--ff-family-medium);
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.75);
   margin: 0;
+  font-weight: 500;
+  line-height: 1.6;
 }
 
-
-/* ═══════════════════════════════════════════════════
-   LOGIN FORM
-   ═══════════════════════════════════════════════════ */
+/* ── Form Structure ── */
 
 .login-form {
   display: flex;
   flex-direction: column;
+  gap: 1.5rem;
 }
 
 .login-form__group {
   display: flex;
   flex-direction: column;
-  margin-bottom: 18px;
+  gap: 0.5rem;
 }
 
-.login-form__actions {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 8px;
+.login-form label {
+  font-family: var(--ff-family-main);
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-
-/* ── Input ──────────────────────────────────────────── */
+/* ── Input Styles ── */
 
 .login-form__input {
   width: 100%;
-  height: 52px; /* Super, > 44px pour le tactile */
-  padding: 14px 16px;
-  background: rgba(0, 0, 0, 0.5); /* Assombri pour contraster avec le texte tapé */
-  border: 2px solid rgba(255, 255, 255, 0.4); /* Bordure passée à 2px pour être bien visible */
+  height: auto;
+  min-height: 52px;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 12px;
-  font-family: inherit;
-  font-size: 1.50rem;
+  font-family: var(--ff-family-medium);
+  font-size: 1rem;
   color: #ffffff;
-  transition: border-color 140ms ease;
+  transition: all 200ms ease;
 }
 
 .login-form__input::placeholder {
-  color: #b0b0b0; /* Plus d'opacité, une vraie couleur lisible */
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .login-form__input:hover {
-  border-color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
-/* R165 : Le focus natif est le plus robuste, surtout pour les modes "contraste élevé" */
 .login-form__input:focus,
 .login-form__input:focus-visible {
-  outline: 3px solid #ffffff;
-  outline-offset: 2px;
   border-color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.8);
+  outline: 3px solid rgba(255, 255, 255, 0.3);
+  outline-offset: 2px;
 }
 
-
-/* ── Password row ───────────────────────────────────── */
+/* ── Password Row ── */
 
 .login-form__password-row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.75rem;
 }
 
 .login-form__password-row .login-form__input {
-  flex: 1 1 auto;
-  min-width: 0;
+  flex: 1;
 }
 
-/* R76 : Bouton d'affichage du mot de passe */
-.login-form__password-row .password-toggle {
-  flex-shrink: 0;
+.password-toggle {
   width: 52px;
-  height: 52px; /* Parfait pour la zone tactile */
-  border-radius: 12px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: rgba(255, 255, 255, 0.1);
-  border: 2px solid rgba(255, 255, 255, 0.4);
-}
-
-.login-form label {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 6px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 200ms ease;
   color: #ffffff;
 }
 
-
-/* ═══════════════════════════════════════════════════
-   BUTTONS
-   ═══════════════════════════════════════════════════ */
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 12px 16px;
-  border: 2px solid transparent;
-  border-radius: 10px;
-  font-family: inherit;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 140ms ease, transform 100ms ease;
+.password-toggle:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
-/* R165 : Remplacement de box-shadow par outline pour une vraie accessibilité au clavier */
-.btn:focus-visible {
-  outline: 3px solid #ffffff;
+.password-toggle:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.4);
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px #000000;
 }
 
-.btn:active {
-  transform: scale(0.98);
+.password-toggle svg {
+  width: 24px;
+  height: 24px;
+  stroke: #ffffff;
+  fill: none;
 }
 
-.btn--primary {
-  background: var(--c-accent, #ffffff);
-  color: #000000;
+/* ── Actions / Buttons ── */
+
+.login-form__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 0.5rem;
 }
 
-.btn--primary:hover {
-  background: #e6e6e6;
-}
-
-.login-card .validate-button {
+.btn,
+.validate-button {
   width: 100%;
-  padding: 1rem 1.2rem;
-  font-size: 1.1rem;
-  font-weight: bold;
+  padding: 1rem 2rem;
+  font-family: var(--ff-family-main);
+  font-size: 1rem;
+  font-weight: 700;
+  border: 2px solid transparent;
   border-radius: 12px;
+  cursor: pointer;
+  transition: all 200ms ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.btn--primary,
+.validate-button {
   background: #ffffff;
   color: #000000;
-  cursor: pointer;
-  border: 2px solid transparent;
+  border-color: #ffffff;
 }
 
-.login-card .validate-button:hover {
-  background: #e6e6e6;
+.btn--primary:hover,
+.validate-button:hover {
+  background: #f0f0f0;
+  border-color: #f0f0f0;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
-.login-card .validate-button svg * {
+.btn--primary:focus-visible,
+.validate-button:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: -6px;
+}
+
+.validate-button svg * {
   stroke: #000000;
   fill: #000000;
+}
+
+/* ── Messages & Links ── */
+
+.login-container > p {
+  font-family: var(--ff-family-medium);
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+}
+
+.login-container a {
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 150ms ease;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+  padding-bottom: 2px;
+}
+
+.login-container a:hover {
+  border-bottom-color: #ffffff;
+  color: #f0f0f0;
+}
+
+.form-note {
+  font-family: var(--ff-family-medium);
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0.5rem 0 0;
+}
+
+.form-error {
+  font-family: var(--ff-family-medium);
+  color: #ffb3b3;
+  background: rgba(200, 0, 0, 0.15);
+  border: 2px solid rgba(255, 179, 179, 0.4);
+  border-radius: 8px;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 1rem;
+}
+
+/* ── Screen Reader Only ── */
+
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* =========================================
+   RESPONSIVE - TABLETTES
+   ========================================= */
+
+@media (max-width: 900px) {
+  .login-container {
+    min-height: auto;
+    padding: 3rem 1.5rem;
+  }
+
+  .login-card {
+    padding: 3rem 2rem;
+  }
+
+  .login-card__title {
+    font-size: 2rem;
+  }
+
+  .login-card__subtitle {
+    font-size: 1rem;
+  }
+}
+
+/* =========================================
+   RESPONSIVE - MOBILES
+   ========================================= */
+
+@media (max-width: 700px) {
+  .login-container {
+    padding: 2rem 1rem;
+    margin: 2rem auto;
+  }
+
+  .login-card {
+    padding: 2.5rem 1.5rem;
+    border-radius: 16px;
+  }
+
+  .login-card__title {
+    font-size: 1.75rem;
+  }
+
+  .login-card__subtitle {
+    font-size: 0.95rem;
+  }
+
+  .login-form__group {
+    gap: 0.4rem;
+  }
+
+  .btn,
+  .validate-button {
+    padding: 0.875rem 1.5rem;
+    font-size: 0.95rem;
+    border-radius: 10px;
+  }
+
+  .password-toggle {
+    width: 48px;
+    height: 48px;
+  }
+
+  .login-container > p {
+    font-size: 0.95rem;
+  }
+}
+
+/* =========================================
+   RESPONSIVE - TRÈS PETITS MOBILES
+   ========================================= */
+
+@media (max-width: 520px) {
+  .login-container {
+    padding: 1.5rem 1rem;
+    margin: 1.5rem auto;
+    gap: 1rem;
+  }
+
+  .login-card {
+    padding: 2rem 1.25rem;
+  }
+
+  .login-card__title {
+    font-size: 1.5rem;
+  }
+
+  .login-card__subtitle {
+    font-size: 0.9rem;
+  }
+
+  .login-form {
+    gap: 1.25rem;
+  }
+
+  .login-form__group {
+    gap: 0.35rem;
+  }
+
+  label {
+    font-size: 0.9rem;
+  }
+
+  .login-form__input {
+    font-size: 1rem;
+  }
+
+  .btn,
+  .validate-button {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  .password-toggle {
+    width: 44px;
+    height: 44px;
+  }
+
+  .login-form__actions {
+    gap: 0.75rem;
+  }
+}
+
+/* =========================================
+   ACCESSIBILITÉ - MOUVEMENT RÉDUIT
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .login-form__input,
+  .password-toggle,
+  .btn,
+  .validate-button,
+  .login-container a {
+    transition: none;
+  }
+
+  .btn:hover,
+  .validate-button:hover,
+  .btn--primary:hover,
+  .validate-button:hover {
+    transform: none;
+  }
 }
 
 

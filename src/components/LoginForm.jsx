@@ -46,7 +46,7 @@ function LoginForm({ onSuccess, setUser }) {
         <label htmlFor="login-email">{t('form.email')}</label>
         <input
           id="login-email"
-          className="form-reservation__input"
+          className="login-form__input"
           type="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
@@ -58,7 +58,7 @@ function LoginForm({ onSuccess, setUser }) {
         <div className="login-form__password-row">
           <input
             id="login-password"
-            className="form-reservation__input"
+            className="login-form__input"
             type={showPassword ? 'text' : 'password'}
             value={password}
             onChange={e => setPassword(e.target.value)}
@@ -66,7 +66,7 @@ function LoginForm({ onSuccess, setUser }) {
           {/* R76 : bouton afficher/masquer le mot de passe */}
           <button
             type="button"
-            className="btn btn-light password-toggle"
+            className="password-toggle"
             onClick={() => setShowPassword(current => !current)}
           >
             {showPassword ? (

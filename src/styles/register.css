@@ -1,163 +1,146 @@
-/* ═══════════════════════════════════════════════════
-   REGISTER CONTAINER
-   ═══════════════════════════════════════════════════ */
+/* =========================================
+   REGISTER - Design cohérent avec AuthPrompt
+   ========================================= */
 
 .register-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 48px 16px;
-}
-
-.register-container p {
-  margin-top: 18px;
+  min-height: 60vh;
+  padding: 4rem 2rem;
+  margin: 3rem auto;
+  gap: 1.5rem;
+  max-width: 1200px;
 }
 
 .register-card {
-  width: 90%;
-  max-width: 920px;
-  padding: 64px 56px;
-  background: rgba(8, 8, 8, 0.85); /* Plus opaque pour la lisibilité sur fond animé */
+  width: 100%;
+  max-width: 580px;
+  padding: 4rem 3rem;
+  background: rgba(8, 8, 8, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 18px;
-  box-sizing: border-box;
-  font-family: var(--ff-family-main);
-  color: #fff;
 }
 
-/* Liens globaux dans le formulaire */
-.register-card a {
-  color: #ffffff;
-  text-decoration: underline; /* Les liens doivent être soulignés par défaut pour l'accessibilité (pas juste une couleur) */
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-
-.register-card a:hover {
-  color: #e0e0e0;
-  text-decoration-thickness: 2px;
-}
-
-/* R165 : Focus sur les liens */
-.register-card a:focus-visible {
-  outline: 3px solid #ffffff;
-  outline-offset: 4px;
-  border-radius: 2px;
-}
-
-/* ── Header ─────────────────────────────────────────── */
+/* ── Header ── */
 
 .register-card__header {
-  margin-bottom: 32px;
+  margin-bottom: 2rem;
   text-align: center;
 }
 
 .register-card__title {
   font-family: var(--ff-family-main);
-  font-size: 3.3rem;
+  font-size: 2.5rem;
   font-weight: 700;
-  margin: 0 0 10px;
+  margin: 0;
+  color: #ffffff;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
 }
 
 .register-card__subtitle {
-  font-size: 1.25rem;
-  color: #e0e0e0; /* Couleur pleine plutôt qu'opacité */
+  font-family: var(--ff-family-medium);
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.75);
   margin: 0;
+  font-weight: 500;
+  line-height: 1.6;
 }
 
-
-/* ═══════════════════════════════════════════════════
-   REGISTER FORM
-   ═══════════════════════════════════════════════════ */
+/* ── Form Structure ── */
 
 .register-form {
   display: flex;
   flex-direction: column;
+  gap: 1.5rem;
 }
 
 .register-form__group,
 .register-form__field {
   display: flex;
   flex-direction: column;
-  margin-bottom: 18px;
+  gap: 0.5rem;
 }
 
-.register-form__actions {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 8px;
-}
-
-/* Uniformisation des labels sans !important pour garder la flexibilité */
 .register-form label,
 .register-form__field > label,
 .label {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 6px;
+  font-family: var(--ff-family-main);
+  font-size: 1rem;
+  font-weight: 700;
   color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-/* ── Input ──────────────────────────────────────────── */
+/* ── Input Styles ── */
 
 .register-form__input {
   width: 100%;
-  height: 52px;
-  padding: 14px 16px;
-  background: rgba(0, 0, 0, 0.5); /* Plus sombre pour faire ressortir le texte */
-  border: 2px solid rgba(255, 255, 255, 0.4); /* Bordure solide de 2px pour le contraste */
+  height: auto;
+  min-height: 52px;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 12px;
-  font-family: inherit;
-  font-size: 1.25rem;
-  color: #fff;
-  transition: border-color 140ms ease;
+  font-family: var(--ff-family-medium);
+  font-size: 1rem;
+  color: #ffffff;
+  transition: all 200ms ease;
 }
 
 .register-form__input::placeholder {
-  color: #b0b0b0; /* Un vrai gris lisible */
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .register-form__input:hover {
-  border-color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
-/* R165 : Remplacement de l'outline:none + box-shadow par un vrai contour natif */
 .register-form__input:focus,
 .register-form__input:focus-visible {
-  outline: 3px solid #ffffff;
-  outline-offset: 2px;
   border-color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.8);
+  outline: 3px solid rgba(255, 255, 255, 0.3);
+  outline-offset: 2px;
 }
 
-
-/* ── Password row ───────────────────────────────────── */
+/* ── Password Row ── */
 
 .register-form__password-row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.75rem;
 }
 
 .register-form__password-row .register-form__input {
-  flex: 1 1 auto;
-  min-width: 0;
+  flex: 1;
 }
 
-/* R76 : Bouton d'affichage du mot de passe */
 .register-form__password-row .password-toggle {
-  flex-shrink: 0;
   width: 52px;
   height: 52px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 2px solid rgba(255, 255, 255, 0.4);
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 140ms ease;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 200ms ease;
+  color: #ffffff;
+}
+
+.register-form__password-row .password-toggle:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.register-form__password-row .password-toggle:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.4);
+  outline-offset: 2px;
 }
 
 .register-form__password-row .password-toggle svg {
@@ -165,67 +148,228 @@
   height: 24px;
   stroke: #ffffff;
   fill: none;
-  transition: transform 140ms ease;
 }
 
-.register-form__password-row .password-toggle:hover {
-  background: rgba(255, 255, 255, 0.2);
+/* ── Actions / Buttons ── */
+
+.register-form__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 0.5rem;
 }
 
-.register-form__password-row .password-toggle:hover svg {
-  transform: scale(1.1);
+.validate-button {
+  width: 100%;
+  padding: 1rem 2rem;
+  font-family: var(--ff-family-main);
+  font-size: 1rem;
+  font-weight: 700;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 200ms ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
 }
 
-.register-form__password-row .password-toggle:focus-visible {
+.validate-button:hover {
+  background: #f0f0f0;
+  border-color: #f0f0f0;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.validate-button:focus-visible {
   outline: 3px solid #ffffff;
-  outline-offset: 2px;
+  outline-offset: -6px;
 }
 
-/* ── Notes et erreurs de formulaire ─────────────────── */
+.validate-button svg,
+.validate-button svg * {
+  stroke: #000000;
+  fill: #000000;
+}
 
-/* R203 : Rendu des textes d'aide lisibles */
+/* ── Messages & Links ── */
+
+.register-container > p {
+  font-family: var(--ff-family-medium);
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+}
+
+.register-container a,
+.register-card a {
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 150ms ease;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+  padding-bottom: 2px;
+}
+
+.register-container a:hover,
+.register-card a:hover {
+  border-bottom-color: #ffffff;
+  color: #f0f0f0;
+}
+
+.register-card a:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
 .form-note {
+  font-family: var(--ff-family-medium);
   font-size: 0.95rem;
-  margin: 0.6rem 0 0.2rem;
-  color: #e0e0e0;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0.5rem 0 0;
   line-height: 1.4;
 }
 
+/* =========================================
+   RESPONSIVE - TABLETTES
+   ========================================= */
 
-/* ── Submit button ──────────────────────────────────── */
+@media (max-width: 900px) {
+  .register-container {
+    min-height: auto;
+    padding: 3rem 1.5rem;
+  }
 
-.register-card .validate-button {
-  width: 100%;
-  padding: 1rem 1.2rem; /* Zone de clic ajustée */
-  font-size: 1.1rem;
-  font-weight: bold;
-  border-radius: 12px;
-  background: #ffffff;
-  border: 2px solid transparent;
-  color: #000000; /* Texte noir sur fond blanc = contraste max */
-  cursor: pointer;
-  transition: background 140ms ease, transform 100ms ease;
+  .register-card {
+    padding: 3rem 2rem;
+  }
+
+  .register-card__title {
+    font-size: 2rem;
+  }
+
+  .register-card__subtitle {
+    font-size: 1rem;
+  }
 }
 
-.register-card .validate-button:hover {
-  background: #e6e6e6;
+/* =========================================
+   RESPONSIVE - MOBILES
+   ========================================= */
+
+@media (max-width: 700px) {
+  .register-container {
+    padding: 2rem 1rem;
+    margin: 2rem auto;
+  }
+
+  .register-card {
+    padding: 2.5rem 1.5rem;
+    border-radius: 16px;
+  }
+
+  .register-card__title {
+    font-size: 1.75rem;
+  }
+
+  .register-card__subtitle {
+    font-size: 0.95rem;
+  }
+
+  .register-form__group,
+  .register-form__field {
+    gap: 0.4rem;
+  }
+
+  .validate-button {
+    padding: 0.875rem 1.5rem;
+    font-size: 0.95rem;
+    border-radius: 10px;
+  }
+
+  .register-form__password-row .password-toggle {
+    width: 48px;
+    height: 48px;
+  }
+
+  .register-container > p {
+    font-size: 0.95rem;
+  }
 }
 
-.register-card .validate-button:active {
-  transform: scale(0.98);
+/* =========================================
+   RESPONSIVE - TRÈS PETITS MOBILES
+   ========================================= */
+
+@media (max-width: 520px) {
+  .register-container {
+    padding: 1.5rem 1rem;
+    margin: 1.5rem auto;
+    gap: 1rem;
+  }
+
+  .register-card {
+    padding: 2rem 1.25rem;
+  }
+
+  .register-card__title {
+    font-size: 1.5rem;
+  }
+
+  .register-card__subtitle {
+    font-size: 0.9rem;
+  }
+
+  .register-form {
+    gap: 1.25rem;
+  }
+
+  .register-form__group,
+  .register-form__field {
+    gap: 0.35rem;
+  }
+
+  label {
+    font-size: 0.9rem;
+  }
+
+  .register-form__input {
+    font-size: 1rem;
+  }
+
+  .validate-button {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  .register-form__password-row .password-toggle {
+    width: 44px;
+    height: 44px;
+  }
+
+  .register-form__actions {
+    gap: 0.75rem;
+  }
 }
 
-/* R165 : Focus clavier explicite sur le bouton de validation */
-.register-card .validate-button:focus-visible {
-  outline: 3px solid #ffffff;
-  outline-offset: 2px;
-  box-shadow: 0 0 0 4px #000000; /* Contour noir autour du focus blanc */
-}
+/* =========================================
+   ACCESSIBILITÉ - MOUVEMENT RÉDUIT
+   ========================================= */
 
-.register-card .validate-button svg,
-.register-card .validate-button svg * {
-  stroke: #000000;
-  fill: #000000;
+@media (prefers-reduced-motion: reduce) {
+  .register-form__input,
+  .register-form__password-row .password-toggle,
+  .validate-button,
+  .register-container a {
+    transition: none;
+  }
+
+  .validate-button:hover {
+    transform: none;
+  }
 }
 
 /* ═══════════════════════════════════════════════════

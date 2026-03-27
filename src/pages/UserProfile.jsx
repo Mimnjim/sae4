@@ -26,6 +26,8 @@ export default function UserProfile() {
   const [reservations,   setReservations]   = useState([]);
   // R162 : confirmation dans le DOM plutôt que window.confirm()
   const [confirmDeleteId, setConfirmDeleteId] = useState(null);
+  const [toastMessage,   setToastMessage]   = useState('');
+  const [showToast,      setShowToast]      = useState(false);
 
   const [form, setForm] = useState({ firstname: '', lastname: '', email: '', password: '' });
 
@@ -81,7 +83,9 @@ export default function UserProfile() {
       .then(data => {
         if (data.success) {
           setReservations(prev => prev.filter(r => r.id !== reservationId));
-          setSuccessMessage('Réservation supprimée.');
+          setToastMessage('Réservation supprimée.');
+          setShowToast(true);
+          setTimeout(() => setShowToast(false), 3000);
         } else {
           setErrorMessage(data.message || 'Erreur lors de la suppression.');
         }
@@ -100,7 +104,14 @@ export default function UserProfile() {
 
   return (
     <div className="user-profile user-profile__container">
-      <h2>Mon profil</h2>
+      <div className="user-profile__header">
+        <div className="user-profile__title-section">
+          <h2>Mon profil</h2>
+        </div>
+        <div className="user-profile__logout-section">
+          <button type="button" className="btn btn-danger" onClick={handleLogout}>Se déconnecter</button>
+        </div>
+      </div>
 
       {/* R85 : messages dans le DOM */}
       {errorMessage   && <p className="form-error">{errorMessage}</p>}
@@ -135,7 +146,6 @@ export default function UserProfile() {
 
       <div className="user-profile__actions">
         <button type="button" className="btn btn-primary" onClick={handleSave}>Enregistrer</button>
-        <button type="button" className="btn btn-danger" onClick={handleLogout}>Se déconnecter</button>
       </div>
 
       <h3 className="user-profile__section-title">Mes réservations</h3>
@@ -170,6 +180,20 @@ export default function UserProfile() {
           ))
         )}
       </div>
+
+      {showToast && (
+        <div className="user-profile__toast">
+          <p>{toastMessage}</p>
+          <button 
+            type="button" 
+            className="user-profile__toast-close" 
+            onClick={() => setShowToast(false)}
+            aria-label="Fermer la notification"
+          >
+            ✕
+          </button>
+        </div>
+      )}
     </div>
   );
 }

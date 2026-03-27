@@ -63,7 +63,7 @@ function RegisterForm({ onSuccess }) {
         <label htmlFor="register-firstname">{t('form.firstName')} <span className="required">*</span></label>
         <input
           id="register-firstname"
-          className="form-reservation__input"
+          className="register-form__input"
           type="text"
           value={firstname}
           onChange={e => setFirstname(e.target.value)}
@@ -74,7 +74,7 @@ function RegisterForm({ onSuccess }) {
         <label htmlFor="register-lastname">{t('form.lastName')} <span className="required">*</span></label>
         <input
           id="register-lastname"
-          className="form-reservation__input"
+          className="register-form__input"
           type="text"
           value={lastname}
           onChange={e => setLastname(e.target.value)}
@@ -85,7 +85,7 @@ function RegisterForm({ onSuccess }) {
         <label htmlFor="register-email">{t('form.email')} <span className="required">*</span></label>
         <input
           id="register-email"
-          className="form-reservation__input"
+          className="register-form__input"
           type="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
@@ -97,7 +97,7 @@ function RegisterForm({ onSuccess }) {
         <div className="register-form__password-row">
           <input
             id="register-password"
-            className="form-reservation__input"
+            className="register-form__input"
             type={showPassword ? 'text' : 'password'}
             value={password}
             onChange={e => setPassword(e.target.value)}
@@ -105,7 +105,7 @@ function RegisterForm({ onSuccess }) {
           {/* R76 : afficher/masquer le mot de passe */}
           <button
             type="button"
-            className="btn btn-light password-toggle"
+            className="password-toggle"
             onClick={() => setShowPassword(current => !current)}
           >
             {showPassword ? (

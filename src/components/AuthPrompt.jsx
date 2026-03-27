@@ -9,25 +9,27 @@ export default function AuthPrompt({ message }) {
 
   return (
     <div className="auth-prompt">
-      <h3 className="auth-prompt__title">
-        {message || DEFAULT_MESSAGE}
-      </h3>
-      <p className="auth-prompt__desc">
-        Connectez-vous ou créez un compte pour poursuivre.
-      </p>
-      <div className="auth-prompt__actions">
-        <button
-          className="auth-prompt__btn auth-prompt__btn--primary"
-          onClick={() => navigate('/login')}
-        >
-          Se connecter
-        </button>
-        <button
-          className="auth-prompt__btn auth-prompt__btn--secondary"
-          onClick={() => navigate('/register')}
-        >
-          S'inscrire
-        </button>
+      <div className="auth-prompt__container">
+        <h3 className="auth-prompt__title">
+          {message || DEFAULT_MESSAGE}
+        </h3>
+        <p className="auth-prompt__desc">
+          Connectez-vous ou créez un compte pour poursuivre.
+        </p>
+        <div className="auth-prompt__actions">
+          <button
+            className="auth-prompt__btn auth-prompt__btn--primary"
+            onClick={() => navigate('/login')}
+          >
+            Se connecter
+          </button>
+          <button
+            className="auth-prompt__btn auth-prompt__btn--secondary"
+            onClick={() => navigate('/register')}
+          >
+            S'inscrire
+          </button>
+        </div>
       </div>
     </div>
   );

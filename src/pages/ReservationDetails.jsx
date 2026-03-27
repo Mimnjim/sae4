@@ -58,7 +58,7 @@ const ReservationDetails = () => {
 
   const formIsComplete = Boolean(prenom && nom && email && emailConfirm && email === emailConfirm && totalTickets > 0);
 
-  const jwt = typeof window !== 'undefined' ? localStorage.getItem('jwt') : null;
+  const jwt = typeof window !== 'undefined' ? (localStorage.getItem('jwt') || localStorage.getItem('token')) : null;
   if (!jwt) return <div style={{ padding: 24 }}><p>Connectez-vous pour réserver votre visite.</p></div>;
 
   const handleApplyPromo = () => {

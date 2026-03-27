@@ -1,339 +1,809 @@
 /* =========================================
    COMPOSANT : USER PROFILE (Structure globale)
    ========================================= */
-.user-profile h2 {
-  font-family: var(--font-display, 'Thunder', sans-serif);
-  font-size: 1.6rem;
-  margin: 0 0 10px 0;
-  color: #ffffff;
-}
-
-.user-profile h3 {
-  font-family: var(--font-display, 'Thunder', sans-serif);
-  font-size: 1.25rem; /* Augmenté légèrement pour la hiérarchie et lisibilité */
-  color: #ffffff; /* Couleur solide pour meilleur contraste */
-  margin: 18px 0 8px 0;
-}
 
 :root {
   --up-bg-1: #000000;
-  --up-muted: #e0e0e0; /* Remplacement de rgba par une couleur pleine contrastée */
-  --up-card: rgba(0, 0, 0, 0.6); /* Fond plus sombre pour contraster avec le texte blanc */
+  --up-muted: #e0e0e0;
+  --up-card: rgba(0, 0, 0, 0.6);
   --up-radius: 12px;
-  --up-gap: 1rem;
+  --up-gap: 2rem;
 }
 
-/* Card look for the whole profile area */
+/* Container principal avec respiration */
 .user-profile__container {
-  padding: 28px;
-  border-radius: 12px;
-  background: var(--up-card); /* Ajout du fond défini plus haut */
-  border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-.user-profile__title {
-  margin-bottom: 1rem;
-}
-
-.user-profile__section-title {
-  margin-top: 2rem;
-  font-size: 1.25rem;
-  font-weight: bold;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 8rem 2rem 3rem 2rem;
   color: #ffffff;
 }
 
-.user-profile__grid {
-  display: grid;
-  grid-template-columns: 1fr 380px;
-  gap: 1.25rem;
-  align-items: start;
+/* Titres principaux */
+.user-profile h2 {
+  font-family: var(--ff-family-main);
+  font-size: 2.5rem;
+  margin: 0 0 3rem 0;
+  color: #ffffff;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
-/* Right column summary (if present) */
-.profile-summary {
-  background: rgba(0, 0, 0, 0.5); /* Assombri pour contraste */
-  border-radius: var(--up-radius);
-  padding: 1.25rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+/* Titres secondaires */
+.user-profile h3 {
+  font-family: var(--ff-family-semibold);
+  font-size: 2rem;
+  color: #ffffff;
+  margin: 3rem 0 2rem 0;
+  font-weight: 600;
+  line-height: 1.3;
 }
 
-.user-profile__actions {
-  margin-top: 1rem;
+/* Section titre */
+.user-profile__section-title {
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #ffffff;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  font-family: var(--ff-family-semibold);
 }
 
 /* =========================================
-   COMPOSANT : FORM
+   FORMULAIRE - GRILLE DE CHAMPS
    ========================================= */
+
+.user-profile__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+  margin-bottom: 3rem;
+}
+
 .form-group {
   display: flex;
   flex-direction: column;
+  gap: 0.75rem;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 200ms ease;
 }
 
-/* Support the JSX classes used in the component */
+.form-group:focus-within {
+  background: rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.form-group--full {
+  grid-column: 1 / -1;
+}
+
+/* Labels */
 .user-label,
 .form-group__label {
-  font-size: 1.1rem; /* 1rem minimum pour la lisibilité */
+  font-size: 1rem;
   font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 0.5rem;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-family: var(--ff-family-main);
 }
 
-/* On regroupe les styles des inputs pour éviter les doublons */
+/* Inputs */
 .user-input,
 .form-group__input {
-  font-size: 1.1rem; /* Passage de 16px à rem */
+  font-size: 1.1rem;
   color: #ffffff;
-  background-color: rgba(0, 0, 0, 0.6); /* Fond sombre */
-  border: 2px solid rgba(255, 255, 255, 0.4); /* Bordure 2px bien visible */
-  padding: 0.75rem 1rem; /* Hauteur suffisante pour zone tactile > 44px */
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  padding: 1rem;
   border-radius: 8px;
   outline: none;
-  transition: border-color 150ms ease;
+  transition: all 200ms ease;
   width: 100%;
   box-sizing: border-box;
+  font-family: var(--ff-family-medium);
 }
 
-/* R165 : Focus clavier natif et fort */
+.user-input::placeholder,
+.form-group__input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
 .user-input:focus,
 .user-input:focus-visible,
 .form-group__input:focus,
 .form-group__input:focus-visible {
   border-color: #ffffff;
-  outline: 3px solid #ffffff;
+  background-color: rgba(0, 0, 0, 0.8);
+  outline: 3px solid rgba(255, 255, 255, 0.3);
   outline-offset: 2px;
 }
 
-/* Messages : Amélioration du contraste (R85) */
-.form-error {
-  background: rgba(200, 0, 0, 0.2);
-  color: #ffb3b3;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  border: 2px solid #ffb3b3;
-  margin: 8px 0;
-  font-weight: bold;
-}
-
-.form-success {
-  background: rgba(0, 150, 50, 0.2);
-  color: #85e085;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  border: 2px solid #85e085;
-  margin: 8px 0;
-  font-weight: bold;
-}
-
-.form-group--full-width {
-  grid-column: 1 / -1;
-}
-
-/* --- Section mot de passe --- */
-.form-group__password-row {
+/* Password toggle button */
+.user-profile__password-row {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
+}
+
+.user-profile__password-row .user-input {
+  flex: 1;
 }
 
 .user-profile__password-toggle,
 .form-group__password-toggle {
   padding: 0;
-  width: 44px; /* Zone tactile (Opquast mobile) */
-  height: 44px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: rgba(255, 255, 255, 0.1);
   color: #ffffff;
-  border: 2px solid rgba(255, 255, 255, 0.4);
-  border-radius: 6px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 150ms ease;
+  transition: all 200ms ease;
+  font-weight: 600;
+  font-family: var(--ff-family-semibold);
 }
 
-.form-group__password-toggle:hover {
+.user-profile__password-toggle:hover {
   background-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
-/* R165 : Focus sur le bouton oeil */
-.form-group__password-toggle:focus-visible {
-  outline: 3px solid #ffffff;
+.user-profile__password-toggle:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.4);
   outline-offset: 2px;
 }
 
 /* =========================================
-   COMPOSANT : RESERVATION CARD
+   MESSAGES
    ========================================= */
 
-.reservation-card {
+.form-error {
+  background: rgba(200, 0, 0, 0.15);
+  color: #ffb3b3;
+  padding: 1.25rem;
+  border-radius: 8px;
+  border-left: 4px solid #ffb3b3;
+  margin: 1.5rem 0;
+  font-weight: bold;
+  font-size: 1rem;
+  font-family: var(--ff-family-medium);
+}
+
+.form-success {
+  background: rgba(0, 150, 50, 0.15);
+  color: #85e085;
+  padding: 1.25rem;
+  border-radius: 8px;
+  border-left: 4px solid #85e085;
+  margin: 1.5rem 0;
+  font-weight: bold;
+  font-size: 1rem;
+  font-family: var(--ff-family-medium);
+}
+
+/* =========================================
+   SECTION ACTIONS (Boutons)
+   ========================================= */
+
+.user-profile__header {
   display: flex;
   justify-content: space-between;
-  gap: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.2); /* Contraste augmenté */
-  padding: 1rem;
-  margin-bottom: 12px;
-  border-radius: 10px;
-  background-color: rgba(0, 0, 0, 0.6);
-  align-items: center;
+  align-items: flex-start;
+  margin-bottom: 3rem;
 }
 
-.reservation-card .meta {
-  color: var(--up-muted);
-  font-size: 0.95rem;
+.user-profile__title-section {
+  flex: 1;
 }
 
-.user-profile__reservation-actions button {
-  padding: 0.75rem 1rem; /* Zone tactile 44px */
+.user-profile__logout-section {
+  display: flex;
+  align-items: flex-start;
+}
+
+.user-profile__actions {
+  display: flex;
+  gap: 1.5rem;
+  margin: 3rem 0;
+  flex-wrap: wrap;
+}
+
+.user-profile__actions .btn {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 700;
   border-radius: 8px;
-  border: 2px solid transparent; /* Prépare le focus */
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 200ms ease;
+  min-width: 180px;
+  font-family: var(--ff-family-main);
 }
 
-/* R165 */
-.user-profile__reservation-actions button:focus-visible {
+.btn-primary {
+  color: #000000;
+  background: #ffffff;
+  border: 2px solid #ffffff;
+}
+
+.btn-primary:hover {
+  background: #f0f0f0;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary:focus-visible {
   outline: 3px solid #ffffff;
   outline-offset: 2px;
 }
 
-.reservation-card__actions {
-  margin-top: 0.5rem;
-}
-
-/* Modernize reservation list appearance */
-.user-profile__reservations {
-  margin-top: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.user-profile__reservation {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 1rem 1.25rem;
-  border-radius: 10px;
-  background: rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: transform 160ms ease, border-color 160ms ease;
-}
-
-.user-profile__reservation:hover {
-  transform: translateY(-4px); /* Légèrement réduit pour être moins agressif */
-  border-color: rgba(255, 255, 255, 0.4);
-}
-
-.reservation-pill {
-  display: inline-block;
-  padding: 0.25rem 0.75rem;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #000000;
-  background: #ffffff; /* S'assure d'un bon contraste */
-}
-
-.user-profile__reservation .meta,
-.user-profile__reservations p {
-  color: var(--up-muted);
-  margin: 0;
-  line-height: 1.4;
-}
-
-.user-profile__reservation>div {
-  min-width: 180px;
-}
-
-.user-profile__reservation strong {
+.btn-danger {
   color: #ffffff;
+  background: rgba(220, 50, 50, 0.8);
+  border: 2px solid rgba(220, 50, 50, 1);
 }
 
-.user-profile__reservation .user-profile__reservation-actions {
-  display: flex;
-  gap: 8px;
-  align-items: center;
+.btn-danger:hover {
+  background: rgba(220, 50, 50, 1);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(220, 50, 50, 0.4);
 }
 
-.user-profile__reservation .btn-light {
+.btn-danger:focus-visible {
+  outline: 3px solid rgba(220, 50, 50, 1);
+  outline-offset: 2px;
+}
+
+.btn-light {
+  color: #ffffff;
   background: transparent;
-  color: #ffffff;
   border: 2px solid rgba(255, 255, 255, 0.4);
 }
 
-.user-profile__reservation .btn-light:hover {
+.btn-light:hover {
   background: rgba(255, 255, 255, 0.1);
   border-color: #ffffff;
 }
 
-/* =========================================
-   BOUTON PRIMAIRE 
-   ========================================= */
-.btn-primary {
-  color: #000000; /* Texte noir sur fond clair pour le contraste */
-  background: #ffffff; /* Par défaut, on va supposer un bouton blanc ou d'une couleur d'accent claire */
-  border: 2px solid transparent;
-  padding: 0.75rem 1.25rem; /* Zone de clic 44px */
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 700;
-  font-size: 1rem;
-  transition: background 120ms ease, transform 120ms ease;
+.btn-light:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.6);
+  outline-offset: 2px;
 }
 
-.btn-primary:hover {
-  background: #e6e6e6;
+/* =========================================
+   RÉSERVATIONS
+   ========================================= */
+
+.user-profile__reservations {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.user-profile__reservations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.user-profile__reservation {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.3) 100%);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  transition: all 200ms ease;
+  flex: 0 1 calc(50% - 0.75rem);
+  min-width: 300px;
+  font-family: var(--ff-family-medium);
+}
+
+.user-profile__reservation:hover {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.4) 100%);
+  border-color: rgba(255, 255, 255, 0.5);
   transform: translateY(-2px);
 }
 
-.btn-primary:active {
-  transform: translateY(0);
+.user-profile__reservation > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  line-height: 1.5;
+  font-size: 1.05rem;
 }
 
-/* R165 : Focus clavier net */
-.btn-primary:focus-visible {
-  outline: 3px solid #ffffff;
+.user-profile__reservation strong {
+  color: #ffffff;
+  font-weight: 700;
+  font-family: var(--ff-family-semibold);
+  font-size: 1.1rem;
+}
+
+.user-profile__reservation-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.user-profile__reservation-actions button {
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 150ms ease;
+  font-size: 1rem;
+  font-family: var(--ff-family-medium);
+}
+
+.user-profile__reservation-actions button:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.6);
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px #000000;
+}
+
+.confirm-message {
+  color: rgba(255, 255, 255, 0.8);
+  font-style: italic;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  font-family: var(--ff-family-medium);
+}
+
+/* Message de pas de réservations */
+.user-profile__reservations > p {
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+  padding: 2rem;
+  font-style: italic;
+  font-size: 1rem;
+  font-family: var(--ff-family-medium);
+  width: 100%;
 }
 
 /* =========================================
-   RESPONSIVE (et Accessibilité R22)
+   TOAST NOTIFICATION
    ========================================= */
-@media (max-width: 700px) {
-  .user-profile__grid {
-    grid-template-columns: 1fr;
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutDown {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+.user-profile__toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: linear-gradient(135deg, rgba(0, 150, 50, 0.95) 0%, rgba(0, 120, 40, 0.95) 100%);
+  color: #85e085;
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  border-left: 4px solid #85e085;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  font-family: var(--ff-family-medium);
+  font-size: 1rem;
+  font-weight: 600;
+  max-width: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  animation: slideInUp 0.3s ease-out forwards;
+  z-index: 9999;
+}
+
+.user-profile__toast p {
+  margin: 0;
+  flex: 1;
+}
+
+.user-profile__toast-close {
+  background: none;
+  border: none;
+  color: #85e085;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  transition: all 150ms ease;
+  font-family: var(--ff-family-medium);
+}
+
+.user-profile__toast-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+}
+
+.user-profile__toast-close:focus-visible {
+  outline: 2px solid #85e085;
+  outline-offset: 2px;
+}
+
+
+/* =========================================
+   RESPONSIVE DESIGN - TABLETTES
+   ========================================= */
+
+@media (max-width: 900px) {
+  .user-profile__header {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .user-profile__logout-section {
+    width: 100%;
+  }
+
+  .user-profile__logout-section .btn {
+    width: 100%;
+  }
+
+  .user-profile h2 {
+    font-size: 2rem;
+    margin: 0 0 2rem 0;
+  }
+
+  .user-profile h3 {
+    font-size: 1.6rem;
+    margin: 2.5rem 0 1.5rem 0;
   }
 
   .user-profile__container {
-    padding: 1.25rem;
+    padding: 7rem 1.5rem 2.5rem 1.5rem;
   }
-}
 
-@media (max-width: 520px) {
   .user-profile__reservation {
-    flex-direction: column;
-    align-items: stretch;
+    flex: 0 1 calc(100% - 0rem);
   }
 
-  .user-profile__reservation>div {
+  .user-profile__grid {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+
+  .user-profile__section-title {
+    margin-top: 2.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+  }
+
+  .user-profile__toast {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    max-width: 350px;
+  }
+
+  .user-profile__actions {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .user-profile__actions .btn {
     min-width: 100%;
   }
 
-  .user-profile__reservation .user-profile__reservation-actions {
-    justify-content: flex-end;
+  .user-profile__reservations {
+    gap: 1.25rem;
+  }
+
+  .user-profile__reservation {
+    padding: 1.25rem 1.25rem;
+    gap: 0.75rem;
+  }
+
+  .user-profile__reservation > div {
+    font-size: 1.05rem;
+  }
+
+  .user-profile__reservation-actions {
+    width: 100%;
+    gap: 1rem;
+  }
+
+  .user-profile__reservation-actions button {
+    font-size: 1rem;
+  }
+
+  .form-group {
+    padding: 1.25rem;
+    gap: 0.5rem;
+  }
+
+  .user-input,
+  .form-group__input {
+    padding: 0.875rem;
+    font-size: 1rem;
+  }
+
+  .user-label,
+  .form-group__label {
+    font-size: 1rem;
   }
 }
 
-/* R22 : Désactivation des animations (hover de la carte, etc.) */
-@media (prefers-reduced-motion: reduce) {
-  .user-profile__reservation,
-  .btn-primary,
-  .form-group__password-toggle {
-    transition: none;
+/* =========================================
+   RESPONSIVE DESIGN - MOBILES
+   ========================================= */
+
+@media (max-width: 700px) {
+  .user-profile__header {
+    flex-direction: column;
+    gap: 1.5rem;
   }
+
+  .user-profile__logout-section {
+    width: 100%;
+  }
+
+  .user-profile__logout-section .btn {
+    width: 100%;
+  }
+
+  .user-profile h2 {
+    font-size: 1.75rem;
+    margin: 0 0 1.5rem 0;
+  }
+
+  .user-profile h3 {
+    font-size: 1.4rem;
+    margin: 2rem 0 1.25rem 0;
+  }
+
+  .user-profile__container {
+    padding: 6rem 1rem 2rem 1rem;
+    max-width: 100%;
+  }
+
+  .user-profile__reservation {
+    flex: 0 1 calc(100% - 0rem);
+  }
+
+  .user-profile__grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .user-profile__section-title {
+    margin-top: 2rem;
+    margin-bottom: 1.25rem;
+    font-size: 1.4rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .user-profile__reservations {
+    gap: 1rem;
+  }
+
+  .user-profile__reservation {
+    padding: 1.25rem 1rem;
+    gap: 0.75rem;
+    flex: 0 1 calc(100% - 0rem);
+  }
+
+  .user-profile__reservation > div {
+    font-size: 1rem;
+  }
+
+  .user-profile__reservation-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .user-profile__reservation-actions button {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+  }
+
+  .form-group {
+    padding: 1rem;
+    gap: 0.5rem;
+  }
+
+  .user-input,
+  .form-group__input {
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+
+  .user-label,
+  .form-group__label {
+    font-size: 1rem;
+  }
+
+  .user-profile__actions {
+    gap: 0.75rem;
+  }
+
+  .user-profile__actions .btn {
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .user-profile__toast {
+    bottom: 1rem;
+    right: 1rem;
+    left: 1rem;
+    max-width: unset;
+    font-size: 0.95rem;
+    padding: 1.25rem 1.5rem;
+  }
+}
+
+/* =========================================
+   RESPONSIVE DESIGN - TRÈS PETITS MOBILES
+   ========================================= */
+
+@media (max-width: 520px) {
+  .user-profile__header {
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .user-profile__logout-section {
+    width: 100%;
+  }
+
+  .user-profile__logout-section .btn {
+    width: 100%;
+  }
+
+  .user-profile__left {
+    padding: 1.5rem 0.75rem;
+  }
+
+  .user-profile__sticky-wrapper {
+    padding: 1rem;
+  }
+
+  .user-profile h2 {
+    font-size: 1.5rem;
+    margin: 0 0 1.25rem 0;
+  }
+
+  .user-profile h3 {
+    font-size: 1.2rem;
+    margin: 0 0 0.75rem 0;
+  }
+
+  .user-profile__container {
+    padding: 1.5rem 0.75rem;
+  }
+
+  .user-profile__section-title {
+    font-size: 1.2rem;
+    margin: 0 0 1rem 0;
+    padding-bottom: 0.5rem;
+  }
+
+  .user-profile__reservation {
+    padding: 1rem 1rem;
+    gap: 0.75rem;
+    flex: 0 1 calc(100% - 0rem);
+  }
+
+  .user-profile__reservation > div {
+    font-size: 1rem;
+  }
+
+  .user-profile__reservation-actions {
+    gap: 0.75rem;
+  }
+
+  .user-profile__reservation-actions button {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+  }
+
+  .form-group {
+    padding: 1rem;
+    gap: 0.5rem;
+  }
+
+  .user-input,
+  .form-group__input {
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+
+  .user-label,
+  .form-group__label {
+    font-size: 1rem;
+  }
+
+  .user-profile__actions .btn {
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+  }
+
+  .user-profile__toast {
+    bottom: 0.75rem;
+    right: 0.75rem;
+    left: 0.75rem;
+    max-width: unset;
+    font-size: 0.9rem;
+    padding: 1rem 1.25rem;
+    gap: 1rem;
+  }
+
+  .user-profile__toast-close {
+    width: 28px;
+    height: 28px;
+    font-size: 1.25rem;
+  }
+}
+
+/* =========================================
+   ACCESSIBILITÉ - PRÉFÉRENCES DE MOUVEMENT
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .form-group,
+  .user-input,
+  .user-profile__password-toggle,
+  .btn-primary,
+  .btn-danger,
+  .btn-light,
+  .user-profile__reservation {
+    transition: none !important;
+  }
+
   .user-profile__reservation:hover {
     transform: none;
   }
+}
+
+/* =========================================
+   ÉTATS DE CHARGEMENT ET ERREUR
+   ========================================= */
+
+.user-profile__loading,
+.user-profile__error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-family: var(--ff-family-medium);
+  font-weight: 600;
+}
 }

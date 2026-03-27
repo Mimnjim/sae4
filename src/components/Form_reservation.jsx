@@ -75,7 +75,7 @@ const FormReservation = () => {
     }
   }, []);
 
-  const jwt = typeof window !== 'undefined' ? localStorage.getItem('jwt') : null;
+  const jwt = typeof window !== 'undefined' ? (localStorage.getItem('jwt') || localStorage.getItem('token')) : null;
   if (!jwt) return <AuthPrompt message="Connectez-vous pour réserver votre visite" />;
 
   const handleApplyPromo = () => {
