@@ -1,6 +1,6 @@
 {
   "gateway": {
-    "badge": "Immersive Exhibition — Akira · Ghost in the Shell",
+    "badge": "Immersive Exhibition – Akira · Ghost in the Shell",
     "question": "Are you truly human?",
     "protocol": "Access protocol pending",
     "languages": "Languages",
@@ -18,7 +18,7 @@
     "tickets": "tickets",
     "loading": "Loading the experience",
     "akiraTitle": "Akira (1982 - 1990): Flesh and Chaos",
-    "akiraContent": "Created in 1982 by Katsuhiro Ōtomo, Akira emerges from a thriving Japan, still marked by nuclear trauma. Here, technology is no longer progress, but a mutating force that dehumanizes the body. Through brutal metamorphosis where flesh and machine merge, the work questions us: by forcing our own evolution, don't we risk turning humanity into mere remnant?",
+    "akiraContent": "Created in 1982 by Katsuhiro ÅŒtomo, Akira emerges from a thriving Japan, still marked by nuclear trauma. Here, technology is no longer progress, but a mutating force that dehumanizes the body. Through brutal metamorphosis where flesh and machine merge, the work questions us: by forcing our own evolution, don't we risk turning humanity into mere remnant?",
     "gisTitle": "Ghost in The Shell (1989 - 1991): Spirit Beyond Flesh",
     "gisContent": "Created in 1989 by Masamune Shirow, Ghost in the Shell explores a future where the boundary between human and machine completely disappears. In this hyper-connected society, the body is merely a cybernetic shell that can be enhanced or replaced. Here, progress is no longer an endured mutation, but an aspiration to leave the flesh. By freeing ourselves from biological limits, the work confronts us with the ultimate dilemma: what remains of our humanity when our spirit dissolves into infinite data?"
   },
@@ -26,12 +26,12 @@
     "title": "Experiences",
     "eyebrow": "Interactive Experience",
     "enterUniverse": "Enter the Universe",
-    "description": "Immerse yourself in a unique experience designed for this exhibition. Cross Neo-Tokyo, infiltrate Section 9 — and complete your mission to leave with an exclusive code for ticketing.",
-    "reservationSub": "Tickets available from March 15 to June 30, 2025",
+    "description": "Embark on a thrilling race to collect all the cyborg fragments, and avoid enemy vehicles if you want to reach your destination...",
+    "reservationSub": "Tickets available from March 15 to June 30, 2026",
     "discover": "Discover",
     "tickets_link": "Book",
     "reserveVisit": "Book your visit!",
-    "promoText": "Exclusive promo code to unlock at the end of the experience",
+    "promoText": "A reward awaits you at the finish line.",
     "playNow": "Play now"
   },
   "footer": {
@@ -54,7 +54,50 @@
     "info": "Practical info",
     "profile": "Profile",
     "login": "Login",
-    "logout": "Logout"
+    "logout": "Logout",
+    "myAccount": "My account"
+  },
+  "auth": {
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "login": "Log in",
+    "logout": "Logout",
+    "register": "Register",
+    "registering": "Signing up...",
+    "logging": "Logging in...",
+    "needAuth": "You must be logged in to book",
+    "authDescription": "Sign in or create an account to continue.",
+    "requiresLogin": "You must be logged in to book",
+    "loginOrRegister": "Sign in or create an account to continue.",
+    "password": "Password",
+    "passwordStrength": "Password strength",
+    "weak": "Weak",
+    "medium": "Medium",
+    "strong": "Strong",
+    "veryStrong": "Very strong",
+    "forgotPassword": "Forgot password?",
+    "hasAccount": "Already have an account? Sign in",
+    "noAccount": "Don't have an account? Sign up",
+    "requiredFields": "All fields are required",
+    "confirmEmail": "A confirmation email will be sent after registration",
+    "invalidCredentials": "Invalid credentials",
+    "resetPassword": "Reset password",
+    "resetPasswordSubtitle": "Enter your email address to receive a password reset link",
+    "sendResetLink": "Send reset link",
+    "backToLogin": "Back to login",
+    "resetEmailSent": "Password reset email sent",
+    "resetEmailError": "Error sending password reset email",
+    "resetInstructions": "We will send you an email with a link to reset your password.",
+    "sending": "Sending...",
+    "updating": "Updating...",
+    "updatePassword": "Update password",
+    "passwordMismatch": "Passwords do not match",
+    "passwordTooShort": "Password must be at least 8 characters long",
+    "resetError": "Error resetting password",
+    "passwordResetSuccess": "Password reset successfully",
+    "registrationError": "Error during registration. Check the fields.",
+    "networkError": "Network error",
+    "networkErrorContact": "Network error – unable to contact the server."
   },
   "form": {
     "firstName": "First name",
@@ -64,8 +107,11 @@
     "password": "Password",
     "passwordPlaceholder": "Enter your password",
     "newPassword": "New password",
+    "newPasswordOptional": "New password (leave blank to keep the same)",
     "confirmPassword": "Confirm password",
     "confirmPasswordPlaceholder": "Confirm your password",
+    "showPassword": "Show",
+    "hidePassword": "Hide",
     "date": "Date",
     "time": "Time",
     "language": "Visit language",
@@ -104,40 +150,6 @@
     "seniors": "Seniors over 60",
     "seniorsDescription": "Upon presentation of an identity document or other valid personal identification with photograph and date of birth."
   },
-  "auth": {
-    "signIn": "Sign in",
-    "signUp": "Sign up",
-    "login": "Login",
-    "register": "Register",
-    "needAuth": "You must be logged in to book",
-    "authDescription": "Sign in or create an account to continue.",
-    "password": "Password",
-    "passwordStrength": "Password strength",
-    "weak": "Weak",
-    "medium": "Medium",
-    "strong": "Strong",
-    "veryStrong": "Very strong",
-    "confirmEmail": "A confirmation email will be sent after registration",
-    "logout": "Logout",
-    "invalidCredentials": "Invalid email or password",
-    "networkError": "Network error",
-    "registrationError": "Error during registration. Check the fields.",
-    "networkErrorContact": "Network error — unable to contact the server.",
-    "resetPassword": "Reset password",
-    "resetPasswordSubtitle": "Enter your email address to receive a password reset link",
-    "sendResetLink": "Send reset link",
-    "resetEmailSent": "Email sent successfully. Check your inbox.",
-    "resetEmailError": "Error sending password reset email.",
-    "resetInstructions": "We will send you an email with a link to reset your password.",
-    "sending": "Sending...",
-    "updating": "Updating...",
-    "updatePassword": "Update password",
-    "passwordMismatch": "Passwords do not match",
-    "passwordTooShort": "Password must be at least 8 characters long",
-    "resetError": "Error resetting password",
-    "passwordResetSuccess": "Password reset successfully",
-    "backToLogin": "Back to login"
-  },
   "validation": {
     "title": "Booking confirmation",
     "hello": "Hello",
@@ -155,9 +167,10 @@
     "location": "Location",
     "locationValue": "Musée Guimet",
     "dates": "Dates",
-    "datesValue": "March 15 — June 30, 2026",
+    "datesValue": "March 15 – June 30, 2026",
     "works": "Works",
-    "worksValue": "2 universes · 4 rooms"
+    "worksValue": "2 universes · 4 rooms",
+    "dataLine": "SYS://EXPOSITION.INIT – AKIRA × GHOST_IN_THE_SHELL – PARIS_2025"
   },
   "manga": {
     "title": "Manga Archive",
@@ -165,7 +178,7 @@
     "eyebrow": "Musée Guimet · Paris · 2026",
     "mainTitle": "Beyond the human: an immersive exhibition",
     "hook": "This immersive exhibition plunges you into the heart of this duality: between Akira's mutating flesh and Ghost in the Shell's digital consciousness.",
-    "pitch": "Thoough an immersive journey, we invite you to cross the boundary of reality to explore the limits of the human. Between monumental projections and soundscapes, immerse yourself in the universe of these two iconic mangas."
+    "pitch": "Through an immersive journey, we invite you to cross the boundary of reality to explore the limits of the human. Between monumental projections and soundscapes, immerse yourself in the universe of these two iconic mangas."
   },
   "podcast": {
     "title": "Podcasts",
@@ -179,17 +192,69 @@
     "difficulty": "Difficulty"
   },
   "pages": {
+    "login": {
+      "title": "Login",
+      "forgotPassword": "Forgot password?",
+      "noAccount": "No account? Sign up"
+    },
+    "register": {
+      "title": "Register",
+      "hasAccount": "Already have an account? Sign in"
+    },
+    "registerSent": {
+      "title": "Registration successful",
+      "message": "Your account has been created successfully. You can now log in.",
+      "link": "Go to login page"
+    },
+    "activate": {
+      "title": "Account activation",
+      "validating": "Validating...",
+      "success": "Account activated successfully",
+      "redirecting": "redirecting to login page...",
+      "tokenMissing": "Token missing",
+      "error": "An error occurred"
+    },
+    "profile": {
+      "myProfile": "My account",
+      "title": "My profile",
+      "dashboard": "Dashboard",
+      "logout": "Log out",
+      "loading": "Loading...",
+      "notConnected": "User not logged in.",
+      "myReservations": "My reservations",
+      "noReservations": "No reservations at the moment.",
+      "loadError": "Unable to load profile.",
+      "networkError": "Network error, please try again.",
+      "updateSuccess": "Profile updated successfully.",
+      "updateError": "Error updating profile.",
+      "reservationDeleted": "Reservation deleted.",
+      "deleteError": "Error deleting reservation.",
+      "newPassword": "New password (leave blank to keep unchanged)",
+      "show": "Show",
+      "hide": "Hide",
+      "save": "Save",
+      "ref": "Ref",
+      "date": "Date",
+      "timeSlot": "Time slot",
+      "reference": "Reference",
+      "confirmDelete": "Confirm deletion?",
+      "yesDelete": "Yes, delete",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "closeNotification": "Close notification"
+    },
     "infoPratique": {
       "title": "Practical information",
+      "description": "Discover all the practical details to prepare your visit to the museum. Opening hours, pricing, access, accessibility information and answers to your frequently asked questions.",
       "visitInfo": "Visit information",
       "pricing": "Pricing",
-      "pricingContent": "Full price - 9 euros\nReduced rate - 8 euros\nChild and person with disability - Free",
+      "pricingContent": "Full price - 9 euros\nReduced rate - 6 euros\nChild and person with disability - Free",
       "hours": "Hours",
-      "hoursContent": "Open every day from 10am to 6pm",
+      "hoursContent": "Tuesday - Saturday: 9am - 9pm\nSunday: 9am - 7pm\nMonday: Closed\n\nClosed on January 1st, December 25th, and public holidays",
       "access": "Access",
       "accessContent": "Metro line 8.\nPaid parking nearby.\nBike access: Velib' station 200m away.",
       "accessibility": "Accessibility",
-      "accessibilityContent": "Free admission for persons with disabilities and one companion upon presentation of proof.\nElevator available to access all levels.\nAccessible restrooms on ground floor.\nCompanion: Available upon request.",
+      "accessibilityContent": "Museum admission is free for persons with disabilities and one companion upon presentation of proof.\n\nPriority and direct access to the museum's reception and security controls for persons with disabilities and their companion (or family members).",
       "location": "Location",
       "contact": "Contact us",
       "faq": "FAQ",
@@ -213,12 +278,129 @@
       "collectItems": "Collect 70% of items to continue",
       "claimPromo": "Claim promo code",
       "congratulations": "Congratulations! Promo code unlocked!",
-      "promoUnlockedText": "You have unlocked the code HUMAIN5 — -5% off your booking.",
+      "promoUnlockedText": "You have unlocked the code HUMAIN5 – -5% off your booking.",
       "bookWithPromo": "Book with code applied",
       "close": "Close",
       "health": "HEALTH",
-      "boost": "BOOST"
+      "boost": {
+        "active": "ACTIVE",
+        "ready": "READY",
+        "charging": "CHARGING"
+      },
+      "levels": {
+        "level1": {
+          "name": "LEVEL 01: NEO-TOKYO RUN",
+          "pilot": "Kaneda"
+        },
+        "level2": {
+          "name": "LEVEL 02: GHOST HACK",
+          "pilot": "Motoko"
+        },
+        "level3": {
+          "name": "LEVEL 03: BEYOND HUMANITY",
+          "pilot": "–"
+        }
+      },
+      "levelCard": {
+        "label": "Level",
+        "pilot": "Pilot",
+        "completion": "Completion",
+        "startRace": "Start the race"
+      }
     }
+  },
+  "profile": {
+    "dashboard": "Dashboard",
+    "yesDelete": "Yes, delete",
+    "networkError": "Network error, please try again.",
+    "deleteError": "Error deleting reservation.",
+    "date": "Date",
+    "ref": "Ref",
+    "myProfile": "My account",
+    "cancel": "Cancel",
+    "noReservations": "No reservations at the moment.",
+    "myReservations": "My reservations",
+    "logout": "Log out",
+    "loadError": "Unable to load profile.",
+    "title": "My profile",
+    "updateSuccess": "Profile updated successfully.",
+    "closeNotification": "Close notification",
+    "notConnected": "User not logged in.",
+    "newPassword": "New password (leave blank to keep unchanged)",
+    "confirmDelete": "Confirm deletion?",
+    "hide": "Hide",
+    "timeSlot": "Time slot",
+    "delete": "Delete",
+    "updateError": "Error updating profile.",
+    "save": "Save",
+    "show": "Show",
+    "loading": "Loading...",
+    "reference": "Reference",
+    "reservationDeleted": "Reservation deleted."
+  },
+  "contact": {
+    "title": "Contact",
+    "phone": "Phone:",
+    "email": "Email:",
+    "website": "Website:"
+  },
+  "map": {
+    "locationPopup": "Location of the \"Beyond the human\" exhibition.\\n Come visit us!"
+  },
+  "reservation": {
+    "title": "Beyond the Human",
+    "subtitle": "Immersive exhibition",
+    "description": "Book your tickets for an unforgettable visit",
+    "requiresLogin": "You must be logged in to book",
+    "selectDate": "Select date",
+    "time": "Time",
+    "language": "Visit language",
+    "fullPrice": "Full price ticket",
+    "reducedPrice": "Reduced price ticket",
+    "free": "Free ticket",
+    "promoCode": "Promo code",
+    "invalidCode": "Invalid code",
+    "selectDateRequired": "Please select a date",
+    "selectTimeRequired": "Please select a time slot",
+    "selectTicketsRequired": "Please select at least one ticket",
+    "error": "Error during booking."
+  },
+  "backoffice": {
+    "adminZone": "Admin Zone",
+    "requiresAdmin": "Log in as admin to continue and access this page.",
+    "verifying": "Verifying access rights...",
+    "accessDenied": "No Access",
+    "noPermissions": "You don't have permissions to access this area.",
+    "dashboard": "Admin Dashboard",
+    "stats": "Stats",
+    "users": "Users",
+    "reservations": "Reservations",
+    "noReservations": "No reservations recorded.",
+    "confirmDeleteUser": "Delete this user?",
+    "confirmDeleteReservation": "Delete this reservation?",
+    "reservationsByDay": "Reservations by day (list)",
+    "reservationsByDayChart": "Reservations by day",
+    "reservationsBySlot": "Reservations by slot",
+    "statistics": "Statistics",
+    "daysRecorded": "Days recorded",
+    "timeSlots": "Time slots",
+    "reservationsLabel": "reservations",
+    "id": "ID",
+    "name": "Name",
+    "role": "Role",
+    "actions": "Actions",
+    "roleOf": "Role of",
+    "reservationsText": "reservations",
+    "daysCount": "Number of days",
+    "reference": "Reference",
+    "dateColumn": "Date",
+    "contact": "Contact",
+    "total": "Total"
+  },
+  "user": {
+    "role": "Role",
+    "userRole": "User",
+    "adminRole": "Administrator"
   },
   "common": {
     "loading": "Loading...",
@@ -229,6 +411,14 @@
     "close": "Close",
     "save": "Save",
     "delete": "Delete",
-    "edit": "Edit"
+    "edit": "Edit",
+    "id": "ID",
+    "networkError": "Network error, please try again.",
+    "apply": "Apply",
+    "confirmDelete": "Confirm deletion?",
+    "backHome": "Back to home",
+    "total": "Total",
+    "contact": "Contact",
+    "actions": "Actions"
   }
 }

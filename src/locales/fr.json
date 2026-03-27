@@ -1,6 +1,6 @@
 {
   "gateway": {
-    "badge": "Exposition Immersive — Akira · Ghost in the Shell",
+    "badge": "Exposition Immersive – Akira · Ghost in the Shell",
     "question": "Êtes-vous réellement humain ?",
     "protocol": "Protocole d'accès en attente",
     "languages": "Langues",
@@ -20,18 +20,18 @@
     "akiraTitle": "Akira (1982 - 1990) : la chair et le chaos",
     "akiraContent": "Créé en 1982 par Katsuhiro Ōtomo, Akira émerge d'un Japon en plein essor, encore marqué par le traumatisme nucléaire. Ici, la technologie n'est plus un progrès, mais une force de mutation qui déshumanise le corps. À travers une métamorphose brutale où la chair et la machine fusionnent, l'œuvre nous interroge : en voulant forcer notre évolution, ne risquons-nous pas de faire de l'humanité un simple vestige ?",
     "gisTitle": "Ghost in The Shell (1989 - 1991) : L'esprit hors de la chair",
-    "gisContent": "Créé en 1989 par Masamune Shirow, Ghost in the Shell explore un futur où la frontière entre l'homme et la machine s'efface totalement. Dans cette société ultra-connectée, le corps n'est plus qu'une enveloppe cybernétique — une coquille (Shell) — que l'on peut améliorer ou remplacer. Ici, le progrès n'est plus une mutation subie, mais une aspiration à quitter la chair. En s'affranchissant des limites biologiques, l'œuvre nous confronte à l'ultime dilemme : que reste-t-il de notre humanité quand l'esprit se dissout dans l'infini des données ?"
+    "gisContent": "Créé en 1989 par Masamune Shirow, Ghost in the Shell explore un futur où la frontière entre l'homme et la machine s'efface totalement. Dans cette société ultra-connectée, le corps n'est plus qu'une enveloppe cybernétique – une coquille (Shell) – que l'on peut améliorer ou remplacer. Ici, le progrès n'est plus une mutation subie, mais une aspiration à quitter la chair. En s'affranchissant des limites biologiques, l'œuvre nous confronte à l'ultime dilemme : que reste-t-il de notre humanité quand l'esprit se dissout dans l'infini des données ?"
   },
   "experiences": {
     "title": "Expériences",
     "eyebrow": "Expérience Interactive",
     "enterUniverse": "Entrez dans l'univers",
-    "description": "Plongez dans une expérience immersive unique conçue pour l'exposition. Traversez Neo-Tokyo, infiltrez la Section 9 — et terminez votre mission pour repartir avec un code exclusif sur la billetterie.",
+    "description": "Lancez-vous dans une course effrénée pour récupérer tous les fragments de cyborg, et évitez les véhicules ennemis si vous souhaitez atteindre votre destination ... ",
     "reservationSub": "Billets disponibles du 15 mars au 30 juin 2026",
     "discover": "Découvrir",
     "tickets_link": "Réserver",
     "reserveVisit": "Réservez votre visite !",
-    "promoText": "Code promo exclusif à débloquer en fin d'expérience",
+    "promoText": "Un cadeau vous attendra peut-être à l'arrivée.",
     "playNow": "Jouer maintenant"
   },
   "footer": {
@@ -54,7 +54,50 @@
     "info": "Infos pratiques",
     "profile": "Profil",
     "login": "Connexion",
-    "logout": "Déconnexion"
+    "logout": "Déconnexion",
+    "myAccount": "Mon compte"
+  },
+  "auth": {
+    "signIn": "Se connecter",
+    "signUp": "S'inscrire",
+    "login": "Se connecter",
+    "logout": "Déconnexion",
+    "register": "S'inscrire",
+    "registering": "Inscription en cours...",
+    "logging": "Connexion...",
+    "needAuth": "Vous devez être connecté pour réserver",
+    "authDescription": "Connectez-vous ou créez un compte pour poursuivre.",
+    "requiresLogin": "Vous devez être connecté pour réserver",
+    "loginOrRegister": "Connectez-vous ou créez un compte pour poursuivre.",
+    "password": "Mot de passe",
+    "passwordStrength": "Force du mot de passe",
+    "weak": "Faible",
+    "medium": "Moyen",
+    "strong": "Fort",
+    "veryStrong": "Très fort",
+    "forgotPassword": "Mot de passe oublié ?",
+    "hasAccount": "Déjà un compte ? Se connecter",
+    "noAccount": "Pas de compte ? S'inscrire",
+    "requiredFields": "Tous les champs sont obligatoires",
+    "confirmEmail": "Un email de confirmation vous sera envoyé après l'inscription",
+    "invalidCredentials": "Identifiants invalides",
+    "resetPassword": "Réinitialiser le mot de passe",
+    "resetPasswordSubtitle": "Entrez votre email pour recevoir un lien de réinitialisation",
+    "sendResetLink": "Envoyer le lien",
+    "backToLogin": "Retour à la connexion",
+    "resetEmailSent": "Email de réinitialisation envoyé",
+    "resetEmailError": "Erreur lors de l'envoi du lien",
+    "resetInstructions": "Nous vous enverrons un email avec un lien pour réinitialiser votre mot de passe.",
+    "sending": "Envoi...",
+    "updating": "Mise à jour...",
+    "updatePassword": "Mettre à jour le mot de passe",
+    "passwordMismatch": "Les mots de passe ne correspondent pas",
+    "passwordTooShort": "Le mot de passe doit faire au moins 8 caractères",
+    "resetError": "Erreur lors de la réinitialisation",
+    "passwordResetSuccess": "Mot de passe réinitialisé avec succès",
+    "registrationError": "Erreur lors de l'inscription. Vérifiez les champs.",
+    "networkError": "Erreur réseau",
+    "networkErrorContact": "Erreur réseau – impossible de contacter le serveur."
   },
   "form": {
     "firstName": "Prénom",
@@ -64,8 +107,11 @@
     "password": "Mot de passe",
     "passwordPlaceholder": "Entrez votre mot de passe",
     "newPassword": "Nouveau mot de passe",
+    "newPasswordOptional": "Nouveau mot de passe (laisser vide pour ne pas changer)",
     "confirmPassword": "Confirmer le mot de passe",
     "confirmPasswordPlaceholder": "Confirmez votre mot de passe",
+    "showPassword": "Voir",
+    "hidePassword": "Cacher",
     "date": "Date",
     "time": "Heure",
     "language": "Langue de la visite",
@@ -77,7 +123,7 @@
     "free": "Gratuit",
     "coordinates": "Coordonnées",
     "back": "Retour",
-    "required": "Les champs marqués d'un * sont obligatoires",
+    "required": "Les champs marqués avec * sont obligatoires",
     "submit": "Valider",
     "register": "S'inscrire",
     "totalTickets": "Nombre total de places atteint",
@@ -104,40 +150,6 @@
     "seniors": "Séniors de plus de 60 ans",
     "seniorsDescription": "Sur présentation d'un titre d'identité ou autre justificatif nominatif en cours de validité avec photographie et la date de naissance."
   },
-  "auth": {
-    "signIn": "Se connecter",
-    "signUp": "S'inscrire",
-    "login": "Connexion",
-    "register": "Inscription",
-    "needAuth": "Vous devez être connecté pour réserver",
-    "authDescription": "Connectez-vous ou créez un compte pour poursuivre.",
-    "password": "Mot de passe",
-    "passwordStrength": "Force du mot de passe",
-    "weak": "Faible",
-    "medium": "Moyen",
-    "strong": "Fort",
-    "veryStrong": "Très fort",
-    "confirmEmail": "Un email de confirmation vous sera envoyé après l'inscription",
-    "logout": "Déconnexion",
-    "invalidCredentials": "Email ou mot de passe invalide",
-    "networkError": "Erreur réseau",
-    "registrationError": "Erreur lors de l'inscription. Vérifiez les champs.",
-    "networkErrorContact": "Erreur réseau — impossible de contacter le serveur.",
-    "resetPassword": "Réinitialiser le mot de passe",
-    "resetPasswordSubtitle": "Entrez votre adresse e-mail pour recevoir un lien de réinitialisation",
-    "sendResetLink": "Envoyer le lien",
-    "resetEmailSent": "Email envoyé avec succès. Vérifiez votre boîte de réception.",
-    "resetEmailError": "Erreur lors de l'envoi du email de réinitialisation.",
-    "resetInstructions": "Nous vous enverrons un email avec un lien pour réinitialiser votre mot de passe.",
-    "sending": "Envoi...",
-    "updating": "Mise à jour...",
-    "updatePassword": "Mettre à jour le mot de passe",
-    "passwordMismatch": "Les mots de passe ne correspondent pas",
-    "passwordTooShort": "Le mot de passe doit contenir au moins 8 caractères",
-    "resetError": "Erreur lors de la réinitialisation du mot de passe",
-    "passwordResetSuccess": "Mot de passe réinitialisé avec succès",
-    "backToLogin": "Retour à la connexion"
-  },
   "validation": {
     "title": "Confirmation de réservation",
     "hello": "Bonjour",
@@ -147,25 +159,26 @@
     "bookingNumber": "Numéro de réservation",
     "keepNumber": "Conservez bien ce numéro pour toute correspondance.",
     "emailSent": "Un récapitulatif vous a été envoyé par e-mail si l'adresse fournie est valide.",
-    "backHome": "Retour à l'accueil"
+    "backHome": "Retour Ã  l'accueil"
   },
   "transition": {
-    "title": "Au-delà de l'humain",
+    "title": "Au-delÃ  de l'humain",
     "subtitle": "Une exposition sur les limites du corps et de la conscience",
     "location": "Lieu",
     "locationValue": "Musée Guimet",
     "dates": "Dates",
-    "datesValue": "15 Mars — 30 Juin 2026",
+    "daysValue": "15 Mars – 30 Juin 2026",
     "works": "Œuvres",
-    "worksValue": "2 univers · 4 salles"
+    "worksValue": "2 univers · 4 salles",
+    "dataLine": "SYS://EXPOSITION.INIT – AKIRA × GHOST_IN_THE_SHELL – PARIS_2025"
   },
   "manga": {
     "title": "Archive Manga",
     "description": "Explorez les univers de Akira et Ghost in the Shell à travers les pages de ces grands classiques du manga.",
     "eyebrow": "Musée Guimet · Paris · 2026",
-    "mainTitle": "Au-delà de l'humain : une exposition immersive",
+    "mainTitle": "Au-delÃ  de l'humain : une exposition immersive",
     "hook": "Cette exposition immersive vous plonge au cœur de cette dualité : entre la chair en mutation d'Akira et la conscience numérique de Ghost in the Shell.",
-    "pitch": "À travers un parcours immersif, nous vous invitons à franchir la frontière du réel pour explorer les limites de l'humain. Entre projections monumentales et paysages sonores, plongez-vous dans l’univers de ces deux mangas iconiques."
+    "pitch": "À travers un parcours immersif, nous vous invitons à franchir la frontière du réel pour explorer les limites de l'humain. Entre projections monumentales et paysages sonores, plongez-vous dans l'univers de ces deux mangas iconiques."
   },
   "podcast": {
     "title": "Les Podcasts",
@@ -179,17 +192,69 @@
     "difficulty": "Difficulté"
   },
   "pages": {
+    "login": {
+      "title": "Connexion",
+      "forgotPassword": "Mot de passe oublié ?",
+      "noAccount": "Pas de compte ? S'inscrire"
+    },
+    "register": {
+      "title": "Inscription",
+      "hasAccount": "Déjà un compte ? Se connecter"
+    },
+    "registerSent": {
+      "title": "Inscription réussie",
+      "message": "Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.",
+      "link": "Aller Ã  la page de connexion"
+    },
+    "activate": {
+      "title": "Activation de compte",
+      "validating": "Validation en cours...",
+      "success": "Compte activé avec succès",
+      "redirecting": "redirection vers la page de connexion...",
+      "tokenMissing": "Token manquant",
+      "error": "Une erreur est survenue"
+    },
+    "profile": {
+      "myProfile": "Mon compte",
+      "title": "Mon profil",
+      "dashboard": "Dashboard",
+      "logout": "Se déconnecter",
+      "loading": "Chargement...",
+      "notConnected": "Utilisateur non connecté.",
+      "myReservations": "Mes réservations",
+      "noReservations": "Aucune réservation pour le moment.",
+      "loadError": "Impossible de charger le profil.",
+      "networkError": "Erreur réseau, veuillez réessayer.",
+      "updateSuccess": "Profil mis à jour avec succès.",
+      "updateError": "Erreur lors de la mise à jour.",
+      "reservationDeleted": "Réservation supprimée.",
+      "deleteError": "Erreur lors de la suppression.",
+      "newPassword": "Nouveau mot de passe (laisser vide pour ne pas changer)",
+      "show": "Voir",
+      "hide": "Cacher",
+      "save": "Enregistrer",
+      "ref": "Réf",
+      "date": "Date",
+      "timeSlot": "Créneau",
+      "reference": "Référence",
+      "confirmDelete": "Confirmer la suppression ?",
+      "yesDelete": "Oui, supprimer",
+      "cancel": "Annuler",
+      "delete": "Supprimer",
+      "closeNotification": "Fermer la notification"
+    },
     "infoPratique": {
       "title": "Informations pratiques",
+      "description": "Découvrez tous les détails pratiques pour préparer votre visite au musée. Horaires d'ouverture, tarifs, accès, informations d'accessibilité et réponses à vos questions fréquentes.",
       "visitInfo": "Informations de visite",
       "pricing": "Tarifs",
-      "pricingContent": "Plein tarif - 9 euros\nTarif réduit - 8 euros\nEnfant et personne en situation de handicap - Gratuit",
+      "pricingContent": "Plein tarif - 9 euros\nTarif réduit - 6 euros\nEnfant et personne en situation de handicap - Gratuit",
       "hours": "Horaires",
-      "hoursContent": "Ouvert tous les jours de 10h à 18h",
+      "hoursContent": "Mardi - Samedi : 9h - 21h\nDimanche : 9h - 19h\nLundi : Fermé\n\nFermeture les 1er janvier, 25 décembre et les jours fériés",
       "access": "Accès",
       "accessContent": "Metro 8.\nParking payant à proximité.\nAccès vélo : station Vélib' à 200m.",
       "accessibility": "Accessibilité",
-      "accessibilityContent": "Entrée gratuite pour la personne handicapée et accompagnateur sur présentation d'un justificatif.\nAscenseur disponible pour accéder à tous les niveaux.\nToilettes accessibles au rez-de-chaussée.\nAccompagnateur : disponible sur demande.",
+      "accessibilityContent": "L'entrée du musée est gratuite pour la personne handicapée et un accompagnateur sur présentation d'un justificatif.\n\nL'accès est prioritaire et sans attente aux accueils et contrôles d'accès de l'exposition pour la personne en situation de handicap et son accompagnateur (ou cellule familiale).",
       "location": "Localisation",
       "contact": "Nous contacter",
       "faq": "FAQ",
@@ -203,7 +268,7 @@
     "experiences": {
       "title": "Expérience",
       "description": "Lancez-vous dans une course effrénée pour récupérer tous les fragments de cyborg, et évitez les véhicules ennemis si vous souhaitez atteindre votre destination ...",
-      "sub_description": "Un cadeau vous attendra peut-être à l’arrivée. ",
+      "sub_description": "Un cadeau vous attendra peut-être à l'arrivée. ",
       "selectLevel": "Sélectionnez un niveau pour commencer l'expérience de jeu.",
       "victory": "Victoire !",
       "gameOver": "Game Over",
@@ -213,12 +278,136 @@
       "collectItems": "Récoltez 70% des objets pour continuer",
       "claimPromo": "Récupérer le code promo",
       "congratulations": "Félicitations ! Code promo débloqué !",
-      "promoUnlockedText": "Vous avez débloqué le code HUMAIN5 — -5% sur votre réservation.",
+      "promoUnlockedText": "Vous avez débloqué le code HUMAIN5 – -5% sur votre réservation.",
       "bookWithPromo": "Réserver avec le code appliqué",
       "close": "Fermer",
       "health": "VIE",
-      "boost": "BOOST"
+      "boost": {
+        "active": "ACTIF",
+        "ready": "PRÃŠT",
+        "charging": "CHARGEMENT"
+      },
+      "levels": {
+        "level1": {
+          "name": "NIVEAU 01 : NEO-TOKYO RUN",
+          "pilot": "Kaneda"
+        },
+        "level2": {
+          "name": "NIVEAU 02 : GHOST HACK",
+          "pilot": "Motoko"
+        },
+        "level3": {
+          "name": "NIVEAU 03 : AU-DELÀ DE L'HUMAIN",
+          "pilot": "–"
+        }
+      },
+      "levelCard": {
+        "label": "Niveau",
+        "pilot": "Joueur",
+        "completion": "Complétion",
+        "startRace": "Commencer la course"
+      }
     }
+  },
+  "profile": {
+    "Count": 0,
+    "dashboard": "Dashboard",
+    "IsReadOnly": false,
+    "yesDelete": "Oui, supprimer",
+    "networkError": "Erreur réseau, veuillez réessayer.",
+    "deleteError": "Erreur lors de la suppression.",
+    "logout": "Se déconnecter",
+    "ref": "Réf",
+    "myProfile": "Mon compte",
+    "cancel": "Annuler",
+    "noReservations": "Aucune réservation pour le moment.",
+    "myReservations": "Mes réservations",
+    "loadError": "Impossible de charger le profil.",
+    "title": "Mon profil",
+    "updateSuccess": "Profil mis à jour avec succès.",
+    "closeNotification": "Fermer la notification",
+    "notConnected": "Utilisateur non connecté.",
+    "newPassword": "Nouveau mot de passe (laisser vide pour ne pas changer)",
+    "confirmDelete": "Confirmer la suppression ?",
+    "hide": "Cacher",
+    "timeSlot": "Créneau",
+    "IsFixedSize": false,
+    "delete": "Supprimer",
+    "date": "Date",
+    "IsSynchronized": false,
+    "Values": [],
+    "updateError": "Erreur lors de la mise à jour.",
+    "save": "Enregistrer",
+    "show": "Voir",
+    "loading": "Chargement...",
+    "SyncRoot": {},
+    "reference": "Référence",
+    "Keys": [],
+    "reservationDeleted": "Réservation supprimée."
+  },
+  "contact": {
+    "title": "Contact",
+    "phone": "Téléphone :",
+    "email": "Email :",
+    "website": "Site web :"
+  },
+  "map": {
+    "locationPopup": "Lieu de l'exposition \"Au-delà de l'humain\".\\n Venez nous rendre visite !"
+  },
+  "reservation": {
+    "title": "Au-delà de l'Humain",
+    "subtitle": "Exposition immersive",
+    "description": "Réservez vos places pour une visite inoubliable",
+    "requiresLogin": "Vous devez être connecté pour réserver",
+    "selectDate": "Sélectionner la date",
+    "time": "Heure",
+    "language": "Langue de la visite",
+    "fullPrice": "Entrée plein tarif",
+    "reducedPrice": "Entrée tarif réduit",
+    "free": "Entrée gratuite",
+    "promoCode": "Code promo",
+    "invalidCode": "Code invalide",
+    "selectDateRequired": "Veuillez sélectionner une date",
+    "selectTimeRequired": "Veuillez sélectionner un créneau horaire",
+    "selectTicketsRequired": "Veuillez sélectionner au moins un billet",
+    "error": "Erreur lors de la réservation."
+  },
+  "backoffice": {
+    "adminZone": "Zone Admin",
+    "requiresAdmin": "Connecte-toi en tant qu'admin pour continuer et accéder à cette page.",
+    "verifying": "Vérification des droits d'accès...",
+    "accessDenied": "Pas d'Accès",
+    "noPermissions": "Tu n'as pas les permissions pour accéder à cette zone.",
+    "dashboard": "Dashboard Admin",
+    "stats": "Stats",
+    "users": "Utilisateurs",
+    "reservations": "Réservations",
+    "noReservations": "Aucune réservation enregistrée.",
+    "confirmDeleteUser": "Supprimer cet utilisateur ?",
+    "confirmDeleteReservation": "Supprimer cette réservation ?",
+    "reservationsByDay": "Réservations par jour (liste)",
+    "reservationsByDayChart": "Réservations par jour",
+    "reservationsBySlot": "Réservations par créneau",
+    "statistics": "Statistiques",
+    "daysRecorded": "Jours recensés",
+    "timeSlots": "Créneaux",
+    "reservationsLabel": "réservations",
+    "id": "ID",
+    "name": "Nom",
+    "role": "Rôle",
+    "actions": "Actions",
+    "roleOf": "Rôle de",
+    "reservationsText": "réservations",
+    "daysCount": "Nombre de jours",
+    "reference": "Référence",
+    "dateColumn": "Date",
+    "contact": "Contact",
+    "total": "Total"
+  },
+  "user": {
+    "role": "Rôle",
+    "userRole": "Utilisateur",
+    "adminRole": "Administrateur"
   },
   "common": {
     "loading": "Chargement...",
@@ -229,6 +418,14 @@
     "close": "Fermer",
     "save": "Enregistrer",
     "delete": "Supprimer",
-    "edit": "Modifier"
+    "edit": "Modifier",
+    "id": "ID",
+    "networkError": "Erreur réseau, veuillez réessayer.",
+    "apply": "Appliquer",
+    "confirmDelete": "Confirmer la suppression ?",
+    "backHome": "Retour à l'accueil",
+    "total": "Total",
+    "contact": "Contact",
+    "actions": "Actions"
   }
 }

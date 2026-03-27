@@ -83,7 +83,7 @@ const Navbar = ({ user, setUser }) => {
   let authLinks;
   if (user) {
     authLinks = (
-      <Link to="/profile" className="cursor-target">Mon compte</Link>
+      <Link to="/profile" className="cursor-target">{t('profile.myProfile')}</Link>
     );
   } else {
     authLinks = (

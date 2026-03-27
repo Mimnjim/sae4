@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import Stats from '../../../components/backoffice_components/Stats.jsx';
 import UsersTable from '../../../components/backoffice_components/UsersTable.jsx';
 import ReservationsTable from '../../../components/backoffice_components/ReservationsTable.jsx';
 import '../../../styles/backoffice/backoffice.css';
 
 const Backoffice = () => {
+  const { t } = useTranslation();
   const [tab, setTab] = useState('stats');
   const [users, setUsers] = useState([]);
   const [reservations, setReservations] = useState([]);
@@ -69,7 +71,7 @@ const Backoffice = () => {
   function deleteUser(id) {
     if (!token) return;
     const headers = { 'Authorization': 'Bearer ' + token, 'X-Authorization': 'Bearer ' + token };
-    if (!confirm('Supprimer cet utilisateur ?')) return;
+    if (!confirm(t('backoffice.confirmDeleteUser'))) return;
     fetch('https://apimusee.tomdelavigne.fr/api/users.php?id=' + id, { method: 'DELETE', headers })
       .then(() => loadUsers());
   }
@@ -84,7 +86,7 @@ const Backoffice = () => {
   function deleteReservation(id) {
     if (!token) return;
     const headers = { 'Authorization': 'Bearer ' + token, 'X-Authorization': 'Bearer ' + token };
-    if (!confirm('Supprimer cette réservation ?')) return;
+    if (!confirm(t('backoffice.confirmDeleteReservation'))) return;
     fetch('https://apimusee.tomdelavigne.fr/api/reservations.php?id=' + id, { method: 'DELETE', headers })
       .then(() => loadReservations());
   }
@@ -93,9 +95,9 @@ const Backoffice = () => {
     return (
       <div className="backoffice-access-denied">
         <div className="access-denied-card">
-          <h1>Zone Admin</h1>
-          <p>Connecte-toi en tant qu'admin pour continuer et accéder à cette page.</p>
-          <a href="/login" className="access-denied-button">Se connecter →</a>
+          <h1>{t('backoffice.adminArea')}</h1>
+          <p>{t('backoffice.loginAsAdmin')}</p>
+          <a href="/login" className="access-denied-button">{t('backoffice.login')} →</a>
         </div>
       </div>
     );
@@ -106,7 +108,7 @@ const Backoffice = () => {
       <div className="backoffice-access-denied">
         <div className="access-denied-card loading">
           <div className="access-denied-spinner"></div>
-          <p>Vérification des droits d'accès...</p>
+          <p>{t('backoffice.verifying')}</p>
         </div>
       </div>
     );
@@ -116,11 +118,11 @@ const Backoffice = () => {
     return (
       <div className="backoffice-access-denied">
         <div className="access-denied-card denied">
-          <h1>Pas d'Accès</h1>
-          <p>Tu n'as pas les permissions pour accéder à cette zone.</p>
+          <h1>{t('backoffice.noAccess')}</h1>
+          <p>{t('backoffice.noPermissions')}</p>
           <div style={{display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap'}}>
-            <a href="/" className="access-denied-button secondary">Retour à l'accueil →</a>
-            <a href="/login" className="access-denied-button" onClick={() => localStorage.removeItem('jwt')} style={{cursor: 'pointer'}}>Changer de compte →</a>
+            <a href="/" className="access-denied-button secondary">{t('backoffice.backHome')} →</a>
+            <a href="/login" className="access-denied-button" onClick={() => localStorage.removeItem('jwt')} style={{cursor: 'pointer'}}>{t('backoffice.switchAccount')} →</a>
           </div>
         </div>
       </div>
@@ -130,15 +132,15 @@ const Backoffice = () => {
   return (
     <div className="backoffice">
       <div className="backoffice-header">
-        <h1 className="backoffice-title">Dashboard Admin</h1>
+        <h1 className="backoffice-title">{t('backoffice.dashboard')}</h1>
         <div className="backoffice-nav">
-          <button className={tab === 'stats' ? 'active' : ''} onClick={() => setTab('stats')}>Stats</button>
-          <button className={tab === 'users' ? 'active' : ''} onClick={() => setTab('users')}>Utilisateurs</button>
-          <button className={tab === 'reservations' ? 'active' : ''} onClick={() => setTab('reservations')}>Réservations</button>
+          <button className={tab === 'stats' ? 'active' : ''} onClick={() => setTab('stats')}>{t('backoffice.stats')}</button>
+          <button className={tab === 'users' ? 'active' : ''} onClick={() => setTab('users')}>{t('backoffice.users')}</button>
+          <button className={tab === 'reservations' ? 'active' : ''} onClick={() => setTab('reservations')}>{t('backoffice.reservations')}</button>
         </div>
       </div>
 
-      {loading && <div className="muted loading">Chargement...</div>}
+      {loading && <div className="muted loading">{t('profile.loading')}</div>}
 
       <div className="backoffice-body">
         {tab === 'stats' && <Stats reservations={reservations} />}

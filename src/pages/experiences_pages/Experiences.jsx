@@ -6,9 +6,9 @@ import Timeline from '../../components/global_components/Timeline';
 import '../../styles/components/homepage_components/experiences.css';
 
 const LEVELS = [
-  { id: 1, name: 'NIVEAU 01 : NEO-TOKYO RUN',      pilot: 'Kaneda' },
-  { id: 2, name: 'NIVEAU 02 : GHOST HACK',          pilot: 'Motoko' },
-  { id: 3, name: "NIVEAU 03 : AU-DELÀ DE L'HUMAIN", pilot: '—'      },
+  { id: 1, nameKey: 'pages.experiences.levels.level1.name', pilotKey: 'pages.experiences.levels.level1.pilot' },
+  { id: 2, nameKey: 'pages.experiences.levels.level2.name', pilotKey: 'pages.experiences.levels.level2.pilot' },
+  { id: 3, nameKey: 'pages.experiences.levels.level3.name', pilotKey: 'pages.experiences.levels.level3.pilot' },
 ];
 
 const UNLOCK_THRESHOLD = 0.7;
@@ -145,7 +145,7 @@ const Experiences = () => {
   const handleNextLevel    = () => { if (!playingLevelId || playingLevelId >= LEVELS.length) return; setPlayingLevelId(playingLevelId + 1); setIsGameFinished(false); setGameResult(null); };
   const handleClaimPromo   = () => navigate('/form-reservation', { state: { promoCode: 'HUMAIN5', promoApplied: true } });
 
-  const boostStatusLabel = boostState.status === 'active' ? 'ACTIF' : boostState.status === 'ready' ? 'PRÊT' : 'CHARGEMENT';
+  const boostStatusLabel = boostState.status === 'active' ? t('pages.experiences.boost.active') : boostState.status === 'ready' ? t('pages.experiences.boost.ready') : t('pages.experiences.boost.charging');
 
   return (
     <div className="experiences-page">
@@ -187,7 +187,7 @@ const Experiences = () => {
               <div className="game-wrapper">
                 <iframe
                   ref={iframeRef}
-                  title={`Jeu niveau ${playingLevelId}`}
+                  title={`${t('pages.experiences.levelCard.label')} ${playingLevelId}`}
                   src={`/game/game.html?difficulty=${playingLevelId}`}
                   className="game-iframe"
                   tabIndex={0}

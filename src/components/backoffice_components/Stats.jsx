@@ -1,9 +1,11 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import ChartBar from './ChartBar.jsx';
 import ChartPie from './ChartPie.jsx';
 
 const Stats = ({ reservations = [] }) => {
-  if (!reservations) return <div>Chargement...</div>;
+  const { t } = useTranslation();
+  if (!reservations) return <div>{t('profile.loading')}</div>;
 
   // Comptage des réservations par jour et par créneau horaire
   const reservationsByDay  = {};
@@ -26,12 +28,12 @@ const Stats = ({ reservations = [] }) => {
   const MAX_BAR_COLUMNS = 24;
 
   const renderDaySection = () => {
-    if (dayLabels.length === 0) return <p className="muted">Aucune réservation enregistrée.</p>;
+    if (dayLabels.length === 0) return <p className="muted">{t('backoffice.noReservations')}</p>;
 
     if (dayLabels.length > MAX_BAR_COLUMNS) {
       return (
         <div>
-          <h4>Réservations par jour (liste)</h4>
+          <h4>{t('backoffice.reservationsByDayList')}</h4>
           <ul className="stats-list">
             {dayLabels.map((day, index) => (
               <li key={day}>
@@ -46,27 +48,27 @@ const Stats = ({ reservations = [] }) => {
 
     return (
       <>
-        <h4>Réservations par jour</h4>
-        <ChartBar id="chart-days" labels={dayLabels} data={dayValues} title="Par jour" />
+        <h4>{t('backoffice.reservationsByDay')}</h4>
+        <ChartBar id="chart-days" labels={dayLabels} data={dayValues} title={t('backoffice.byDay')} />
       </>
     );
   };
 
   return (
     <div className="stats-panel">
-      <h3>Statistiques</h3>
+      <h3>{t('backoffice.statistics')}</h3>
 
       <div className="stat-summary">
         <div className="stat-item">
-          <h4>Total</h4>
-          <p>{reservations.length} réservations</p>
+          <h4>{t('backoffice.total')}</h4>
+          <p>{reservations.length} {t('backoffice.reservationsText')}</p>
         </div>
         <div className="stat-item">
-          <h4>Jours recensés</h4>
+          <h4>{t('backoffice.daysCount')}</h4>
           <p>{dayLabels.length}</p>
         </div>
         <div className="stat-item">
-          <h4>Créneaux</h4>
+          <h4>{t('backoffice.timeSlots')}</h4>
           <p>{slotLabels.length}</p>
         </div>
       </div>
@@ -76,8 +78,8 @@ const Stats = ({ reservations = [] }) => {
           {renderDaySection()}
         </div>
         <div className="chart-area">
-          <h4>Réservations par créneau</h4>
-          <ChartPie id="chart-slots" labels={slotLabels} data={slotValues} title="Par créneau" />
+          <h4>{t('backoffice.reservationsBySlot')}</h4>
+          <ChartPie id="chart-slots" labels={slotLabels} data={slotValues} title={t('backoffice.bySlot')} />
         </div>
       </div>
     </div>

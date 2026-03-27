@@ -149,7 +149,7 @@ function RegisterForm({ onSuccess }) {
       <p className="form-note">{t('auth.confirmEmail')}</p>
 
       <ButtonValidation
-        text={isLoading ? "Inscription en cours..." : "S'inscrire"}
+        text={isLoading ? t('auth.registering') : t('auth.register')}
         onClick={handleSubmit}
         disabled={isLoading || !formIsComplete}
       />

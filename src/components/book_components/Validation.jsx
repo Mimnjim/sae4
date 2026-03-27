@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import '../../styles/components/book_components/validation.css';
 
 // Génère un numéro de commande unique
@@ -11,6 +12,7 @@ function generateOrderNumber() {
 
 // Page de confirmation après réservation réussie
 const Validation = () => {
+  const { t } = useTranslation();
   const location = useLocation();
   const data = location.state || {};
 
@@ -28,24 +30,25 @@ const Validation = () => {
 
   return (
     <div className="validation-container">
-      <h2>Votre commande a bien été enregistrée</h2>
-      <p>Numéro de commande : <strong>{orderNumber}</strong></p>
+      <h2>{t('validation.title')}</h2>
+      <p>{t('validation.orderNumber')}: <strong>{orderNumber}</strong></p>
 
       {hasDetails && (
         <div className="validation-details">
-          <p>Bonjour {data.prenom} {data.nom},</p>
-          {data.total      && <p>Montant total : <strong>{data.total}€</strong></p>}
-          {formattedDate   && <p>Date : {formattedDate}</p>}
-          {data.time       && <p>Heure : {data.time}</p>}
+          <p>{t('validation.hello')} {data.prenom} {data.nom},</p>
+          {data.total      && <p>{t('validation.total')}: <strong>{data.total}€</strong></p>}
+          {formattedDate   && <p>{t('validation.date')}: {formattedDate}</p>}
+          {data.time       && <p>{t('validation.time')}: {data.time}</p>}
         </div>
       )}
 
       <p>
-        Conservez bien ce numéro pour toute correspondance.
-        Un récapitulatif vous a été envoyé par e-mail si l'adresse fournie est valide.
+        {t('validation.keepNumber')}
+        {' '}
+        {t('validation.emailSent')}
       </p>
 
-      <Link to="/" className="home-link">Retour à l'accueil</Link>
+      <Link to="/" className="home-link">{t('validation.backHome')}</Link>
     </div>
   );
 };

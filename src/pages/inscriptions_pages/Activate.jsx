@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 // Délai avant redirection automatique vers /login après activation réussie
 const REDIRECT_DELAY = 2500;
 
 // Page d'activation de compte via lien email (/activate?token=abc123)
 const Activate = () => {
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const token = searchParams.get('token');
@@ -17,7 +19,7 @@ const Activate = () => {
   useEffect(() => {
     if (!token) {
       setStatus('error');
-      setMessage('Token manquant');
+      setMessage(t('pages.activate.missingToken'));
       return;
     }
 
@@ -26,26 +28,26 @@ const Activate = () => {
       .then(data => {
         if (data.success) {
           setStatus('success');
-          setMessage(data.message || 'Compte activé avec succès');
+          setMessage(data.message || t('pages.activate.success'));
           setTimeout(() => navigate('/login'), REDIRECT_DELAY);
         } else {
           setStatus('error');
-          setMessage(data.message || 'Une erreur est survenue');
+          setMessage(data.message || t('pages.activate.error'));
         }
       })
       .catch(() => {
         setStatus('error');
-        setMessage('Erreur réseau, veuillez réessayer.');
+        setMessage(t('profile.networkError'));
       });
   }, []);
 
   return (
     <div className="activate-container">
-      <h2>Activation de compte</h2>
-      {status === 'loading' && <p>Validation en cours...</p>}
+      <h2>{t('pages.activate.title')}</h2>
+      {status === 'loading' && <p>{t('pages.activate.validating')}</p>}
       {status === 'success' && (
         <p className="activate-message activate-message--success">
-          {message} — redirection vers la page de connexion...
+          {message} — {t('pages.activate.redirecting')}
         </p>
       )}
       {status === 'error' && (

@@ -89,6 +89,7 @@
 
 .conditions {
   font-family: var(--ff-family-medium);
+  padding: 2rem;
 }
 
 .conditions__title {

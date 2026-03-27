@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import '../../styles/components/connexion_components/user-profile.css';
 
 function getJwt() {
@@ -17,6 +18,7 @@ function getAuthHeaders(extraHeaders = {}) {
 
 export default function UserProfile({ user: propUser = null, setUser: propSetUser = null }) {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [user,           setUser]           = useState(propUser);
   const [isLoading,      setIsLoading]      = useState(!propUser);  // Si propUser existe, pas besoin de charger
@@ -44,7 +46,7 @@ export default function UserProfile({ user: propUser = null, setUser: propSetUse
       fetch(`https://apimusee.tomdelavigne.fr/api/reservations.php?user_id=${propUser.id}`, { headers: getAuthHeaders() })
         .then(r => r.json())
         .then(list => { if (list) setReservations(list); })
-        .catch(() => setErrorMessage('Erreur réseau, veuillez réessayer.'))
+        .catch(() => setErrorMessage(t('profile.networkError')))
         .finally(() => setIsLoading(false));
       return;
     }
@@ -53,7 +55,7 @@ export default function UserProfile({ user: propUser = null, setUser: propSetUse
     fetch('https://apimusee.tomdelavigne.fr/api/users.php', { headers: getAuthHeaders() })
       .then(r => r.json())
       .then(data => {
-        if (!data.success || !data.user) { setErrorMessage('Impossible de charger le profil.'); return; }
+        if (!data.success || !data.user) { setErrorMessage(t('profile.loadError')); return; }
         const fetchedUser = data.user;
         setUser(fetchedUser);
         setForm({ firstname: fetchedUser.firstname || '', lastname: fetchedUser.lastname || '', email: fetchedUser.email || '', password: '' });
@@ -61,7 +63,7 @@ export default function UserProfile({ user: propUser = null, setUser: propSetUse
       })
       .then(r => r?.json())
       .then(list => { if (list) setReservations(list); })
-      .catch(() => setErrorMessage('Erreur réseau, veuillez réessayer.'))
+      .catch(() => setErrorMessage(t('profile.networkError')))
       .finally(() => setIsLoading(false));
   }, [propUser]);
 
@@ -81,12 +83,12 @@ export default function UserProfile({ user: propUser = null, setUser: propSetUse
         if (data.success && data.user) {
           updateUser(data.user);  // Utiliser updateUser qui peut être propSetUser ou setUser local
           localStorage.setItem('user', JSON.stringify(data.user));
-          setSuccessMessage('Profil mis à jour avec succès.');
+          setSuccessMessage(t('profile.updateSuccess'));
         } else {
-          setErrorMessage(data.message || 'Erreur lors de la mise à jour.');
+          setErrorMessage(data.message || t('profile.updateError'));
         }
       })
-      .catch(() => setErrorMessage('Erreur réseau, veuillez réessayer.'));
+      .catch(() => setErrorMessage(t('profile.networkError')));
   };
 
   const handleDeleteReservation = (reservationId) => {
@@ -98,14 +100,14 @@ export default function UserProfile({ user: propUser = null, setUser: propSetUse
       .then(data => {
         if (data.success) {
           setReservations(prev => prev.filter(r => r.id !== reservationId));
-          setToastMessage('Réservation supprimée.');
+          setToastMessage(t('profile.reservationDeleted'));
           setShowToast(true);
           setTimeout(() => setShowToast(false), 3000);
         } else {
-          setErrorMessage(data.message || 'Erreur lors de la suppression.');
+          setErrorMessage(data.message || t('profile.deleteError'));
         }
       })
-      .catch(() => setErrorMessage('Erreur réseau, veuillez réessayer.'))
+      .catch(() => setErrorMessage(t('profile.networkError')))
       .finally(() => setConfirmDeleteId(null));
   };
 
@@ -115,22 +117,22 @@ export default function UserProfile({ user: propUser = null, setUser: propSetUse
     navigate('/');
   };
 
-  if (isLoading) return <div className="user-profile__loading">Chargement...</div>;
-  if (!user)     return <div className="user-profile__error">Utilisateur non connecté.</div>;
+  if (isLoading) return <div className="user-profile__loading">{t('profile.loading')}</div>;
+  if (!user)     return <div className="user-profile__error">{t('profile.notConnected')}</div>;
 
   return (
     <div className="user-profile user-profile__container">
       <div className="user-profile__header">
         <div className="user-profile__title-section">
-          <h2>Mon profil</h2>
+          <h2>{t('profile.myProfile')}</h2>
         </div>
         <div className="user-profile__logout-section">
           {user.role === 'admin' && (
             <Link to="/backoffice" className="btn btn-primary">
-              Dashboard
+              {t('profile.dashboard')}
             </Link>
           )}
-          <button type="button" className="btn btn-danger" onClick={handleLogout}>Se déconnecter</button>
+          <button type="button" className="btn btn-danger" onClick={handleLogout}>{t('profile.logout')}</button>
         </div>
       </div>
 
@@ -140,60 +142,60 @@ export default function UserProfile({ user: propUser = null, setUser: propSetUse
 
       <div className="user-profile__grid">
         <div className="form-group">
-          <label className="user-label" htmlFor="user-firstname">Prénom</label>
+          <label className="user-label" htmlFor="user-firstname">{t('form.firstName')}</label>
           <input id="user-firstname" className="user-input" type="text" name="firstname" value={form.firstname} onChange={handleChange} />
         </div>
         <div className="form-group">
-          <label className="user-label" htmlFor="user-lastname">Nom</label>
+          <label className="user-label" htmlFor="user-lastname">{t('form.lastName')}</label>
           <input id="user-lastname" className="user-input" type="text" name="lastname" value={form.lastname} onChange={handleChange} />
         </div>
         <div className="form-group form-group--full">
-          <label className="user-label" htmlFor="user-email">Email</label>
+          <label className="user-label" htmlFor="user-email">{t('form.email')}</label>
           <input id="user-email" className="user-input" type="email" name="email" value={form.email} onChange={handleChange} />
         </div>
         <div className="form-group form-group--full">
           <label className="user-label" htmlFor="user-password">
-            Nouveau mot de passe (laisser vide pour ne pas changer)
+            {t('profile.newPassword')}
           </label>
           <div className="user-profile__password-row">
             <input id="user-password" className="user-input" name="password" value={form.password} onChange={handleChange} type={showPassword ? 'text' : 'password'} />
             {/* R76 : afficher/masquer le mot de passe */}
             <button type="button" className="user-profile__password-toggle" onClick={() => setShowPassword(c => !c)}>
-              {showPassword ? 'Cacher' : 'Voir'}
+              {showPassword ? t('profile.hide') : t('profile.show')}
             </button>
           </div>
         </div>
       </div>
 
       <div className="user-profile__actions">
-        <button type="button" className="btn btn-primary" onClick={handleSave}>Enregistrer</button>
+        <button type="button" className="btn btn-primary" onClick={handleSave}>{t('profile.save')}</button>
       </div>
 
-      <h3 className="user-profile__section-title">Mes réservations</h3>
+      <h3 className="user-profile__section-title">{t('profile.myReservations')}</h3>
       <div className="user-profile__reservations">
         {reservations.length === 0 ? (
-          <p>Aucune réservation pour le moment.</p>
+          <p>{t('profile.noReservations')}</p>
         ) : (
           reservations.map(reservation => (
             <div key={reservation.id} className="user-profile__reservation">
               <div>
-                <strong>Réf :</strong> {reservation.reference || reservation.id}
+                <strong>{t('profile.ref')}:</strong> {reservation.reference || reservation.id}
                 {' - '}
-                <strong>Date :</strong> {reservation.reservation_date}
+                <strong>{t('profile.date')}:</strong> {reservation.reservation_date}
               </div>
-              <div><strong>Créneau :</strong> {reservation.time_slot_label}</div>
+              <div><strong>{t('profile.timeSlot')}:</strong> {reservation.time_slot_label}</div>
 
               <div className="user-profile__reservation-actions">
                 {/* R162 : confirmation dans le DOM plutôt que window.confirm() */}
                 {confirmDeleteId === reservation.id ? (
                   <>
-                    <p className="confirm-message">Confirmer la suppression ?</p>
-                    <button type="button" className="btn btn-danger" onClick={() => handleDeleteReservation(reservation.id)}>Oui, supprimer</button>
-                    <button type="button" className="btn btn-light"  onClick={() => setConfirmDeleteId(null)}>Annuler</button>
+                    <p className="confirm-message">{t('profile.confirmDelete')}</p>
+                    <button type="button" className="btn btn-danger" onClick={() => handleDeleteReservation(reservation.id)}>{t('profile.yesDelete')}</button>
+                    <button type="button" className="btn btn-light"  onClick={() => setConfirmDeleteId(null)}>{t('profile.cancel')}</button>
                   </>
                 ) : (
                   <button type="button" className="btn btn-light" onClick={() => setConfirmDeleteId(reservation.id)}>
-                    Supprimer
+                    {t('profile.delete')}
                   </button>
                 )}
               </div>
@@ -209,7 +211,7 @@ export default function UserProfile({ user: propUser = null, setUser: propSetUse
             type="button" 
             className="user-profile__toast-close" 
             onClick={() => setShowToast(false)}
-            aria-label="Fermer la notification"
+            aria-label={t('profile.closeNotification')}
           >
             ✕
           </button>

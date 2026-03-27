@@ -1,11 +1,16 @@
+import { useTranslation } from 'react-i18next';
 import '../../styles/components/experiences_components/LevelCard.css';
 
 // Carte d'un niveau : état verrouillé/déverrouillé, complétion, sélection
 export default function LevelCard({ level, unlocked, percent, onSelect, selected }) {
+  const { t } = useTranslation();
   const isLocked = !unlocked;
 
   const cardClasses = ['level-card', isLocked ? 'locked' : '', selected ? 'selected' : '']
     .filter(Boolean).join(' ');
+
+  const levelName = t(level.nameKey);
+  const pilotName = t(level.pilotKey);
 
   return (
     <div className={cardClasses}>
@@ -14,10 +19,10 @@ export default function LevelCard({ level, unlocked, percent, onSelect, selected
       </div>
 
       <div className="level-meta">
-        <h3 className="level-title">Niveau {level.id}</h3>
-        <div className="level-sub">Joueur : <strong>{level.pilot || '—'}</strong></div>
+        <h3 className="level-title">{levelName}</h3>
+        <div className="level-sub">{t('pages.experiences.levelCard.pilot')} : <strong>{pilotName || '—'}</strong></div>
         <div className="level-completion">
-          Complétion : <span className="level-percent-inline">{percent}%</span>
+          {t('pages.experiences.levelCard.completion')} : <span className="level-percent-inline">{percent}%</span>
         </div>
       </div>
 
@@ -28,7 +33,7 @@ export default function LevelCard({ level, unlocked, percent, onSelect, selected
           onClick={() => onSelect(level.id)}
           disabled={isLocked}
         >
-          Commencer la course
+          {t('pages.experiences.levelCard.startRace')}
         </button>
       </div>
     </div>

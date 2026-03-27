@@ -2,6 +2,7 @@ import { useEffect, useRef, Fragment, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Map from '../../components/practical_info_components/Map';
 import ContactSection from '../../components/practical_info_components/ContactSection';
+import Conditions from '../../components/book_components/Conditions';
 import '../../styles/components/practical_info_components/infos-pratiques.css';
 
 const InfoPratique = () => {
@@ -42,7 +43,7 @@ const InfoPratique = () => {
           {t('pages.infoPratique.title')}
         </h1>
         <p className="infos-pratiques__description">
-          Découvrez tous les détails pratiques pour préparer votre visite au musée. Horaires d'ouverture, tarifs, accès, informations d'accessibilité et réponses à vos questions fréquentes.
+          {t('pages.infoPratique.description')}
         </p>
       </section>
 
@@ -117,6 +118,7 @@ const InfoPratique = () => {
                 ))}
               </p>
             </div>
+            <Conditions />
           </section>
 
           {/* ── HORAIRES ── */}
@@ -124,7 +126,12 @@ const InfoPratique = () => {
             <h2 className="infos-pratiques__section-title">{t('pages.infoPratique.hours')}</h2>
             <div className="infos-pratiques__card">
               <p className="infos-pratiques__text">
-                {t('pages.infoPratique.hoursContent')}
+                {t('pages.infoPratique.hoursContent').split('\n').map((line, i) => (
+                  <Fragment key={i}>
+                    {line}
+                    {i < t('pages.infoPratique.hoursContent').split('\n').length - 1 && <br />}
+                  </Fragment>
+                ))}
               </p>
             </div>
           </section>

@@ -86,13 +86,13 @@ function LoginForm({ onSuccess, setUser }) {
       </div>
 
       {/* R71 : tous les champs sont obligatoires */}
-      <p className="form-note">Tous les champs sont obligatoires</p>
+      <p className="form-note">{t('form.required')}</p>
 
       {/* R85 : message d'erreur dans le DOM */}
       {errorMessage && <p className="form-error">{errorMessage}</p>}
 
       <ButtonValidation
-        text={isLoading ? 'Connexion...' : 'Se connecter'}
+        text={isLoading ? t('auth.logging') : t('auth.login')}
         onClick={handleSubmit}
         disabled={isLoading || !email || !password}
       />
