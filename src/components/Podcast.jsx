@@ -62,6 +62,7 @@ function PodcastPlayer({ podcast }) {
             setCurrentTime(audio.currentTime);
         };
         
+        
         const onLoadedMetadata = () => {
             console.log('Audio chargé, durée:', audio.duration);
             setDuration(audio.duration);
