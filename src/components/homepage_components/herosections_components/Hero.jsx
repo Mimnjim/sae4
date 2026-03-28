@@ -577,7 +577,7 @@ export default function Hero({ title1, title2, subtitle }) {
                 gisCamera.position.z = gisProxy.z;
                 gisCamera.position.y = gisProxy.y;
                 // gisCamera.lookAt(0, gisInitialY_SAVED + 2.90, -0.35);
-                gisCamera.lookAt(0, gisInitialY_SAVED + 3, -1.45);
+                gisCamera.lookAt(0, gisInitialY_SAVED + 3, -1.95);
                 if (gisModel.current) gisModel.current.rotation.y = gisProxy.rotY;
             }
         }, 6.6);
