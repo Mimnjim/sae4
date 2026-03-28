@@ -558,14 +558,19 @@ export default function Hero({ title1, title2, subtitle }) {
 
         // PHASE 5 : ZOOM GIS
         tl.to(gisProxy, {
-            z: gisInitialZ * 0.28,
-            y: gisInitialY + 1.48,
-            rotY: (-Math.PI / 2) + 0.5,
+            // z: gisInitialZ * 0.63,
+            // y: gisInitialY + 2.60,
+
+            z: gisInitialZ * 0.80,
+            y: gisInitialY + 1.8,
+
+            rotY: (-Math.PI / 2) + 0.9,
             duration: 2,
             onUpdate: () => {
                 gisCamera.position.z = gisProxy.z;
                 gisCamera.position.y = gisProxy.y;
-                gisCamera.lookAt(0, gisInitialY + 1.78, -0.35);
+                // gisCamera.lookAt(0, gisInitialY + 2.90, -0.35);
+                gisCamera.lookAt(0, gisInitialY + 1.8, -0.35);
                 if (gisModel.current) gisModel.current.rotation.y = gisProxy.rotY;
             }
         }, 6.6);

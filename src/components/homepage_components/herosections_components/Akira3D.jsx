@@ -131,7 +131,7 @@ export default function Akira3D({ onReady }) {
         scene.background = null;
 
         // Camera
-        const camera = new THREE.PerspectiveCamera(80, width / height, 0.1, 1000);
+        const camera = new THREE.PerspectiveCamera(80, width / height, 0.01, 10000);
 
         // Renderer
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -185,7 +185,7 @@ export default function Akira3D({ onReady }) {
 
                 const maxDim   = Math.max(size.x, size.y, size.z);
                 const fovRad   = camera.fov * (Math.PI / 180);
-                const initialZ = Math.abs(maxDim / 2 / Math.tan(fovRad / 2)) * 1.3;
+                const initialZ = Math.abs(maxDim / 2 / Math.tan(fovRad / 2)) * 1.6;
                 const posY     = -10;
 
                 camera.position.set(0, posY, initialZ);

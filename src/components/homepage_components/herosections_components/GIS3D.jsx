@@ -146,7 +146,7 @@ export default function GIS3D({ onReady }) {
         scene.background = null;
 
         // Camera (75 comme dans le HTML qui fonctionne)
-        const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+        const camera = new THREE.PerspectiveCamera(90, width / height, 0.01, 10000);
 
         // Renderer
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -197,13 +197,13 @@ export default function GIS3D({ onReady }) {
 
                 // 🔥 SCALE AUTO (CRUCIAL) - comme le HTML qui fonctionne
                 const maxDim = Math.max(size.x, size.y, size.z);
-                const scale = 2 / maxDim;
-                // const scale = 4 / maxDim;
+                const scale = 6 / maxDim;
                 model.scale.setScalar(scale);
 
                 // 🔥 CAMERA AJUSTÉE - comme le HTML qui fonctionne
-                const initialZ = 3;
-                camera.position.set(0, 0, initialZ);
+                // Pour agrandir le modèle sans changer le visuel : augmenter scale ET initialZ proportionnellement
+                const initialZ = 5; // 3 est un facteur de distance de base, ajusté par le scale
+                camera.position.set(0, 2, initialZ);
 
                 camera.lookAt(0, 0, 0);
                 camera.updateMatrixWorld();
