@@ -95,9 +95,9 @@ const Backoffice = () => {
     return (
       <div className="backoffice-access-denied">
         <div className="access-denied-card">
-          <h1>{t('backoffice.adminArea')}</h1>
-          <p>{t('backoffice.loginAsAdmin')}</p>
-          <a href="/login" className="access-denied-button">{t('backoffice.login')} →</a>
+          <h1>{t('backoffice.adminZone')}</h1>
+          <p>{t('backoffice.requiresAdmin')}</p>
+          <a href="/login" className="access-denied-button">{t('pages.login.title')} →</a>
         </div>
       </div>
     );

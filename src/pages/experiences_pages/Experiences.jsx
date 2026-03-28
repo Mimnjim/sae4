@@ -179,8 +179,17 @@ const Experiences = () => {
             <div className="game-modal-backdrop" onClick={handleCloseModal} />
             <div className="game-modal-content" ref={containerRef}>
 
-              {/* R162 : bouton de fermeture explicite */}
-              <button type="button" className="modal-close" onClick={handleCloseModal}>
+              {/* R162 : Fenêtres modales dotées d'un bouton de fermeture explicite
+                  - Bouton visible avec texte "Fermer" lisible
+                  - aria-label pour précision accessibilité
+                  - Positionné top-right, taille 44x44px (cible tactile)
+                  - Focus visible pour accessibilité clavier */}
+              <button 
+                type="button" 
+                className="modal-close" 
+                onClick={handleCloseModal}
+                aria-label="Fermer la modale du jeu"
+              >
                 {t('pages.experiences.close')}
               </button>
 

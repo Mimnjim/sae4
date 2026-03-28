@@ -28,7 +28,8 @@ const ButtonValidation = ({ text, navigateTo, disabled, onClick, navigationData 
       </span>
 
       <span className="btn-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" focusable="false">
+        {/* R116 : SVG décoratif avec aria-hidden pour l'accessibilité */}
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" focusable="false" aria-hidden="true">
           <path d="M7 17l10-10M11 7h6v6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none" />
         </svg>
       </span>

@@ -30,6 +30,10 @@ import ResetPassword from './pages/connexion_pages/Reset-password.jsx';
 import UserProfile from './pages/connexion_pages/UserProfile.jsx';
 import Backoffice from './pages/backoffice_pages/backoffice/Backoffice.jsx';
 import Activate from './pages/inscriptions_pages/Activate.jsx';
+import NotFound from './pages/NotFound.jsx';
+import Sources from './pages/practical_info_pages/Sources.jsx';
+import MentionsLegales from './pages/legal_pages/MentionsLegales.jsx';
+import PolitiqueConfidentialite from './pages/legal_pages/PolitiqueConfidentialite.jsx';
 
 // Styles
 import './styles/components/global_components/global.css';
@@ -182,6 +186,11 @@ const App = () => {
             <Route path="/activate" element={<Activate />} />
             <Route path="/confirmation" element={<ConfirmationPage />} />
             <Route path="/infos-pratiques" element={<InfoPratique />} />
+            <Route path="/sources" element={<Sources />} />
+            <Route path="/mentions-legales" element={<MentionsLegales />} />
+            <Route path="/politique-confidentialite" element={<PolitiqueConfidentialite />} />
+            {/* R225 : Route de page d'erreur 404 avec menu de navigation */}
+            <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
           <Footer />

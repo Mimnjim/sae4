@@ -80,15 +80,33 @@ const Navbar = ({ user, setUser }) => {
     setOpenLang(false);
   };
 
+  // R157 : Déterminer si un lien est actif de la navigation
+  // Les items actifs du menu sont signalés visuellement et sémantiquement
+  const isLinkActive = (path) => {
+    return location.pathname === path;
+  };
+
   let authLinks;
   if (user) {
     authLinks = (
-      <Link to="/profile" className="cursor-target">{t('profile.myProfile')}</Link>
+      <Link 
+        to="/profile" 
+        className={`cursor-target ${isLinkActive('/profile') ? 'nav-link--active' : ''}`}
+        aria-current={isLinkActive('/profile') ? 'page' : undefined}
+      >
+        {t('profile.myProfile')}
+      </Link>
     );
   } else {
     authLinks = (
       <>
-        <Link to="/login" className="login-btn cursor-target">{t('navbar.login')} <ArrowUpRight /></Link>
+        <Link 
+          to="/login" 
+          className={`login-btn cursor-target ${isLinkActive('/login') ? 'nav-link--active' : ''}`}
+          aria-current={isLinkActive('/login') ? 'page' : undefined}
+        >
+          {t('navbar.login')} <ArrowUpRight />
+        </Link>
       </>
     );
   }
@@ -100,9 +118,30 @@ const Navbar = ({ user, setUser }) => {
         <Link to="/"><img src="/img/petit_logo_white.svg" alt="Logo" className="logo-expo cursor-target" /></Link>
 
         <div className="elements-nav__infos">
-          <Link to="/experiences" className="cursor-target">{t('navbar.experiences')} <ArrowUpRight /></Link>
-          <Link to="/form-reservation" className="cursor-target">{t('navbar.reservation')} <ArrowUpRight /></Link>
-          <Link to="/infos-pratiques" className="cursor-target">{t('navbar.info')} <ArrowUpRight /></Link>
+          {/* R157 : Items actifs de menu sont signalés
+              - classe 'nav-link--active' appliquée si le lien correspond à la route actuelle
+              - aria-current="page" indique au lecteur d'écran la page active */}
+          <Link 
+            to="/experiences" 
+            className={`cursor-target ${isLinkActive('/experiences') ? 'nav-link--active' : ''}`}
+            aria-current={isLinkActive('/experiences') ? 'page' : undefined}
+          >
+            {t('navbar.experiences')} <ArrowUpRight />
+          </Link>
+          <Link 
+            to="/form-reservation" 
+            className={`cursor-target ${isLinkActive('/form-reservation') ? 'nav-link--active' : ''}`}
+            aria-current={isLinkActive('/form-reservation') ? 'page' : undefined}
+          >
+            {t('navbar.reservation')} <ArrowUpRight />
+          </Link>
+          <Link 
+            to="/infos-pratiques" 
+            className={`cursor-target ${isLinkActive('/infos-pratiques') ? 'nav-link--active' : ''}`}
+            aria-current={isLinkActive('/infos-pratiques') ? 'page' : undefined}
+          >
+            {t('navbar.info')} <ArrowUpRight />
+          </Link>
         </div>
       </div>
 
@@ -117,8 +156,9 @@ const Navbar = ({ user, setUser }) => {
 
           {openLang && (
             <div className="lang-menu">
-              <div onClick={() => changeLang('FR')} className="cursor-target">{t('gateway.french')}</div>
-              <div onClick={() => changeLang('EN')} className="cursor-target">{t('gateway.english')}</div>
+              {/* R131 : Indiquer la langue cible quand elle diffère */}
+              <div onClick={() => changeLang('FR')} className="cursor-target" lang="fr" aria-label="Changer la langue vers le français">{t('gateway.french')}</div>
+              <div onClick={() => changeLang('EN')} className="cursor-target" lang="en" aria-label="Change language to English">{t('gateway.english')}</div>
             </div>
           )}
         </div>

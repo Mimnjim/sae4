@@ -239,7 +239,8 @@ const FormReservation = () => {
             {totalTickets > 0 && totalTickets < MAX_TICKETS && <div className="summary-remaining">{MAX_TICKETS - totalTickets} {t('reservation.placesRemaining')}</div>}
           </div>
           
-          {step1Error && <p className="form-error">{step1Error}</p>}
+          {/* R85 : erreur validation étape 1 accessible */}
+          {step1Error && <p className="form-error" role="alert">{step1Error}</p>}
           
           <button 
             className="btn btn-primary" 

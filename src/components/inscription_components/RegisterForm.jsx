@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ButtonValidation from '../book_components/ButtonValidation';
 
-// Évalue la force d'un mot de passe — retourne 0 (faible) à 3 (fort)
+// R203 : Évalue la force d'un mot de passe — retourne 0 (faible) à 3 (fort)
 function getPasswordStrength(pwd) {
   let score = 0;
   if (pwd.length >= 8)              score++;
@@ -30,6 +30,7 @@ function RegisterForm({ onSuccess }) {
   // R203 : calcul de la force du mot de passe
   const strengthScore = password ? getPasswordStrength(password) : 0;
 
+  // R28 : Données sensibles transmises via POST (pas en clair dans URL)
   const handleSubmit = () => {
     setIsLoading(true);
     setErrorMessage('');
@@ -37,12 +38,15 @@ function RegisterForm({ onSuccess }) {
     fetch('https://apimusee.tomdelavigne.fr/api/register.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      // R28 : body contient les données sensibles (pas dans URL)
       body: JSON.stringify({ email, password, firstname, lastname }),
     })
       .then(async (res) => {
         const data = await res.json().catch(() => ({}));
         if (!res.ok || data.success === false) {
-          setErrorMessage(data.message || t('auth.registrationError'));
+          // R26 : Message générique pour ne pas exposer l'existence d'un compte
+          const genericMessage = t('auth.registrationError') || 'Une erreur est survenue';
+          setErrorMessage(data.message === 'Email déjà utilisé' ? genericMessage : (data.message || genericMessage));
           setIsLoading(false);
           return;
         }
@@ -58,64 +62,83 @@ function RegisterForm({ onSuccess }) {
   return (
     <div className="register-form">
 
+      {/* R69 : Étiquette associée à chaque champ */}
       <div className="register-form__field">
         {/* R71 : * indique champ obligatoire */}
-        <label htmlFor="register-firstname">{t('form.firstName')} <span className="required">*</span></label>
+        <label htmlFor="register-firstname">{t('form.firstName')} <span className="required" aria-label="obligatoire">*</span></label>
+        {/* R95 : type="text" approprié pour prénom */}
         <input
           id="register-firstname"
           className="register-form__input"
           type="text"
           value={firstname}
           onChange={e => setFirstname(e.target.value)}
+          aria-required="true"
         />
       </div>
 
+      {/* R69 : Étiquette associée à chaque champ */}
       <div className="register-form__field">
-        <label htmlFor="register-lastname">{t('form.lastName')} <span className="required">*</span></label>
+        {/* R71 : * indique champ obligatoire */}
+        <label htmlFor="register-lastname">{t('form.lastName')} <span className="required" aria-label="obligatoire">*</span></label>
+        {/* R95 : type="text" approprié pour nom */}
         <input
           id="register-lastname"
           className="register-form__input"
           type="text"
           value={lastname}
           onChange={e => setLastname(e.target.value)}
+          aria-required="true"
         />
       </div>
 
+      {/* R69 : Étiquette associée à chaque champ */}
       <div className="register-form__field">
-        <label htmlFor="register-email">{t('form.email')} <span className="required">*</span></label>
+        {/* R71 : * indique champ obligatoire */}
+        <label htmlFor="register-email">{t('form.email')} <span className="required" aria-label="obligatoire">*</span></label>
+        {/* R95 : type="email" approprié pour adresse email */}
         <input
           id="register-email"
           className="register-form__input"
           type="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
+          aria-required="true"
         />
       </div>
 
+      {/* R69 : Étiquette associée à chaque champ */}
       <div className="register-form__field">
-        <label htmlFor="register-password">{t('form.password')} <span className="required">*</span></label>
+        {/* R71 : * indique champ obligatoire */}
+        <label htmlFor="register-password">{t('form.password')} <span className="required" aria-label="obligatoire">*</span></label>
         <div className="register-form__password-row">
+          {/* R95 : type dynamique pour password ou text selon showPassword */}
           <input
             id="register-password"
             className="register-form__input"
             type={showPassword ? 'text' : 'password'}
             value={password}
             onChange={e => setPassword(e.target.value)}
+            aria-required="true"
           />
-          {/* R76 : afficher/masquer le mot de passe */}
+          {/* R76 : Afficher/masquer le mot de passe */}
+          {/* R116 : SVG décoratives avec aria-label et focusable="false" */}
+          {/* R185 : Contenu accessible au lecteur d'écran via aria-label */}
           <button
             type="button"
             className="password-toggle"
             onClick={() => setShowPassword(current => !current)}
+            aria-label={showPassword ? t('form.hidePassword') || 'Masquer le mot de passe' : t('form.showPassword') || 'Afficher le mot de passe'}
+            aria-pressed={showPassword}
           >
             {showPassword ? (
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" focusable="false">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" focusable="false" aria-hidden="true">
                 <path d="M2 2l20 20" />
                 <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-5 0-9.27-3-11-8a20.1 20.1 0 0 1 4.26-5.25" />
                 <path d="M9.88 9.88A3 3 0 0 0 14.12 14.12" />
               </svg>
             ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" focusable="false">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" focusable="false" aria-hidden="true">
                 <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
                 <circle cx="12" cy="12" r="3" />
               </svg>
@@ -123,10 +146,11 @@ function RegisterForm({ onSuccess }) {
           </button>
         </div>
 
-        {/* R203 : indicateur de force du mot de passe */}
+        {/* R203 : Indicateur de force du mot de passe */}
+        {/* R185 : Accessible au lecteur d'écran */}
         {password && (
-          <div className={`password-strength password-strength--${STRENGTH_CLASSES[strengthScore]}`}>
-            <div className="password-strength__bar">
+          <div className={`password-strength password-strength--${STRENGTH_CLASSES[strengthScore]}`} role="status" aria-live="polite">
+            <div className="password-strength__bar" aria-hidden="true">
               {[1, 2, 3, 4].map(i => (
                 <span
                   key={i}
@@ -139,13 +163,14 @@ function RegisterForm({ onSuccess }) {
         )}
       </div>
 
-      {/* R71 : notice champs obligatoires */}
+      {/* R71 : Notice indiquant les champs obligatoires */}
       <p className="form-note">{t('form.required')}</p>
 
-      {/* R85 : message d'erreur dans le DOM */}
-      {errorMessage && <p className="form-error">{errorMessage}</p>}
+      {/* R85 : Message d'erreur affiché dans le DOM après soumission */}
+      {/* R185 : Message d'erreur accessible */}
+      {errorMessage && <p className="form-error" role="alert">{errorMessage}</p>}
 
-      {/* R18 : informer l'utilisateur qu'un email de confirmation sera envoyé */}
+      {/* R18 : Information sur le processus de confirmation par email */}
       <p className="form-note">{t('auth.confirmEmail')}</p>
 
       <ButtonValidation

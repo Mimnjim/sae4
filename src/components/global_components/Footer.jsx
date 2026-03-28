@@ -35,7 +35,7 @@ const Footer = () => {
         {/* Zone 3 : Legal */}
         <div className="footer-zone">
           <Link to="/mentions-legales">{t('footer.legal')}</Link>
-          <Link to="/privacy">{t('footer.privacy')}</Link>
+          <Link to="/politique-confidentialite">{t('footer.privacy')}</Link>
           <Link to="/sources">{t('footer.sources')}</Link>
         </div>
 

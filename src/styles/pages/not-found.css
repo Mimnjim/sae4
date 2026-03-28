@@ -1,0 +1,127 @@
+/* Page 404 - Not Found
+   ========================================
+   R225 : Fen\u00eatres redimensionn\u00e9es ou modales
+   - Page d'erreur 404 avec navigation explicite
+   - Boutons d'action clairs pour retour utilisateur
+   - Design accessible et responsif */
+
+.not-found {\n  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10rem 2rem;
+  font-family: var(--ff-family-main);
+  /* background: white; */
+}
+
+.not-found__container {
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+}
+
+.not-found__content {
+  margin-bottom: 3rem;
+}
+
+.not-found__code {
+  font-size: 9rem;
+  font-weight: 900;
+  margin: 0;
+  color: #fff;
+  line-height: 1;
+  opacity: 1;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.not-found__title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 1rem 0 0.5rem 0;
+  color: var(--color-primary, #ba121b);
+}
+
+.not-found__description {
+  font-size: 1.1rem;
+  color: #fff;
+  margin: 1rem 0 2rem 0;
+  line-height: 1.6;
+}
+
+.not-found__actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+
+/* R225 : Boutons d'action persistants et explicites */
+.not-found__actions button {
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 120px; /* R225 : Cible tactile lisible */
+}
+
+/* R225 : Action primaire - Retour accueil */
+.btn-primary {
+  background-color: var(--color-primary, #ba121b);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #8a0d14;
+  box-shadow: 0 4px 12px rgba(186, 18, 27, 0.3);
+}
+
+/* R225 : Action secondaire - Pr\u00e9c\u00e9dent */
+.btn-secondary {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 2px solid #ccc;
+}
+
+.btn-secondary:hover {
+  background-color: #e0e0e0;
+  border-color: #999;
+}
+
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .not-found {
+    min-height: 50vh;
+    padding: 2rem 1rem;
+  }
+
+  .not-found__code {
+    font-size: 5rem;
+  }
+
+  .not-found__title {
+    font-size: 1.5rem;
+  }
+
+  .not-found__description {
+    font-size: 1rem;
+  }
+
+  .not-found__actions {
+    gap: 0.5rem;
+  }
+
+  .not-found__actions button {
+    padding: 0.5rem 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .not-found__nav-links ul {
+    grid-template-columns: 1fr;
+  }
+}

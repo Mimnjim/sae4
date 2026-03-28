@@ -265,6 +265,10 @@
   z-index: var(--z-modal-content);
 }
 
+/* R162 : Bouton de fermeture explicite pour fenêtres modales
+   - Visible et accessible (taille 44x44px = cible tactile WCAG)
+   - Position conventionnelle top-right
+   - Contraste blanc/noir optimal (WCAG AAA) */
 .modal-close {
   position: absolute;
   right: 8px;
@@ -273,15 +277,17 @@
   background: var(--color-overlay-black);
   color: var(--color-white);
   border: 2px solid transparent;
-  width: 44px; /* Agrandit pour faire 44x44px (cible tactile) */
+  width: 44px; /* R162 : Cible tactile min 44x44px */
   height: 44px;
   border-radius: 999px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background 0.2s ease;
 }
 
+/* R162 : Feedback visuel au survol */
 .modal-close:hover {
   background: #000;
   border-color: #fff;

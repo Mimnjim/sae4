@@ -30,6 +30,12 @@
     /* transition: color 0.3s ease; */
 }
 
+/* R157 : Signaler les items actifs du menu */
+.navbar a.nav-link--active {
+    text-decoration: underline;
+    font-weight: 600;
+}
+
 .navbar img.logo-expo {
     width: 80px;
     height: auto;

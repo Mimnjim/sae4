@@ -40,18 +40,7 @@ export default function UserProfile({ user: propUser = null, setUser: propSetUse
     const jwt = getJwt();
     if (!jwt) { navigate('/login'); return; }
 
-    // Si propUser est fourni depuis App.jsx, passer directement aux réservations
-    if (propUser) {
-      setForm({ firstname: propUser.firstname || '', lastname: propUser.lastname || '', email: propUser.email || '', password: '' });
-      fetch(`https://apimusee.tomdelavigne.fr/api/reservations.php?user_id=${propUser.id}`, { headers: getAuthHeaders() })
-        .then(r => r.json())
-        .then(list => { if (list) setReservations(list); })
-        .catch(() => setErrorMessage(t('profile.networkError')))
-        .finally(() => setIsLoading(false));
-      return;
-    }
-
-    // Sinon, charger l'utilisateur depuis l'API
+    // Toujours charger l'utilisateur depuis l'API pour obtenir les données complètes incluant le rôle
     fetch('https://apimusee.tomdelavigne.fr/api/users.php', { headers: getAuthHeaders() })
       .then(r => r.json())
       .then(data => {
@@ -127,8 +116,10 @@ export default function UserProfile({ user: propUser = null, setUser: propSetUse
           <h2>{t('profile.myProfile')}</h2>
         </div>
         <div className="user-profile__logout-section">
-          {user.role === 'admin' && (
-            <Link to="/backoffice" className="btn btn-primary">
+          {/* R234 : Titre hiérarchisé et accessible */}
+          {/* Affiche le bouton dashboard si l'utilisateur est admin */}
+          {user?.role === 'admin' && (
+            <Link to="/backoffice" className="btn btn-primary" aria-label={t('profile.dashboard') || 'Aller au tableau de bord administrateur'}>
               {t('profile.dashboard')}
             </Link>
           )}
@@ -136,9 +127,9 @@ export default function UserProfile({ user: propUser = null, setUser: propSetUse
         </div>
       </div>
 
-      {/* R85 : messages dans le DOM */}
-      {errorMessage   && <p className="form-error">{errorMessage}</p>}
-      {successMessage && <p className="form-success">{successMessage}</p>}
+      {/* R85 : messages d'erreur et succès dans le DOM avec rôles accessibilité */}
+      {errorMessage   && <p className="form-error" role="alert">{errorMessage}</p>}
+      {successMessage && <p className="form-success" role="status" aria-live="polite">{successMessage}</p>}
 
       <div className="user-profile__grid">
         <div className="form-group">

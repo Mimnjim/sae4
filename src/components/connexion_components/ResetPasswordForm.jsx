@@ -2,11 +2,24 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
+// R203 : Évalue la force d'un mot de passe — retourne 0 (faible) à 4 (très fort)
+function getPasswordStrength(pwd) {
+  let score = 0;
+  if (pwd.length >= 8)              score++;
+  if (/[A-Z]/.test(pwd))           score++;
+  if (/[0-9]/.test(pwd))           score++;
+  if (/[^A-Za-z0-9]/.test(pwd))    score++;
+  return score;
+}
+
 // Formulaire de réinitialisation du mot de passe
 function ResetPasswordForm() {
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
+
+  const STRENGTH_LABELS = ['', t('auth.weak'), t('auth.medium'), t('auth.strong'), t('auth.veryStrong')];
+  const STRENGTH_CLASSES = ['', 'weak', 'medium', 'strong', 'very-strong'];
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,6 +30,9 @@ function ResetPasswordForm() {
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [step, setStep] = useState(token ? 'reset' : 'request'); // 'request' ou 'reset'
+
+  // R203 : calcul de la force du mot de passe
+  const strengthScore = password ? getPasswordStrength(password) : 0;
 
   // Étape 1 : Demander l'email
   const handleRequestReset = () => {
@@ -101,8 +117,9 @@ function ResetPasswordForm() {
           />
         </div>
 
-        {errorMessage && <p className="reset-password-error">{errorMessage}</p>}
-        {successMessage && <p className="reset-password-success">{successMessage}</p>}
+        {/* R185 : Messages d'erreur accessibles au lecteur d'écran */}
+        {errorMessage && <p className="reset-password-error" role="alert">{errorMessage}</p>}
+        {successMessage && <p className="reset-password-success" role="status" aria-live="polite">{successMessage}</p>}
 
         <p className="reset-password-note">{t('auth.resetInstructions')}</p>
 
@@ -139,19 +156,35 @@ function ResetPasswordForm() {
             onClick={() => setShowPassword(!showPassword)}
           >
             {showPassword ? (
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" focusable="false">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" focusable="false" aria-hidden="true">
                 <path d="M2 2l20 20" />
                 <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-5 0-9.27-3-11-8a20.1 20.1 0 0 1 4.26-5.25" />
                 <path d="M9.88 9.88A3 3 0 0 0 14.12 14.12" />
               </svg>
             ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" focusable="false">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" focusable="false" aria-hidden="true">
                 <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
                 <circle cx="12" cy="12" r="3" />
               </svg>
             )}
           </button>
         </div>
+
+        {/* R203 : Indicateur de force du mot de passe */}
+        {password && (
+          <div className={`password-strength password-strength--${STRENGTH_CLASSES[strengthScore]}`} role="status" aria-live="polite">
+            <div className="password-strength__bar" aria-hidden="true">
+              {[0, 1, 2, 3].map((i) => (
+                <div
+                  key={i}
+                  className={`password-strength__segment ${i < strengthScore ? 'active' : ''}`}
+                  aria-label={`Segments de force: ${strengthScore} sur 4`}
+                />
+              ))}
+            </div>
+            <p className="password-strength__label">{STRENGTH_LABELS[strengthScore]}</p>
+          </div>
+        )}
       </div>
 
       <div className="reset-password-form__field">
@@ -171,13 +204,13 @@ function ResetPasswordForm() {
             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
           >
             {showConfirmPassword ? (
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" focusable="false">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" focusable="false" aria-hidden="true">
                 <path d="M2 2l20 20" />
                 <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-5 0-9.27-3-11-8a20.1 20.1 0 0 1 4.26-5.25" />
                 <path d="M9.88 9.88A3 3 0 0 0 14.12 14.12" />
               </svg>
             ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" focusable="false">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" focusable="false" aria-hidden="true">
                 <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
                 <circle cx="12" cy="12" r="3" />
               </svg>
@@ -186,8 +219,9 @@ function ResetPasswordForm() {
         </div>
       </div>
 
-      {errorMessage && <p className="reset-password-error">{errorMessage}</p>}
-      {successMessage && <p className="reset-password-success">{successMessage}</p>}
+      {/* R185 : Messages d'erreur accessibles au lecteur d'écran */}
+      {errorMessage && <p className="reset-password-error" role="alert">{errorMessage}</p>}
+      {successMessage && <p className="reset-password-success" role="status" aria-live="polite">{successMessage}</p>}
 
       <div className="reset-password-form__actions">
         <button

@@ -141,8 +141,9 @@ const ReservationDetails = () => {
 
         <label className="form-reservation__label" htmlFor="res-email-confirm">Confirmez votre e-mail <span className="required">*</span></label>
         <input id="res-email-confirm" className="form-reservation__input" type="email" placeholder="confirmez votre e-mail" value={emailConfirm} onChange={e => setEmailConfirm(e.target.value)} />
+        {/* R85 : erreur comparaison emails accessible */}
         {email && emailConfirm && email !== emailConfirm && (
-          <p className="form-error">Les adresses e-mail ne correspondent pas.</p>
+          <p className="form-error" role="alert">Les adresses e-mail ne correspondent pas.</p>
         )}
 
         <div className="promo-section">
@@ -151,11 +152,13 @@ const ReservationDetails = () => {
             <input id="res-promo" className="form-reservation__input" type="text" placeholder="Entrez le code promo" value={promoCode} onChange={e => { setPromoCode(e.target.value); setPromoError(''); }} disabled={promoApplied} />
             <button type="button" className="form-reservation__btn" onClick={handleApplyPromo} disabled={promoApplied || !promoCode.trim()}>Appliquer</button>
           </div>
-          {promoError && <p className="promo-message error">{promoError}</p>}
-          {promoApplied && <p className="promo-message success">Réduction de 5% appliquée</p>}
+          {/* R85 : messages de code promo accessibles */}
+          {promoError && <p className="promo-message error" role="alert">{promoError}</p>}
+          {promoApplied && <p className="promo-message success" role="status" aria-live="polite">Réduction de 5% appliquée</p>}
         </div>
 
-        {submitError && <p className="form-error">{submitError}</p>}
+        {/* R85 : erreur soumission accessible */}
+        {submitError && <p className="form-error" role="alert">{submitError}</p>}
 
         <ButtonValidation text="Confirmer ma réservation" onClick={handleSubmit} disabled={!formIsComplete} />
       </div>
