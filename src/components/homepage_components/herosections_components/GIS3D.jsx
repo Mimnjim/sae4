@@ -195,6 +195,10 @@ export default function GIS3D({ onReady }) {
                 model.position.y -= center.y;
                 model.position.z -= center.z;
 
+                // 🔥 REMONTÉE DU MODÈLE (pour éviter le cropping des jambes)
+                const upwardOffset = 4;
+                model.position.y += upwardOffset;
+
                 // 🔥 SCALE AUTO (CRUCIAL) - comme le HTML qui fonctionne
                 const maxDim = Math.max(size.x, size.y, size.z);
                 const scale = 6 / maxDim;
@@ -203,9 +207,9 @@ export default function GIS3D({ onReady }) {
                 // 🔥 CAMERA AJUSTÉE - comme le HTML qui fonctionne
                 // Pour agrandir le modèle sans changer le visuel : augmenter scale ET initialZ proportionnellement
                 const initialZ = 5; // 3 est un facteur de distance de base, ajusté par le scale
-                camera.position.set(0, 2, initialZ);
+                camera.position.set(0, 1.2 + upwardOffset, initialZ);
 
-                camera.lookAt(0, 0, 0);
+                camera.lookAt(0, upwardOffset, 0);
                 camera.updateMatrixWorld();
                 scene.add(model);
 

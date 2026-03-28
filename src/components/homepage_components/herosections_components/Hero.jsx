@@ -456,8 +456,15 @@ export default function Hero({ title1, title2, subtitle }) {
 
         const akiraInitialY = akiraCamera.position.y;
         const gisInitialY = gisCamera.position.y;
-        const akiraProxy = { z: akiraInitialZ, y: akiraInitialY, rotY: 0 };
-        const gisProxy = { z: gisInitialZ, y: gisInitialY, rotY: 0 };
+        
+        // POSITIONS INITIALES FIGÉES - NEVER CHANGE
+        const akiraInitialY_SAVED = akiraInitialY;
+        const gisInitialY_SAVED = gisInitialY;
+        const akiraInitialZ_SAVED = akiraInitialZ;
+        const gisInitialZ_SAVED = gisInitialZ;
+        
+        const akiraProxy = { z: akiraInitialZ_SAVED, y: akiraInitialY_SAVED, rotY: 0 };
+        const gisProxy = { z: gisInitialZ_SAVED, y: gisInitialY_SAVED, rotY: 0 };
 
         // Filtrer les éléments null avant de les animer
         const elementsToAnimate = [sloganRef.current, buttonsRef.current, scrollDownRef.current, footerHeroRef.current].filter(Boolean);
@@ -558,19 +565,19 @@ export default function Hero({ title1, title2, subtitle }) {
 
         // PHASE 5 : ZOOM GIS
         tl.to(gisProxy, {
-            // z: gisInitialZ * 0.63,
-            // y: gisInitialY + 2.60,
+            // z: gisInitialZ_SAVED * 0.63,
+            // y: gisInitialY_SAVED + 2.60,
 
-            z: gisInitialZ * 0.80,
-            y: gisInitialY + 1.8,
+            z: gisInitialZ_SAVED * 0.38,
+            y: gisInitialY_SAVED + 4,
 
             rotY: (-Math.PI / 2) + 0.9,
             duration: 2,
             onUpdate: () => {
                 gisCamera.position.z = gisProxy.z;
                 gisCamera.position.y = gisProxy.y;
-                // gisCamera.lookAt(0, gisInitialY + 2.90, -0.35);
-                gisCamera.lookAt(0, gisInitialY + 1.8, -0.35);
+                // gisCamera.lookAt(0, gisInitialY_SAVED + 2.90, -0.35);
+                gisCamera.lookAt(0, gisInitialY_SAVED + 3, -1.45);
                 if (gisModel.current) gisModel.current.rotation.y = gisProxy.rotY;
             }
         }, 6.6);
