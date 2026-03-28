@@ -329,6 +329,11 @@
 .parent-boost {
   left: 12px;
   bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+  color: var(--color-white);
 }
 
 .boost-track-parent {
@@ -343,6 +348,7 @@
   height: 100%;
   background: linear-gradient(90deg, #ff0055, var(--color-accent-cyan));
   width: 0%;
+  transition: width 150ms linear;
 }
 
 .parent-health {
@@ -364,6 +370,22 @@
   height: 100%;
   background: linear-gradient(90deg, #00ff99, var(--color-accent-cyan));
   width: 100%;
+  transition: width 150ms linear;
+}
+
+.health-status-parent {
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--color-white-soft);
+  font-weight: 600;
+}
+
+.boost-status-parent {
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--color-white-soft);
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 .parent-race {
@@ -388,6 +410,45 @@
   background: #fff; /* Contraste net sur la piste */
   width: 0%;
   transition: width 150ms linear;
+}
+
+/* Parent speed (centre bas) */
+.parent-speed {
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 12px;
+  text-align: center;
+  pointer-events: none;
+  color: var(--color-white);
+}
+
+.speedometer {
+  min-width: 160px;
+  background: rgba(0, 0, 0, 0.36);
+  padding: 8px 12px;
+  border-radius: 12px;
+  display: inline-block;
+}
+
+.speed-value {
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-white);
+}
+
+.speed-unit {
+  font-size: 0.85rem;
+  opacity: 0.9;
+  display: block;
+  margin-top: 2px;
+}
+
+/* items-status sous la barre de course */
+.parent-race .items-status {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--color-white-soft);
 }
 
 

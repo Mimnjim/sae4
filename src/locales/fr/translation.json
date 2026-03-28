@@ -1,0 +1,241 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "experiences": "Expériences",
+    "reserve": "Réserver",
+    "info": "Infos pratiques",
+    "login": "Connexion",
+    "logout": "Déconnexion",
+    "profile": "Profil",
+    "switch_lang": "EN"
+  },
+  "footer": {
+    "company": "AzerT Agency",
+    "description": "Expositions immersives | Akira & Ghost in the Shell",
+    "copyright": "© 2026 AzerT Agency. Tous droits réservés."
+  },
+  "validation": {
+    "title": "Votre commande a bien été enregistrée",
+    "order_number": "Numéro de commande",
+    "greeting": "Bonjour {{prenom}} {{nom}},",
+    "total": "Montant total",
+    "date": "Date",
+    "time": "Heure",
+    "keep_number": "Conservez bien ce numéro pour toute correspondance.",
+    "back_home": "Retour à l'accueil"
+  },
+  "authPrompt": {
+    "default_message": "Vous devez être connecté pour réserver",
+    "desc": "Connectez-vous ou créez un compte pour poursuivre.",
+    "login": "Se connecter",
+    "register": "S'inscrire"
+  },
+  "hero": {
+    "title1": "AKIRA",
+    "title2": "GHOST IN THE SHELL",
+    "subtitle": "Au-delà de l'humain"
+  },
+  "sections": {
+    "akira": {
+      "title": "Akira",
+      "content": "Découvrez Neo-Tokyo et les mutations physiques et mentales de ses héros dans un univers cyberpunk lumineux et glitché."
+    },
+    "ghost": {
+      "title": "Ghost in the Shell",
+      "content": "Plongez dans la conscience augmentée et la réflexion philosophique sur l'identité à l'ère de l'IA et des cyber-corps."
+    },
+    "themes": {
+      "title": "Thématiques immersives",
+      "content": "Corps augmenté, IA, identité et transhumanisme. Des installations interactives et des projections visuelles immersives vous attendent."
+    },
+    "experience": {
+      "title": "Expérience interactive",
+      "content": "Un avant-goût du futur jeu immersif, avec manipulation virtuelle et environnement sonore immersif."
+    }
+  },
+  "levels": {
+    "level1": "NIVEAU 01 : NEO-TOKYO RUN",
+    "level2": "NIVEAU 02 : GHOST HACK",
+    "level3": "NIVEAU 03 : AU-DELÀ DE L'HUMAIN",
+    "player": "Joueur",
+    "completion": "Complétion",
+    "start_race": "Commencer la course"
+  }
+  ,
+  "contact": {
+    "title": "Contact",
+    "phone_label": "Téléphone",
+    "email_label": "Email",
+    "website_label": "Site web"
+  },
+  "teaser": {
+    "text": "Quand la technologie dépasse l'humain… osez franchir la frontière."
+  }
+  ,
+  "experiences": {
+    "victory": "Victoire !",
+    "game_over": "Game Over",
+    "retry": "Réessayer",
+    "quit": "Quitter",
+    "next_level": "Niveau suivant",
+    "need_items": "Récoltez 70% des objets pour continuer",
+    "claim_promo": "Récupérer le code promo"
+  },
+  "register": {
+    "title": "Inscription",
+    "have_account": "Déjà un compte ? Se connecter",
+    "loading": "Inscription en cours...",
+    "submit": "S'inscrire",
+    "confirmation_notice": "Un email de confirmation vous sera envoyé après l'inscription.",
+    "required_notice": "Les champs marqués d'un * sont obligatoires.",
+    "strength_labels": ["","Faible","Moyen","Fort","Très fort"],
+    "password_rules": "8 caractères minimum, dont 1 majuscule, 1 chiffre et 1 caractère spécial.",
+    "error_message": "Erreur lors de l'inscription. Vérifiez les champs."
+  },
+  "form": {
+    "select_date": "Sélectionner la date",
+    "time_label": "Heure",
+    "language_label": "Langue de la visite",
+    "password": "Mot de passe",
+    "lang_fr": "Français",
+    "lang_en": "Anglais",
+    "tickets_label": "Nombre de billets",
+    "price_full": "Plein tarif",
+    "price_reduced": "Tarif réduit (Étudiant / sénior)",
+    "price_free": "Gratuit (Jeune moins de 26 ans, enseignant, visiteur en situation de handicap)",
+    "conditions": "Conditions",
+    "next": "Suivant",
+    "summary": "Récapitulatif",
+    "date": "Date",
+    "language": "Langue",
+    "tickets": "Billets",
+    "discount_applied": "Réduction appliquée",
+    "total": "Total",
+    "max_reached": "Nombre maximum de places atteint",
+    "remaining": "Il reste {{count}} place(s)",
+    "contact_details": "Coordonnées",
+    "required_notice": "Les champs marqués d'un * sont obligatoires.",
+    "first_name": "Prénom",
+    "last_name": "Nom",
+    "email": "E-mail",
+    "confirm_email": "Confirmez votre e-mail",
+    "emails_mismatch": "Les adresses e-mail ne correspondent pas.",
+    "promo_code": "Code promo",
+    "apply": "Appliquer",
+    "invalid_code": "Code invalide",
+    "promo_success": "Réduction de 5% appliquée",
+    "confirm_booking": "Confirmer ma réservation",
+    "back": "Retour",
+    "placeholders": {
+      "first_name": "prénom",
+      "last_name": "nom",
+      "email": "e-mail",
+      "confirm_email": "confirmez votre e-mail",
+      "promo": "Entrez le code promo"
+    }
+  },
+  "profile": {
+    "title": "Mon profil",
+    "save": "Enregistrer",
+    "firstname": "Prénom",
+    "lastname": "Nom",
+    "email": "Email",
+    "password_hint": "Nouveau mot de passe (laisser vide pour ne pas changer)",
+    "show": "Voir",
+    "hide": "Cacher",
+    "loading": "Chargement...",
+    "not_logged": "Utilisateur non connecté.",
+    "update_success": "Profil mis à jour avec succès.",
+    "delete_confirm": "Confirmer la suppression ?",
+    "yes_delete": "Oui, supprimer",
+    "cancel": "Annuler",
+    "no_reservations": "Aucune réservation pour le moment.",
+    "reference": "Réf",
+    "slot": "Créneau",
+    "delete": "Supprimer",
+    "confirm_delete": "Confirmer la suppression ?"
+  },
+  "info": {
+    "title": "Informations pratiques",
+    "tariffs_title": "Tarifs",
+    "tariff_full": "Plein tarif - 9 euros",
+    "tariff_reduced": "Tarif réduit - 8 euros",
+    "tariff_free": "Enfant et personne en situation de handicap - Gratuit",
+    "hours_title": "Horaires",
+    "hours_text": "Ouvert tous les jours de 10h à 18h",
+    "access_title": "Accès",
+    "access_metro": "Métro 8",
+    "access_parking": "Parking payant à proximité.",
+    "access_bike": "Accès vélo : station Vélib' à 200m.",
+    "accessibility_title": "Accessibilité",
+    "accessibility_text1": "Entrée gratuite pour la personne handicapée et accompagnateur sur présentation d'un justificatif.",
+    "accessibility_text2": "Ascenseur disponible pour accéder à tous les niveaux.",
+    "accessibility_text3": "Toilettes accessibles au rez-de-chaussée.",
+    "accessibility_text4": "Accompagnateur : disponible sur demande.",
+    "location": "Localisation",
+    "faq": {
+      "q1": "Dois-je réserver à l'avance ?",
+      "a1": "Oui, il est fortement recommandé de réserver vos billets en ligne pour garantir l'accès au créneau souhaité.",
+      "q2": "Est-ce qu'il y a des tarifs réduits ?",
+      "a2": "Oui : étudiants, demandeurs d'emploi et personnes en situation de handicap bénéficient d'un tarif réduit sur présentation d'un justificatif.",
+      "q3": "Puis-je annuler ma réservation ?",
+      "a3": "Oui, il vous suffit de vous connecter, d'accéder à votre profil afin d'annuler votre réservation."
+    }
+  }
+
+  ,
+  "calendar": {
+    "weekdays": ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
+    "prev": "Précédent",
+    "next": "Suivant",
+    "prev2": "Précédent (mois)",
+    "next2": "Suivant (mois)",
+    "prev_short": "‹",
+    "next_short": "›",
+    "prev2_short": "«",
+    "next2_short": "»"
+  }
+  ,
+  "login": {
+    "title": "Connexion",
+    "forgot_password": "Mot de passe oublié ?",
+    "no_account": "Pas de compte ? S'inscrire",
+    "all_required": "Tous les champs sont obligatoires",
+    "loading": "Connexion...",
+    "invalid_credentials": "Email ou mot de passe invalide",
+    "network_error": "Erreur réseau",
+    "submit": "Se connecter"
+  },
+  "backoffice": {
+    "reservations_title": "Réservations",
+    "users_title": "Utilisateurs",
+    "columns": {
+      "id": "ID",
+      "reference": "Référence",
+      "date": "Date",
+      "contact": "Contact",
+      "actions": "Actions",
+      "email": "Email",
+      "name": "Nom",
+      "role": "Rôle"
+    },
+    "delete": "Supprimer",
+    "role_user": "Utilisateur",
+    "role_admin": "Administrateur"
+  },
+  "conditions": {
+    "title": "Conditions tarifaires",
+    "free_title": "Conditions de gratuité",
+    "reduced_title": "Tarif réduit",
+    "free": [
+      { "title": "Jeunes de moins de 26 ans", "description": "Sur présentation d'un titre d'identité valide avec photographie et date de naissance." },
+      { "title": "Visiteurs handicapés et un accompagnateur", "description": "Sur présentation d'un titre d'identité valide avec photographie et date de naissance." },
+      { "title": "Enseignants", "description": "Sur présentation du Pass Éducation en cours de validité tamponné par l'établissement avec photographie (e-pass non accepté)." },
+      { "title": "Personnel du musée", "description": "Sur présentation du badge professionnel nominatif avec photographie." }
+    ],
+    "reduced": [
+      { "title": "Étudiants", "description": "Sur présentation d'une carte étudiante avec photographie." },
+      { "title": "Séniors de plus de 60 ans", "description": "Sur présentation d'un titre d'identité valide avec photographie et date de naissance." }
+    ]
+  }
+}

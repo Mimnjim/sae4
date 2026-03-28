@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import ButtonValidation from '../components/ButtonValidation';
 import Conditions from '../components/Conditions';
 import '../styles/form-reservation.css';
@@ -58,8 +59,9 @@ const ReservationDetails = () => {
 
   const formIsComplete = Boolean(prenom && nom && email && emailConfirm && email === emailConfirm && totalTickets > 0);
 
+  const { t } = useTranslation();
   const jwt = typeof window !== 'undefined' ? localStorage.getItem('jwt') : null;
-  if (!jwt) return <div style={{ padding: 24 }}><p>Connectez-vous pour réserver votre visite.</p></div>;
+  if (!jwt) return <div style={{ padding: 24 }}><p>{t('authPrompt.default_message')}</p></div>;
 
   const handleApplyPromo = () => {
     const code = (promoCode || '').trim().toUpperCase();
@@ -68,7 +70,7 @@ const ReservationDetails = () => {
       setPromoError('');
     } else {
       setPromoApplied(false);
-      setPromoError('Code invalide');
+      setPromoError(t('form.invalid_code'));
     }
   };
 
@@ -111,58 +113,58 @@ const ReservationDetails = () => {
     <div className="form-reservation" style={{ padding: 24 }}>
       <div className="form-reservation__left">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h2 className="form-reservation__title">Coordonnées</h2>
-          <button className="btn" onClick={() => navigate(-1)}>Retour</button>
+          <h2 className="form-reservation__title">{t('form.contact_details')}</h2>
+          <button className="btn" onClick={() => navigate(-1)}>{t('form.back')}</button>
         </div>
 
-        <p className="form-required-notice">Les champs marqués d'un <span className="required">*</span> sont obligatoires.</p>
+        <p className="form-required-notice">{t('form.required_notice')}</p>
 
         <div className="form-recap-small" style={{ marginBottom: 12, background: 'rgba(0,0,0,0.06)', padding: 8, borderRadius: 8 }}>
-          <div><strong>Date choisie :</strong> {date ? date.toLocaleDateString('fr-FR') : '—'}</div>
-          <div><strong>Heure :</strong> {time || '—'}</div>
+          <div><strong>{t('form.date')} :</strong> {date ? date.toLocaleDateString() : '—'}</div>
+          <div><strong>{t('form.time_label')} :</strong> {time || '—'}</div>
         </div>
 
-        <label className="form-reservation__label" htmlFor="res-prenom">Prénom <span className="required">*</span></label>
+        <label className="form-reservation__label" htmlFor="res-prenom">{t('form.first_name')} <span className="required">*</span></label>
         <input id="res-prenom" className="form-reservation__input" type="text" value={prenom} onChange={e => setPrenom(e.target.value)} />
 
-        <label className="form-reservation__label" htmlFor="res-nom">Nom <span className="required">*</span></label>
+        <label className="form-reservation__label" htmlFor="res-nom">{t('form.last_name')} <span className="required">*</span></label>
         <input id="res-nom" className="form-reservation__input" type="text" value={nom} onChange={e => setNom(e.target.value)} />
 
-        <label className="form-reservation__label" htmlFor="res-email">E-mail <span className="required">*</span></label>
+        <label className="form-reservation__label" htmlFor="res-email">{t('form.email')} <span className="required">*</span></label>
         <input id="res-email" className="form-reservation__input" type="email" value={email} onChange={e => setEmail(e.target.value)} />
 
-        <label className="form-reservation__label" htmlFor="res-email-confirm">Confirmez votre e-mail <span className="required">*</span></label>
+        <label className="form-reservation__label" htmlFor="res-email-confirm">{t('form.confirm_email')} <span className="required">*</span></label>
         <input id="res-email-confirm" className="form-reservation__input" type="email" value={emailConfirm} onChange={e => setEmailConfirm(e.target.value)} />
         {email && emailConfirm && email !== emailConfirm && (
-          <p className="form-error">Les adresses e-mail ne correspondent pas.</p>
+          <p className="form-error">{t('form.emails_mismatch')}</p>
         )}
 
         <div className="promo-section">
-          <label className="promo-label" htmlFor="res-promo">Code promo</label>
+          <label className="promo-label" htmlFor="res-promo">{t('form.promo_code')}</label>
           <div className="promo-row">
             <input id="res-promo" className="form-reservation__input" type="text" value={promoCode} onChange={e => { setPromoCode(e.target.value); setPromoError(''); }} disabled={promoApplied} />
-            <button type="button" className="form-reservation__btn" onClick={handleApplyPromo} disabled={promoApplied || !promoCode.trim()}>Appliquer</button>
+            <button type="button" className="form-reservation__btn" onClick={handleApplyPromo} disabled={promoApplied || !promoCode.trim()}>{t('form.apply')}</button>
           </div>
           {promoError && <p className="promo-message error">{promoError}</p>}
-          {promoApplied && <p className="promo-message success">Réduction de 5% appliquée</p>}
+          {promoApplied && <p className="promo-message success">{t('form.promo_success')}</p>}
         </div>
 
         {submitError && <p className="form-error">{submitError}</p>}
 
-        <ButtonValidation text="Confirmer ma réservation" onClick={handleSubmit} disabled={!formIsComplete} />
+        <ButtonValidation text={t('form.confirm_booking')} onClick={handleSubmit} disabled={!formIsComplete} />
       </div>
 
       <div className="form-reservation__right">
-        <h2 className="form-reservation__title">Récapitulatif</h2>
+        <h2 className="form-reservation__title">{t('form.summary')}</h2>
         <div className="form-reservation__summary">
-          <div><strong>Date :</strong> {date ? date.toLocaleDateString('fr-FR') : '—'}</div>
-          <div><strong>Heure :</strong> {time || '—'}</div>
-          <div style={{ marginTop: 8 }}><strong>Billets :</strong></div>
-          <div>Plein tarif : {pleinTarif}</div>
-          <div>Tarif réduit : {tarifReduit}</div>
-          <div>Gratuit : {gratuit}</div>
-          {promoApplied && <div className="summary-discount">Réduction ({VALID_PROMO_CODE}) : -{discount.toFixed(2)}€</div>}
-          <div className="summary-final">Total : {finalTotal.toFixed(2)}€</div>
+          <div><strong>{t('form.date')} :</strong> {date ? date.toLocaleDateString() : '—'}</div>
+          <div><strong>{t('form.time_label')} :</strong> {time || '—'}</div>
+          <div style={{ marginTop: 8 }}><strong>{t('form.tickets')} :</strong></div>
+          <div>{t('form.price_full')} : {pleinTarif}</div>
+          <div>{t('form.price_reduced')} : {tarifReduit}</div>
+          <div>{t('form.price_free')} : {gratuit}</div>
+          {promoApplied && <div className="summary-discount">{t('form.discount_applied')} ({VALID_PROMO_CODE}) : -{discount.toFixed(2)}€</div>}
+          <div className="summary-final">{t('form.total')} : {finalTotal.toFixed(2)}€</div>
         </div>
       </div>
     </div>

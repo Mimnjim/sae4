@@ -1,17 +1,18 @@
 import { useEffect, useMemo, useState, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import LevelCard from '../components/LevelCard';
 import Timeline from '../components/Timeline';
 import '../styles/experiences.css';
 
 const LEVELS = [
-  { id: 1, name: 'NIVEAU 01 : NEO-TOKYO RUN',      pilot: 'Kaneda' },
-  { id: 2, name: 'NIVEAU 02 : GHOST HACK',          pilot: 'Motoko' },
-  { id: 3, name: "NIVEAU 03 : AU-DELÀ DE L'HUMAIN", pilot: '—'      },
+  { id: 1, name: 'NIVEAU 01 : NEO-TOKYO RUN', pilot: 'Kaneda' },
+  { id: 2, name: 'NIVEAU 02 : GHOST HACK', pilot: 'Motoko' },
+  { id: 3, name: "NIVEAU 03 : AU-DELÀ DE L'HUMAIN", pilot: 'Kaneda' },
 ];
 
 const UNLOCK_THRESHOLD = 0.7;
-const getProgressKey   = (levelId) => `game_progress_level_${levelId}`;
+const getProgressKey = (levelId) => `game_progress_level_${levelId}`;
 
 function getCompletionRatio(progress) {
   if (!progress || progress.total === 0) return 0;
@@ -35,29 +36,30 @@ function saveProgress(levelId, value, setProgressMap) {
 // Panneau affiché en fin de partie
 function GameResultPanel({ gameResult, playingLevelId, progressMap, onReplay, onClose, onNextLevel, onClaimPromo }) {
   if (!gameResult) return null;
+  const { t } = useTranslation();
 
-  const isVictory      = gameResult === 'victory';
-  const isLastLevel    = playingLevelId >= LEVELS.length;
-  const levelProgress  = progressMap[playingLevelId] || { collected: 0, total: 0 };
+  const isVictory = gameResult === 'victory';
+  const isLastLevel = playingLevelId >= LEVELS.length;
+  const levelProgress = progressMap[playingLevelId] || { collected: 0, total: 0 };
   const hasEnoughItems = getCompletionRatio(levelProgress) >= UNLOCK_THRESHOLD;
 
   return (
     <div className="result-panel">
       {/* R234 : h2 car c'est le titre principal de ce panneau */}
-      <h2>{isVictory ? 'Victoire !' : 'Game Over'}</h2>
+      <h2>{isVictory ? t('experiences.victory') : t('experiences.game_over')}</h2>
       <div className="result-actions">
-        <button type="button" className="btn btn-light" onClick={onReplay}>Réessayer</button>
-        <button type="button" className="btn"           onClick={onClose}>Quitter</button>
+        <button type="button" className="btn btn-light" onClick={onReplay}>{t('experiences.retry')}</button>
+        <button type="button" className="btn" onClick={onClose}>{t('experiences.quit')}</button>
 
         {isVictory && !isLastLevel && (
           hasEnoughItems
-            ? <button type="button" className="btn btn-primary" onClick={onNextLevel}>Niveau suivant</button>
-            : <button type="button" className="btn" disabled>Récoltez 70% des objets pour continuer</button>
+            ? <button type="button" className="btn btn-primary" onClick={onNextLevel}>{t('experiences.next_level')}</button>
+            : <button type="button" className="btn" disabled>{t('experiences.need_items')}</button>
         )}
 
         {isVictory && isLastLevel && hasEnoughItems && (
           <button type="button" className="btn btn-primary" onClick={onClaimPromo}>
-            Récupérer le code promo
+            {t('experiences.claim_promo')}
           </button>
         )}
       </div>
@@ -67,17 +69,19 @@ function GameResultPanel({ gameResult, playingLevelId, progressMap, onReplay, on
 
 const Experiences = () => {
   const navigate = useNavigate();
-  const iframeRef    = useRef(null);
+  const iframeRef = useRef(null);
   const containerRef = useRef(null);
 
   const [selectedLevelId, setSelectedLevelId] = useState(null);
-  const [playingLevelId,  setPlayingLevelId]  = useState(null);
-  const [progressMap,     setProgressMap]     = useState({});
-  const [promoUnlocked,   setPromoUnlocked]   = useState(false);
-  const [isGameFinished,  setIsGameFinished]  = useState(false);
-  const [gameResult,      setGameResult]      = useState(null);
-  const [boostState,      setBoostState]      = useState({ status: 'charging', percent: 0 });
-  const [healthPercent,   setHealthPercent]   = useState(100);
+  const [playingLevelId, setPlayingLevelId] = useState(null);
+  const [progressMap, setProgressMap] = useState({});
+  const [promoUnlocked, setPromoUnlocked] = useState(false);
+  const [isGameFinished, setIsGameFinished] = useState(false);
+  const [gameResult, setGameResult] = useState(null);
+  const [boostState, setBoostState] = useState({ status: 'charging', percent: 0 });
+  const [healthPercent, setHealthPercent] = useState(100);
+  const [racePercent, setRacePercent] = useState(0);
+  const [speedKmH, setSpeedKmH] = useState(0);
 
   useEffect(() => {
     setProgressMap(loadProgressFromStorage());
@@ -108,8 +112,10 @@ const Experiences = () => {
         saveProgress(msg.difficulty, value, setProgressMap);
         if (msg.type === 'game_init') { setIsGameFinished(false); setGameResult(null); }
       }
-      if (msg.type === 'game_boost')   setBoostState({ status: msg.status || 'charging', percent: msg.percent || 0 });
-      if (msg.type === 'game_health')  setHealthPercent(msg.percent || 0);
+      if (msg.type === 'game_boost') setBoostState({ status: msg.status || 'charging', percent: msg.percent || 0 });
+      if (msg.type === 'game_health') setHealthPercent(msg.percent || 0);
+      if (msg.type === 'race_progress') setRacePercent(msg.percent || 0);
+      if (msg.type === 'game_speed') setSpeedKmH(msg.speed || 0);
       if (msg.type === 'game_victory') {
         const value = { collected: msg.collected || 0, total: msg.total || 0 };
         saveProgress(msg.difficulty, value, setProgressMap);
@@ -136,14 +142,26 @@ const Experiences = () => {
     return () => clearTimeout(timer);
   }, [playingLevelId]);
 
-  const handleSelectLevel  = (levelId) => { setSelectedLevelId(levelId); if (unlockedMap[levelId]) setPlayingLevelId(levelId); };
+  useEffect(() => {
+    if (!playingLevelId) {
+      setRacePercent(0);
+      setSpeedKmH(0);
+    }
+  }, [playingLevelId]);
+
+  const handleSelectLevel = (levelId) => { setSelectedLevelId(levelId); if (unlockedMap[levelId]) setPlayingLevelId(levelId); };
   const handleIframeLoaded = () => iframeRef.current?.contentWindow?.postMessage({ type: 'start' }, '*');
-  const handleReplay       = () => { iframeRef.current?.contentWindow?.postMessage({ type: 'restart' }, '*'); setIsGameFinished(false); setGameResult(null); };
-  const handleCloseModal   = () => { setPlayingLevelId(null); setIsGameFinished(false); setGameResult(null); };
-  const handleNextLevel    = () => { if (!playingLevelId || playingLevelId >= LEVELS.length) return; setPlayingLevelId(playingLevelId + 1); setIsGameFinished(false); setGameResult(null); };
-  const handleClaimPromo   = () => navigate('/form-reservation', { state: { promoCode: 'HUMAIN5', promoApplied: true } });
+  const handleReplay = () => { iframeRef.current?.contentWindow?.postMessage({ type: 'restart' }, '*'); setIsGameFinished(false); setGameResult(null); };
+  const handleCloseModal = () => { setPlayingLevelId(null); setIsGameFinished(false); setGameResult(null); };
+  const handleNextLevel = () => { if (!playingLevelId || playingLevelId >= LEVELS.length) return; setPlayingLevelId(playingLevelId + 1); setIsGameFinished(false); setGameResult(null); };
+  const handleClaimPromo = () => navigate('/form-reservation', { state: { promoCode: 'HUMAIN5', promoApplied: true } });
 
   const boostStatusLabel = boostState.status === 'active' ? 'ACTIF' : boostState.status === 'ready' ? 'PRÊT' : 'CHARGEMENT';
+
+  // Clamp UI values to sane ranges to avoid broken rendering
+  const clampedBoostPercent = Math.min(100, Math.max(0, boostState.percent || 0));
+  const clampedHealthPercent = Math.min(100, Math.max(0, healthPercent || 0));
+  const clampedSpeedKmH = Math.max(0, Math.round(speedKmH || 0));
 
   return (
     <div className="experiences-page">
@@ -154,7 +172,7 @@ const Experiences = () => {
         <Timeline count={LEVELS.length} />
         <div className="levels-list">
           {LEVELS.map(level => {
-            const progress       = progressMap[level.id] || { collected: 0, total: 0 };
+            const progress = progressMap[level.id] || { collected: 0, total: 0 };
             const percentDisplay = Math.round(getCompletionRatio(progress) * 100);
             return (
               <LevelCard
@@ -194,17 +212,33 @@ const Experiences = () => {
                 <div className="parent-hud parent-health">
                   <div className="label">VIE</div>
                   <div className="health-track-parent">
-                    <div className="health-bar-parent" style={{ width: `${healthPercent}%` }} />
+                    <div className="health-bar-parent" style={{ width: `${clampedHealthPercent}%` }} />
                   </div>
-                  <div className="health-status-parent">{Math.round(healthPercent)}%</div>
+                  <div className="health-status-parent">{Math.round(clampedHealthPercent)}%</div>
                 </div>
 
                 <div className="parent-hud parent-boost">
                   <div className="label">BOOST</div>
                   <div className="boost-track-parent">
-                    <div className="boost-bar-parent" style={{ width: `${boostState.percent}%` }} />
+                    <div className="boost-bar-parent" style={{ width: `${clampedBoostPercent}%` }} />
                   </div>
                   <div className="boost-status-parent">{boostStatusLabel}</div>
+                </div>
+
+                <div className="parent-hud parent-race" aria-hidden>
+                  <div className="race-track" aria-hidden>
+                    <div className="race-bar" style={{ width: `${racePercent}%` }} />
+                  </div>
+                  <div className="items-status">
+                    {playingLevelId ? `${(progressMap[playingLevelId]?.collected || 0)} / ${(progressMap[playingLevelId]?.total || 0)}` : ''}
+                  </div>
+                </div>
+
+                <div className="parent-hud parent-speed" aria-hidden>
+                  <div className="speedometer" role="status" aria-live="polite">
+                    <div className="speed-value">{clampedSpeedKmH}</div>
+                    <div className="speed-unit">km/h</div>
+                  </div>
                 </div>
               </div>
 

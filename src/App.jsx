@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // Composants principaux
@@ -18,7 +19,7 @@ import Register from './pages/Register.jsx';
 import RegisterSent from './pages/RegisterSent.jsx';
 import UserProfile from './pages/UserProfile.jsx';
 import Backoffice from './pages/backoffice/Backoffice.jsx';
-import Activate from './pages/Activate.jsx';
+import NotFound from './pages/NotFound';
 
 // Styles
 import './styles/global.css';
@@ -29,46 +30,49 @@ import './styles/app.css';
 import Grainient from './components/Grainient.jsx';
 
 // Page d'accueil
-const Home = () => (
-  <div>
-    <Hero
-      title1="AKIRA"
-      title2="GHOST IN THE SHELL"
-      subtitle="Au-delà de l'humain"
-    />
-    <div className="teaser">
-      <h2>Quand la technologie dépasse l'humain… osez franchir la frontière.</h2>
+const Home = () => {
+  const { t } = useTranslation();
+  return (
+    <div>
+      <Hero
+        title1={t('hero.title1')}
+        title2={t('hero.title2')}
+        subtitle={t('hero.subtitle')}
+      />
+      <div className="teaser">
+        <h2>{t('teaser.text') || 'Quand la technologie dépasse l\'humain… osez franchir la frontière.'}</h2>
+      </div>
+      <Section
+        id="akira"
+        title={t('sections.akira.title')}
+        content={t('sections.akira.content')}
+        imgSrc="img/Akira1.jpg"
+        reverse={false}
+      />
+      <Section
+        id="ghost"
+        title={t('sections.ghost.title')}
+        content={t('sections.ghost.content')}
+        imgSrc="img/GIS1.jpg"
+        reverse={true}
+      />
+      <Section
+        id="themes"
+        title={t('sections.themes.title')}
+        content={t('sections.themes.content')}
+        imgSrc="img/cyberpunk.webp"
+        reverse={false}
+      />
+      <Section
+        id="experience"
+        title={t('sections.experience.title')}
+        content={t('sections.experience.content')}
+        imgSrc="assets/images/experience-immersive.jpg"
+        reverse={true}
+      />
     </div>
-    <Section
-      id="akira"
-      title="Akira"
-      content="Découvrez Neo-Tokyo et les mutations physiques et mentales de ses héros dans un univers cyberpunk lumineux et glitché."
-      imgSrc="img/Akira1.jpg"
-      reverse={false}
-    />
-    <Section
-      id="ghost"
-      title="Ghost in the Shell"
-      content="Plongez dans la conscience augmentée et la réflexion philosophique sur l'identité à l'ère de l'IA et des cyber-corps."
-      imgSrc="img/GIS1.jpg"
-      reverse={true}
-    />
-    <Section
-      id="themes"
-      title="Thématiques immersives"
-      content="Corps augmenté, IA, identité et transhumanisme. Des installations interactives et des projections visuelles immersives vous attendent."
-      imgSrc="img/cyberpunk.webp"
-      reverse={false}
-    />
-    <Section
-      id="experience"
-      title="Expérience interactive"
-      content="Un avant-goût du futur jeu immersif, avec manipulation virtuelle et environnement sonore immersif."
-      imgSrc="assets/images/experience-immersive.jpg"
-      reverse={true}
-    />
-  </div>
-);
+  );
+};
 
 // Composant principal
 const App = () => {
@@ -113,9 +117,9 @@ const App = () => {
           <Route path="/register/sent" element={<RegisterSent />} />
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/backoffice" element={<Backoffice />} />
-          <Route path="/activate" element={<Activate />} />
           <Route path="/confirmation" element={<ConfirmationPage />} />
           <Route path="/info-pratique" element={<InfoPratique />} />
+          <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
 

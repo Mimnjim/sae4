@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import Map from '../components/Map';
 import ContactSection from '../components/ContactSection';
 import '../styles/info-pratique.css';
@@ -7,6 +8,7 @@ const InfoPratique = () => {
   // R166 / R185 : Gestion du focus à l'arrivée sur la page pour les lecteurs d'écran et claviers
   const titleRef = useRef(null);
 
+  const { t } = useTranslation();
   useEffect(() => {
     if (titleRef.current) {
       titleRef.current.focus();
@@ -18,7 +20,7 @@ const InfoPratique = () => {
     <main className="info-pratique-container">
       {/* tabIndex="-1" permet de donner le focus en JS sans perturber la navigation Tab classique */}
       <h1 ref={titleRef} tabIndex="-1" style={{ outline: 'none' }}>
-        Informations pratiques
+        {t('info.title')}
       </h1>
 
       <div className="info-main">
@@ -29,46 +31,40 @@ const InfoPratique = () => {
           <h2 className="sr-only">Informations de visite</h2>
           
           <div className="info-card">
-            <h3>Tarifs</h3>
-            <p>
-              Plein tarif - 9 euros<br />
-              Tarif réduit - 8 euros<br />
-              Enfant et personne en situation de handicap - Gratuit
-            </p>
+            <h3>{t('info.tariffs_title')}</h3>
+            <p dangerouslySetInnerHTML={{ __html: `${t('info.tariff_full')}<br/>${t('info.tariff_reduced')}<br/>${t('info.tariff_free')}` }} />
           </div>
 
           <div className="info-card">
-            <h3>Horaires</h3>
-            <p>
-              Ouvert tous les jours de 10h à 18h<br />
-            </p>
+            <h3>{t('info.hours_title')}</h3>
+            <p>{t('info.hours_text')}</p>
           </div>
 
           <div className="info-card">
-            <h3>Accès</h3>
-            <p>Metro 8.</p>
-            <p>Parking payant à proximité.</p>
-            <p>Accès vélo : station Vélib' à 200m.</p>
+            <h3>{t('info.access_title')}</h3>
+            <p>{t('info.access_metro')}</p>
+            <p>{t('info.access_parking')}</p>
+            <p>{t('info.access_bike')}</p>
           </div>
 
           <div className="info-card">
-            <h3>Accessibilité</h3>
-            <p>Entrée gratuite pour la personne handicapée et accompagnateur sur présentation d'un justificatif.</p>
-            <p>Ascenseur disponible pour accéder à tous les niveaux.</p>
-            <p>Toilettes accessibles au rez-de-chaussée.</p>
-            <p>Accompagnateur : disponible sur demande.</p>
+            <h3>{t('info.accessibility_title')}</h3>
+            <p>{t('info.accessibility_text1')}</p>
+            <p>{t('info.accessibility_text2')}</p>
+            <p>{t('info.accessibility_text3')}</p>
+            <p>{t('info.accessibility_text4')}</p>
           </div>
         </section>
 
         {/* ── Carte ── */}
         <section className="map-section">
-          <h2>Localisation</h2>
+          <h2>{t('info.location')}</h2>
           <Map />
         </section>
 
         {/* ── Contact ── */}
         <section>
-          <h2 className="sr-only">Nous contacter</h2>
+          <h2 className="sr-only">{t('contact.title')}</h2>
           <ContactSection
             phone="+33 1 23 45 67 89"
             email="contact@azert.fr"
@@ -81,16 +77,16 @@ const InfoPratique = () => {
           <div className="info-card info-card--faq">
             <h2>FAQ</h2>
             <details>
-              <summary>Dois-je réserver à l'avance ?</summary>
-              <p>Oui, il est fortement recommandé de réserver vos billets en ligne pour garantir l'accès au créneau souhaité.</p>
+              <summary>{t('info.faq.q1')}</summary>
+              <p>{t('info.faq.a1')}</p>
             </details>
             <details>
-              <summary>Est-ce qu'il y a des tarifs réduits ?</summary>
-              <p>Oui : étudiants, demandeurs d'emploi et personnes en situation de handicap bénéficient d'un tarif réduit sur présentation d'un justificatif.</p>
+              <summary>{t('info.faq.q2')}</summary>
+              <p>{t('info.faq.a2')}</p>
             </details>
             <details>
-              <summary>Puis-je annuler ma réservation ?</summary>
-              <p>Oui, il vous suffit de vous connecter, d'accéder à votre profil afin d'annuler votre réservation.</p>
+              <summary>{t('info.faq.q3')}</summary>
+              <p>{t('info.faq.a3')}</p>
             </details>
           </div>
         </section>

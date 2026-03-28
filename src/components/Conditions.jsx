@@ -1,57 +1,50 @@
+import { useTranslation } from 'react-i18next';
 import '../styles/Conditions.css';
 
-const FREE_CONDITIONS = [
-  {
-    title: 'Jeunes de moins de 26 ans',
-    description: "Sur présentation d'un titre d'identité ou autre justificatif nominatif en cours de validité avec photographie et la date de naissance.",
-  },
-  {
-    title: 'Visiteurs handicapés et un accompagnateur',
-    description: "Sur présentation d'un titre d'identité ou autre justificatif nominatif en cours de validité avec photographie et la date de naissance.",
-  },
-  {
-    title: 'Enseignants',
-    description: "Sur présentation du Pass Éducation en cours de validité délivré par le ministère de l'Éducation nationale et tamponné par l'établissement avec photographie. Le « e-pass » n'est pas accepté.",
-  },
-  {
-    title: 'Personnel du musée',
-    description: 'Sur présentation du badge professionnel nominatif avec photographie.',
-  },
-];
+// Sous-composant simple : affiche un accordéon avec une liste de conditions
+// Pour un débutant, on utilise "function" plutôt que "const = () =>" pour bien séparer
+function ConditionGroup({ title, conditions }) {
+  return (
+    <details>
+      <summary>{title}</summary>
+      
+      <div className="cond-list">
+        {/* L'utilisation de map() est le grand classique React à maîtriser */}
+        {conditions.map((condition, index) => (
+          // On utilise l'index comme key car cette liste ne sera jamais modifiée/triée
+          <div key={index} className="cond-item">
+            <strong>{condition.title}</strong>
+            <p>{condition.description}</p>
+          </div>
+        ))}
+      </div>
+    </details>
+  );
+}
 
-const REDUCED_CONDITIONS = [
-  {
-    title: 'Étudiants',
-    description: "Sur présentation d'une carte étudiante avec photographie.",
-  },
-  {
-    title: 'Séniors de plus de 60 ans',
-    description: "Sur présentation d'un titre d'identité ou autre justificatif nominatif en cours de validité avec photographie et la date de naissance.",
-  },
-];
+// Composant principal
+export default function Conditions() {
+  const { t } = useTranslation();
 
-// Groupe de conditions dans un <details> réutilisable
-const ConditionGroup = ({ title, conditions }) => (
-  <details>
-    <summary>{title}</summary>
-    <div className="cond-list">
-      {conditions.map((condition) => (
-        <div key={condition.title} className="cond-item">
-          <strong>{condition.title}</strong>
-          <p>{condition.description}</p>
-        </div>
-      ))}
-    </div>
-  </details>
-);
+  // On place les données ICI pour pouvoir utiliser la fonction t()
+  // Read arrays directly from translation files (returnObjects=true returns JS arrays/objects)
+  const FREE_CONDITIONS = t('conditions.free', { returnObjects: true }) || [];
+  const REDUCED_CONDITIONS = t('conditions.reduced', { returnObjects: true }) || [];
 
-const Conditions = () => (
-  <section className="conditions">
-    {/* R234 : titre de section pour la hiérarchie */}
-    <h2 className="conditions__title">Conditions tarifaires</h2>
-    <ConditionGroup title="Conditions de gratuité" conditions={FREE_CONDITIONS} />
-    <ConditionGroup title="Tarif réduit" conditions={REDUCED_CONDITIONS} />
-  </section>
-);
+  return (
+    <section className="conditions">
+      {/* R234 : Un vrai H2 pour structurer la page */}
+      <h2 className="conditions__title">{t('conditions.title')}</h2>
+      
+      <ConditionGroup 
+        title={t('conditions.free_title')}
+        conditions={FREE_CONDITIONS} 
+      />
 
-export default Conditions;
+      <ConditionGroup 
+        title={t('conditions.reduced_title')}
+        conditions={REDUCED_CONDITIONS} 
+      />
+    </section>
+  );
+}

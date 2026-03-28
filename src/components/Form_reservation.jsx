@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import ButtonValidation from './ButtonValidation';
 import Calendrier from './Calendrier';
 import AuthPrompt from './AuthPrompt';
@@ -51,8 +52,10 @@ const FormReservation = () => {
   const [promoCode,    setPromoCode]    = useState('');
   const [promoApplied, setPromoApplied] = useState(false);
   const [promoError,   setPromoError]   = useState('');
-  const [submitError,  setSubmitError]  = useState(''); // R85 : erreur dans le DOM
-  const [step] = useState(1); // on garde step=1 ici; la suite est une autre page
+  const [submitError,  setSubmitError]  = useState(''); 
+  
+  // Utilisation d'un state modifiable pour l'étape
+  const [step, setStep] = useState(1); 
 
   const totalTickets = pleinTarif + tarifReduit + gratuit;
   const subtotal     = pleinTarif * PRIX_PLEIN + tarifReduit * PRIX_REDUIT;
@@ -65,6 +68,7 @@ const FormReservation = () => {
     totalTickets > 0;
 
   const step1IsComplete = Boolean(date && time && totalTickets > 0);
+  
   useEffect(() => {
     if (!reservationData) return;
     if (reservationData.date) setDate(new Date(reservationData.date));
@@ -75,8 +79,9 @@ const FormReservation = () => {
     }
   }, []);
 
+  const { t } = useTranslation();
   const jwt = typeof window !== 'undefined' ? localStorage.getItem('jwt') : null;
-  if (!jwt) return <AuthPrompt message="Connectez-vous pour réserver votre visite" />;
+  if (!jwt) return <AuthPrompt message={t('authPrompt.default_message')} />;
 
   const handleApplyPromo = () => {
     const code = promoCode.trim().toUpperCase();
@@ -85,7 +90,7 @@ const FormReservation = () => {
       setPromoError('');
     } else {
       setPromoApplied(false);
-      setPromoError('Code invalide');
+      setPromoError(t('form.invalid_code'));
     }
   };
 
@@ -116,30 +121,21 @@ const FormReservation = () => {
             state: { reservationId: data.reservation_id, summary: { tickets, total: finalTotal } },
           });
         } else {
-          // R85 : message d'échec dans le DOM
           setSubmitError(data?.message || 'Erreur lors de la réservation.');
         }
       })
       .catch(() => setSubmitError('Erreur réseau, veuillez réessayer.'));
   };
 
+  // Gère le passage à l'étape 2
   const goNext = () => {
-    if (!step1IsComplete) return;
-    navigate('/form-reservation/coordonnees', {
-      state: {
-        date: date instanceof Date ? date.toISOString() : date,
-        time,
-        langue,
-        pleinTarif,
-        tarifReduit,
-        gratuit,
-        promoCode,
-        promoApplied,
-      }
-    });
+    if (step1IsComplete) setStep(2);
   };
 
-  const goBack = () => {}; // noop: step 2 is a separate page
+  // Gère le retour à l'étape 1
+  const goBack = () => {
+    setStep(1);
+  };
 
   return (
     <div className="form-reservation form-reservation--centered">
@@ -147,37 +143,46 @@ const FormReservation = () => {
       {/* ── Colonne gauche ── sélection (toujours visible) ── */}
       <div className="form-reservation__left">
 
-        {/* R234 : titres sémantiques */}
-        <h2 className="form-reservation__title">Sélectionner la date</h2>
+        <h2 className="form-reservation__title">{t('form.select_date')}</h2>
+        
         <Calendrier date={date} setDate={setDate} />
 
-        {/* R69 + R71 : label associé + mention obligatoire */}
-        <label className="form-reservation__label">Heure <span className="required">*</span></label>
-        <div className="time-slots" role="list" aria-label="Créneaux horaires">
-          {TIME_SLOTS.map(slot => {
-            const [start, end] = slot.split(' - ');
-            const selected = time === slot;
-            return (
-              <button
-                key={slot}
-                type="button"
-                className={`time-slot ${selected ? 'time-slot--selected' : ''}`}
-                onClick={() => setTime(slot)}
-                disabled={!date}
-                aria-pressed={selected}
-              >
-                <div className="time-slot__time">
-                  <span className="time-slot__start">{start}</span>
-                  <span className="time-slot__sep"> — </span>
-                  <span className="time-slot__end">{end}</span>
-                </div>
-              </button>
-            );
-          })}
-        </div>
+        {/* Accessibilité : Fieldset + Legend pour grouper les boutons radio */}
+        <fieldset className="time-slots-fieldset" style={{ border: 'none', padding: 0 }}>
+          <legend className="form-reservation__label">
+            {t('form.time_label')} <span className="required" title="Obligatoire">*</span>
+          </legend>
+          
+          <div className="time-slots">
+            {TIME_SLOTS.map(slot => {
+              const [start, end] = slot.split(' - ');
+              return (
+                <label 
+                  key={slot} 
+                  className={`time-slot ${time === slot ? 'time-slot--selected' : ''}`}
+                >
+                  <input 
+                    type="radio" 
+                    name="time_slot" 
+                    value={slot}
+                    className="sr-only"
+                    checked={time === slot}
+                    onChange={(e) => setTime(e.target.value)}
+                    disabled={!date}
+                  />
+                  <div className="time-slot__time">
+                    <span className="time-slot__start">{start}</span>
+                    <span className="time-slot__sep"> — </span>
+                    <span className="time-slot__end">{end}</span>
+                  </div>
+                </label>
+              );
+            })}
+          </div>
+        </fieldset>
 
         <label className="form-reservation__label" htmlFor="res-language">
-          Langue de la visite
+          {t('form.language_label')}
         </label>
         <select
           id="res-language"
@@ -185,18 +190,17 @@ const FormReservation = () => {
           value={langue}
           onChange={e => setLangue(e.target.value)}
         >
-          {/* R93 : optgroup si on avait plusieurs langues par région — ici 2 options, pas nécessaire */}
-          <option value="fr">Français</option>
-          <option value="en">Anglais</option>
+          <option value="fr">{t('form.lang_fr')}</option>
+          <option value="en">{t('form.lang_en')}</option>
         </select>
 
-        <div className="form-reservation__label">Nombre de billets</div>
+        <div className="form-reservation__label">{t('form.tickets_label')}</div>
         <div className="form-reservation__tickets">
           <fieldset className="tickets-fieldset">
-            <legend className="sr-only">Nombre de billets</legend>
-            <TicketRow label="Plein tarif"   price="9€"      count={pleinTarif}  onDecrement={() => setPleinTarif(Math.max(pleinTarif - 1, 0))}   onIncrement={() => { if (totalTickets < MAX_TICKETS) setPleinTarif(pleinTarif + 1); }}   canIncrement={totalTickets < MAX_TICKETS} />
-            <TicketRow label="Tarif réduit (Étudiant / sénior)"  price="6€"      count={tarifReduit} onDecrement={() => setTarifReduit(Math.max(tarifReduit - 1, 0))} onIncrement={() => { if (totalTickets < MAX_TICKETS) setTarifReduit(tarifReduit + 1); }} canIncrement={totalTickets < MAX_TICKETS} />
-            <TicketRow label="Gratuit (Jeune moins 26ans, enseignant, visiteurs handicapés)"       price="Gratuit" count={gratuit}     onDecrement={() => setGratuit(Math.max(gratuit - 1, 0))}         onIncrement={() => { if (totalTickets < MAX_TICKETS) setGratuit(gratuit + 1); }}         canIncrement={totalTickets < MAX_TICKETS} />
+            <legend className="sr-only">{t('form.tickets_label')}</legend>
+            <TicketRow label={t('form.price_full')}   price="9€"      count={pleinTarif}  onDecrement={() => setPleinTarif(Math.max(pleinTarif - 1, 0))}   onIncrement={() => { if (totalTickets < MAX_TICKETS) setPleinTarif(pleinTarif + 1); }}   canIncrement={totalTickets < MAX_TICKETS} />
+            <TicketRow label={t('form.price_reduced')}  price="6€"      count={tarifReduit} onDecrement={() => setTarifReduit(Math.max(tarifReduit - 1, 0))} onIncrement={() => { if (totalTickets < MAX_TICKETS) setTarifReduit(tarifReduit + 1); }} canIncrement={totalTickets < MAX_TICKETS} />
+            <TicketRow label={t('form.price_free')}       price="Gratuit" count={gratuit}     onDecrement={() => setGratuit(Math.max(gratuit - 1, 0))}         onIncrement={() => { if (totalTickets < MAX_TICKETS) setGratuit(gratuit + 1); }}         canIncrement={totalTickets < MAX_TICKETS} />
           </fieldset>
         </div>
 
@@ -206,40 +210,41 @@ const FormReservation = () => {
       
         {step === 1 && (
           <div style={{ marginTop: 18, textAlign: 'center' }}>
-            <button className="btn btn-primary" onClick={goNext} disabled={!step1IsComplete}>
-              Suivant
+            <button type="button" className="btn btn-primary" onClick={goNext} disabled={!step1IsComplete}>
+              {t('form.next')}
             </button>
           </div>
         )}
       </div>
 
+      {/* ── Colonne de droite ── Résumé (Étape 1) ou Coordonnées (Étape 2) ── */}
       <div className="form-reservation__right">
         {step === 1 ? (
           <>
-            <h2 className="form-reservation__title">Récapitulatif</h2>
+            <h2 className="form-reservation__title">{t('form.summary')}</h2>
             <div className="form-reservation__summary">
-              <div><strong>Date :</strong> {date ? (date instanceof Date ? date.toLocaleDateString('fr-FR') : String(date)) : '—'}</div>
-              <div><strong>Heure :</strong> {time || '—'}</div>
-              <div><strong>Langue :</strong> {langue === 'fr' ? 'Français' : 'Anglais'}</div>
-              <div style={{ marginTop: 8 }}><strong>Billets :</strong></div>
-              <div>Plein tarif : {pleinTarif}</div>
-              <div>Tarif réduit : {tarifReduit}</div>
-              <div>Gratuit : {gratuit}</div>
-              {promoApplied && <div className="summary-discount">Réduction ({VALID_PROMO_CODE}) : -{discount.toFixed(2)}€</div>}
-              <div className="summary-final">Total : {finalTotal.toFixed(2)}€</div>
+              <div><strong>{t('form.date')} :</strong> {date ? (date instanceof Date ? date.toLocaleDateString() : String(date)) : '—'}</div>
+              <div><strong>{t('form.time_label')} :</strong> {time || '—'}</div>
+              <div><strong>{t('form.language')} :</strong> {langue === 'fr' ? t('form.lang_fr') : t('form.lang_en')}</div>
+              <div style={{ marginTop: 8 }}><strong>{t('form.tickets')} :</strong></div>
+              <div>{t('form.price_full')} : {pleinTarif}</div>
+              <div>{t('form.price_reduced')} : {tarifReduit}</div>
+              <div>{t('form.price_free')} : {gratuit}</div>
+              {promoApplied && <div className="summary-discount">{t('form.discount_applied')} ({VALID_PROMO_CODE}) : -{discount.toFixed(2)}€</div>}
+              <div className="summary-final">{t('form.total')} : {finalTotal.toFixed(2)}€</div>
               <div className="summary-divider" />
-              {totalTickets >= MAX_TICKETS && <div className="summary-max">Nombre maximum de places atteint ({MAX_TICKETS})</div>}
-              {totalTickets > 0 && totalTickets < MAX_TICKETS && <div className="summary-remaining">{MAX_TICKETS - totalTickets} place(s) restante(s)</div>}
+              {totalTickets >= MAX_TICKETS && <div className="summary-max">{t('form.max_reached')} ({MAX_TICKETS})</div>}
+              {totalTickets > 0 && totalTickets < MAX_TICKETS && <div className="summary-remaining">{t('form.remaining', { count: MAX_TICKETS - totalTickets })}</div>}
             </div>
           </>
         ) : (
           <>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h2 className="form-reservation__title">Coordonnées</h2>
-              <button className="btn" onClick={goBack}>Retour</button>
+              <h2 className="form-reservation__title">{t('form.contact_details')}</h2>
+              <button type="button" className="btn" onClick={goBack}>{t('form.back')}</button>
             </div>
 
-            <p className="form-required-notice">Les champs marqués d'un <span className="required">*</span> sont obligatoires.</p>
+            <p className="form-required-notice">{t('form.required_notice')}</p>
 
             <div className="form-recap-small" style={{ marginBottom: 12, background: 'rgba(0,0,0,0.06)', padding: 8, borderRadius: 8 }}>
               <div><strong>Date choisie :</strong> {date ? (date instanceof Date ? date.toLocaleDateString('fr-FR') : String(date)) : '—'}</div>
@@ -247,36 +252,36 @@ const FormReservation = () => {
             </div>
 
             <label className="form-reservation__label" htmlFor="res-prenom">
-              Prénom <span className="required">*</span>
+              {t('form.first_name')} <span className="required" title="Obligatoire">*</span>
             </label>
-            <input id="res-prenom" className="form-reservation__input" type="text" placeholder="prénom" value={prenom} onChange={e => setPrenom(e.target.value)} />
+            <input id="res-prenom" className="form-reservation__input" type="text" placeholder={t('form.placeholders.first_name')} value={prenom} onChange={e => setPrenom(e.target.value)} required />
 
             <label className="form-reservation__label" htmlFor="res-nom">
-              Nom <span className="required">*</span>
+              {t('form.last_name')} <span className="required" title="Obligatoire">*</span>
             </label>
-            <input id="res-nom" className="form-reservation__input" type="text" placeholder="nom" value={nom} onChange={e => setNom(e.target.value)} />
+            <input id="res-nom" className="form-reservation__input" type="text" placeholder={t('form.placeholders.last_name')} value={nom} onChange={e => setNom(e.target.value)} required />
 
             <label className="form-reservation__label" htmlFor="res-email">
-              E-mail <span className="required">*</span>
+              {t('form.email')} <span className="required" title="Obligatoire">*</span>
             </label>
-            <input id="res-email" className="form-reservation__input" type="email" placeholder="e-mail" value={email} onChange={e => setEmail(e.target.value)} />
+            <input id="res-email" className="form-reservation__input" type="email" placeholder={t('form.placeholders.email')} value={email} onChange={e => setEmail(e.target.value)} required />
 
             <label className="form-reservation__label" htmlFor="res-email-confirm">
-              Confirmez votre e-mail <span className="required">*</span>
+              {t('form.confirm_email')} <span className="required" title="Obligatoire">*</span>
             </label>
-            <input id="res-email-confirm" className="form-reservation__input" type="email" placeholder="confirmez votre e-mail" value={emailConfirm} onChange={e => setEmailConfirm(e.target.value)} />
+            <input id="res-email-confirm" className="form-reservation__input" type="email" placeholder={t('form.placeholders.confirm_email')} value={emailConfirm} onChange={e => setEmailConfirm(e.target.value)} required />
             {email && emailConfirm && email !== emailConfirm && (
-              <p className="form-error">Les adresses e-mail ne correspondent pas.</p>
+              <p className="form-error">{t('form.emails_mismatch')}</p>
             )}
 
             <div className="promo-section">
-              <label className="promo-label" htmlFor="res-promo">Code promo</label>
+              <label className="promo-label" htmlFor="res-promo">{t('form.promo_code')}</label>
               <div className="promo-row">
                 <input
                   id="res-promo"
                   className="form-reservation__input"
                   type="text"
-                  placeholder="Entrez le code promo"
+                  placeholder={t('form.placeholders.promo')}
                   value={promoCode}
                   onChange={e => { setPromoCode(e.target.value); setPromoError(''); }}
                   disabled={promoApplied}
@@ -287,11 +292,11 @@ const FormReservation = () => {
                   onClick={handleApplyPromo}
                   disabled={promoApplied || !promoCode.trim()}
                 >
-                  Appliquer
+                  {t('form.apply')}
                 </button>
               </div>
               {promoError   && <p className="promo-message error">{promoError}</p>}
-              {promoApplied && <p className="promo-message success">Réduction de 5% appliquée</p>}
+              {promoApplied && <p className="promo-message success">{t('form.promo_success')}</p>}
             </div>
 
             {submitError && <p className="form-error">{submitError}</p>}
@@ -313,9 +318,15 @@ const TicketRow = ({ label, price, count, onDecrement, onIncrement, canIncrement
   <div className="form-reservation__ticket-row">
     <div className="ticket-label">{label}</div>
     <div className="ticket-price">{price}</div>
-    <button type="button" className="form-reservation__btn" onClick={onDecrement} disabled={count === 0}>-</button>
-    <div className="ticket-count">{count}</div>
-    <button type="button" className="form-reservation__btn" onClick={onIncrement} disabled={!canIncrement}>+</button>
+    <button type="button" className="form-reservation__btn" onClick={onDecrement} disabled={count === 0}>
+      -
+      <span className="sr-only">Retirer un billet {label}</span>
+    </button>
+    <div className="ticket-count" aria-live="polite">{count}</div>
+    <button type="button" className="form-reservation__btn" onClick={onIncrement} disabled={!canIncrement}>
+      +
+      <span className="sr-only">Ajouter un billet {label}</span>
+    </button>
   </div>
 );
 

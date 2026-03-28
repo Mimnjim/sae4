@@ -1,36 +1,53 @@
+import { useTranslation } from 'react-i18next';
 import '../styles/LevelCard.css';
 
-// Carte d'un niveau : état verrouillé/déverrouillé, complétion, sélection
 export default function LevelCard({ level, unlocked, percent, onSelect, selected }) {
+  const { t } = useTranslation();
   const isLocked = !unlocked;
 
-  const cardClasses = ['level-card', isLocked ? 'locked' : '', selected ? 'selected' : '']
-    .filter(Boolean).join(' ');
+  // Syntaxe simplifiée (très facile à lire pour un débutant)
+  let cardClasses = 'level-card';
+  if (isLocked) cardClasses += ' locked';
+  if (selected) cardClasses += ' selected';
 
   return (
-    <div className={cardClasses}>
+    // Sémantique HTML : <article> est idéal pour une carte indépendante
+    <article className={cardClasses}>
+      
       <div className="level-preview">
+        {/* L'image de la carte ira ici */}
         <div className="preview-box" />
       </div>
 
       <div className="level-meta">
-        <h3 className="level-title">Niveau {level.id}</h3>
-        <div className="level-sub">Joueur : <strong>{level.pilot || '—'}</strong></div>
+        {/* R234 : H3 est parfait si ta page principale a déjà un H1 et un H2 au-dessus ! */}
+        <h3 className="level-title">
+          {t(`levels.level${level.id}`) || `Niveau ${level.id}`}
+        </h3>
+        
+        <div className="level-sub">
+          {t('levels.player')} : <strong>{level.pilot || '—'}</strong>
+        </div>
+        
         <div className="level-completion">
-          Complétion : <span className="level-percent-inline">{percent}%</span>
+          {t('levels.completion')} : <span className="level-percent-inline">{percent}%</span>
         </div>
       </div>
 
       <div className="level-actions">
+        {/* L'attribut disabled coupe automatiquement le focus au clavier, c'est parfait ! */}
         <button
           type="button"
           className={`btn play-level ${isLocked ? 'btn-disabled' : 'btn-primary'}`}
           onClick={() => onSelect(level.id)}
           disabled={isLocked}
         >
-          Commencer la course
+          {t('levels.start_race')}
+          {/* R185 : Précision invisible à l'écran mais lue par NVDA/VoiceOver ("Commencer la course Niveau 1") */}
+          <span className="sr-only"> {t(`levels.level${level.id}`) || `Niveau ${level.id}`}</span>
         </button>
       </div>
-    </div>
+      
+    </article>
   );
 }
