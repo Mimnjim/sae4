@@ -1,15 +1,14 @@
 import { useEffect, useMemo, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import LevelCard from '../../components/experiences_components/LevelCard';
 import Timeline from '../../components/global_components/Timeline';
 import '../../styles/components/homepage_components/experiences.css';
 
-const LEVELS = [
-  { id: 1, name: 'NIVEAU 01 : NEO-TOKYO RUN', pilot: 'Kaneda' },
-  { id: 2, name: 'NIVEAU 02 : GHOST HACK', pilot: 'Motoko' },
-  { id: 3, name: "NIVEAU 03 : AU-DELÀ DE L'HUMAIN", pilot: 'Kaneda' },
+const LEVEL_IDS = [
+  { id: 1, pilot: 'Kaneda' },
+  { id: 2, pilot: 'Motoko' },
+  { id: 3, pilot: 'Kaneda' },
 ];
 
 const UNLOCK_THRESHOLD = 0.7;
@@ -22,7 +21,7 @@ function getCompletionRatio(progress) {
 
 function loadProgressFromStorage() {
   const result = {};
-  LEVELS.forEach(level => {
+  LEVEL_IDS.forEach(level => {
     const raw = localStorage.getItem(getProgressKey(level.id));
     result[level.id] = raw ? JSON.parse(raw) : { collected: 0, total: 0 };
   });
@@ -40,7 +39,7 @@ function GameResultPanel({ gameResult, playingLevelId, progressMap, onReplay, on
   const { t } = useTranslation();
 
   const isVictory = gameResult === 'victory';
-  const isLastLevel = playingLevelId >= LEVELS.length;
+  const isLastLevel = playingLevelId >= LEVEL_IDS.length;
   const levelProgress = progressMap[playingLevelId] || { collected: 0, total: 0 };
   const hasEnoughItems = getCompletionRatio(levelProgress) >= UNLOCK_THRESHOLD;
 
@@ -86,6 +85,7 @@ function GameResultPanel({ gameResult, playingLevelId, progressMap, onReplay, on
 }
 
 const Experiences = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const iframeRef = useRef(null);
   const containerRef = useRef(null);
@@ -119,10 +119,10 @@ const Experiences = () => {
 
   const unlockedMap = useMemo(() => {
     const map = {};
-    LEVELS.forEach((level, index) => {
+    LEVEL_IDS.forEach((level, index) => {
       if (index === 0) map[level.id] = true;
       else {
-        const previousProgress = progressMap[LEVELS[index - 1].id];
+        const previousProgress = progressMap[LEVEL_IDS[index - 1].id];
         map[level.id] = getCompletionRatio(previousProgress) >= UNLOCK_THRESHOLD;
       }
     });
@@ -134,11 +134,20 @@ const Experiences = () => {
       const msg = event.data;
       if (!msg?.type) return;
 
-      if (msg.type === 'game_init' || msg.type === 'game_progress') {
+      if (msg.type === 'game_init') {
+        const levelId = msg.difficulty || playingLevelId;
+        // Pour game_init, on garde la progression antérieure de collected et on met juste à jour total
+        const previousValue = progressMap[levelId] || { collected: 0, total: 0 };
+        const value = { collected: previousValue.collected, total: msg.total || 0 };
+        saveProgress(levelId, value, setProgressMap);
+        setIsGameFinished(false);
+        setGameResult(null);
+      }
+
+      if (msg.type === 'game_progress') {
         const levelId = msg.difficulty || playingLevelId;
         const value = { collected: msg.collected || 0, total: msg.total || 0 };
         saveProgress(levelId, value, setProgressMap);
-        if (msg.type === 'game_init') { setIsGameFinished(false); setGameResult(null); }
       }
       if (msg.type === 'game_boost') setBoostState({ status: msg.status || 'charging', percent: msg.percent || 0 });
       if (msg.type === 'game_health') setHealthPercent(msg.percent || 0);
@@ -147,7 +156,7 @@ const Experiences = () => {
       if (msg.type === 'game_victory') {
         const value = { collected: msg.collected || 0, total: msg.total || 0 };
         saveProgress(msg.difficulty, value, setProgressMap);
-        if (msg.difficulty === 3 && getCompletionRatio(value) >= UNLOCK_THRESHOLD) {
+        if (msg.difficulty === LEVEL_IDS.length && getCompletionRatio(value) >= UNLOCK_THRESHOLD) {
           localStorage.setItem('promo_unlocked', '1');
           setPromoUnlocked(true);
         }
@@ -159,13 +168,31 @@ const Experiences = () => {
 
     window.addEventListener('message', handleMessage);
     return () => window.removeEventListener('message', handleMessage);
-  }, [playingLevelId]);
+  }, [playingLevelId, t]);
+
+  const LEVELS = useMemo(
+    () => LEVEL_IDS.map(level => ({
+      ...level,
+      nameKey: `pages.experiences.levels.level${level.id}.name`,
+      pilotKey: `pages.experiences.levels.level${level.id}.pilot`
+    })),
+    [t]
+  );
+
+  const LEVELS = useMemo(
+    () => LEVEL_IDS.map(level => ({
+      ...level,
+      nameKey: `pages.experiences.levels.level${level.id}.name`,
+      pilotKey: `pages.experiences.levels.level${level.id}.pilot`
+    })),
+    [t]
+  );
 
   const handleSelectLevel = (levelId) => { setSelectedLevelId(levelId); if (unlockedMap[levelId]) setPlayingLevelId(levelId); };
   const handleIframeLoaded = () => iframeRef.current?.contentWindow?.postMessage({ type: 'start' }, '*');
   const handleReplay = () => { iframeRef.current?.contentWindow?.postMessage({ type: 'restart' }, '*'); setIsGameFinished(false); setGameResult(null); };
   const handleCloseModal = () => { setPlayingLevelId(null); setIsGameFinished(false); setGameResult(null); };
-  const handleNextLevel = () => { if (playingLevelId >= LEVELS.length) return; setPlayingLevelId(playingLevelId + 1); setIsGameFinished(false); setGameResult(null); };
+  const handleNextLevel = () => { if (playingLevelId >= LEVEL_IDS.length) return; setPlayingLevelId(playingLevelId + 1); setIsGameFinished(false); setGameResult(null); };
   const handleClaimPromo = () => navigate('/form-reservation', { state: { promoCode: 'HUMAIN5', promoApplied: true } });
 
   return (
