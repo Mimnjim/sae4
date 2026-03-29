@@ -3,17 +3,6 @@ import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import '../../styles/components/homepage_components/transition-section.css';
 
-// ─── Séquence d'animation ────────────────────────────────────────
-// Durée totale : ~3.2s
-// Présentation immersive de l'exposition avant la galerie manga
-// 1. Beam de scan traverse l'écran (0s → 0.6s)
-// 2. Coins de ciblage apparaissent (0.3s)
-// 3. Data line se tape (0.4s → 1.2s)
-// 4. Grand titre se révèle par clip-path (0.8s → 1.8s)
-// 5. Rule + subtitle (1.6s)
-// 6. Blocs d'info (2.0s)
-// 7. Compteur + scroll hint (2.4s)
-
 export default function ImmersionGateway() {
     const { t } = useTranslation();
     const sectionRef   = useRef(null);
@@ -173,13 +162,6 @@ export default function ImmersionGateway() {
             <div ref={counterRef} className="ts-counter">
                 SYS_02 / EXPOSITION_DATA
             </div>
-
-            {/* Scroll hint */}
-            {/* <div ref={scrollRef} className="ts-scroll-hint">
-                <span className="ts-scroll-label">Explorer</span>
-                <div className="ts-scroll-line" />
-            </div> */}
-
         </section>
     );
 }

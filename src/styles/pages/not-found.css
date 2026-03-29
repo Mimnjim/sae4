@@ -5,13 +5,13 @@
    - Boutons d'action clairs pour retour utilisateur
    - Design accessible et responsif */
 
-.not-found {\n  min-height: 60vh;
+.not-found {
+  min-height: 60vh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 10rem 2rem;
   font-family: var(--ff-family-main);
-  /* background: white; */
 }
 
 .not-found__container {

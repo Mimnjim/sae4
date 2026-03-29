@@ -10,7 +10,7 @@ import Navbar from './components/global_components/Navbar.jsx';
 import ScrollToTop from './components/global_components/ScrollToTop.jsx';
 import Hero from './components/homepage_components/herosections_components/Hero.jsx';
 import Footer from './components/global_components/Footer.jsx';
-import MangaArchive from './components/homepage_components/MangaArchive.jsx';
+import Expositions from './components/homepage_components/Expositions.jsx';
 import ExperiencesSection from './components/homepage_components/ExperiencesSection.jsx';
 import TransitionSection from './components/homepage_components/TransitionSection.jsx';
 import SectionSeparator from './components/global_components/SectionSeparator.jsx';
@@ -67,8 +67,8 @@ const Home = () => {
       {/* ── Image de fond de transition de fin de section*/}
       <div className="hero-to-archive-transition">
 
-        {/* MangaArchive est un frère, APRÈS l'overlay */}
-        <MangaArchive />
+        {/* Expositions est un frère, APRÈS l'overlay */}
+        <Expositions />
 
       
         {/* <SectionSeparator /> */}

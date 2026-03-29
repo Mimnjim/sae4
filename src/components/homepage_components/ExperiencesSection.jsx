@@ -70,12 +70,6 @@ export default function ExperienceSection() {
 
             {/* ── Image de fond ── */}
             <div ref={bgRef} className="exp-bg">
-                {/* <img
-                    src="/img/Akira1.jpg"
-                    alt="Aperçu de l'expérience immersive"
-                    loading="lazy"
-                /> */}
-
                 <img
                     src="/img/Jeu_experiences.png"
                     alt="Aperçu de l'expérience immersive"
@@ -88,13 +82,9 @@ export default function ExperienceSection() {
             {/* ── Triangle réservation — bas gauche ── */}
             <div ref={reserveRef} className="exp-reservation">
                 <div className="exp-reservation-inner">
-                    {/* <span className="exp-reservation-label">Grand Palais · 2025</span> */}
                     <h3 className="exp-reservation-title">
                         {t('experiences.reserveVisit')}
                     </h3>
-                    {/* <p className="exp-reservation-sub">
-                        {t('experiences.reservationSub')}
-                    </p> */}
                     <Link to="/form-reservation" className="exp-reservation-link cursor-target">
                         {t('experiences.tickets_link')} <ArrowUpRight />
                     </Link>

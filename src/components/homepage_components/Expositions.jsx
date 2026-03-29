@@ -12,7 +12,7 @@ const images = [
     { src: '/img/GIS2.webp', alt: 'Motoko Kusanagi — Major Section 9', pos: 'br' },
 ];
 
-export default function MangaArchive() {
+export default function Expositions() {
     const { t } = useTranslation();
 
     return (
@@ -46,11 +46,6 @@ export default function MangaArchive() {
                     <Link to="/form-reservation" className="exp-reservation-link cursor-target">
                         {t('experiences.tickets_link')} <ArrowUpRight />
                     </Link>
-
-                    {/* <a href="#tickets" className="ma-cta">
-                        Réserver sa place
-                        <span className="ma-cta-arrow"><ArrowUpRight /></span>
-                    </a> */}
 
                 </div>
             </div>
