@@ -23,10 +23,12 @@ const MentionsLegales = () => {
         form: isEnglish ? 'Public Establishment' : 'Établissement public'
       },
       dev: {
-        title: isEnglish ? 'Web Development' : 'Développement Web',
+        title: isEnglish ? 'Creative & Development' : 'Création & Développement',
         agency: 'AzerT - Agence de Communication Numérique',
-        design: isEnglish ? 'Design & Development' : 'Conception & Développement',
-        designers: 'TE Jimmy & DELAVIGNE Tom',
+        webDev: isEnglish ? 'Web Development' : 'Développement Web',
+        webDevTeam: 'TE Jimmy & DELAVIGNE Tom',
+        design: isEnglish ? 'Design & Creative' : 'Conception & Créatif',
+        designTeam: 'CHASSAGNON Mélina, KETTOU Lana, MADISSOUEKE Déborah, CHARPENTIER Alexis',
         direction: isEnglish ? 'Artistic Direction' : 'Direction artistique',
         tech: isEnglish ? 'Technologies' : 'Technologies',
         technologies: 'React, Three.js, Vite, GSAP'
@@ -178,7 +180,8 @@ const MentionsLegales = () => {
               </h3>
               <p className="infos-pratiques__text">
                 <strong>{isEnglish ? 'Agency' : 'Agence'} :</strong> {content.publisher.dev.agency}<br />
-                <strong>{content.publisher.dev.design} :</strong> {content.publisher.dev.designers}<br />
+                <strong>{content.publisher.dev.webDev} :</strong> {content.publisher.dev.webDevTeam}<br />
+                <strong>{content.publisher.dev.design} :</strong> {content.publisher.dev.designTeam}<br />
                 <strong>{content.publisher.dev.direction} :</strong> {isEnglish ? 'Respect of official graphic design' : 'Respect de la charte graphique officielle'}<br />
                 <strong>{content.publisher.dev.tech} :</strong> {content.publisher.dev.technologies}
               </p>
