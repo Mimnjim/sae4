@@ -17,7 +17,7 @@ export function SoundProvider({ children }) {
   // Initialiser les sons
   useEffect(() => {
     soundsRef.current.gameMusicLoop.loop = true;
-    soundsRef.current.gameMusicLoop.volume = soundEnabled ? 0.2 : 0;
+    soundsRef.current.gameMusicLoop.volume = soundEnabled ? 0.13 : 0;
     soundsRef.current.click.volume = soundEnabled ? 0.4 : 0;
     soundsRef.current.hover.volume = soundEnabled ? 0.4 : 0;
     soundsRef.current.achievement.volume = soundEnabled ? 0.6 : 0;
@@ -26,7 +26,7 @@ export function SoundProvider({ children }) {
   // Sauvegarder la préférence
   useEffect(() => {
     localStorage.setItem('soundEnabled', soundEnabled);
-    soundsRef.current.gameMusicLoop.volume = soundEnabled ? 0.2 : 0;
+    soundsRef.current.gameMusicLoop.volume = soundEnabled ? 0.13 : 0;
     soundsRef.current.click.volume = soundEnabled ? 0.4 : 0;
     soundsRef.current.hover.volume = soundEnabled ? 0.4 : 0;
     soundsRef.current.achievement.volume = soundEnabled ? 0.6 : 0;

@@ -18,10 +18,6 @@ export function initGameSounds() {
   });
 }
 
-/**
- * Pour jouer un son depuis le jeu (dans l'iframe)
- * @param soundName - Nom du fichier son sans extension (e.g., 'achievement')
- */
 export function playGameSound(soundName) {
   // Envoyer un message au parent pour jouer le son
   window.parent.postMessage({

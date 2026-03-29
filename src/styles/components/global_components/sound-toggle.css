@@ -10,7 +10,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.sound-toggle-fixed.sound-toggle-home {
+    /* Sur la Home: aucune transition */
 }
 
 .sound-toggle-fixed img {

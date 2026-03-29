@@ -217,7 +217,7 @@ function GatewayButton({ onClick, onMouseEnter, disabled }) {
         >
             {hovered && <span className="gateway__btn-scan" />}
             <span className="gateway__btn-dot" />
-                {t('gateway.enterButton')} <img src="/icons/Fleche.svg" alt="" className='arrow-link' />
+                {t('gateway.enterButton')} <img src="/icons/FlecheDiagonale.svg" alt="" className='arrow-link' />
             <span className="gateway__btn-arrow">
             </span>
         </button>

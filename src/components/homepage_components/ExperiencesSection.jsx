@@ -85,7 +85,7 @@ export default function ExperienceSection() {
                         {t('experiences.reserveVisit')}
                     </h3>
                     <Link to="/form-reservation" className="exp-reservation-link cursor-target">
-                        {t('experiences.tickets_link')} <img src="/icons/Fleche.svg" alt="" className='arrow-link' />
+                        {t('experiences.tickets_link')} <img src="/icons/FlecheDiagonale.svg" alt="" className='arrow-link' />
                     </Link>
                 </div>
             </div>
@@ -114,7 +114,7 @@ export default function ExperienceSection() {
 
                 <a href="/experiences" className="exp-cta cursor-target">
                     {t('experiences.playNow')}
-                    <span className="exp-cta-arrow"><img src="/icons/Fleche.svg" alt="" className='arrow-link' /></span>
+                    <span className="exp-cta-arrow"><img src="/icons/FlecheDiagonale.svg" alt="" className='arrow-link' /></span>
                 </a>
 
             </div>

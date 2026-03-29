@@ -217,6 +217,7 @@
   border: none;
   display: block;
   background: transparent;
+  overflow: hidden;
 }
 
 .game-actions {
@@ -238,6 +239,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .game-modal-backdrop {
@@ -254,6 +256,7 @@
   flex-direction: column;
   gap: 8px;
   z-index: var(--z-modal-content);
+  overflow: hidden; /* Retirer les scrollbars */
 }
 
 .game-modal .game-wrapper {
@@ -271,26 +274,34 @@
    - Contraste blanc/noir optimal (WCAG AAA) */
 .modal-close {
   position: absolute;
-  right: 8px;
-  top: 8px;
+  right: -4px;
+  top: -4px;
   z-index: var(--z-modal-close);
-  background: var(--color-overlay-black);
+  background: transparent;
   color: var(--color-white);
-  border: 2px solid transparent;
-  width: 44px; /* R162 : Cible tactile min 44x44px */
-  height: 44px;
-  border-radius: 999px;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 0;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s ease;
+  transition: all 0.2s ease;
+  font-size: 32px;
+  font-weight: 100;
+  text-align: center;
+  line-height: 1;
+  padding: 0;
 }
 
-/* R162 : Feedback visuel au survol */
 .modal-close:hover {
-  background: #000;
-  border-color: #fff;
+  transform: scale(1.15);
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+}
+
+.modal-close:active {
+  transform: scale(0.95);
 }
 
 .result-panel {
@@ -338,7 +349,7 @@
 
 .parent-boost {
   left: 12px;
-  bottom: 12px;
+  bottom: 50px; /* Rabaissé un peu plus */
   display: flex;
   flex-direction: column;
   gap: 6px;

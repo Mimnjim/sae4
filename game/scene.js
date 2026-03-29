@@ -26,7 +26,7 @@ else               document.body.appendChild(renderer.domElement);
 
 export const stats = new Stats();
 stats.showPanel(0);
-stats.dom.style.cssText = 'position:absolute;top:12px;right:12px;';
+stats.dom.style.cssText = 'position:absolute;top:12px;right:12px;display:none;'; /* FPS cachés */
 statsParent.appendChild(stats.dom);
 
 export function resizeRenderer() {

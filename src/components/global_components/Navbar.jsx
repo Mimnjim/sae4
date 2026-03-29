@@ -104,7 +104,7 @@ const Navbar = ({ user, setUser }) => {
           className={`login-btn cursor-target ${isLinkActive('/login') ? 'nav-link--active' : ''}`}
           aria-current={isLinkActive('/login') ? 'page' : undefined}
         >
-          {t('navbar.login')} <img src="/icons/Fleche.svg" alt="" className='arrow-link' />
+          {t('navbar.login')} <img src="/icons/FlecheDiagonale.svg" alt="" className='arrow-link' />
         </Link>
       </>
     );
@@ -126,21 +126,21 @@ const Navbar = ({ user, setUser }) => {
             aria-current={isLinkActive('/experiences') ? 'page' : undefined}
           >
             {/* {t('navbar.experiences')} <ArrowUpRight /> */}
-            {t('navbar.experiences')} <img src="/icons/Fleche.svg" alt="" className='arrow-link' />
+            {t('navbar.experiences')} <img src="/icons/FlecheDiagonale.svg" alt="" className='arrow-link' />
           </Link>
           <Link 
             to="/form-reservation" 
             className={`cursor-target ${isLinkActive('/form-reservation') ? 'nav-link--active' : ''}`}
             aria-current={isLinkActive('/form-reservation') ? 'page' : undefined}
           >
-            {t('navbar.reservation')} <img src="/icons/Fleche.svg" alt="" className='arrow-link' />
+            {t('navbar.reservation')} <img src="/icons/FlecheDiagonale.svg" alt="" className='arrow-link' />
           </Link>
           <Link 
             to="/infos-pratiques" 
             className={`cursor-target ${isLinkActive('/infos-pratiques') ? 'nav-link--active' : ''}`}
             aria-current={isLinkActive('/infos-pratiques') ? 'page' : undefined}
           >
-            {t('navbar.info')} <img src="/icons/Fleche.svg" alt="" className='arrow-link' />
+            {t('navbar.info')} <img src="/icons/FlecheDiagonale.svg" alt="" className='arrow-link' />
           </Link>
         </div>
       </div>

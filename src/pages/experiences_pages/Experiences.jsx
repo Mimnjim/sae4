@@ -92,6 +92,7 @@ const Experiences = () => {
   const navigate = useNavigate();
   const iframeRef = useRef(null);
   const containerRef = useRef(null);
+  const isRestarting = useRef(false);
 
   const [selectedLevelId, setSelectedLevelId] = useState(null);
   const [playingLevelId, setPlayingLevelId] = useState(null);
@@ -139,10 +140,12 @@ const Experiences = () => {
 
       if (msg.type === 'game_init') {
         const levelId = msg.difficulty || playingLevelId;
-        // Pour game_init, on garde la progression antérieure de collected et on met juste à jour total
+        // Si c'est un restart, réinitialiser les collectibles à 0. Sinon, garder la valeur antérieure.
         const previousValue = progressMap[levelId] || { collected: 0, total: 0 };
-        const value = { collected: previousValue.collected, total: msg.total || 0 };
+        const collectedValue = isRestarting.current ? 0 : previousValue.collected;
+        const value = { collected: collectedValue, total: msg.total || 0 };
         saveProgress(levelId, value, setProgressMap);
+        isRestarting.current = false; // Réinitialiser la flag
         setIsGameFinished(false);
         setGameResult(null);
       }
@@ -157,7 +160,13 @@ const Experiences = () => {
       if (msg.type === 'race_progress') setRacePercent(msg.percent || 0);
       if (msg.type === 'game_speed') setSpeedKmH(msg.speed || 0);
       if (msg.type === 'game_victory') {
-        playSound('achievement');
+        // Arrêter la musique du jeu immédiatement
+        stopGameMusic();
+        
+        setTimeout(() => {
+          playSound('achievement');
+        }, 200);
+        
         const value = { collected: msg.collected || 0, total: msg.total || 0 };
         saveProgress(msg.difficulty, value, setProgressMap);
         if (msg.difficulty === LEVEL_IDS.length && getCompletionRatio(value) >= UNLOCK_THRESHOLD) {
@@ -193,7 +202,14 @@ const Experiences = () => {
     }
   };
   const handleIframeLoaded = () => iframeRef.current?.contentWindow?.postMessage({ type: 'start' }, '*');
-  const handleReplay = () => { iframeRef.current?.contentWindow?.postMessage({ type: 'restart' }, '*'); setIsGameFinished(false); setGameResult(null); };
+  const handleReplay = () => { 
+    stopGameMusic();
+    isRestarting.current = true; // Marquer que c'est un restart
+    iframeRef.current?.contentWindow?.postMessage({ type: 'restart' }, '*'); 
+    setIsGameFinished(false); 
+    setGameResult(null);
+    playGameMusic(); // Relancer la musique du jeu
+  };
   const handleCloseModal = () => { 
     setPlayingLevelId(null); 
     setIsGameFinished(false); 
@@ -229,7 +245,7 @@ const Experiences = () => {
           <div className="game-modal">
             <div className="game-modal-backdrop" onClick={handleCloseModal} />
             <div className="game-modal-content" ref={containerRef}>
-              <button type="button" className="modal-close" onClick={handleCloseModal}>{t('experiences.close')}</button>
+              <button type="button" className="modal-close" onClick={handleCloseModal}>×</button>
               
               <div className="game-wrapper">
                 <iframe
@@ -237,6 +253,7 @@ const Experiences = () => {
                   title={`${t('pages.experiences.levelCard.label')} ${playingLevelId}`}
                   src={`/game/game.html?difficulty=${playingLevelId}`}
                   className="game-iframe"
+                  scrolling="no"
                   onLoad={handleIframeLoaded}
                 />
 

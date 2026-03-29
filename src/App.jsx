@@ -100,9 +100,6 @@ const AppContent = ({ entered, setEntered, user, setUser }) => {
     <>
       {!entered && <GatewayScreen onEnter={() => setEntered(true)} />}
 
-      {/* BOUTON SON FIXE - Visible partout */}
-      <SoundToggle />
-
       {/* LE FOND : Positionné en fixed via CSS ou style inline pour être sûr */}
       <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: -1 }}>
         <Grainient
@@ -144,6 +141,9 @@ const AppContent = ({ entered, setEntered, user, setUser }) => {
 
       <Router>
         <ScrollToTop />
+        {/* BOUTON SON FIXE - Dans le Router pour accès à useLocation */}
+        <SoundToggle />
+        
         {/* LE CONTENU : On le force au-dessus du Grainient */}
         <div className="App-wrapper" style={{ position: 'relative', zIndex: 10 }}>
           <Navbar user={user} setUser={setUser} />
