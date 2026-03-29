@@ -84,6 +84,7 @@ function GameResultPanel({ gameResult, playingLevelId, progressMap, onReplay, on
   );
 }
 
+
 const Experiences = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
