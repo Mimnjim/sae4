@@ -114,3 +114,10 @@ a {
 
 .surface { background: var(--surface-bg); border-radius: 8px; }
 .muted { color: var(--muted); }
+
+.arrow-link {
+    width: 16px;
+    height: auto;
+    margin-left: 6px;
+    filter: brightness(1.2);
+}

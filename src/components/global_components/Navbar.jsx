@@ -1,7 +1,6 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ArrowUpRight } from '@boxicons/react';
 
 const Navbar = ({ user, setUser }) => {
   const { t, i18n } = useTranslation();
@@ -105,7 +104,7 @@ const Navbar = ({ user, setUser }) => {
           className={`login-btn cursor-target ${isLinkActive('/login') ? 'nav-link--active' : ''}`}
           aria-current={isLinkActive('/login') ? 'page' : undefined}
         >
-          {t('navbar.login')} <ArrowUpRight />
+          {t('navbar.login')} <img src="/icons/Fleche.svg" alt="" className='arrow-link' />
         </Link>
       </>
     );
@@ -126,21 +125,22 @@ const Navbar = ({ user, setUser }) => {
             className={`cursor-target ${isLinkActive('/experiences') ? 'nav-link--active' : ''}`}
             aria-current={isLinkActive('/experiences') ? 'page' : undefined}
           >
-            {t('navbar.experiences')} <ArrowUpRight />
+            {/* {t('navbar.experiences')} <ArrowUpRight /> */}
+            {t('navbar.experiences')} <img src="/icons/Fleche.svg" alt="" className='arrow-link' />
           </Link>
           <Link 
             to="/form-reservation" 
             className={`cursor-target ${isLinkActive('/form-reservation') ? 'nav-link--active' : ''}`}
             aria-current={isLinkActive('/form-reservation') ? 'page' : undefined}
           >
-            {t('navbar.reservation')} <ArrowUpRight />
+            {t('navbar.reservation')} <img src="/icons/Fleche.svg" alt="" className='arrow-link' />
           </Link>
           <Link 
             to="/infos-pratiques" 
             className={`cursor-target ${isLinkActive('/infos-pratiques') ? 'nav-link--active' : ''}`}
             aria-current={isLinkActive('/infos-pratiques') ? 'page' : undefined}
           >
-            {t('navbar.info')} <ArrowUpRight />
+            {t('navbar.info')} <img src="/icons/Fleche.svg" alt="" className='arrow-link' />
           </Link>
         </div>
       </div>
@@ -151,7 +151,8 @@ const Navbar = ({ user, setUser }) => {
         {/* DROPDOWN LANGUE */}
         <div className="lang-dropdown">
           <button onClick={() => setOpenLang(!openLang)} className="lang-btn cursor-target">
-            {labelLang} ({lang}) ▼
+            {/* {labelLang} ({lang}) ▼ */}
+            {labelLang} ({lang}) <img src="/icons/Flechederouler.svg" alt="" className='arrow-navbar'/>
           </button>
 
           {openLang && (

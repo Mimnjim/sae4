@@ -5,7 +5,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Akira3D from './Akira3D';
 import GIS3D from './GIS3D';
 import ImmersionOverlay from './ImmersionOverlay';
-import { ArrowUpRight } from '@boxicons/react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -364,8 +363,8 @@ export default function Hero({ title1, title2, subtitle }) {
                 <div className="footer-hero-container" ref={footerHeroRef}>
                     <p>{t('hero.quote')}</p>
                     <div className="buttons-hero" ref={buttonsRef} style={{ position: 'relative', zIndex: 20 }}>
-                        <a href="#" className="cursor-target">{t('hero.teaser')} <ArrowUpRight /></a>
-                        <a href="#" className="cursor-target">{t('hero.tickets')} <ArrowUpRight /></a>
+                        <a href="#" className="cursor-target">{t('hero.teaser')} <img src="/icons/Fleche.svg" alt="" className='arrow-link' /></a>
+                        <a href="#" className="cursor-target">{t('hero.tickets')} <img src="/icons/Fleche.svg" alt="" className='arrow-link' /></a>
                     </div>
                 </div>
             </div>

@@ -44,7 +44,7 @@ export default function Expositions() {
                     </p>
 
                     <Link to="/form-reservation" className="exp-reservation-link cursor-target">
-                        {t('experiences.tickets_link')} <ArrowUpRight />
+                        {t('experiences.tickets_link')} <img src="/icons/Fleche.svg" alt="" className='arrow-link' />
                     </Link>
 
                 </div>

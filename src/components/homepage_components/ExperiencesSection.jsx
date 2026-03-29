@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import '../../styles/components/homepage_components/experiences-section.css';
-import { ArrowUpRight } from '@boxicons/react';
 
 export default function ExperienceSection() {
     const { t } = useTranslation();
@@ -86,7 +85,7 @@ export default function ExperienceSection() {
                         {t('experiences.reserveVisit')}
                     </h3>
                     <Link to="/form-reservation" className="exp-reservation-link cursor-target">
-                        {t('experiences.tickets_link')} <ArrowUpRight />
+                        {t('experiences.tickets_link')} <img src="/icons/Fleche.svg" alt="" className='arrow-link' />
                     </Link>
                 </div>
             </div>
@@ -115,7 +114,7 @@ export default function ExperienceSection() {
 
                 <a href="/experiences" className="exp-cta cursor-target">
                     {t('experiences.playNow')}
-                    <span className="exp-cta-arrow"><ArrowUpRight /></span>
+                    <span className="exp-cta-arrow"><img src="/icons/Fleche.svg" alt="" className='arrow-link' /></span>
                 </a>
 
             </div>

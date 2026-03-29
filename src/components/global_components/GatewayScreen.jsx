@@ -2,7 +2,6 @@ import { useRef, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import Grainient from '../../animations/Grainient';
-import ArrowUpRight from '@boxicons/react/ArrowUpRight';
 import '../../styles/components/global_components/gateway-screen.css';
 
 export default function GatewayScreen({ onEnter }) {
@@ -218,7 +217,7 @@ function GatewayButton({ onClick, onMouseEnter, disabled }) {
         >
             {hovered && <span className="gateway__btn-scan" />}
             <span className="gateway__btn-dot" />
-                {t('gateway.enterButton')} <ArrowUpRight />
+                {t('gateway.enterButton')} <img src="/icons/Fleche.svg" alt="" className='arrow-link' />
             <span className="gateway__btn-arrow">
             </span>
         </button>
