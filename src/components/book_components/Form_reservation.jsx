@@ -245,7 +245,7 @@ const FormReservation = () => {
           <button 
             className="btn btn-primary" 
             onClick={goNext} 
-            disabled={!formIsComplete}
+            disabled={!step1IsComplete}
           >
             {t('reservation.next')}
           </button>

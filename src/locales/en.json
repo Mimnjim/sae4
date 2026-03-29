@@ -153,10 +153,12 @@
     "summary": "Summary",
     "total": "Total",
     "promo": "Promo code",
+    "promo_code": "Promo code",
     "promoDescription": "Exclusive code from the interactive experience",
     "apply": "Apply",
     "discount": "Discount",
-    "finalTotal": "Grand total"
+    "finalTotal": "Grand total",
+    "confirm_booking": "Confirm booking"
   },
   "conditions": {
     "title": "Pricing conditions",
@@ -213,6 +215,13 @@
     "gameOver": "Game Over",
     "play": "Play",
     "difficulty": "Difficulty"
+  },
+  "calendar": {
+    "prev2_short": "«",
+    "prev_short": "‹",
+    "next_short": "›",
+    "next2_short": "»",
+    "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
   },
   "pages": {
     "login": {
@@ -427,6 +436,7 @@
   "profile": {
     "dashboard": "Dashboard",
     "yesDelete": "Yes, delete",
+    "yes_delete": "Yes, delete",
     "networkError": "Network error, please try again.",
     "deleteError": "Error deleting reservation.",
     "date": "Date",
@@ -434,7 +444,9 @@
     "myProfile": "My account",
     "cancel": "Cancel",
     "noReservations": "No reservations at the moment.",
+    "no_reservations": "You have no reservations at the moment.",
     "myReservations": "My reservations",
+    "reservations_title": "My reservations",
     "logout": "Log out",
     "loadError": "Unable to load profile.",
     "title": "My profile",
@@ -443,8 +455,10 @@
     "notConnected": "User not logged in.",
     "newPassword": "New password (leave blank to keep unchanged)",
     "confirmDelete": "Confirm deletion?",
+    "delete_confirm": "Are you sure you want to delete this reservation?",
     "hide": "Hide",
     "timeSlot": "Time slot",
+    "slot": "Time slot",
     "delete": "Delete",
     "updateError": "Error updating profile.",
     "save": "Save",

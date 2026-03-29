@@ -153,10 +153,12 @@
     "summary": "Récapitulatif",
     "total": "Total",
     "promo": "Code promo",
+    "promo_code": "Code promo",
     "promoDescription": "Code exclusif depuis l'expérience interactive",
     "apply": "Appliquer",
     "discount": "Réduction",
-    "finalTotal": "Total final"
+    "finalTotal": "Total final",
+    "confirm_booking": "Confirmer la réservation"
   },
   "conditions": {
     "title": "Conditions tarifaires",
@@ -213,6 +215,13 @@
     "gameOver": "Game Over",
     "play": "Jouer",
     "difficulty": "Difficulté"
+  },
+  "calendar": {
+    "prev2_short": "«",
+    "prev_short": "‹",
+    "next_short": "›",
+    "next2_short": "»",
+    "weekdays": ["dim", "lun", "mar", "mer", "jeu", "ven", "sam"]
   },
   "pages": {
     "login": {
@@ -432,6 +441,7 @@
     "loading": "Chargement...",
     "notConnected": "Utilisateur non connecté.",
     "myReservations": "Mes réservations",
+    "reservations_title": "Mes réservations",
     "noReservations": "Aucune réservation pour le moment.",
     "loadError": "Impossible de charger le profil.",
     "networkError": "Erreur réseau, veuillez réessayer.",
@@ -444,14 +454,18 @@
     "ref": "Réf",
     "date": "Date",
     "timeSlot": "Créneau",
+    "slot": "Créneau",
     "reference": "Référence",
     "confirmDelete": "Confirmer la suppression ?",
+    "delete_confirm": "Êtes-vous sûr de vouloir supprimer cette réservation ?",
     "yesDelete": "Oui, supprimer",
+    "yes_delete": "Oui, supprimer",
     "cancel": "Annuler",
     "delete": "Supprimer",
     "reservationDeleted": "Réservation supprimée.",
     "deleteError": "Erreur lors de la suppression.",
-    "closeNotification": "Fermer la notification"
+    "closeNotification": "Fermer la notification",
+    "no_reservations": "Vous n'avez aucune réservation en cours."
   },
   "contact": {
     "title": "Contact",

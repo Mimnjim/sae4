@@ -119,7 +119,7 @@ const ReservationDetails = () => {
 
         <h2 className="form-reservation__title">{localStorage.getItem('lang') === 'en' ? 'Contact Details' : 'Coordonnées'}</h2>
 
-        <p className="form-required-notice">{localStorage.getItem('lang') === 'en' ? 'Fields marked with <span className="required">*</span> are required.' : 'Les champs marqués d\'un <span className="required">*</span> sont obligatoires.'}</p>
+        <p className="form-required-notice">{localStorage.getItem('lang') === 'en' ? 'Fields marked with ' : 'Les champs marqués d\'un '}<span className="required">*</span>{localStorage.getItem('lang') === 'en' ? ' are required.' : ' sont obligatoires.'}</p>
 
         <div className="reservation-recap">
           <div className="reservation-recap__item">
