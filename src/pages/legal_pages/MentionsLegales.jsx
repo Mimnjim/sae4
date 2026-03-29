@@ -222,73 +222,94 @@ const MentionsLegales = () => {
 
           {/* ── PROPRIÉTÉ INTELLECTUELLE ── */}
           <section id="properties" className="infos-pratiques__section">
-            <h2 className="infos-pratiques__section-title">Propriété Intellectuelle</h2>
+            <h2 className="infos-pratiques__section-title">{isEnglish ? 'Intellectual Property' : 'Propriété Intellectuelle'}</h2>
             
             <div className="infos-pratiques__card">
               <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
-                Droits d'auteur
+                {isEnglish ? 'Copyright' : 'Droits d\'auteur'}
               </h3>
               <p className="infos-pratiques__text">
-                La structure générale, ainsi que les textes, images, graphiques et tous les éléments composant ce site sont la propriété exclusive de l'éditeur et sont protégés par les dispositions du Code de la propriété intellectuelle.
+                {isEnglish
+                  ? 'The general structure, as well as the texts, images, graphics and all elements making up this site are the exclusive property of the editor and are protected by the provisions of the Intellectual Property Code.'
+                  : 'La structure générale, ainsi que les textes, images, graphiques et tous les éléments composant ce site sont la propriété exclusive de l\'éditeur et sont protégés par les dispositions du Code de la propriété intellectuelle.'
+                }
               </p>
             </div>
 
             <div className="infos-pratiques__card">
               <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
-                Autorisations de reproduction
+                {isEnglish ? 'Reproduction Authorization' : 'Autorisations de reproduction'}
               </h3>
               <p className="infos-pratiques__text">
-                Toute reproduction, même partielle, du site ou de ses éléments est strictement interdite sans autorisation préalable écrite de l'éditeur. Les contrefacteurs seront poursuivis conformément aux dispositions du Code de la propriété intellectuelle.
+                {isEnglish
+                  ? 'Any reproduction, even partial, of the site or its elements is strictly prohibited without prior written authorization from the editor. Counterfeiters will be prosecuted in accordance with the provisions of the Intellectual Property Code.'
+                  : 'Toute reproduction, même partielle, du site ou de ses éléments est strictement interdite sans autorisation préalable écrite de l\'éditeur. Les contrefacteurs seront poursuivis conformément aux dispositions du Code de la propriété intellectuelle.'
+                }
               </p>
             </div>
 
             <div className="infos-pratiques__card">
               <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
-                Marques déposées
+                {isEnglish ? 'Registered Trademarks' : 'Marques déposées'}
               </h3>
               <p className="infos-pratiques__text">
-                Les noms et logos des partenaires, notamment Akira, Ghost in the Shell, et Musée Guimet, sont des marques déposées respectant la propriété intellectuelle de leurs propriétaires respectifs.
+                {isEnglish
+                  ? 'The names and logos of partners, including Akira, Ghost in the Shell, and Musée Guimet, are registered trademarks respecting the intellectual property of their respective owners.'
+                  : 'Les noms et logos des partenaires, notamment Akira, Ghost in the Shell, et Musée Guimet, sont des marques déposées respectant la propriété intellectuelle de leurs propriétaires respectifs.'
+                }
               </p>
             </div>
 
             <div className="infos-pratiques__card">
               <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
-                Licences libres
+                {isEnglish ? 'Free Licenses' : 'Licences libres'}
               </h3>
               <p className="infos-pratiques__text">
-                Certains éléments du site sont utilisés sous licences libres (Creative Commons, MIT, Apache 2.0). Se reporter à la page <strong>Sources</strong> pour l'attribution complète des ressources.
+                {isEnglish
+                  ? 'Certain elements of the site are used under free licenses (Creative Commons, MIT, Apache 2.0). Please refer to the Sources page for complete attribution of resources.'
+                  : 'Certains éléments du site sont utilisés sous licences libres (Creative Commons, MIT, Apache 2.0). Se reporter à la page Sources pour l\'attribution complète des ressources.'
+                }
               </p>
             </div>
           </section>
 
           {/* ── RESPONSABILITÉ ── */}
           <section id="liability" className="infos-pratiques__section">
-            <h2 className="infos-pratiques__section-title">Responsabilité</h2>
+            <h2 className="infos-pratiques__section-title">{isEnglish ? 'Liability' : 'Responsabilité'}</h2>
             
             <div className="infos-pratiques__card">
               <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
-                Inexactitudes
+                {isEnglish ? 'Inaccuracies' : 'Inexactitudes'}
               </h3>
               <p className="infos-pratiques__text">
-                L'éditeur s'efforce de maintenir les informations à jour sur ce site. Cependant, l'éditeur ne peut être tenu responsable des inexactitudes, erreurs ou omissions du contenu. En cas d'erreur détectée, veuillez nous en informer.
+                {isEnglish
+                  ? 'The editor strives to keep the information on this site up to date. However, the editor cannot be held responsible for inaccuracies, errors or omissions in the content. If you detect an error, please inform us.'
+                  : 'L\'éditeur s\'efforce de maintenir les informations à jour sur ce site. Cependant, l\'éditeur ne peut être tenu responsable des inexactitudes, erreurs ou omissions du contenu. En cas d\'erreur détectée, veuillez nous en informer.'
+                }
               </p>
             </div>
 
             <div className="infos-pratiques__card">
               <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
-                Liens externes
+                {isEnglish ? 'External Links' : 'Liens externes'}
               </h3>
               <p className="infos-pratiques__text">
-                Ce site peut contenir des liens vers d'autres sites web. L'éditeur ne peut être tenu responsable du contenu, de la disponibilité ou de la conformité de ces sites externes. La consultation de ces sites s'effectue sous la responsabilité exclusive de l'utilisateur.
+                {isEnglish
+                  ? 'This site may contain links to other websites. The editor cannot be held responsible for the content, availability or compliance of these external sites. Consultation of these sites is under the exclusive responsibility of the user.'
+                  : 'Ce site peut contenir des liens vers d\'autres sites web. L\'éditeur ne peut être tenu responsable du contenu, de la disponibilité ou de la conformité de ces sites externes. La consultation de ces sites s\'effectue sous la responsabilité exclusive de l\'utilisateur.'
+                }
               </p>
             </div>
 
             <div className="infos-pratiques__card">
               <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
-                Garanties
+                {isEnglish ? 'Warranties' : 'Garanties'}
               </h3>
               <p className="infos-pratiques__text">
-                Le site est fourni "en l'état" sans aucune garantie expresse ou implicite. L'éditeur ne garantit pas l'absence de virus, malveillances ou dysfonctionnements techniques.
+                {isEnglish
+                  ? 'The site is provided "as is" without any express or implied warranty. The editor does not guarantee the absence of viruses, malware or technical malfunctions.'
+                  : 'Le site est fourni "en l\'état" sans aucune garantie expresse ou implicite. L\'éditeur ne garantit pas l\'absence de virus, malveillances ou dysfonctionnements techniques.'
+                }
               </p>
             </div>
           </section>
