@@ -1,48 +1,18 @@
 /* === CONTAINER === */
 
 .hero-section {
-    /* height: 145vh; */
-    /* height: 110vh; */
-    /* height: 145vh; */
     height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     padding: 4rem 3rem;
-    /* background: 
-        radial-gradient(ellipse at 20% 30%, rgba(0, 212, 255, 0.08) 0%, transparent 40%),
-        radial-gradient(ellipse at 80% 70%, rgba(255, 0, 255, 0.08) 0%, transparent 40%),
-        linear-gradient(to bottom, #0a0a0f, #0f0a15); */
 
-    /* 0background-color: var(--color-grey); */
-    
-    
     color: #ffffff;
     position: relative;
-    /* overflow: hidden; */
-    overflow: visible;  /* ← Change hidden en visible */
+    overflow: visible;  
     font-family: var(--ff-family-main);
 }
-
-/* .hero-section::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        repeating-linear-gradient(
-            0deg,
-            rgba(0, 0, 0, 0.03) 0px,
-            rgba(0, 0, 0, 0.03) 1px,
-            transparent 1px,
-            transparent 2px
-        );
-    pointer-events: none;
-    z-index: 1;
-} */
 
 .characters-infos {
     display: flex;
@@ -54,47 +24,18 @@
 .akira, .gis {
     /* flex: 1; */
     width: 400px;
-    /* height: 520px; */
     height: 520px;
     margin: 0 2rem;
     position: relative;
-    /* border: 1px solid rgba(0, 212, 255, 0.4); */
-    /* background: 
-        linear-gradient(135deg, 
-            rgba(0, 212, 255, 0.08) 0%, 
-            transparent 40%,
-            rgba(0, 0, 0, 0.2) 100%); */
     z-index: 2;
-    /* overflow: hidden; */
     margin: 0 2rem;
     transition: all 0.8s ease;
     color: var(--color-black);
 }
 
 .gis {
-    /* border-color: rgba(255, 0, 255, 0.4); */
-    /* background: 
-        linear-gradient(135deg, 
-            rgba(255, 0, 255, 0.08) 0%, 
-            transparent 40%,
-            rgba(0, 0, 0, 0.2) 100%); */
     pointer-events: auto;
 }
-
-
-
-/* .akira::before, .gis::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        135deg,
-        transparent 0%,
-        rgba(255, 255, 255, 0.02) 20%,
-        transparent 100%
-    );
-    pointer-events: none;
-} */
 
 /* === CONTAINER DU HERO SECTION === */
 
@@ -108,21 +49,11 @@
     padding: 0 1rem;
 }
 
-/* .container-slogan {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 2rem;
-    position: relative;
-    text-align: center;
-} */
 .container-slogan {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    /* gap: 2rem; */
     position: relative;
     text-align: center;
     padding-top: 4rem;  /* Espace pour le triangle */
@@ -137,68 +68,32 @@
     font-size: clamp(3rem, 7vw, 5.5rem);
     text-transform: uppercase;
     letter-spacing: -1px;
-    /* color: #00d4ff; */
-    /* color: var(--color-black); */
-    /* background: linear-gradient(135deg, #00d4ff, #00b8e6); */
-    /* line-height: 1.2; */
     color: #fff;
     font-weight: 900;
     position: relative;
     margin: 0;
-    /* background: linear-gradient(135deg, #00d4ff, #00b8e6); */
-    /* -webkit-background-clip: text; */
-    /* -webkit-text-fill-color: transparent; */
     background-clip: text;
-    /* filter: drop-shadow(0 2px 4px rgba(0, 212, 255, 0.2)); */
 }
 
 
 .slogan:nth-child(3) {
     border-top: 8px solid #fff ;
     white-space: nowrap;
-    /* color: #00d4ff; */
     background-color: #fff;
-    /* background: linear-gradient(135deg, #00d4ff, #00b8e6); */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    /* filter: drop-shadow(0 2px 4px rgba(0, 212, 255, 0.2)); */
 }
-
-/* 
-.slogan:nth-child(3) {
-    color: #ff00ff;
-    background: linear-gradient(135deg, #ff00ff, #dd00ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    filter: drop-shadow(0 2px 4px rgba(255, 0, 255, 0.2));
-} */
 
 /* === TRIANGLE === */
 
-/* .triangle {
-    position: absolute;
-    width: 6rem;
-    height: 6rem;
-    border-left: 2.5rem solid transparent;
-    border-right: 2.5rem solid transparent;
-    border-top: 2.5rem solid #ff00ff;
-    border-top: 2.5rem solid var(--color-red);
-    transform: rotate(180deg);
-    opacity: 0.6;
-    transition: opacity 0.6s ease;
-    margin-bottom: 1rem;
-} */
-
 .triangle {
     position: absolute;
-    top: 0rem;  /* Positionne la pointe en haut */
+    top: 0rem;  
     width: 0;
     height: 0;
     border-left: 10rem solid transparent;
     border-right: 10rem solid transparent;
-    /* border-top: 16rem solid var(--color-red); */
     border-top: 16rem solid #000;
     transform: rotate(180deg);
     opacity: 0.6;
@@ -211,7 +106,6 @@
 }
 
 /* === UNDER SLOGAN === */
-
 .under-slogan {
     position: relative;
     overflow: hidden;
@@ -222,17 +116,11 @@
     font-size: 1.6rem;
     font-weight: 300;
     letter-spacing: 5px;
-    /* color: rgba(255, 255, 255, 0.6); */
     color: #fff;
 
     font-family: var(--ff-family-main);
-    /* text-transform: uppercase; */
     transition: color 0.6s ease;
 }
-
-/* .container-slogan:hover .under-slogan h2 {
-    color: rgba(0, 212, 255, 0.9);
-} */
 
 /* === SCROLL DOWN === */
 
@@ -241,12 +129,6 @@
     bottom: 0rem;
     text-align: center;
     z-index: 1001;
-
-    /* left: 50%;
-    transform: translateX(-50%);
-    z-index: 2; */
-    /* animation: scrollIndicator 2s ease-in-out infinite; */
-
 }
 
 .scroll-down h3 {
@@ -261,10 +143,7 @@
 }
 
 .scroll-down:hover h3 {
-    /* color: rgba(0, 212, 255, 0.8); */
     color: rgba(255, 255, 255, 0.4);
-
-    /* color: var(--color-red); */
 }
 
 .arrow {
@@ -276,25 +155,8 @@
 .arrow-down {
     width: 2px;
     height: 20px;
-    /* background: linear-gradient(to bottom, rgba(255, 0, 255, 0.8), transparent); */
-    /* background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent); */
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), transparent);
 }
-
-/* @keyframes scrollIndicator {
-    0% {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    50% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-} */
-
 
 @keyframes scrollIndicator {
     0% {
@@ -328,7 +190,7 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    margin-top: 1rem;
+    margin-top: -1rem;
 }
 
 .footer-hero-container p {
@@ -341,8 +203,6 @@
     display: flex;
     align-items: center;
     gap: 2rem;
-    /* width: 100%; */
-    /* justify-content: space-between; */
     z-index: 1000;
     position: relative;
 }
@@ -351,13 +211,10 @@
     padding: 0.3rem 0.6rem;
     border: 2px solid var(--color-primary);
     color: var(--color-primary);
-    /* text-decoration: none; */
     font-size: 1.4rem;
     text-transform: uppercase;
     letter-spacing: 2px;
     transition: all 0.3s ease;
-    /* background-color: var(--color-red); */
-    /* border-radius: 10px; */
     text-decoration: none;
 }
 
@@ -365,20 +222,20 @@
     text-decoration: underline;
 }
 
+
+.quote-sound {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sound-icon {
+    width: 28px;
+    margin-left: 1.2rem;
+    filter: brightness(1.2);
+}
+
 /* Background Transition de fin de section HERO | Pour changer de section dans la Home page */
-/* 
-.hero-background-transition {
-    background-color: #000;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    min-height: 100vh;  
-    height: 100%;  
-    z-index: 20;
-    opacity: 1;
-    clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
-} */
 
 /* === RESPONSIVE === */
 

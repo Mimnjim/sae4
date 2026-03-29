@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import LevelCard from '../../components/experiences_components/LevelCard';
 import Timeline from '../../components/global_components/Timeline';
+import { useSoundContext } from '../../sound/SoundContext';
 import '../../styles/components/homepage_components/experiences.css';
 
 const LEVEL_IDS = [
@@ -87,6 +88,7 @@ function GameResultPanel({ gameResult, playingLevelId, progressMap, onReplay, on
 
 const Experiences = () => {
   const { t } = useTranslation();
+  const { playSound, playGameMusic, stopGameMusic } = useSoundContext();
   const navigate = useNavigate();
   const iframeRef = useRef(null);
   const containerRef = useRef(null);
@@ -155,6 +157,7 @@ const Experiences = () => {
       if (msg.type === 'race_progress') setRacePercent(msg.percent || 0);
       if (msg.type === 'game_speed') setSpeedKmH(msg.speed || 0);
       if (msg.type === 'game_victory') {
+        playSound('achievement');
         const value = { collected: msg.collected || 0, total: msg.total || 0 };
         saveProgress(msg.difficulty, value, setProgressMap);
         if (msg.difficulty === LEVEL_IDS.length && getCompletionRatio(value) >= UNLOCK_THRESHOLD) {
@@ -182,10 +185,21 @@ const Experiences = () => {
     [t]
   );
 
-  const handleSelectLevel = (levelId) => { setSelectedLevelId(levelId); if (unlockedMap[levelId]) setPlayingLevelId(levelId); };
+  const handleSelectLevel = (levelId) => { 
+    setSelectedLevelId(levelId); 
+    if (unlockedMap[levelId]) {
+      setPlayingLevelId(levelId);
+      playGameMusic();
+    }
+  };
   const handleIframeLoaded = () => iframeRef.current?.contentWindow?.postMessage({ type: 'start' }, '*');
   const handleReplay = () => { iframeRef.current?.contentWindow?.postMessage({ type: 'restart' }, '*'); setIsGameFinished(false); setGameResult(null); };
-  const handleCloseModal = () => { setPlayingLevelId(null); setIsGameFinished(false); setGameResult(null); };
+  const handleCloseModal = () => { 
+    setPlayingLevelId(null); 
+    setIsGameFinished(false); 
+    setGameResult(null);
+    stopGameMusic();
+  };
   const handleNextLevel = () => { if (playingLevelId >= LEVEL_IDS.length) return; setPlayingLevelId(playingLevelId + 1); setIsGameFinished(false); setGameResult(null); };
   const handleClaimPromo = () => navigate('/form-reservation', { state: { promoCode: 'HUMAIN5', promoApplied: true } });
 

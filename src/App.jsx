@@ -3,10 +3,13 @@ import { useTranslation } from 'react-i18next';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import TargetCursor from './animations/TargetCursor';
 import Grainient from './animations/Grainient';
+import { SoundProvider } from './sound/SoundContext';
+import useSoundInteractions from './sound/useSoundInteractions';
 
 // Composants principaux
 import GatewayScreen from './components/global_components/GatewayScreen';
 import Navbar from './components/global_components/Navbar.jsx';
+import SoundToggle from './components/global_components/SoundToggle.jsx';
 import ScrollToTop from './components/global_components/ScrollToTop.jsx';
 import Hero from './components/homepage_components/herosections_components/Hero.jsx';
 import Footer from './components/global_components/Footer.jsx';
@@ -88,28 +91,17 @@ const Home = () => {
   );
 };
 
-// Composant principal de l'application
-const App = () => {
-  const [entered, setEntered] = useState(false);
-  const [user, setUser] = useState(null);
-
-  // Récupérer l'utilisateur depuis localStorage au montage
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      try {
-        setUser(JSON.parse(storedUser));
-      } catch (e) {
-        console.error('Erreur au parsing du user stocké:', e);
-      }
-    }
-  }, []);
-
+// Composant contenu de l'application (à l'intérieur de SoundProvider)
+const AppContent = ({ entered, setEntered, user, setUser }) => {
+  // Ajouter les sons aux interactions - bon endroit maintenant (dans le SoundProvider)
+  useSoundInteractions();
 
   return (
     <>
       {!entered && <GatewayScreen onEnter={() => setEntered(true)} />}
 
+      {/* BOUTON SON FIXE - Visible partout */}
+      <SoundToggle />
 
       {/* LE FOND : Positionné en fixed via CSS ou style inline pour être sûr */}
       <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: -1 }}>
@@ -182,6 +174,30 @@ const App = () => {
         </div>
       </Router>
     </>
+  );
+};
+
+// Composant principal de l'application
+const App = () => {
+  const [entered, setEntered] = useState(false);
+  const [user, setUser] = useState(null);
+
+  // Récupérer l'utilisateur depuis localStorage au montage
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (e) {
+        console.error('Erreur au parsing du user stocké:', e);
+      }
+    }
+  }, []);
+
+  return (
+    <SoundProvider>
+      <AppContent entered={entered} setEntered={setEntered} user={user} setUser={setUser} />
+    </SoundProvider>
   );
 };
 

@@ -347,7 +347,7 @@ export default function Hero({ title1, title2, subtitle }) {
                     </div>
 
                     <div className="container-hero">
-                        <img src="/img/grand_logo_white.svg" ref={sloganRef} alt="Logo de l'exposition - Au delà de l'humain" />
+                        <img src="/img/logo_sae4_white.png" ref={sloganRef} className="logo"alt="Logo de l'exposition - Au delà de l'humain" />
 
                         <div ref={scrollDownRef} className="scroll-down">
                             <h3>{t('hero.scroll')}</h3>
@@ -361,7 +361,9 @@ export default function Hero({ title1, title2, subtitle }) {
                 </div>
 
                 <div className="footer-hero-container" ref={footerHeroRef}>
-                    <p>{t('hero.quote')}</p>
+                    <div className="quote-sound">
+                        <p>{t('hero.quote')}</p>
+                    </div>
                     <div className="buttons-hero" ref={buttonsRef} style={{ position: 'relative', zIndex: 20 }}>
                         <a href="#" className="cursor-target">{t('hero.teaser')} <img src="/icons/Fleche.svg" alt="" className='arrow-link' /></a>
                         <a href="#" className="cursor-target">{t('hero.tickets')} <img src="/icons/Fleche.svg" alt="" className='arrow-link' /></a>

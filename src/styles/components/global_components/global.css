@@ -121,3 +121,9 @@ a {
     margin-left: 6px;
     filter: brightness(1.2);
 }
+
+.logo {
+    width: 100%;
+    height: auto;
+    max-width: 400px;
+}
