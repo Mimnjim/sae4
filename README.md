@@ -1,5 +1,7 @@
 # PROJET SAE 4. EXPOSITION VIRTUELLE BD
 
+Lien vers le site : https://audeladelhumain.fr
+
 ## Sujet : AKIRA X GHOST IN THE SHELL "AU-DELA DE L'HUMAIN
 
 Réinstallation du projet en REACT, pour une mise en production.
@@ -50,6 +52,8 @@ Un dossier sera créé avec une version optimisée du site prête à être dépl
 # 5. Mise en production
 
 Envoyez tout son contenu du dossier nouvellement créé sur votre hébergeur via FTP ou interface web.
+
+Pensez à utiliser la certification SSL afin d'obtenir le HTTPS sur votre site.
 
 
 # 6. React Router et htaccess
