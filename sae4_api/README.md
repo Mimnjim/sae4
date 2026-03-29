@@ -1,8 +1,8 @@
-# 🏛️ Musée API
+# Musée API
 
-API REST en PHP pour la gestion des réservations du musée.
+API en PHP pour la gestion des réservations du musée.
 
-**Base URL** : `https://apimusee.tomdelavigne.fr`
+**Base URL DE L'API** : `https://apimusee.tomdelavigne.fr`
 
 ---
 
@@ -13,6 +13,7 @@ API REST en PHP pour la gestion des réservations du musée.
 ├── config.php          # Connexion à la base de données
 ├── JWT-en-PHP-main/    # Bibliothèque JWT (fournie par le prof)
 └── api/
+    ├── activate.php
     ├── login.php
     ├── register.php
     ├── users.php
@@ -23,11 +24,7 @@ API REST en PHP pour la gestion des réservations du musée.
 
 ## Authentification
 
-Les routes protégées nécessitent un token JWT dans le header :
-
-```
-Authorization: Bearer <token>
-```
+Les routes protégées nécessitent un token JWT :
 
 Le token est obtenu via la route `/api/login.php`.
 
@@ -35,31 +32,31 @@ Le token est obtenu via la route `/api/login.php`.
 
 ## Endpoints
 
-### 👤 Authentification
+### Authentification
 
-#### `POST /api/register.php` — Inscription
+#### `POST /api/register.php` - Inscription
 ```json
 {
-  "email": "jean@example.com",
+  "email": "toto@example.com",
   "password": "monmotdepasse",
-  "firstname": "Jean",
-  "lastname": "Dupont"
+  "firstname": "Toto",
+  "lastname": "Tutu"
 }
 ```
 
-#### `POST /api/login.php` — Connexion
+#### `POST /api/login.php` - Connexion
 ```json
 {
-  "email": "jean@example.com",
+  "email": "toto@example.com",
   "password": "monmotdepasse"
 }
 ```
-Retourne un `token` JWT à utiliser pour les requêtes suivantes.
+Retourne un `token` JWT.
 
 ---
 
-### 👥 Utilisateurs — `/api/users.php`
-> 🔒 Toutes les routes nécessitent un token JWT.
+### Utilisateurs — `/api/users.php`
+> Toutes les routes nécessitent un token JWT.
 
 | Méthode | Paramètres | Description |
 |---------|-----------|-------------|
@@ -72,8 +69,8 @@ Retourne un `token` JWT à utiliser pour les requêtes suivantes.
 **Exemple body PUT :**
 ```json
 {
-  "firstname": "Jean",
-  "lastname": "Dupont",
+  "firstname": "Toto",
+  "lastname": "Tutu",
   "email": "nouveau@email.com",
   "password": "nouveaumotdepasse"
 }
@@ -81,8 +78,8 @@ Retourne un `token` JWT à utiliser pour les requêtes suivantes.
 
 ---
 
-### 📅 Réservations — `/api/reservations.php`
-> 🔒 POST, PUT et DELETE nécessitent un token JWT.
+### Réservations — `/api/reservations.php`
+> POST, PUT et DELETE nécessitent un token JWT.
 
 | Méthode | Paramètres | Description |
 |---------|-----------|-------------|
@@ -96,9 +93,9 @@ Retourne un `token` JWT à utiliser pour les requêtes suivantes.
 **Exemple body POST :**
 ```json
 {
-  "contact_firstname": "Jean",
-  "contact_lastname": "Dupont",
-  "contact_email": "jean@example.com",
+  "contact_firstname": "Toto",
+  "contact_lastname": "Tutu",
+  "contact_email": "toto@example.com",
   "reservation_date": "2025-06-15",
   "time_slot": "10h00 - 12h00",
   "language": "fr",
