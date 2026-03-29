@@ -16,11 +16,12 @@
 .auth-prompt__container {
   width: 100%;
   max-width: 580px;
-  padding: 4rem 3rem;
+  padding: clamp(2rem, 5vw, 4rem) clamp(1rem, 5vw, 3rem);
   background: rgba(8, 8, 8, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 18px;
   text-align: center;
+  box-sizing: border-box;
 }
 
 /* Titres */

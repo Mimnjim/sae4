@@ -9,14 +9,15 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* HERO SECTION - PRÉSENTATION */
 .infos-pratiques__hero {
   max-width: 1300px;
   margin: 0 auto 4rem;
-  padding: 0 2rem;
-
+  padding: 0 clamp(0.75rem, 3vw, 2rem);
 }
 
 .infos-pratiques__title {
@@ -40,14 +41,20 @@
 
 .infos-pratiques__layout {
   display: flex;
-  /* align-items: flex-start; */
-  gap: 4rem;
-  width: 60%;
-  max-width: 1300px;
+  gap: clamp(2rem, 5vw, 4rem);
+  width: clamp(280px, 100%, 100%);
+  max-width: none;
   margin: 0 auto 4rem;
-  
-  padding: 0 2rem;
+  padding: 0 clamp(0.75rem, 3vw, 2rem);
   position: relative;
+  box-sizing: border-box;
+}
+
+@media (min-width: 1181px) {
+  .infos-pratiques__layout {
+    max-width: 1300px;
+    padding-left: calc(300px + 2rem);
+  }
 }
 
 /* ═══════════════════════════════════════════════════
@@ -57,11 +64,15 @@
 .infos-pratiques__sidebar {
   position: fixed;
   top: 10rem;
-  left: 2rem;
+  left: 0;
   width: 280px;
   height: fit-content;
   z-index: 20;
   flex-shrink: 0;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  overflow-y: auto;
+  max-height: calc(100vh - 10rem - 2rem);
 }
 
 .infos-pratiques__menu {
@@ -111,10 +122,9 @@
   display: flex;
   flex-direction: column;
   gap: 3rem;
-  margin-left: 150px;
   flex-grow: 1;
   width: 100%;
-  /* max-width: calc(1500px * 0.65); */
+  box-sizing: border-box;
 }
 
 .infos-pratiques__section {
@@ -449,7 +459,7 @@
   font-weight: 700;
   color: rgba(255, 255, 255, 0.95);
   font-family: var(--ff-family-medium);
-
+} 
 .infos-pratiques__content em {
   font-style: italic;
   color: rgba(255, 255, 255, 0.9);
@@ -478,26 +488,21 @@
   }
 }
 
-/* ═══════════════════════════════════════════════════
-   RESPONSIVE - TABLETS (1000px and below)
-   ═══════════════════════════════════════════════════ */
-
-@media (max-width: 1000px) {
+@media (max-width: 1180px) {
   .infos-pratiques__layout {
+    padding: 0 clamp(0.75rem, 3vw, 2rem);
     flex-direction: column;
     gap: 2rem;
   }
 
   .infos-pratiques__sidebar {
+    display: flex;
     position: static;
-    top: auto;
-    left: auto;
     width: 100%;
+    height: auto;
+    max-height: none;
+    padding: 0;
     margin-bottom: 0;
-  }
-
-  .infos-pratiques__content {
-    margin-left: 0;
   }
 
   .infos-pratiques__menu {
@@ -536,8 +541,21 @@
 }
 
 /* ═══════════════════════════════════════════════════
-   RESPONSIVE - MOBILE (700px and below)
+   RESPONSIVE - TABLETS (1000px and below)
    ═══════════════════════════════════════════════════ */
+
+@media (max-width: 1000px) {
+  .infos-pratiques__link {
+    padding: 0.9rem 1.2rem;
+    font-size: 0.95rem;
+  }
+
+  .infos-pratiques__tarif-item,
+  .infos-pratiques__item {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
 
 @media (max-width: 700px) {
   .infos-pratiques {
@@ -563,11 +581,6 @@
   .infos-pratiques__layout {
     padding: 0 1rem;
     gap: 2rem;
-    flex-direction: column;
-  }
-
-  .infos-pratiques__content {
-    margin-left: 0;
   }
 
   .infos-pratiques__section-title {
@@ -651,5 +664,47 @@
   .infos-pratiques__faq-content {
     padding: 1rem 1rem 1rem 2.5rem;
     font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .infos-pratiques__layout {
+    padding: 0 0.5rem;
+  }
+
+  .infos-pratiques__hero {
+    padding: 0 0.5rem;
+  }
+
+  .infos-pratiques__title {
+    font-size: 1.8rem;
+  }
+
+  .infos-pratiques__description {
+    font-size: 0.9rem;
+  }
+
+  .infos-pratiques__section-title {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+
+  .infos-pratiques__link {
+    padding: 0.7rem 0.9rem;
+    font-size: 0.85rem;
+  }
+
+  .infos-pratiques__text {
+    font-size: 0.85rem;
+  }
+
+  .infos-pratiques__faq-item summary {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .infos-pratiques__faq-content {
+    padding: 0.75rem 0.75rem 0.75rem 2rem;
+    font-size: 0.85rem;
   }
 }

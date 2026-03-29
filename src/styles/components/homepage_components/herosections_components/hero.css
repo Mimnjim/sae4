@@ -6,12 +6,12 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    padding: 4rem 3rem;
-
+    padding: clamp(2rem, 5vw, 4rem) clamp(1rem, 5vw, 3rem);
     color: #ffffff;
     position: relative;
-    overflow: visible;  
+    overflow: visible;
     font-family: var(--ff-family-main);
+    box-sizing: border-box;
 }
 
 .characters-infos {
@@ -194,8 +194,8 @@
 }
 
 .footer-hero-container p {
-    font-size: 1.4rem;
-    width: 250px;
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    width: clamp(200px, 90%, 250px);
     font-family: var(--ff-family-semibold);
 }
 

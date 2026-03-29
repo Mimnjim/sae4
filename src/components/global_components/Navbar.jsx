@@ -13,6 +13,9 @@ const Navbar = ({ user, setUser }) => {
   const dropdownRef = useRef(null);
   const labelLang = t('gateway.languages');
   
+  // Menu Mobile
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileSubLangOpen, setMobileSubLangOpen] = useState(false);
 
   // Synchroniser l'état lang avec i18n.language directement
   useEffect(() => {
@@ -70,6 +73,11 @@ const Navbar = ({ user, setUser }) => {
     return () => document.removeEventListener('click', handleClickOutside);
   }, []);
 
+  // Fermer le menu mobile lors du changement de route
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
+
   // Changer langue
   const changeLang = (newLang) => {
     const langCode = newLang === 'FR' ? 'fr' : 'en';
@@ -113,19 +121,14 @@ const Navbar = ({ user, setUser }) => {
   return (
     <div className={`navbar ${showNavbarBlack ? 'navbar--black' : 'navbar--noblack'}`}>
       <div className="elements-nav">
-        {/* <Link to="/"><img src="/img/Logo_expo.svg" alt="Logo" className="logo-expo cursor-target" /></Link> */}
         <Link to="/"><img src="/img/petit_logo_white.svg" alt="Logo" className="logo-expo cursor-target" /></Link>
 
         <div className="elements-nav__infos">
-          {/* R157 : Items actifs de menu sont signalés
-              - classe 'nav-link--active' appliquée si le lien correspond à la route actuelle
-              - aria-current="page" indique au lecteur d'écran la page active */}
           <Link 
             to="/experiences" 
             className={`cursor-target ${isLinkActive('/experiences') ? 'nav-link--active' : ''}`}
             aria-current={isLinkActive('/experiences') ? 'page' : undefined}
           >
-            {/* {t('navbar.experiences')} <ArrowUpRight /> */}
             {t('navbar.experiences')} <img src="/icons/FlecheDiagonale.svg" alt="" className='arrow-link' />
           </Link>
           <Link 
@@ -145,25 +148,111 @@ const Navbar = ({ user, setUser }) => {
         </div>
       </div>
 
+      {/* Hamburger Button */}
+      <button 
+        className={`nav-toggle cursor-target ${menuOpen ? 'active' : ''}`}
+        onClick={() => setMenuOpen(!menuOpen)}
+        aria-label="Toggle navigation menu"
+        aria-expanded={menuOpen}
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      {/* Mobile Menu */}
+      <div className={`nav-menu-mobile ${menuOpen ? 'active' : ''}`}>
+        <Link 
+          to="/experiences" 
+          className={`cursor-target ${isLinkActive('/experiences') ? 'nav-link--active' : ''}`}
+          aria-current={isLinkActive('/experiences') ? 'page' : undefined}
+        >
+          {t('navbar.experiences')}
+        </Link>
+        <Link 
+          to="/form-reservation" 
+          className={`cursor-target ${isLinkActive('/form-reservation') ? 'nav-link--active' : ''}`}
+          aria-current={isLinkActive('/form-reservation') ? 'page' : undefined}
+        >
+          {t('navbar.reservation')}
+        </Link>
+        <Link 
+          to="/infos-pratiques" 
+          className={`cursor-target ${isLinkActive('/infos-pratiques') ? 'nav-link--active' : ''}`}
+          aria-current={isLinkActive('/infos-pratiques') ? 'page' : undefined}
+        >
+          {t('navbar.info')}
+        </Link>
+
+        {/* Languages Submenu Mobile */}
+        <div className="mobile-lang-section">
+          <button 
+            onClick={() => setMobileSubLangOpen(!mobileSubLangOpen)} 
+            className={`mobile-lang-btn cursor-target ${mobileSubLangOpen ? 'open' : ''}`}
+          >
+            {labelLang} ({lang})
+          </button>
+          <div className={`mobile-lang-submenu ${mobileSubLangOpen ? 'open' : ''}`}>
+            <div className="mobile-lang-submenu-content">
+              <div onClick={() => { changeLang('FR'); setMobileSubLangOpen(false); }} className="cursor-target">{t('gateway.french')}</div>
+              <div onClick={() => { changeLang('EN'); setMobileSubLangOpen(false); }} className="cursor-target">{t('gateway.english')}</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Auth Links Mobile */}
+        {user ? (
+          <Link 
+            to="/profile" 
+            className={`connection-mobile cursor-target ${isLinkActive('/profile') ? 'nav-link--active' : ''}`}
+            aria-current={isLinkActive('/profile') ? 'page' : undefined}
+          >
+            {t('profile.myProfile')}
+          </Link>
+        ) : (
+          <Link 
+            to="/login" 
+            className={`connection-mobile cursor-target ${isLinkActive('/login') ? 'nav-link--active' : ''}`}
+            aria-current={isLinkActive('/login') ? 'page' : undefined}
+          >
+            {t('navbar.login')}
+          </Link>
+        )}
+      </div>
+
       <div className="language" ref={dropdownRef}>
         {authLinks}
 
         {/* DROPDOWN LANGUE */}
         <div className="lang-dropdown">
           <button onClick={() => setOpenLang(!openLang)} className="lang-btn cursor-target">
-            {/* {labelLang} ({lang}) ▼ */}
             {labelLang} ({lang}) <img src="/icons/Flechederouler.svg" alt="" className='arrow-navbar'/>
           </button>
 
           {openLang && (
             <div className="lang-menu">
-              {/* R131 : Indiquer la langue cible quand elle diffère */}
               <div onClick={() => changeLang('FR')} className="cursor-target" lang="fr" aria-label="Changer la langue vers le français">{t('gateway.french')}</div>
               <div onClick={() => changeLang('EN')} className="cursor-target" lang="en" aria-label="Change language to English">{t('gateway.english')}</div>
             </div>
           )}
         </div>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      {menuOpen && (
+        <div 
+          className="nav-menu-overlay"
+          onClick={() => setMenuOpen(false)}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 50,
+          }}
+        />
+      )}
     </div>
   );
 };

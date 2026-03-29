@@ -159,14 +159,16 @@
    PAGE : VALIDATION (R85 : Message de réussite)
    ========================================= */
 .validation-container {
-  max-width: 720px;
-  margin: 8rem auto;
+  max-width: clamp(280px, 90%, 720px);
+  margin: clamp(3rem, 8vw, 8rem) auto;
   border-radius: 12px;
-  padding: 32px 24px;
+  padding: clamp(1.5rem, 5vw, 2rem) clamp(1rem, 5vw, 1.5rem);
   color: #ffffff;
   text-align: center;
-  background: rgba(0, 0, 0, 0.7); /* Fond ajouté pour lisibilité sur le grainient */
+  background: rgba(0, 0, 0, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .validation-container h2 {

@@ -118,11 +118,13 @@
   display: flex;
   gap: var(--form-gap);
   background: transparent;
-  padding: 9rem 5rem;
+  padding: clamp(3rem, 8vw, 9rem) clamp(1rem, 5vw, 5rem);
   border-radius: 12px;
   color: #fff;
   align-items: flex-start;
   min-height: min-content;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 @media (max-width: 900px) {

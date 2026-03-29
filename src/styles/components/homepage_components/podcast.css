@@ -3,11 +3,11 @@
 .pod-section {
     position: relative;
     width: 100%;
-    padding: 3rem 3rem;
+    padding: clamp(2rem, 5vw, 3rem) clamp(1rem, 5vw, 3rem);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4rem;
+    gap: clamp(2rem, 5vw, 4rem);
     box-sizing: border-box;
 }
 
@@ -55,10 +55,41 @@
 
 .pod-cards {
     display: flex;
-    gap: 4rem;
+    gap: clamp(1.5rem, 5vw, 4rem);
     flex-wrap: wrap;
     justify-content: center;
     width: 100%;
+}
+
+@media (max-width: 768px) {
+    .pod-cards {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 520px) {
+    .pod-header {
+        max-width: 100%;
+    }
+    
+    .pod-player {
+        width: 100%;
+        padding: 1.5rem 1rem;
+    }
+    
+    .pod-player--expanded {
+        width: 100%;
+    }
+    
+    .pod-visualizer {
+        width: 120px;
+        height: 50px;
+    }
+    
+    .pod-visualizer--playing {
+        width: 150px;
+    }
 }
 
 /* ── Lecteur podcast ────────────────────────────────────────– */
@@ -72,7 +103,7 @@
     background: transparent;
     border: 4px solid rgba(255, 255, 255, 0.25);
     border-radius: 8px;
-    width: 280px;
+    width: clamp(280px, 90%, 400px);
     transition: all 0.4s ease;
 }
 
@@ -82,8 +113,7 @@
 }
 
 .pod-player--expanded {
-    width: 40%;
-    min-width: 350px;
+    width: clamp(280px, 90%, 600px);
 }
 
 /* ── Visualiseur ────────────────────────────────────────────– */
@@ -233,4 +263,37 @@
 
 .reverse {
     transform: rotate(180deg);
+}
+
+@media (max-width: 360px) {
+    .pod-section {
+        gap: clamp(1rem, 5vw, 2rem);
+    }
+
+    .pod-header {
+        gap: 0.8rem;
+    }
+
+    .pod-title {
+        font-size: clamp(1.6rem, 4vw, 2.2rem);
+    }
+
+    .pod-emission {
+        font-size: clamp(1rem, 2vw, 1.4rem);
+    }
+
+    .pod-player {
+        width: 100%;
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .pod-visualizer {
+        width: 100px;
+        height: 40px;
+    }
+
+    .pod-time-display {
+        font-size: 0.85rem;
+    }
 }
