@@ -57,7 +57,7 @@
   },
   "footer": {
     "credit": "Expositions immersives | Akira & Ghost in the Shell",
-    "copyright": "All rights reserved.",
+    "copyright": "Tous droits réservés.",
     "museum": "Musée Guimet",
     "address": "6, Place d'Iena, Paris 75116",
     "home": "Accueil",
@@ -190,7 +190,7 @@
     "location": "Lieu",
     "locationValue": "Musée Guimet",
     "dates": "Dates",
-    "daysValue": "15 Mars – 30 Juin 2026",
+    "datesValue": "15 Mars – 30 Juin 2026",
     "works": "Œuvres",
     "worksValue": "2 univers · 4 salles",
     "dataLine": "SYS://EXPOSITION.INIT – AKIRA × GHOST_IN_THE_SHELL – PARIS_2025"

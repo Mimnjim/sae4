@@ -110,7 +110,7 @@ export default function ExperienceSection() {
 
                 <div className="exp-promo">
                     <span className="exp-promo-star">★</span>
-                    {t('experiences.promoText')}
+                    <p>{t('experiences.promoText')}</p>
                 </div>
 
                 <a href="/experiences" className="exp-cta cursor-target">

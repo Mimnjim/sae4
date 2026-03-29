@@ -41,6 +41,16 @@
     letter-spacing: -0.02em;
 }
 
+.pod-emission {
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: clamp(1.4rem, 2.5vw, 3rem);
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
 /* ── Conteneur des lecteurs ─────────────────────────────────── */
 
 .pod-cards {
@@ -160,15 +170,16 @@
 /* ── Info et progression ────────────────────────────────────– */
 
 .pod-info {
+    text-align: left;
     width: 100%;
 }
 
 .pod-name {
     margin: 0 0 1rem 0;
     font-family: var(--ff-family-medium);
-    font-size: 1.25rem;
+    font-size: clamp(1.1rem, 1.8vw, 2.6rem);
     color: #fff;
-    text-align: center;
+    text-align: left;
     font-weight: 600;
 }
 
@@ -183,10 +194,10 @@
 
 .pod-time {
     font-family: var(--ff-family-main);
-    font-size: 1.2rem;
+    font-size: clamp(0.95rem, 1.2vw, 1.6rem);
     margin-bottom: 1.6rem;
-    color: rgba(255, 255, 255, 0.8);
-    text-align: center;
+    color: rgba(255, 255, 255, 0.85);
+    text-align: left;
 }
 
 .pod-progress {

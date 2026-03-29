@@ -6,14 +6,16 @@ import '../../styles/components/homepage_components/podcast.css';
 const PODCASTS = [
     {
         id: 'tech-in-comic',
-        title: 'Tech In Comic',
+        title: 'From Neo-Tokyo to Outer Space: Two Takes on Technology',
+        emission: 'Tech In Comic',
         guest: 'Tom Delavigne x Jimmy TE',
         duration: '7 min',
         src: '/podcast/Tech_In_Comic-Delavigne_Tom-TE_Jimmy.mp3',
     },
     {
-        id: 'au-dela-chair',
-        title: 'Au-Delà de la Chair',
+        id: 'crashout-culture',
+        title: 'Stay on the rails or off the rails : Should an adaptation be the same as its original conterpart or stray away ?',
+        emission: 'Crashout Culture',
         guest: 'Mélina x Lana x Déborah x Alexis',
         duration: '15 min',
         src: '/podcast/podcast_akira_GITS_melina_lana_deborah_alexis.mp3',
@@ -500,7 +502,7 @@ function PodcastPlayer({ podcast }) {
 
             <div className="pod-info">
                 <h3 className="pod-name">{podcast.title}</h3>
-                <p className="pod-time">{podcast.guest} - {podcast.duration}</p>
+                <p className="pod-time">{podcast.guest} <br /> ({podcast.duration})</p>
                 
                 <div className="pod-progress" onClick={handleProgressClick}>
                     <div 

@@ -29,7 +29,7 @@
 
 /* Copyright en haut */
 .footer-copyright {
-    font-size: clamp(0.82rem, 1.1vw, 1rem);
+    font-size: clamp(0.95rem, 1.3vw, 1.6rem);
     letter-spacing: 1px;
     text-align: center;
     color: rgba(255, 255, 255, 0.7);
@@ -70,7 +70,7 @@
 
 .footer-address {
     font-family: var(--ff-family-extralight-italic);
-    font-size: clamp(0.85rem, 1.1vw, 1rem);
+    font-size: clamp(0.95rem, 1.3vw, 1.6rem);
     line-height: 1.6;
     color: rgba(255, 255, 255, 0.75);
     margin: 0;
@@ -83,7 +83,7 @@
 }
 
 .footer-zone a {
-    font-size: clamp(0.88rem, 1.2vw, 1.1rem);
+    font-size: clamp(0.88rem, 1.2vw, 1.8rem);
     color: #fff;
     text-decoration: none;
     transition: color 0.3s ease, letter-spacing 0.3s ease;
