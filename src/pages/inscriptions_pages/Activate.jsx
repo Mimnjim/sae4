@@ -1,75 +1,70 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import '../../styles/components/inscription_components/activate.css';
 
-export default function Activate() {
+function Activate() {
   const { t } = useTranslation();
-  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [status, setStatus] = useState('loading'); // loading, success, error
+  const [searchParams] = useSearchParams();
+  const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
+  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    const activateAccount = async () => {
-      try {
-        const token = searchParams.get('token');
-        
-        if (!token) {
-          setStatus('error');
-          setMessage(t('pages.activate.noToken') || 'No activation token provided');
-          return;
-        }
+    const token = searchParams.get('token');
+    
+    if (!token) {
+      setMessage(t('activate.noToken') || 'Token d\'activation manquant');
+      setLoading(false);
+      return;
+    }
 
-        // Call activation API
-        const response = await fetch('/api/auth/activate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ token })
-        });
-
-        if (response.ok) {
-          setStatus('success');
-          setMessage(t('pages.activate.success') || 'Account activated successfully!');
+    // Appel API pour activer le compte
+    fetch('https://apimusee.tomdelavigne.fr/api/activate.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token })
+    })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) {
+          setSuccess(true);
+          setMessage(t('activate.success') || 'Compte activé avec succès');
           setTimeout(() => navigate('/login'), 3000);
         } else {
-          setStatus('error');
-          setMessage(t('pages.activate.error') || 'Activation failed. Please try again.');
+          setMessage(data.message || t('activate.error') || 'Erreur lors de l\'activation');
         }
-      } catch (error) {
-        setStatus('error');
-        setMessage(t('pages.activate.error') || 'An error occurred during activation.');
-      }
-    };
-
-    activateAccount();
+      })
+      .catch(() => {
+        setMessage(t('activate.networkError') || 'Erreur réseau');
+      })
+      .finally(() => setLoading(false));
   }, [searchParams, navigate, t]);
 
   return (
-    <div className="activate-page" style={{ padding: '2rem', maxWidth: 700, margin: '4rem auto', textAlign: 'center' }}>
-      {status === 'loading' && (
-        <>
-          <h2>{t('pages.activate.loading') || 'Activating your account...'}</h2>
-          <p>{t('pages.activate.please_wait') || 'Please wait...'}</p>
-        </>
-      )}
-      
-      {status === 'success' && (
-        <>
-          <h2 style={{ color: 'green' }}>{t('pages.activate.title') || 'Account Activated'}</h2>
-          <p>{message}</p>
-          <p>{t('pages.activate.redirecting') || 'Redirecting to login in a few seconds...'}</p>
-        </>
-      )}
-      
-      {status === 'error' && (
-        <>
-          <h2 style={{ color: 'red' }}>{t('pages.activate.errorTitle') || 'Activation Failed'}</h2>
-          <p>{message}</p>
-          <a href="/login" style={{ color: 'blue', textDecoration: 'underline' }}>
-            {t('pages.activate.goToLogin') || 'Go to Login'}
-          </a>
-        </>
-      )}
+    <div className="activate-container">
+      <div className="activate-card">
+        <div className="activate-card__header">
+          <h1 className="activate-card__title">{t('activate.title') || 'Activation du compte'}</h1>
+        </div>
+
+        {loading ? (
+          <p className="activate-card__loading">{t('activate.loading') || 'Activation en cours...'}</p>
+        ) : (
+          <div className={`activate-card__message activate-card__message--${success ? 'success' : 'error'}`}>
+            <p>{message}</p>
+          </div>
+        )}
+
+        {success && (
+          <p className="activate-card__redirect">
+            {t('activate.redirecting') || 'Redirection vers la connexion...'}
+          </p>
+        )}
+      </div>
     </div>
   );
 }
+
+export default Activate;

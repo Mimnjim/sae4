@@ -45,11 +45,11 @@ function GameResultPanel({ gameResult, playingLevelId, progressMap, onReplay, on
 
   let contextText = "";
   if (isVictory) {
-    if (playingLevelId === 1) contextText = "Otomo, via Akira, questionne l'augmentation de l'humain, les modifications corporelles et leurs conséquences sociales. Est-ce que la technologie, d'autant plus à l'ère de l'IA, nous rend meilleurs ou nous éloigne de notre humanité ?";
-    else if (playingLevelId === 2) contextText = "Ghost in the Shell : explore l'IA, l'identité et la notion de \"ghost\" (conscience) dans la machine, si nous sommes tous des cyborgs, qu'est-ce qui définit notre humanité ? Comment la technologie influence-t-elle notre perception de nous-mêmes et des autres ? Est-ce que des projets comme neuralink nous rapprochent de la singularité ou posent des risques éthiques majeurs ?";
-    else contextText = "Mission accomplie. Le futur est entre vos mains. Voici votre code promo : HUMAIN5. Utilisez-le pour bénéficier de 5% de réduction sur votre prochaine réservation. Merci d'avoir joué ! Nous avons hâte de vous rencontrer.";
+    if (playingLevelId === 1) contextText = t('experiences.context_level1');
+    else if (playingLevelId === 2) contextText = t('experiences.context_level2');
+    else contextText = t('experiences.context_level3');
   } else {
-    contextText = "Modification échouée, destruction du monde...";
+    contextText = t('experiences.context_defeat');
   }
 
   return (
@@ -104,7 +104,7 @@ const Experiences = () => {
   useEffect(() => {
     setProgressMap(loadProgressFromStorage());
     if (localStorage.getItem('promo_unlocked') === '1') setPromoUnlocked(true);
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     // inject shared game UI stylesheet (served from /styles) so parent can render unified panel styles
@@ -148,7 +148,7 @@ const Experiences = () => {
         const levelId = msg.difficulty || playingLevelId;
         const value = { collected: msg.collected || 0, total: msg.total || 0 };
         saveProgress(levelId, value, setProgressMap);
-      } 
+      }
       if (msg.type === 'game_boost') setBoostState({ status: msg.status || 'charging', percent: msg.percent || 0 });
       if (msg.type === 'game_health') setHealthPercent(msg.percent || 0);
       if (msg.type === 'race_progress') setRacePercent(msg.percent || 0);
@@ -170,14 +170,7 @@ const Experiences = () => {
     return () => window.removeEventListener('message', handleMessage);
   }, [playingLevelId, t]);
 
-  const LEVELS = useMemo(
-    () => LEVEL_IDS.map(level => ({
-      ...level,
-      nameKey: `pages.experiences.levels.level${level.id}.name`,
-      pilotKey: `pages.experiences.levels.level${level.id}.pilot`
-    })),
-    [t]
-  );
+  const getLevelName = (levelId) => t(`experiences.level${levelId}`);
 
   const LEVELS = useMemo(
     () => LEVEL_IDS.map(level => ({
@@ -197,11 +190,11 @@ const Experiences = () => {
 
   return (
     <div className="experiences-page">
-      <h1>Expérience</h1>
-      <p>Plongez dans une expérience immersive inspirée des univers d'Akira et Ghost in the Shell. Réussissez les 3 niveaux pour débloquer une récompense !</p>
+      <h1>{t('experiences.pageTitle')}</h1>
+      <p>{t('experiences.pageDescription')}</p>
 
       <div className="levels-grid">
-        <Timeline count={LEVELS.length} />
+        <Timeline count={LEVEL_IDS.length} />
         <div className="levels-list">
           {LEVELS.map(level => (
             <LevelCard
@@ -221,7 +214,7 @@ const Experiences = () => {
           <div className="game-modal">
             <div className="game-modal-backdrop" onClick={handleCloseModal} />
             <div className="game-modal-content" ref={containerRef}>
-              <button type="button" className="modal-close" onClick={handleCloseModal}>Fermer</button>
+              <button type="button" className="modal-close" onClick={handleCloseModal}>{t('experiences.close')}</button>
               
               <div className="game-wrapper">
                 <iframe
@@ -239,11 +232,11 @@ const Experiences = () => {
                 </div>
 
                 <div className="parent-hud parent-boost">
-                  <div className="label">{t('pages.experiences.boost')}</div>
+                  <div className="label">{t('experiences.boost')}</div>
                   <div className="boost-track-parent">
                     <div className="boost-bar-parent" style={{ width: `${Math.min(100, Math.max(0, boostState.percent || 0))}%` }} />
                   </div>
-                  <div className="boost-status-parent">{boostState.status === 'active' ? 'ACTIF' : boostState.status === 'ready' ? 'PRÊT (SHIFT)' : 'CHARGEMENT...'}</div>
+                  <div className="boost-status-parent">{boostState.status === 'active' ? t('experiences.boostActive') : boostState.status === 'ready' ? t('experiences.boostReady') : t('experiences.boostCharging')}</div>
                 </div>
 
                 <div className="parent-hud parent-speed">
@@ -267,7 +260,6 @@ const Experiences = () => {
                   onClose={handleCloseModal}
                   onNextLevel={handleNextLevel}
                   onClaimPromo={handleClaimPromo}
-                  t={t}
                 />
               )}
             </div>
