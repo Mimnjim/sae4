@@ -34,11 +34,11 @@ export function loadGLTFWithCandidates(paths) {
         if (_loadingPromises.has(url)) return _loadingPromises.get(url);
 
         const basePath = url.replace(/[^/]*$/, '');
-        const baseAbs  = basePath;
-        const manager  = new THREE.LoadingManager();
+        const baseAbs = basePath;
+        const manager = new THREE.LoadingManager();
         manager.setURLModifier(requestUrl => {
             if (/^(https?:)?\/\//i.test(requestUrl) || requestUrl.startsWith('data:') || requestUrl.startsWith('/')) return requestUrl;
-            try   { return new URL(requestUrl, baseAbs).href; }
+            try { return new URL(requestUrl, baseAbs).href; }
             catch { return baseAbs + requestUrl; }
         });
 

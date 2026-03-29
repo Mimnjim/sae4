@@ -3,7 +3,6 @@ import { scene } from './scene.js';
 import { config } from './config.js';
 import { loadGLTFWithCandidates } from './loader.js';
 
-// ── Route principale ──────────────────────────────────────────
 export const roadGeometry = new THREE.PlaneGeometry(60, config.roadLength);
 export const roadMaterial = new THREE.MeshPhongMaterial({ color: 0x444444 });
 export const road         = new THREE.Mesh(roadGeometry, roadMaterial);
@@ -11,7 +10,6 @@ road.rotation.x  = -Math.PI / 2;
 road.position.z  = -config.roadLength / 2;
 scene.add(road);
 
-// ── Limites de piste ──────────────────────────────────────────
 const roadHalfWidth    = roadGeometry.parameters.width / 2;
 const SIDE_MARGIN      = 1.5;
 const ACTOR_WIDTH      = 2;
@@ -22,7 +20,6 @@ export function getRandomTrackX() {
     return Math.random() * (TRACK_MAX_X - TRACK_MIN_X) + TRACK_MIN_X;
 }
 
-// ── Bordures ──────────────────────────────────────────────────
 export const edgeGeometry = new THREE.BoxGeometry(1.2, 1.5, config.roadLength);
 export const edgeMaterial = new THREE.MeshPhongMaterial({ color: 0x111111 });
 export const leftEdge     = new THREE.Mesh(edgeGeometry, edgeMaterial);
@@ -31,10 +28,9 @@ leftEdge.position.set( -roadHalfWidth + 0.6, 0.75, -config.roadLength / 2);
 rightEdge.position.set( roadHalfWidth - 0.6, 0.75, -config.roadLength / 2);
 scene.add(leftEdge, rightEdge);
 
-// ── Prolongation visuelle de la route (non jouable) ───────────
 const BUILDING_HEIGHT  = 180;
 const BUILDING_WIDTH   = 140;
-const BUILDING_DEPTH   = 220;
+export const BUILDING_DEPTH   = 220; // Exporté pour l'utiliser dans main.js
 const BUILDING_EXTEND  = Math.round(config.roadLength * 0.6);
 const FAKE_ROAD_LENGTH = BUILDING_EXTEND;
 
@@ -64,7 +60,6 @@ function createFakeRoadAndEdges() {
 
 createFakeRoadAndEdges();
 
-// Texture de route (chargement non-bloquant)
 new THREE.TextureLoader().load(
     '/texture_sol.jpg',
     texture => {
@@ -79,25 +74,15 @@ new THREE.TextureLoader().load(
     () => console.warn('Texture de route non chargée, couleur par défaut utilisée')
 );
 
-// ── Bâtiments ─────────────────────────────────────────────────
 const buildingVariantDirs = ['building1.1', 'building1.3', 'building1.4', 'building2.1'];
 const buildingPrefabs     = [];
+const buildingMaterials   = [];
 
-// OPTIMISATION : géométrie et matériau fallback partagés entre tous les bâtiments
 const _sharedBuildingGeom    = new THREE.BoxGeometry(BUILDING_WIDTH, BUILDING_HEIGHT, BUILDING_DEPTH);
 const _sharedPlainBuildingMat = new THREE.MeshBasicMaterial({ color: 0x666666 });
 
-function createBuildingMesh(prefabDef, side) {
-    let mat;
-    if (prefabDef?.texture) {
-        const tex = prefabDef.texture.clone();
-        tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
-        try { tex.encoding = THREE.sRGBEncoding; } catch (e) {}
-        tex.repeat.set(Math.max(1, Math.round(BUILDING_WIDTH / 20)), Math.max(1, Math.round(BUILDING_HEIGHT / 20)));
-        mat = new THREE.MeshBasicMaterial({ map: tex });
-    } else {
-        mat = _sharedPlainBuildingMat;
-    }
+function createBuildingMesh(material, side) {
+    const mat = material || _sharedPlainBuildingMat;
     const mesh = new THREE.Mesh(_sharedBuildingGeom, mat);
     mesh.castShadow = mesh.receiveShadow = false;
     mesh.rotation.y = side === -1 ? Math.PI : 0;
@@ -105,27 +90,74 @@ function createBuildingMesh(prefabDef, side) {
     return mesh;
 }
 
+// OPTIMISATION : Object Pooling pour les bâtiments
+export const activeBuildings = [];
+export const NUM_BUILDINGS_PER_SIDE = 6;
+export const BUILDING_SPAN = NUM_BUILDINGS_PER_SIDE * BUILDING_DEPTH;
+
 function placeBuildings() {
-    const spacing    = BUILDING_DEPTH;
-    const endZ       = -config.roadLength - BUILDING_EXTEND;
     const edgeHalf   = edgeGeometry.parameters.width / 2;
     const leftOuterX  = leftEdge.position.x  - edgeHalf - BUILDING_WIDTH / 2;
     const rightOuterX = rightEdge.position.x + edgeHalf + BUILDING_WIDTH / 2;
 
-    let li = 0, zLeft = -10;
-    while (zLeft > endZ) {
-        const mesh = createBuildingMesh(buildingPrefabs[li % buildingPrefabs.length] || null, -1);
-        mesh.position.set(leftOuterX, mesh.position.y, zLeft);
-        scene.add(mesh);
-        li++; zLeft -= spacing;
-    }
+    // On crée seulement 6 bâtiments par côté, qui tourneront en boucle
+    for (let i = 0; i < NUM_BUILDINGS_PER_SIDE; i++) {
+        const z = -10 - i * BUILDING_DEPTH;
+        
+        // Bâtiment gauche
+        const matL = buildingMaterials.length ? buildingMaterials[i % buildingMaterials.length] : _sharedPlainBuildingMat;
+        const meshL = createBuildingMesh(matL, -1);
+        meshL.position.set(leftOuterX, meshL.position.y, z);
+        meshL.userData.initialZ = z; // Sauvegardé pour le reset
+        meshL.userData.side = 'left';
+        scene.add(meshL);
+        activeBuildings.push(meshL);
 
-    let ri = 0, zRight = -10;
-    while (zRight > endZ) {
-        const mesh = createBuildingMesh(buildingPrefabs[ri % buildingPrefabs.length] || null, 1);
-        mesh.position.set(rightOuterX, mesh.position.y, zRight);
-        scene.add(mesh);
-        ri++; zRight -= spacing;
+        // Bâtiment droit
+        const matR = buildingMaterials.length ? buildingMaterials[(i + 1) % buildingMaterials.length] : _sharedPlainBuildingMat;
+        const meshR = createBuildingMesh(matR, 1);
+        meshR.position.set(rightOuterX, meshR.position.y, z);
+        meshR.userData.initialZ = z; // Sauvegardé pour le reset
+        meshR.userData.side = 'right';
+        scene.add(meshR);
+        activeBuildings.push(meshR);
+    }
+}
+
+// Recycle buildings that are behind the player by moving them further ahead.
+// This keeps a constant number of buildings while the player advances.
+export function recycleBuildings(playerZ) {
+    if (!activeBuildings || activeBuildings.length === 0) return;
+    const DESPAWN_MARGIN = Math.max(40, Math.round(BUILDING_DEPTH * 0.5));
+
+    const sides = ['left', 'right'];
+    for (const side of sides) {
+        const sideBuildings = activeBuildings.filter(b => b.userData && b.userData.side === side);
+        if (sideBuildings.length === 0) continue;
+
+        // Find the most negative Z (farthest ahead)
+        let minZ = Math.min(...sideBuildings.map(b => b.position.z));
+
+        // Process buildings that are behind the player first (highest z)
+        sideBuildings.sort((a, b) => b.position.z - a.position.z);
+        for (const bld of sideBuildings) {
+            if (bld.position.z > playerZ + DESPAWN_MARGIN) {
+                const jitter = (Math.random() - 0.5) * 20; // small randomness
+                const newZ = minZ - BUILDING_DEPTH + jitter;
+                bld.position.z = newZ;
+                // update minZ for next placement
+                minZ = newZ;
+            }
+        }
+    }
+}
+
+export function resetBuildings() {
+    if (!activeBuildings || activeBuildings.length === 0) return;
+    for (const bld of activeBuildings) {
+        if (bld.userData && typeof bld.userData.initialZ === 'number') {
+            bld.position.z = bld.userData.initialZ;
+        }
     }
 }
 
@@ -159,6 +191,26 @@ export function tryLoadBuildingPrefabs() {
     });
 
     return Promise.all(promises).then(() => {
+        const repeatX = Math.max(1, Math.round(BUILDING_WIDTH / 20));
+        const repeatY = Math.max(1, Math.round(BUILDING_HEIGHT / 20));
+        buildingMaterials.length = 0;
+        if (buildingPrefabs.length === 0) {
+            buildingMaterials.push(_sharedPlainBuildingMat);
+        } else {
+            for (const pref of buildingPrefabs) {
+                if (pref.texture) {
+                    try {
+                        pref.texture.wrapS = pref.texture.wrapT = THREE.RepeatWrapping;
+                        if ('colorSpace' in pref.texture) pref.texture.colorSpace = THREE.SRGBColorSpace;
+                        else if ('encoding' in pref.texture) pref.texture.encoding = THREE.sRGBEncoding;
+                        pref.texture.repeat.set(repeatX, repeatY);
+                    } catch (e) {}
+                    buildingMaterials.push(new THREE.MeshBasicMaterial({ map: pref.texture }));
+                } else {
+                    buildingMaterials.push(_sharedPlainBuildingMat);
+                }
+            }
+        }
         placeBuildings();
     });
 }

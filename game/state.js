@@ -14,7 +14,7 @@ export const gameState = {
 };
 
 // Anti-spam PostMessage : on ne réémet que si la valeur change
-export const lastPostValues = { speed: -1, progress: -1, health: -1, boostStatus: null, boostPct: -1 };
+export const lastPostValues = { speed: -1, progress: -1, health: -1, boostStatus: null, boostPct: -1, itemsPct: -1, itemsCollected: -1 };
 
 // Cache DOM : évite document.getElementById à chaque frame
 const domCache = {};

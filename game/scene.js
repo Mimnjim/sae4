@@ -1,17 +1,21 @@
 import * as THREE from 'three';
 import Stats from 'stats.js';
+import { difficulty } from './config.js';
 
 export const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x1d3557);
-// Reduce view distance a bit to improve performance and hide distant pop-in
 scene.fog = new THREE.Fog(0x1d3557, 100, 450);
 
-export const camera = new THREE.PerspectiveCamera(45, 16 / 9, 1, 1000);
+// OPTIMISATION : far plane réduit à 450
+export const camera = new THREE.PerspectiveCamera(45, 16 / 9, 1, 450);
 camera.position.set(-2, 20, 50);
 camera.lookAt(0, 0, 20);
+camera.layers.enable(1);
 
-export const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+// OPTIMISATION : antialiasing désactivé
+export const renderer = new THREE.WebGLRenderer({ antialias: false, powerPreference: 'high-performance' });
+// OPTIMISATION : pixel ratio bloqué à 1
+renderer.setPixelRatio(1);
 renderer.domElement.style.cssText = 'width:110%;height:110%;';
 
 export const gameContainer = document.getElementById('game-container');
@@ -28,9 +32,7 @@ statsParent.appendChild(stats.dom);
 export function resizeRenderer() {
     const w  = gameContainer?.clientWidth  || window.innerWidth;
     const h  = gameContainer?.clientHeight || window.innerHeight;
-    const pw = Math.floor(w * window.devicePixelRatio);
-    const ph = Math.floor(h * window.devicePixelRatio);
-    if (renderer.domElement.width !== pw || renderer.domElement.height !== ph) {
+    if (renderer.domElement.width !== w || renderer.domElement.height !== h) {
         renderer.setSize(w, h, false);
         camera.aspect = w / h;
         camera.updateProjectionMatrix();

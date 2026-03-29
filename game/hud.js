@@ -41,7 +41,7 @@ export function createHUD() {
     panel.style.cssText = 'width:220px;background:rgba(0,0,0,0.5);padding:6px;border-radius:6px;pointer-events:auto;';
 
     panel.appendChild(createProgressBar({ label: 'Progression', barId: 'hud-progress-bar', textId: 'hud-progress-text', color: '#00ffcc', initial: '0%' }));
-    panel.appendChild(createProgressBar({ label: 'Objets',      barId: 'hud-items-bar',    textId: 'hud-items-text',    color: '#ffd54f', initial: `0 / ${config.itemCount}`, topMargin: '10px' }));
+    panel.appendChild(createProgressBar({ label: 'Objets', barId: 'hud-items-bar', textId: 'hud-items-text', color: '#ffd54f', initial: `0 / ${config.itemCount}`, topMargin: '10px' }));
 
     const btn = document.createElement('button');
     btn.id = 'next-level-btn';

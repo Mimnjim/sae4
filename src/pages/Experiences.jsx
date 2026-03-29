@@ -33,7 +33,7 @@ function saveProgress(levelId, value, setProgressMap) {
   setProgressMap(prev => ({ ...prev, [levelId]: value }));
 }
 
-// Panneau affiché en fin de partie
+// Panneau de résultat unique géré par React
 function GameResultPanel({ gameResult, playingLevelId, progressMap, onReplay, onClose, onNextLevel, onClaimPromo }) {
   if (!gameResult) return null;
   const { t } = useTranslation();
@@ -43,13 +43,30 @@ function GameResultPanel({ gameResult, playingLevelId, progressMap, onReplay, on
   const levelProgress = progressMap[playingLevelId] || { collected: 0, total: 0 };
   const hasEnoughItems = getCompletionRatio(levelProgress) >= UNLOCK_THRESHOLD;
 
+  let contextText = "";
+  if (isVictory) {
+    if (playingLevelId === 1) contextText = "Otomo, via Akira, questionne l'augmentation de l'humain, les modifications corporelles et leurs conséquences sociales. Est-ce que la technologie, d'autant plus à l'ère de l'IA, nous rend meilleurs ou nous éloigne de notre humanité ?";
+    else if (playingLevelId === 2) contextText = "Ghost in the Shell : explore l'IA, l'identité et la notion de \"ghost\" (conscience) dans la machine, si nous sommes tous des cyborgs, qu'est-ce qui définit notre humanité ? Comment la technologie influence-t-elle notre perception de nous-mêmes et des autres ? Est-ce que des projets comme neuralink nous rapprochent de la singularité ou posent des risques éthiques majeurs ?";
+    else contextText = "Mission accomplie. Le futur est entre vos mains. Voici votre code promo : HUMAIN5. Utilisez-le pour bénéficier de 5% de réduction sur votre prochaine réservation. Merci d'avoir joué ! Nous avons hâte de vous rencontrer.";
+  } else {
+    contextText = "Modification échouée, destruction du monde...";
+  }
+
   return (
     <div className="result-panel">
-      {/* R234 : h2 car c'est le titre principal de ce panneau */}
       <h2>{isVictory ? t('experiences.victory') : t('experiences.game_over')}</h2>
+
+      <p className="result-context">
+        {contextText}
+      </p>
+
       <div className="result-actions">
         <button type="button" className="btn btn-light" onClick={onReplay}>{t('experiences.retry')}</button>
-        <button type="button" className="btn" onClick={onClose}>{t('experiences.quit')}</button>
+        
+        {/* Bouton Quitter avec texte noir */}
+        <button type="button" className="btn btn-light btn-quit" onClick={onClose}>
+          {t('experiences.quit')}
+        </button>
 
         {isVictory && !isLastLevel && (
           hasEnoughItems
@@ -88,12 +105,22 @@ const Experiences = () => {
     if (localStorage.getItem('promo_unlocked') === '1') setPromoUnlocked(true);
   }, []);
 
+  useEffect(() => {
+    // inject shared game UI stylesheet (served from /styles) so parent can render unified panel styles
+    if (typeof document === 'undefined') return;
+    if (document.getElementById('game-ui-stylesheet')) return;
+    const link = document.createElement('link');
+    link.id = 'game-ui-stylesheet';
+    link.rel = 'stylesheet';
+    link.href = '/styles/game-ui.css';
+    document.head.appendChild(link);
+  }, []);
+
   const unlockedMap = useMemo(() => {
     const map = {};
     LEVELS.forEach((level, index) => {
-      if (index === 0) {
-        map[level.id] = true;
-      } else {
+      if (index === 0) map[level.id] = true;
+      else {
         const previousProgress = progressMap[LEVELS[index - 1].id];
         map[level.id] = getCompletionRatio(previousProgress) >= UNLOCK_THRESHOLD;
       }
@@ -107,9 +134,9 @@ const Experiences = () => {
       if (!msg?.type) return;
 
       if (msg.type === 'game_init' || msg.type === 'game_progress') {
-        if (!msg.difficulty) return;
+        const levelId = msg.difficulty || playingLevelId;
         const value = { collected: msg.collected || 0, total: msg.total || 0 };
-        saveProgress(msg.difficulty, value, setProgressMap);
+        saveProgress(levelId, value, setProgressMap);
         if (msg.type === 'game_init') { setIsGameFinished(false); setGameResult(null); }
       }
       if (msg.type === 'game_boost') setBoostState({ status: msg.status || 'charging', percent: msg.percent || 0 });
@@ -131,114 +158,75 @@ const Experiences = () => {
 
     window.addEventListener('message', handleMessage);
     return () => window.removeEventListener('message', handleMessage);
-  }, []);
-
-  useEffect(() => {
-    if (!playingLevelId || !iframeRef.current) return;
-    const timer = setTimeout(() => {
-      iframeRef.current?.focus();
-      iframeRef.current?.contentWindow?.postMessage({ type: 'focus' }, '*');
-    }, 120);
-    return () => clearTimeout(timer);
-  }, [playingLevelId]);
-
-  useEffect(() => {
-    if (!playingLevelId) {
-      setRacePercent(0);
-      setSpeedKmH(0);
-    }
   }, [playingLevelId]);
 
   const handleSelectLevel = (levelId) => { setSelectedLevelId(levelId); if (unlockedMap[levelId]) setPlayingLevelId(levelId); };
   const handleIframeLoaded = () => iframeRef.current?.contentWindow?.postMessage({ type: 'start' }, '*');
   const handleReplay = () => { iframeRef.current?.contentWindow?.postMessage({ type: 'restart' }, '*'); setIsGameFinished(false); setGameResult(null); };
   const handleCloseModal = () => { setPlayingLevelId(null); setIsGameFinished(false); setGameResult(null); };
-  const handleNextLevel = () => { if (!playingLevelId || playingLevelId >= LEVELS.length) return; setPlayingLevelId(playingLevelId + 1); setIsGameFinished(false); setGameResult(null); };
+  const handleNextLevel = () => { if (playingLevelId >= LEVELS.length) return; setPlayingLevelId(playingLevelId + 1); setIsGameFinished(false); setGameResult(null); };
   const handleClaimPromo = () => navigate('/form-reservation', { state: { promoCode: 'HUMAIN5', promoApplied: true } });
-
-  const boostStatusLabel = boostState.status === 'active' ? 'ACTIF' : boostState.status === 'ready' ? 'PRÊT' : 'CHARGEMENT';
-
-  // Clamp UI values to sane ranges to avoid broken rendering
-  const clampedBoostPercent = Math.min(100, Math.max(0, boostState.percent || 0));
-  const clampedHealthPercent = Math.min(100, Math.max(0, healthPercent || 0));
-  const clampedSpeedKmH = Math.max(0, Math.round(speedKmH || 0));
 
   return (
     <div className="experiences-page">
-      <h1>Expérience </h1>
-      <p> Plongez dans une expérience immersive inspirée des univers d'Akira et Ghost in the Shell. Reussisez les 3 niveaux pour débloquer une récompense !</p>
+      <h1>Expérience</h1>
+      <p>Plongez dans une expérience immersive inspirée des univers d'Akira et Ghost in the Shell. Réussissez les 3 niveaux pour débloquer une récompense !</p>
 
       <div className="levels-grid">
         <Timeline count={LEVELS.length} />
         <div className="levels-list">
-          {LEVELS.map(level => {
-            const progress = progressMap[level.id] || { collected: 0, total: 0 };
-            const percentDisplay = Math.round(getCompletionRatio(progress) * 100);
-            return (
-              <LevelCard
-                key={level.id}
-                level={level}
-                unlocked={!!unlockedMap[level.id]}
-                percent={percentDisplay}
-                onSelect={handleSelectLevel}
-                selected={selectedLevelId === level.id}
-              />
-            );
-          })}
+          {LEVELS.map(level => (
+            <LevelCard
+              key={level.id}
+              level={level}
+              unlocked={!!unlockedMap[level.id]}
+              percent={Math.round(getCompletionRatio(progressMap[level.id]) * 100)}
+              onSelect={handleSelectLevel}
+              selected={selectedLevelId === level.id}
+            />
+          ))}
         </div>
       </div>
 
       <div className="experiences__game-section">
-        {playingLevelId ? (
+        {playingLevelId && (
           <div className="game-modal">
             <div className="game-modal-backdrop" onClick={handleCloseModal} />
             <div className="game-modal-content" ref={containerRef}>
-
-              {/* R162 : bouton de fermeture explicite */}
-              <button type="button" className="modal-close" onClick={handleCloseModal}>
-                Fermer
-              </button>
-
+              <button type="button" className="modal-close" onClick={handleCloseModal}>Fermer</button>
+              
               <div className="game-wrapper">
                 <iframe
                   ref={iframeRef}
                   title={`Jeu niveau ${playingLevelId}`}
                   src={`/game/game.html?difficulty=${playingLevelId}`}
                   className="game-iframe"
-                  tabIndex={0}
                   onLoad={handleIframeLoaded}
                 />
 
+                {/* HUD Interne (Parent) */}
                 <div className="parent-hud parent-health">
-                  <div className="label">VIE</div>
-                  <div className="health-track-parent">
-                    <div className="health-bar-parent" style={{ width: `${clampedHealthPercent}%` }} />
-                  </div>
-                  <div className="health-status-parent">{Math.round(clampedHealthPercent)}%</div>
+                  <div className="health-track-parent"><div className="health-bar-parent" style={{ width: `${healthPercent}%` }} /></div>
+                  <div className="health-status-parent">{Math.round(healthPercent)}%</div>
                 </div>
 
                 <div className="parent-hud parent-boost">
                   <div className="label">BOOST</div>
                   <div className="boost-track-parent">
-                    <div className="boost-bar-parent" style={{ width: `${clampedBoostPercent}%` }} />
+                    <div className="boost-bar-parent" style={{ width: `${Math.min(100, Math.max(0, boostState.percent || 0))}%` }} />
                   </div>
-                  <div className="boost-status-parent">{boostStatusLabel}</div>
+                  <div className="boost-status-parent">{boostState.status === 'active' ? 'ACTIF' : boostState.status === 'ready' ? 'PRÊT (SHIFT)' : 'CHARGEMENT...'}</div>
                 </div>
 
-                <div className="parent-hud parent-race" aria-hidden>
-                  <div className="race-track" aria-hidden>
-                    <div className="race-bar" style={{ width: `${racePercent}%` }} />
-                  </div>
-                  <div className="items-status">
-                    {playingLevelId ? `${(progressMap[playingLevelId]?.collected || 0)} / ${(progressMap[playingLevelId]?.total || 0)}` : ''}
-                  </div>
+                <div className="parent-hud parent-speed">
+                    <div className="speedometer"><div className="speed-value">{Math.round(speedKmH)}</div><div className="speed-unit">km/h</div></div>
                 </div>
 
-                <div className="parent-hud parent-speed" aria-hidden>
-                  <div className="speedometer" role="status" aria-live="polite">
-                    <div className="speed-value">{clampedSpeedKmH}</div>
-                    <div className="speed-unit">km/h</div>
-                  </div>
+                <div className="parent-hud parent-race">
+                    <div className="race-track"><div className="race-bar" style={{ width: `${racePercent}%` }} /></div>
+                    <div className="items-status">
+                        {(progressMap[playingLevelId]?.collected || 0)} / {(progressMap[playingLevelId]?.total || 0)}
+                    </div>
                 </div>
               </div>
 
@@ -255,22 +243,8 @@ const Experiences = () => {
               )}
             </div>
           </div>
-        ) : (
-          <div className="game-placeholder">
-            <p>Sélectionnez un niveau pour commencer l'expérience de jeu.</p>
-          </div>
         )}
       </div>
-
-      {promoUnlocked && (
-        <div className="promo-panel">
-          <h2>Félicitations ! Code promo débloqué !</h2>
-          <p>Vous avez débloqué le code <strong>HUMAIN5</strong> — -5% sur votre réservation.</p>
-          <button type="button" className="btn btn-primary" onClick={handleClaimPromo}>
-            Réserver avec le code appliqué
-          </button>
-        </div>
-      )}
     </div>
   );
 };

@@ -6,7 +6,6 @@ import { getRandomTrackX } from './road.js';
 
 export const enemies = [];
 
-// Crée les racines des ennemis et les place sur la route
 const enemySpacing = config.roadLength / Math.max(1, config.maxEnemies);
 for (let i = 0; i < config.maxEnemies; i++) {
     const enemyRoot = new THREE.Object3D();
@@ -19,10 +18,7 @@ for (let i = 0; i < config.maxEnemies; i++) {
     enemies.push({
         root:      enemyRoot,
         visual:    null,
-        // OPTIMISATION : liste des mesh nodes cachée au chargement
-        // → plus de visual.traverse() dans la boucle principale
         meshNodes: [],
-        // store initial position to allow restart without reloading
         initialPosition: enemyRoot.position.clone(),
     });
 }
@@ -58,12 +54,10 @@ export function tryLoadEnemyModel() {
                 entry.root.add(clone);
                 entry.visual = clone;
 
-                // OPTIMISATION : on collecte les mesh nodes une seule fois ici
-                // au lieu de refaire un traverse() à chaque frame dans handleEnemies
                 clone.traverse(node => {
                     if (node.isMesh && node.material) {
-                        node.material.transparent = true;
                         entry.meshNodes.push(node);
+                        try { node.layers.enable(1); } catch (e) {}
                     }
                 });
             });

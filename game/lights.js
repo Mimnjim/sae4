@@ -1,15 +1,14 @@
 import * as THREE from 'three';
 import { scene } from './scene.js';
 
-export const ambientLight = new THREE.AmbientLight(0xffffff, 2.0);
-export const sunLight     = new THREE.DirectionalLight(0xffffff, 2.5);
-export const frontLight   = new THREE.DirectionalLight(0xffffff, 2.0);
-export const leftLight    = new THREE.DirectionalLight(0x6699ff, 1.0);
-export const rightLight   = new THREE.DirectionalLight(0x6699ff, 1.0);
+export const DYNAMIC_LIGHT_LAYER = 1;
 
+export const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
+export const hemisphereLight = new THREE.HemisphereLight(0x87ceeb, 0x444444, 0.25);
+
+export const sunLight = new THREE.DirectionalLight(0xffffff, 1.2);
+
+sunLight.layers.set(DYNAMIC_LIGHT_LAYER);
 sunLight.position.set(0, 100, 0);
-frontLight.position.set(0, 50, -100);
-leftLight.position.set(-50, 30, 0);
-rightLight.position.set(50, 30, 0);
 
-scene.add(ambientLight, sunLight, frontLight, leftLight, rightLight);
+scene.add(ambientLight, hemisphereLight, sunLight);

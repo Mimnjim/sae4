@@ -4,6 +4,7 @@ import { config, difficulty } from './config.js';
 import { gameState, playerRef, getEl } from './state.js';
 import { loadGLTFWithCandidates } from './loader.js';
 import { cameraOffset } from './physics.js';
+// Note: we enable the dynamic light layer (1) on player meshes so dynamic lights only affect player
 
 export const PLAYER_START_Z = 20;
 
@@ -14,7 +15,7 @@ function applyModelTextureSettings(root) {
         const mats = Array.isArray(node.material) ? node.material : [node.material];
         mats.forEach(mat => {
             if (!mat) return;
-            ['map','emissiveMap','roughnessMap','metalnessMap','normalMap','aoMap','alphaMap'].forEach(k => {
+            ['map', 'emissiveMap', 'roughnessMap', 'metalnessMap', 'normalMap', 'aoMap', 'alphaMap'].forEach(k => {
                 const tex = mat[k];
                 if (!tex) return;
                 try {
@@ -22,7 +23,7 @@ function applyModelTextureSettings(root) {
                     else if ('encoding' in tex) tex.encoding = THREE.sRGBEncoding;
                     tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
                     tex.needsUpdate = true;
-                } catch (e) {}
+                } catch (e) { }
             });
             try {
                 mat.needsUpdate = true;
@@ -30,7 +31,7 @@ function applyModelTextureSettings(root) {
                     if (typeof mat.roughness === 'undefined') mat.roughness = 0.6;
                     if (typeof mat.metalness === 'undefined') mat.metalness = 0.0;
                 }
-            } catch (e) {}
+            } catch (e) { }
             node.castShadow = node.receiveShadow = true;
         });
     });
@@ -61,7 +62,12 @@ function setupPlayerFromScene(sceneObj) {
         playerRef.bike.position.set(0, 1.5 - bbox2.min.y, PLAYER_START_Z);
         playerRef.bike.rotation.y = 11 + Math.PI / 2;
 
-        try { applyModelTextureSettings(playerRef.bike); } catch (e) {}
+        try { applyModelTextureSettings(playerRef.bike); } catch (e) { }
+
+        // Enable dynamic light layer on all mesh nodes so dynamic lights affect the player only
+        try {
+            playerRef.bike.traverse(n => { if (n.isMesh) n.layers.enable(1); });
+        } catch (e) { }
 
         // Raise camera for difficulty 2 for better overview
         cameraOffset.default.set(0, 12, 36);
@@ -88,6 +94,8 @@ function fallbackToCube() {
         new THREE.MeshPhongMaterial({ color: 0x00ffff })
     );
     playerRef.bike.position.set(0, posY, PLAYER_START_Z);
+    // Ensure fallback cube is visible to dynamic lights
+    if (playerRef.bike.layers) playerRef.bike.layers.enable(1);
     scene.add(playerRef.bike);
     console.warn('Fallback cube utilisé pour le joueur');
     onPlayerReady();
@@ -95,17 +103,17 @@ function fallbackToCube() {
 
 export function createPlayer() {
     const carCandidates = [
-        'assets/models/voiture.gltf',         'assets/models/voiture/voiture.gltf',
-        'assets/models/voiture.glb',          'assets/models/voiture/voiture.glb',
-        '/game/assets/models/voiture.gltf',   '/game/assets/models/voiture/voiture.gltf',
-        '/game/assets/models/voiture.glb',    '/game/assets/models/voiture/voiture.glb',
-        'game/assets/models/voiture.gltf',    'game/assets/models/voiture/voiture.gltf',
-        'game/assets/models/voiture.glb',     'game/assets/models/voiture/voiture.glb',
+        'assets/models/voiture.gltf', 'assets/models/voiture/voiture.gltf',
+        'assets/models/voiture.glb', 'assets/models/voiture/voiture.glb',
+        '/game/assets/models/voiture.gltf', '/game/assets/models/voiture/voiture.gltf',
+        '/game/assets/models/voiture.glb', '/game/assets/models/voiture/voiture.glb',
+        'game/assets/models/voiture.gltf', 'game/assets/models/voiture/voiture.gltf',
+        'game/assets/models/voiture.glb', 'game/assets/models/voiture/voiture.glb',
     ];
     const bikeCandidates = [
-        'assets/models/akira_bike.glb',       'assets/models/akira_bike.gltf',
+        'assets/models/akira_bike.glb', 'assets/models/akira_bike.gltf',
         '/game/assets/models/akira_bike.glb', '/game/assets/models/akira_bike.gltf',
-        'game/assets/models/akira_bike.glb',  'game/assets/models/akira_bike.gltf',
+        'game/assets/models/akira_bike.glb', 'game/assets/models/akira_bike.gltf',
     ];
     return new Promise(resolve => {
         let finished = false;
@@ -115,7 +123,7 @@ export function createPlayer() {
             .then(({ gltf, path }) => {
                 const obj = gltf.scene || gltf.scenes?.[0];
                 if (obj) { console.log('Modèle joueur chargé :', path); setupPlayerFromScene(obj); }
-                else     { console.warn('GLTF sans scène :', path); fallbackToCube(); }
+                else { console.warn('GLTF sans scène :', path); fallbackToCube(); }
                 finish();
             })
             .catch(() => { fallbackToCube(); finish(); });

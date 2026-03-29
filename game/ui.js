@@ -1,6 +1,7 @@
 import { config, difficulty, isEmbedded } from './config.js';
 import { gameState, lastPostValues, getEl, getSel } from './state.js';
-import { nextLevelButton } from './hud.js';
+
+// --- Mise à jour du HUD (Barres de vie, boost, etc.) ---
 
 export function updateHealthUI() {
     const pct = Math.floor((gameState.playerHealth / config.maxHealth) * 100);
@@ -33,16 +34,22 @@ export function updateBoostUI(currentTime) {
     }
 
     const roundedPct = Math.round(pct);
+    
     if (isEmbedded && (lastPostValues.boostStatus !== statusId || Math.abs(lastPostValues.boostPct - roundedPct) > 2)) {
         window.parent.postMessage({ type: 'game_boost', status: statusId, percent: roundedPct }, '*');
         lastPostValues.boostStatus = statusId;
         lastPostValues.boostPct    = roundedPct;
     }
 
-    const boostBar    = getEl('boost-bar');
-    const boostStatus = getEl('boost-status');
-    if (boostBar)    { boostBar.style.width = roundedPct + '%'; boostBar.style.background = statusColor; }
-    if (boostStatus) { boostStatus.textContent = statusText; boostStatus.style.color = statusColor; }
+    const needUIUpdate = (lastPostValues.boostStatus !== statusId) || (lastPostValues.boostPct !== roundedPct);
+    if (needUIUpdate) {
+        lastPostValues.boostStatus = statusId;
+        lastPostValues.boostPct    = roundedPct;
+        const boostBar    = getEl('boost-bar');
+        const boostStatus = getEl('boost-status');
+        if (boostBar)    { boostBar.style.width = roundedPct + '%'; boostBar.style.background = statusColor; }
+        if (boostStatus) { boostStatus.textContent = statusText; boostStatus.style.color = statusColor; }
+    }
 }
 
 export function updateSpeedUI() {
@@ -65,37 +72,40 @@ export function updateRaceProgressUI(percent) {
         if (isEmbedded) window.parent.postMessage({ type: 'race_progress', percent: rounded }, '*');
     }
     const itemPct  = Math.min(100, Math.round((gameState.itemsCollected / config.itemCount) * 100));
-    const itemsBar = getEl('hud-items-bar');
-    const itemsTxt = getEl('hud-items-text');
-    if (itemsBar) itemsBar.style.width  = itemPct + '%';
-    if (itemsTxt) itemsTxt.textContent  = gameState.itemsCollected + ' / ' + config.itemCount;
+    const needItemsUpdate = lastPostValues.itemsPct !== itemPct || lastPostValues.itemsCollected !== gameState.itemsCollected;
+    if (needItemsUpdate) {
+        lastPostValues.itemsPct = itemPct;
+        lastPostValues.itemsCollected = gameState.itemsCollected;
+        const itemsBar = getEl('hud-items-bar');
+        const itemsTxt = getEl('hud-items-text');
+        if (itemsBar) itemsBar.style.width  = itemPct + '%';
+        if (itemsTxt) itemsTxt.textContent  = gameState.itemsCollected + ' / ' + config.itemCount;
+    }
 }
 
+// --- Envoi des signaux de fin à React ---
+
 export function showGameOver() {
-    const el = getEl('game-over');
-    if (el) el.style.display = 'block';
     if (isEmbedded) {
-        window.parent.postMessage({ type: 'game_over', difficulty, collected: gameState.itemsCollected, total: config.itemCount }, '*');
+        window.parent.postMessage({ 
+            type: 'game_over', 
+            difficulty, 
+            collected: gameState.itemsCollected, 
+            total: config.itemCount 
+        }, '*');
     }
 }
 
 export function showVictory() {
-    const el = getEl('victory-screen');
-    if (el) el.style.display = 'block';
-
-    if (nextLevelButton) {
-        const pct   = Math.round((gameState.itemsCollected / config.itemCount) * 100);
-        const canGo = pct >= 70;
-        nextLevelButton.disabled         = !canGo;
-        nextLevelButton.style.background = canGo ? '#1e88e5' : '#777';
-    }
-
+    const pct = Math.round((gameState.itemsCollected / config.itemCount) * 100);
     if (isEmbedded) {
-        const pct = Math.round((gameState.itemsCollected / config.itemCount) * 100);
         window.parent.postMessage({
-            type: 'game_victory', difficulty,
-            collected: gameState.itemsCollected, total: config.itemCount,
-            itemsPercent: pct, eligibleNextLevel: pct >= 70,
+            type: 'game_victory', 
+            difficulty,
+            collected: gameState.itemsCollected, 
+            total: config.itemCount,
+            itemsPercent: pct, 
+            eligibleNextLevel: pct >= 70,
         }, '*');
     }
 }
