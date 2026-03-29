@@ -10,15 +10,13 @@ export function useSoundInteractions() {
 
   useEffect(() => {
     const handleClick = (e) => {
-      // Jouer le son de clic si c'est un lien ou un bouton
-      if (e.target.closest('a') || e.target.closest('button')) {
+      if (e.target && (e.target.closest?.('a') || e.target.closest?.('button'))) {
         playSound('click');
       }
     };
 
     const handleHover = (e) => {
-      // Jouer le son de hover si on entre sur un lien ou un bouton
-      if ((e.target.closest('a') || e.target.closest('button')) && e.type === 'mouseenter') {
+      if (e.target && (e.target.closest?.('a') || e.target.closest?.('button')) && e.type === 'mouseenter') {
         playSound('hover');
       }
     };

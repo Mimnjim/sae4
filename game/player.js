@@ -103,17 +103,10 @@ function fallbackToCube() {
 
 export function createPlayer() {
     const carCandidates = [
-        'assets/models/voiture.gltf', 'assets/models/voiture/voiture.gltf',
-        'assets/models/voiture.glb', 'assets/models/voiture/voiture.glb',
-        '/game/assets/models/voiture.gltf', '/game/assets/models/voiture/voiture.gltf',
-        '/game/assets/models/voiture.glb', '/game/assets/models/voiture/voiture.glb',
-        'game/assets/models/voiture.gltf', 'game/assets/models/voiture/voiture.gltf',
-        'game/assets/models/voiture.glb', 'game/assets/models/voiture/voiture.glb',
+        '/models/akira_tetsuo_first_3d_model.glb',
     ];
     const bikeCandidates = [
-        'assets/models/akira_bike.glb', 'assets/models/akira_bike.gltf',
-        '/game/assets/models/akira_bike.glb', '/game/assets/models/akira_bike.gltf',
-        'game/assets/models/akira_bike.glb', 'game/assets/models/akira_bike.gltf',
+        '/models/akira_tetsuo_first_3d_model.glb',
     ];
     return new Promise(resolve => {
         let finished = false;

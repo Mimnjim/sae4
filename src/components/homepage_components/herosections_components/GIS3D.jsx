@@ -1,11 +1,11 @@
 import { useEffect, useRef } from 'react';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import * as THREE from 'three';
-import gisModelUrl from '../../../assets/models/Motoko_gltf/ProjectName.gltf?url';
+import { loadGLTFWithProperPaths } from '../../../utils/gltfLoader.js';
 
 export default function GIS3D({ onReady }) {
     const containerRef = useRef(null);
     const onReadyRef   = useRef(onReady);
+    const gisModelUrl = '/models/motoko_kusanagi.glb';
     
     useEffect(() => { onReadyRef.current = onReady; }, [onReady]);
 
@@ -53,11 +53,9 @@ export default function GIS3D({ onReady }) {
         // Fix : Force le recalcul 150ms après le montage pour laisser le layout se stabiliser
         const resizeTimer = setTimeout(onResize, 150);
 
-        // Chargement du modèle
-        const loader = new GLTFLoader();
-        loader.load(
-            gisModelUrl,
-            (gltf) => {
+        // Chargement du modèle avec résolution d'URL appropriée
+        loadGLTFWithProperPaths(gisModelUrl)
+            .then((gltf) => {
                 if (destroyed) return;
                 const model = gltf.scene;
 
@@ -93,10 +91,8 @@ export default function GIS3D({ onReady }) {
                 if (onReadyRef.current) {
                     onReadyRef.current({ camera, initialZ, model });
                 }
-            },
-            undefined,
-            (err) => console.error('[GIS3D] load error:', err)
-        );
+            })
+            .catch((err) => console.error('[GIS3D] load error:', err));
 
         // Render loop
         function animate() {

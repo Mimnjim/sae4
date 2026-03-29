@@ -134,7 +134,7 @@ export default function TargetCursor({
       const elementUnderMouse = document.elementFromPoint(mouseX, mouseY);
       const isStillOverTarget =
         elementUnderMouse &&
-        (elementUnderMouse === activeTarget || elementUnderMouse.closest(targetSelector) === activeTarget);
+        (elementUnderMouse === activeTarget || elementUnderMouse.closest?.(targetSelector) === activeTarget);
       if (!isStillOverTarget) {
         if (currentLeaveHandler) {
           currentLeaveHandler();

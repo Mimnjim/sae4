@@ -37,7 +37,7 @@ export function SoundProvider({ children }) {
     const audio = soundsRef.current[soundName];
     if (audio) {
       audio.currentTime = 0;
-      audio.play().catch(err => console.LOG('Erreur son:', err));
+      audio.play().catch(err => console.log('Erreur son:', err));
     }
   };
 
