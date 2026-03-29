@@ -148,7 +148,7 @@ const Experiences = () => {
         const levelId = msg.difficulty || playingLevelId;
         const value = { collected: msg.collected || 0, total: msg.total || 0 };
         saveProgress(levelId, value, setProgressMap);
-      }
+      } 
       if (msg.type === 'game_boost') setBoostState({ status: msg.status || 'charging', percent: msg.percent || 0 });
       if (msg.type === 'game_health') setHealthPercent(msg.percent || 0);
       if (msg.type === 'race_progress') setRacePercent(msg.percent || 0);
