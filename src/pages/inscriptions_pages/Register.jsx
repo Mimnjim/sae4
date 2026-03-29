@@ -7,7 +7,6 @@ import '../../styles/components/inscription_components/register.css';
 function Register() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { t } = useTranslation();
 
   return (
     <div className="register-container">

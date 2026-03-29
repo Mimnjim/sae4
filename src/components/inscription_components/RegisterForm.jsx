@@ -192,3 +192,5 @@ function RegisterForm({ onSuccess }) {
     </form>
   );
 }
+
+export default RegisterForm;

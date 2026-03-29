@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import LevelCard from '../../components/experiences_components/LevelCard';
 import Timeline from '../../components/global_components/Timeline';
 import '../../styles/components/homepage_components/experiences.css';
@@ -87,6 +86,7 @@ function GameResultPanel({ gameResult, playingLevelId, progressMap, onReplay, on
 
 const Experiences = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const iframeRef = useRef(null);
   const containerRef = useRef(null);
 
