@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import TargetCursor from './animations/TargetCursor';
@@ -154,21 +155,6 @@ const App = () => {
         <ScrollToTop />
         {/* LE CONTENU : On le force au-dessus du Grainient */}
         <div className="App-wrapper" style={{ position: 'relative', zIndex: 10 }}>
-          
-          {/* Old version - before Tom's merge */}
-          
-          {/* <Navbar /> */}
-          {/* <main>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/experiences" element={<Experiences />} />
-              <Route path="/form-reservation" element={<FormReservationPage />} />
-              <Route path="/confirmation" element={<ConfirmationPage />} />
-              <Route path="/infos-pratiques" element={<InfoPratique />} />
-            </Routes>
-          </main> */}
-
-
           <Navbar user={user} setUser={setUser} />
 
           <main className="main-content">

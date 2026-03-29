@@ -40,4 +40,8 @@ function NotFound() {
   );
 }
 
+<<<<<<< HEAD
 export default NotFound;
+=======
+export default NotFound;
+>>>>>>> origin/Tom

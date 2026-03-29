@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import '../../styles/components/connexion_components/user-profile.css';
 
+// Fonctions utilitaires sorties du composant pour plus de clarté
 function getJwt() {
   return localStorage.getItem('jwt') || localStorage.getItem('token');
 }
@@ -10,7 +11,7 @@ function getJwt() {
 function getAuthHeaders(extraHeaders = {}) {
   const jwt = getJwt();
   return {
-    'Authorization':   `Bearer ${jwt}`,
+    'Authorization': `Bearer ${jwt}`,
     'X-Authorization': `Bearer ${jwt}`,
     ...extraHeaders,
   };
@@ -25,8 +26,8 @@ export default function UserProfile({ user: propUser = null, setUser: propSetUse
   const [showPassword,   setShowPassword]   = useState(false);
   const [errorMessage,   setErrorMessage]   = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const [reservations,   setReservations]   = useState([]);
-  // R162 : confirmation dans le DOM plutôt que window.confirm()
+  
+  const [reservations, setReservations] = useState([]);
   const [confirmDeleteId, setConfirmDeleteId] = useState(null);
   const [toastMessage,   setToastMessage]   = useState('');
   const [showToast,      setShowToast]      = useState(false);
@@ -38,7 +39,10 @@ export default function UserProfile({ user: propUser = null, setUser: propSetUse
 
   useEffect(() => {
     const jwt = getJwt();
-    if (!jwt) { navigate('/login'); return; }
+    if (!jwt) { 
+      navigate('/login'); 
+      return; 
+    }
 
     // Toujours charger l'utilisateur depuis l'API pour obtenir les données complètes incluant le rôle
     fetch('https://apimusee.tomdelavigne.fr/api/users.php', { headers: getAuthHeaders() })
@@ -47,7 +51,16 @@ export default function UserProfile({ user: propUser = null, setUser: propSetUse
         if (!data.success || !data.user) { setErrorMessage(t('profile.loadError')); return; }
         const fetchedUser = data.user;
         setUser(fetchedUser);
-        setForm({ firstname: fetchedUser.firstname || '', lastname: fetchedUser.lastname || '', email: fetchedUser.email || '', password: '' });
+        
+        // Pré-remplissage du formulaire
+        setForm({ 
+          firstname: fetchedUser.firstname || '', 
+          lastname: fetchedUser.lastname || '', 
+          email: fetchedUser.email || '', 
+          password: '' 
+        });
+        
+        // Enchaînement : récupération des réservations
         return fetch(`https://apimusee.tomdelavigne.fr/api/reservations.php?user_id=${fetchedUser.id}`, { headers: getAuthHeaders() });
       })
       .then(r => r?.json())
@@ -56,9 +69,14 @@ export default function UserProfile({ user: propUser = null, setUser: propSetUse
       .finally(() => setIsLoading(false));
   }, [propUser]);
 
-  const handleChange = (e) => setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  const handleChange = (e) => {
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
-  const handleSave = () => {
+  const handleSave = (e) => {
+    // Essentiel dans un vrai <form>
+    if (e) e.preventDefault();
+    
     setErrorMessage('');
     setSuccessMessage('');
 
@@ -88,6 +106,7 @@ export default function UserProfile({ user: propUser = null, setUser: propSetUse
       .then(r => r.json())
       .then(data => {
         if (data.success) {
+          // Mise à jour de l'affichage en supprimant la résa de la liste locale
           setReservations(prev => prev.filter(r => r.id !== reservationId));
           setToastMessage(t('profile.reservationDeleted'));
           setShowToast(true);
@@ -162,38 +181,49 @@ export default function UserProfile({ user: propUser = null, setUser: propSetUse
         <button type="button" className="btn btn-primary" onClick={handleSave}>{t('profile.save')}</button>
       </div>
 
-      <h3 className="user-profile__section-title">{t('profile.myReservations')}</h3>
-      <div className="user-profile__reservations">
+      <section style={{ marginTop: '3rem' }}>
+        <h2 className="user-profile__section-title">{t('profile.reservations_title') || 'Mes réservations'}</h2>
+        
         {reservations.length === 0 ? (
-          <p>{t('profile.noReservations')}</p>
+          <p>{t('profile.no_reservations') || "Vous n'avez aucune réservation en cours."}</p>
         ) : (
-          reservations.map(reservation => (
-            <div key={reservation.id} className="user-profile__reservation">
-              <div>
-                <strong>{t('profile.ref')}:</strong> {reservation.reference || reservation.id}
-                {' - '}
-                <strong>{t('profile.date')}:</strong> {reservation.reservation_date}
-              </div>
-              <div><strong>{t('profile.timeSlot')}:</strong> {reservation.time_slot_label}</div>
+          <ul className="user-profile__reservations" style={{ listStyle: 'none', padding: 0 }}>
+            {reservations.map(reservation => (
+              <li key={reservation.id} className="user-profile__reservation">
+                <div>
+                  <strong>{t('profile.reference') || 'Réf'} :</strong> {reservation.reference || reservation.id}
+                  <br />
+                  <strong>{t('form.date') || 'Date'} :</strong> {reservation.reservation_date}
+                </div>
+                
+                <div>
+                  <strong>{t('profile.slot') || 'Créneau'} :</strong> {reservation.time_slot_label}
+                </div>
 
-              <div className="user-profile__reservation-actions">
-                {/* R162 : confirmation dans le DOM plutôt que window.confirm() */}
-                {confirmDeleteId === reservation.id ? (
-                  <>
-                    <p className="confirm-message">{t('profile.confirmDelete')}</p>
-                    <button type="button" className="btn btn-danger" onClick={() => handleDeleteReservation(reservation.id)}>{t('profile.yesDelete')}</button>
-                    <button type="button" className="btn btn-light"  onClick={() => setConfirmDeleteId(null)}>{t('profile.cancel')}</button>
-                  </>
-                ) : (
-                  <button type="button" className="btn btn-light" onClick={() => setConfirmDeleteId(reservation.id)}>
-                    {t('profile.delete')}
-                  </button>
-                )}
-              </div>
-            </div>
-          ))
+                <div className="user-profile__reservation-actions">
+                  {confirmDeleteId === reservation.id ? (
+                    <>
+                      <p className="confirm-message" style={{ margin: '0 10px 0 0', fontWeight: 'bold' }}>
+                        {t('profile.delete_confirm') || 'Êtes-vous sûr ?'}
+                      </p>
+                      <button type="button" className="btn btn-danger" onClick={() => handleDeleteReservation(reservation.id)}>
+                        {t('profile.yes_delete') || 'Oui'}
+                      </button>
+                      <button type="button" className="btn btn-light" onClick={() => setConfirmDeleteId(null)}>
+                        {t('profile.cancel') || 'Annuler'}
+                      </button>
+                    </>
+                  ) : (
+                    <button type="button" className="btn btn-light" onClick={() => setConfirmDeleteId(reservation.id)}>
+                      {t('profile.delete') || 'Annuler cette réservation'}
+                    </button>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
         )}
-      </div>
+      </section>
 
       {showToast && (
         <div className="user-profile__toast">

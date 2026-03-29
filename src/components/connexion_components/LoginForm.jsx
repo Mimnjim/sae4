@@ -54,7 +54,8 @@ function LoginForm({ onSuccess, setUser }) {
   };
 
   return (
-    <div className="login-form">
+    // R166 : Remplacer la div par un form permet la validation avec la touche "Entrée" !
+    <form className="login-form" onSubmit={handleSubmit}>
 
       {/* R69 : Étiquette associée à chaque champ */}
       <div className="login-form__field">
@@ -95,6 +96,11 @@ function LoginForm({ onSuccess, setUser }) {
             aria-label={showPassword ? t('form.hidePassword') || 'Masquer le mot de passe' : t('form.showPassword') || 'Afficher le mot de passe'}
             aria-pressed={showPassword}
           >
+            {/* R185 : Le texte pour les lecteurs d'écran (Sans ARIA !) */}
+            <span className="sr-only">
+              {showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+            </span>
+            
             {showPassword ? (
               <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" focusable="false" aria-hidden="true">
                 <path d="M2 2l20 20" />
@@ -118,13 +124,15 @@ function LoginForm({ onSuccess, setUser }) {
       {/* R185 : Accessible au lecteur d'écran */}
       {errorMessage && <p className="form-error" role="alert">{errorMessage}</p>}
 
+      {/* On peut garder ton ButtonValidation s'il supporte type="submit" */}
       <ButtonValidation
         text={isLoading ? t('auth.logging') : t('auth.login')}
         onClick={handleSubmit}
         disabled={isLoading || !email || !password}
+        type="submit" // Assure-toi que ButtonValidation accepte cette prop !
       />
 
-    </div>
+    </form>
   );
 }
 export default LoginForm;

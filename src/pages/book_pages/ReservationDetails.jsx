@@ -68,7 +68,7 @@ const ReservationDetails = () => {
       setPromoError('');
     } else {
       setPromoApplied(false);
-      setPromoError('Code invalide');
+      setPromoError(t('form.invalid_code'));
     }
   };
 
@@ -147,7 +147,7 @@ const ReservationDetails = () => {
         )}
 
         <div className="promo-section">
-          <label className="promo-label" htmlFor="res-promo">Code promo</label>
+          <label className="promo-label" htmlFor="res-promo">{t('form.promo_code')}</label>
           <div className="promo-row">
             <input id="res-promo" className="form-reservation__input" type="text" placeholder="Entrez le code promo" value={promoCode} onChange={e => { setPromoCode(e.target.value); setPromoError(''); }} disabled={promoApplied} />
             <button type="button" className="form-reservation__btn" onClick={handleApplyPromo} disabled={promoApplied || !promoCode.trim()}>Appliquer</button>
@@ -160,7 +160,7 @@ const ReservationDetails = () => {
         {/* R85 : erreur soumission accessible */}
         {submitError && <p className="form-error" role="alert">{submitError}</p>}
 
-        <ButtonValidation text="Confirmer ma réservation" onClick={handleSubmit} disabled={!formIsComplete} />
+        <ButtonValidation text={t('form.confirm_booking')} onClick={handleSubmit} disabled={!formIsComplete} />
       </div>
 
       <div className="form-reservation__right">

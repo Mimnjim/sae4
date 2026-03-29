@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -16,17 +17,16 @@ const Validation = () => {
   const location = useLocation();
   const data = location.state || {};
 
-  const [orderNumber, setOrderNumber] = useState(data.orderNumber || '');
-
-  useEffect(() => {
-    if (!orderNumber) setOrderNumber(generateOrderNumber());
-  }, []);
+  // Astuce React Pro : On génère le numéro directement dans le useState
+  // en lui passant une fonction fléchée. 
+  // Fini le useEffect complexe et les doubles rechargements !
+  const [orderNumber] = useState(() => data.orderNumber || generateOrderNumber());
 
   const formattedDate = data.date
     ? new Date(data.date).toLocaleDateString('fr-FR')
     : null;
 
-  const hasDetails = data.prenom || data.nom || data.total || data.date || data.time;
+  const hasDetails = Boolean(data.prenom || data.nom || data.total || data.date || data.time);
 
   return (
     <div className="validation-container">

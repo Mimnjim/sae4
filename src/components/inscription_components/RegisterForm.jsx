@@ -6,9 +6,9 @@ import ButtonValidation from '../book_components/ButtonValidation';
 function getPasswordStrength(pwd) {
   let score = 0;
   if (pwd.length >= 8)              score++;
-  if (/[A-Z]/.test(pwd))           score++;
-  if (/[0-9]/.test(pwd))           score++;
-  if (/[^A-Za-z0-9]/.test(pwd))    score++;
+  if (/[A-Z]/.test(pwd))            score++;
+  if (/[0-9]/.test(pwd))            score++;
+  if (/[^A-Za-z0-9]/.test(pwd))     score++;
   return score;
 }
 
@@ -24,10 +24,11 @@ function RegisterForm({ onSuccess }) {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading,    setIsLoading]    = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-
+  
+  // Toujours sécuriser les traductions de tableaux pour éviter les crashs si la clé manque
+  const strengthLabels = t('register.strength_labels', { returnObjects: true }) || ['', 'Faible', 'Moyen', 'Fort', 'Très fort'];
+  
   const formIsComplete = Boolean(firstname && lastname && email && password);
-
-  // R203 : calcul de la force du mot de passe
   const strengthScore = password ? getPasswordStrength(password) : 0;
 
   // R28 : Données sensibles transmises via POST (pas en clair dans URL)
@@ -60,7 +61,8 @@ function RegisterForm({ onSuccess }) {
   };
 
   return (
-    <div className="register-form">
+    // Transformation en vrai formulaire HTML5
+    <form className="register-form" onSubmit={handleSubmit}>
 
       {/* R69 : Étiquette associée à chaque champ */}
       <div className="register-form__field">
@@ -131,6 +133,12 @@ function RegisterForm({ onSuccess }) {
             aria-label={showPassword ? t('form.hidePassword') || 'Masquer le mot de passe' : t('form.showPassword') || 'Afficher le mot de passe'}
             aria-pressed={showPassword}
           >
+            {/* Texte caché pour lecteur d'écran */}
+            <span className="sr-only">
+              {showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+            </span>
+
+            {/* SVG cachés avec aria-hidden */}
             {showPassword ? (
               <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" focusable="false" aria-hidden="true">
                 <path d="M2 2l20 20" />
@@ -158,7 +166,8 @@ function RegisterForm({ onSuccess }) {
                 />
               ))}
             </div>
-            <p className="password-strength__label">{STRENGTH_LABELS[strengthScore]}</p>
+            {/* Le label se met à jour en temps réel */}
+            <p className="password-strength__label">{strengthLabels[strengthScore]}</p>
           </div>
         )}
       </div>
@@ -177,10 +186,9 @@ function RegisterForm({ onSuccess }) {
         text={isLoading ? t('auth.registering') : t('auth.register')}
         onClick={handleSubmit}
         disabled={isLoading || !formIsComplete}
+        type="submit" // On s'assure que le composant sait qu'il doit déclencher le submit !
       />
 
-    </div>
+    </form>
   );
 }
-
-export default RegisterForm;

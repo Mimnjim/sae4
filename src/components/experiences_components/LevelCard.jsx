@@ -1,20 +1,24 @@
 import { useTranslation } from 'react-i18next';
 import '../../styles/components/experiences_components/LevelCard.css';
 
-// Carte d'un niveau : état verrouillé/déverrouillé, complétion, sélection
 export default function LevelCard({ level, unlocked, percent, onSelect, selected }) {
   const { t } = useTranslation();
   const isLocked = !unlocked;
 
-  const cardClasses = ['level-card', isLocked ? 'locked' : '', selected ? 'selected' : '']
-    .filter(Boolean).join(' ');
+  // Syntaxe simplifiée (très facile à lire pour un débutant)
+  let cardClasses = 'level-card';
+  if (isLocked) cardClasses += ' locked';
+  if (selected) cardClasses += ' selected';
 
   const levelName = t(level.nameKey);
   const pilotName = t(level.pilotKey);
 
   return (
-    <div className={cardClasses}>
+    // Sémantique HTML : <article> est idéal pour une carte indépendante
+    <article className={cardClasses}>
+      
       <div className="level-preview">
+        {/* L'image de la carte ira ici */}
         <div className="preview-box" />
       </div>
 
@@ -27,6 +31,7 @@ export default function LevelCard({ level, unlocked, percent, onSelect, selected
       </div>
 
       <div className="level-actions">
+        {/* L'attribut disabled coupe automatiquement le focus au clavier, c'est parfait ! */}
         <button
           type="button"
           className={`btn play-level ${isLocked ? 'btn-disabled' : 'btn-primary'}`}
@@ -36,6 +41,7 @@ export default function LevelCard({ level, unlocked, percent, onSelect, selected
           {t('pages.experiences.levelCard.startRace')}
         </button>
       </div>
-    </div>
+      
+    </article>
   );
 }
