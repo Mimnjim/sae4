@@ -12,10 +12,6 @@
     justify-content: center;
 }
 
-.sound-toggle-fixed.sound-toggle-home {
-    /* Sur la Home: aucune transition */
-}
-
 .sound-toggle-fixed img {
     width: 1.5rem;
     height: 1.5rem;

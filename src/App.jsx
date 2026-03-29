@@ -16,7 +16,6 @@ import Footer from './components/global_components/Footer.jsx';
 import Expositions from './components/homepage_components/Expositions.jsx';
 import ExperiencesSection from './components/homepage_components/ExperiencesSection.jsx';
 import TransitionSection from './components/homepage_components/TransitionSection.jsx';
-import SectionSeparator from './components/global_components/SectionSeparator.jsx';
 import Podcast from './components/homepage_components/Podcast.jsx';
 import Teaser from './components/homepage_components/Teaser.jsx';
 

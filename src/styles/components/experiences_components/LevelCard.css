@@ -4,18 +4,18 @@
 .level-card {
   display: grid;
   grid-template-columns: 380px 1fr 240px;
-  gap: 1.75rem; /* 28px converti en rem */
+  gap: 1.75rem; 
   padding: 1.5rem 1rem;
   background-color: transparent;
-  border-radius: 8px; /* Un peu plus arrondi pour correspondre au reste */
+  border-radius: 8px; 
   align-items: center;
   transition: opacity 200ms ease, filter 200ms ease; 
 }
 
 /* --- Modifier : État verrouillé --- */
 .level-card--locked {
-  opacity: 0.75; /* Augmenté pour garantir que le texte reste lisible */
-  filter: grayscale(80%); /* Mieux vaut jouer sur le gris que sur l'invisibilité */
+  opacity: 0.75; 
+  filter: grayscale(80%);
 }
 
 /* --- Éléments de la carte --- */
@@ -23,21 +23,21 @@
   width: 100%; 
   max-width: 360px; 
   height: 160px;
-  background-color: rgba(255, 255, 255, 0.15); /* Légèrement plus contrasté */
+  background-color: rgba(255, 255, 255, 0.15);
   border-radius: 6px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
 }
 
 .level-card__title {
   margin: 0 0 0.5rem 0;
-  font-size: 1.25rem; /* 20px en rem */
+  font-size: 1.25rem; 
   font-weight: 700;
   color: #ffffff;
 }
 
 .level-card__subtitle {
-  font-size: 0.95rem; /* 13px est trop petit pour l'accessibilité, passage à ~15px */
-  color: #e0e0e0; /* Couleur pleine plutôt qu'opacité */
+  font-size: 0.95rem; 
+  color: #e0e0e0; 
   margin-bottom: 0.5rem;
   text-transform: capitalize;
 }
@@ -81,12 +81,12 @@
 
 .level-card__tooltip {
   display: inline-block;
-  background-color: rgba(0, 0, 0, 0.9); /* Plus sombre pour mieux détacher le texte blanc */
+  background-color: rgba(0, 0, 0, 0.9); 
   color: #ffffff;
   padding: 0.75rem 1rem;
   border-radius: 6px;
-  font-size: 0.95rem; /* Augmenté pour la lisibilité */
-  border: 1px solid rgba(255, 255, 255, 0.2); /* Bordure pour le contraste sur fond sombre */
+  font-size: 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.2); 
 }
 
 /* =========================================
@@ -99,12 +99,12 @@
   
   .level-card__preview {
     max-width: 100%; 
-    height: auto; /* Permet à l'image de s'adapter de manière plus fluide */
-    aspect-ratio: 16 / 9; /* Garde les bonnes proportions */
+    height: auto; 
+    aspect-ratio: 16 / 9; 
   }
 
   .level-card__actions {
     justify-self: start;
-    flex-wrap: wrap; /* Évite que les boutons ne débordent sur petit écran */
+    flex-wrap: wrap; 
   }
 }

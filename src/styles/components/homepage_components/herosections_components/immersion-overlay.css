@@ -79,8 +79,6 @@
     transition: all 0.15s ease-out;
 }
 
-/* .io-hud--left  .overlay-title { text-align: left; }
-.io-hud--right .overlay-title { text-align: right; } */
 
 /* ── Barre ─────────────────────────────────────────────────────── */
 .overlay-bar {
@@ -104,8 +102,6 @@
     overflow-wrap: normal;
 }
 
-/* .io-hud--left  .overlay-content { text-align: left; }
-.io-hud--right .overlay-content { text-align: right; } */
 
 /* ── Tracé SVG ─────────────────────────────────────────────────── */
 .io-svg-wrapper {

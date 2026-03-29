@@ -113,13 +113,10 @@
 
 .ma-hook {
     font-family: var(--ff-family-semibold, 'Courier New', monospace);
-    /* font-size: clamp(0.85rem, 1.4vw, 1rem); */
-    /* font-size: clamp(0.95rem, 1.4vw, 1.2rem); */
     font-size: clamp(1rem, 1.4vw, 1.6rem);
     color: rgba(255, 255, 255, 1);
     line-height: 1.2;
     max-width: 550px;
-    /* font-style: italic; */
     text-align: left;
 }
 
@@ -163,7 +160,6 @@
 
 .ma-pitch {
     font-family: var(--ff-family-semibold, 'Courier New', monospace);
-    /* font-size: clamp(1rem, 1.3vw, 1.4rem); */
     font-size: clamp(1rem, 1.4vw, 1.6rem);
     color: rgba(255, 255, 255, 1);
     line-height: 1.2;

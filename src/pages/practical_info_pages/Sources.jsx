@@ -37,10 +37,10 @@ const Sources = () => {
       {/* ── SECTION DE PRÉSENTATION ── */}
       <section className="infos-pratiques__hero">
         <h1 ref={titleRef} tabIndex="-1" className="infos-pratiques__title">
-          Sources et Crédits
+          {t('pages.sources.title')}
         </h1>
         <p className="infos-pratiques__description">
-          Cette page reconnaît toutes les sources, œuvres et ressources utilisées dans la création de cette exposition immersive.
+          {t('pages.sources.description')}
         </p>
       </section>
 
@@ -53,7 +53,7 @@ const Sources = () => {
                 href="#artworks" 
                 className={`infos-pratiques__link ${activeSection === 'artworks' ? 'active' : ''}`}
               >
-                Œuvres Originales
+                {t('pages.sources.artworks')}
               </a>
             </li>
             <li>
@@ -61,7 +61,7 @@ const Sources = () => {
                 href="#music" 
                 className={`infos-pratiques__link ${activeSection === 'music' ? 'active' : ''}`}
               >
-                Musiques &amp; Sons
+                {t('pages.sources.music')}
               </a>
             </li>
             <li>
@@ -69,7 +69,7 @@ const Sources = () => {
                 href="#technologies" 
                 className={`infos-pratiques__link ${activeSection === 'technologies' ? 'active' : ''}`}
               >
-                Technologies
+                {t('pages.sources.technologies')}
               </a>
             </li>
             <li>
@@ -77,7 +77,7 @@ const Sources = () => {
                 href="#references" 
                 className={`infos-pratiques__link ${activeSection === 'references' ? 'active' : ''}`}
               >
-                Références
+                {t('pages.sources.references')}
               </a>
             </li>
           </ul>
@@ -88,96 +88,96 @@ const Sources = () => {
           
           {/* ── ŒUVRES ORIGINALES ── */}
           <section id="artworks" className="infos-pratiques__section">
-            <h2 className="infos-pratiques__section-title">Œuvres Originales</h2>
+            <h2 className="infos-pratiques__section-title">{t('pages.sources.artworks')}</h2>
             
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>Akira (1982)</h3>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>{t('pages.sources.akiraTitle')}</h3>
               <p className="infos-pratiques__text">
-                <strong>Auteur :</strong> Katsuhiro Ōtemo<br />
-                <strong>Éditeur :</strong> Young Magazine (Kodansha)<br />
-                <strong>Format :</strong> Série de manga en 6 tomes<br />
-                <strong>Droits :</strong> © 1982-1990 Katsuhiro Ōtemo - Tous droits réservés
+                <strong>{t('pages.sources.author')}</strong> {t('pages.sources.akiraAuthor')}<br />
+                <strong>{t('pages.sources.publisher')}</strong> {t('pages.sources.akiraPublisher')}<br />
+                <strong>{t('pages.sources.format')}</strong> {t('pages.sources.akiraFormat')}<br />
+                <strong>{t('pages.sources.rights')}</strong> {t('pages.sources.akiraRights')}
               </p>
             </div>
 
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>Ghost in the Shell (1989)</h3>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>{t('pages.sources.gisTitle')}</h3>
               <p className="infos-pratiques__text">
-                <strong>Auteur :</strong> Masamune Shirow<br />
-                <strong>Éditeur :</strong> Young Magazine (Kodansha)<br />
-                <strong>Format :</strong> Série de manga complète<br />
-                <strong>Droits :</strong> © 1989-1991 Masamune Shirow - Tous droits réservés
+                <strong>{t('pages.sources.author')}</strong> {t('pages.sources.gisAuthor')}<br />
+                <strong>{t('pages.sources.publisher')}</strong> {t('pages.sources.gisPublisher')}<br />
+                <strong>{t('pages.sources.format')}</strong> {t('pages.sources.gisFormat')}<br />
+                <strong>{t('pages.sources.rights')}</strong> {t('pages.sources.gisRights')}
               </p>
             </div>
           </section>
 
           {/* ── MUSIQUES &amp; SONS ── */}
           <section id="music" className="infos-pratiques__section">
-            <h2 className="infos-pratiques__section-title">Musiques &amp; Sons</h2>
+            <h2 className="infos-pratiques__section-title">{t('pages.sources.music')}</h2>
             
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>Compositions Originales</h3>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>{t('pages.sources.compositions')}</h3>
               <p className="infos-pratiques__text">
-                Musiques originales composées spécialement pour cette exposition immersive par notre équipe de composition.
+                {t('pages.sources.compositionsDesc')}
               </p>
             </div>
 
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>Ressources Sonores</h3>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>{t('pages.sources.soundResources')}</h3>
               <p className="infos-pratiques__text">
-                Ces ressources proviennent de plateformes libres de droit et sont utilisées en accord avec leurs licences respectives :
+                {t('pages.sources.soundResourcesDesc')}
               </p>
               <ul style={{ marginTop: '1rem', paddingLeft: '1.5rem', color: '#ffffff' }}>
-                <li>Freesound.org - Creative Commons</li>
-                <li>Zapsplat - Royalty Free</li>
-                <li>Pixabay - Creative Commons</li>
+                <li>{t('pages.sources.freesound')}</li>
+                <li>{t('pages.sources.zapsplat')}</li>
+                <li>{t('pages.sources.pixabay')}</li>
               </ul>
             </div>
           </section>
 
           {/* ── TECHNOLOGIES ── */}
           <section id="technologies" className="infos-pratiques__section">
-            <h2 className="infos-pratiques__section-title">Technologies Utilisées</h2>
+            <h2 className="infos-pratiques__section-title">{t('pages.sources.technologies')}</h2>
             
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>Framework &amp; Librairies</h3>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>{t('pages.sources.frameworks')}</h3>
               <ul style={{ marginTop: '1rem', paddingLeft: '1.5rem', color: '#ffffff' }}>
-                <li><strong>React</strong> - Librairie JavaScript pour l'interface utilisateur</li>
-                <li><strong>Three.js</strong> - Moteur 3D JavaScript</li>
-                <li><strong>GSAP</strong> - Animation avancée</li>
-                <li><strong>i18n</strong> - Internationalization pour multi-langue</li>
-                <li><strong>React Router</strong> - Navigation côté client</li>
-                <li><strong>Vite</strong> - Bundler et serveur de développement</li>
+                <li><strong>React</strong> - {t('pages.sources.frameworksDesc')}</li>
+                <li><strong>Three.js</strong> - {t('pages.sources.threejs')}</li>
+                <li><strong>GSAP</strong> - {t('pages.sources.gsap')}</li>
+                <li><strong>i18n</strong> - {t('pages.sources.i18n')}</li>
+                <li><strong>React Router</strong> - {t('pages.sources.router')}</li>
+                <li><strong>Vite</strong> - {t('pages.sources.vite')}</li>
               </ul>
             </div>
 
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>Modèles 3D</h3>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>{t('pages.sources.models')}</h3>
               <p className="infos-pratiques__text">
-                <strong>Motoko Kusanagi</strong> - Modèle 3D créé sous supervision artistique<br />
-                <strong>Tetsuo Akira</strong> - Modèle 3D créé pour cette exposition<br />
-                <strong>Format :</strong> glTF/GLB
+                <strong>{t('pages.sources.motoko')}</strong><br />
+                <strong>{t('pages.sources.tetsuo')}</strong><br />
+                <strong>{t('pages.sources.glFormat')}</strong>
               </p>
             </div>
           </section>
 
           {/* ── RÉFÉRENCES ── */}
           <section id="references" className="infos-pratiques__section">
-            <h2 className="infos-pratiques__section-title">Références &amp; Documentation</h2>
+            <h2 className="infos-pratiques__section-title">{t('pages.sources.references')}</h2>
             
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>Documentation Officielle</h3>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>{t('pages.sources.documentation')}</h3>
               <ul style={{ marginTop: '1rem', paddingLeft: '1.5rem', color: '#ffffff' }}>
-                <li><strong>Musée Guimet</strong> - Partenaire officiel de l'exposition</li>
-                <li><strong>Kodansha</strong> - Éditeur officiel des mangas</li>
-                <li><strong>WCAG 2.1</strong> - Directives d'accessibilité Web</li>
+                <li><strong>{t('pages.sources.guimet')}</strong></li>
+                <li><strong>{t('pages.sources.kodansha')}</strong></li>
+                <li><strong>{t('pages.sources.wcag')}</strong></li>
               </ul>
             </div>
 
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>Ressources Complémentaires</h3>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>{t('pages.sources.complementary')}</h3>
               <p className="infos-pratiques__text">
-                Divers articles, études et ressources académiques ont contribué à la recherche et au développement de cette exposition immersive.
+                {t('pages.sources.complementaryDesc')}
               </p>
             </div>
           </section>

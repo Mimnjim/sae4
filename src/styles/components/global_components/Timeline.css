@@ -10,7 +10,7 @@
   top: 6%;
   bottom: 6%;
   width: 6px;
-  background: rgba(255, 255, 255, 0.25); /* Opacité augmentée pour une vraie visibilité structurelle */
+  background: rgba(255, 255, 255, 0.25); 
   border-radius: 6px;
 }
 
@@ -21,6 +21,6 @@
   height: 14px;
   border-radius: 50%;
   background: #ffffff;
-  border: 2px solid rgba(0, 0, 0, 0.6); /* Bordure sombre pour un contraste optimal avec la ligne et le fond */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Ombre renforcée */
+  border: 2px solid rgba(0, 0, 0, 0.6); 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }

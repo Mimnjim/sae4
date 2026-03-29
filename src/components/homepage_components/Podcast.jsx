@@ -341,11 +341,9 @@ function PodcastPlayer({ podcast }) {
             const x = i * (barWidth + gap);
             const yOffset = canvas.height - barHeight;
 
-            // Couleur bleu techno unie avec variation d'opacité basée sur la hauteur
             const opacity = 0.5 + (normalizedValue * 0.5);
             ctx.fillStyle = `rgba(0, 212, 255, ${opacity})`;
             
-            // Légère ombre pour la profondeur
             ctx.shadowColor = 'rgba(0, 212, 255, 0.3)';
             ctx.shadowBlur = 3;
             ctx.shadowOffsetX = 0;
@@ -362,7 +360,6 @@ function PodcastPlayer({ podcast }) {
 
     useEffect(() => {
         if (isPlaying) {
-            // Réinitialiser les barres pour un fresh start
             barValuesRef.current = new Float32Array(64).fill(0);
             peakRef.current = 0;
             lastVolumeRef.current = 0;
@@ -370,7 +367,6 @@ function PodcastPlayer({ podcast }) {
             frequencyPhasesRef.current = new Float32Array(64).fill(0);
             
             shouldAnimateRef.current = true;
-            // Élargir le canvas de 30-40% en largeur au play
             if (canvasRef.current) {
                 const idleWidth = 150;
                 const playingWidth = Math.round(idleWidth * 1.35);
@@ -404,7 +400,6 @@ function PodcastPlayer({ podcast }) {
     }, [isPlaying]);
 
     useEffect(() => {
-        // Initialiser le canvas en mode idle
         if (canvasRef.current) {
             canvasRef.current.width = 150;
             canvasRef.current.height = 60;

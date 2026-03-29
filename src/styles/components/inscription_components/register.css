@@ -490,10 +490,10 @@
 
 @media (max-width: 720px) {
   .register-card {
-    width: calc(100% - 32px); /* Un peu plus d'espace sur les bords */
+    width: calc(100% - 32px);
     padding: 32px 24px;
   }
 
-  .register-card__title    { font-size: 2rem; } /* Légèrement agrandi pour le mobile par rapport à ton 1.6rem */
+  .register-card__title    { font-size: 2rem; }
   .register-card__subtitle { font-size: 1rem; }
 }

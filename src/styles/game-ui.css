@@ -1,6 +1,3 @@
-/* Combined UI styles for embedded game + parent result panel */
-
-/* Page baseline (copied from game/game.html inline styles) */
 html, body {
   width: 100%;
   height: 100%;
@@ -17,7 +14,6 @@ html, body {
   overflow: hidden !important;
 }
 
-/* Loading overlay used by the embedded game */
 #loading-overlay {
   position: fixed;
   inset: 0;
@@ -42,7 +38,6 @@ html, body {
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* Result panel helper classes (moved from inline styles in Experiences.jsx) */
 .result-context {
   color: #cfd8dc;
   margin: 15px 0 25px 0;

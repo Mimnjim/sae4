@@ -6,12 +6,12 @@
   --font-display: 'Thunder', sans-serif;
 
   --color-white: #fff;
-  --color-white-soft: #e0e0e0; /* Couleur solide plutôt qu'opacité pour garantir le contraste */
-  --color-white-faint: rgba(255, 255, 255, 0.15); /* Opacité augmentée pour la visibilité des boutons */
-  --color-accent-green: #117a37; /* Remplacement du noir transparent par un vrai vert accessible avec texte blanc */
+  --color-white-soft: #e0e0e0; 
+  --color-white-faint: rgba(255, 255, 255, 0.15); 
+  --color-accent-green: #117a37;
   --color-accent-cyan: #00ffff;
 
-  --color-overlay-dark: rgba(2, 6, 12, 0.85); /* Assombri pour mieux faire ressortir la modale */
+  --color-overlay-dark: rgba(2, 6, 12, 0.85);
   --color-overlay-black: rgba(0, 0, 0, 0.7);
   --color-card-bg: rgba(8, 12, 18, 0.9);
 
@@ -99,9 +99,9 @@
    5. BOUTONS
    ============================================================ */
 .btn {
-  padding: 0.75rem 1rem; /* Zone tactile minimum 44px */
+  padding: 0.75rem 1rem;
   border-radius: 6px;
-  border: 2px solid transparent; /* Prépare le terrain pour le focus */
+  border: 2px solid transparent; 
   cursor: pointer;
   transition: background-color 0.2s, transform 0.1s;
 }
@@ -116,7 +116,7 @@
 }
 
 .btn:active {
-  transform: scale(0.98); /* Feedback natif au clic */
+  transform: scale(0.98); 
 }
 
 .btn-light {
@@ -144,7 +144,7 @@
   color: var(--color-white);
   padding: 8px 12px;
   border-radius: 6px;
-  border: 1px solid var(--color-white); /* Ajout d'une bordure pour bien le voir */
+  border: 1px solid var(--color-white); 
 }
 
 .play-level.btn-primary:hover {
@@ -160,7 +160,7 @@
 
 .play-level.btn-disabled {
   background: transparent;
-  color: #a0a0a0; /* Plus lisible que de l'opacité pure */
+  color: #a0a0a0; 
   border-color: #a0a0a0;
   cursor: not-allowed;
 }
@@ -257,7 +257,7 @@
   flex-direction: column;
   gap: 8px;
   z-index: var(--z-modal-content);
-  overflow: hidden; /* Retirer les scrollbars */
+  overflow: hidden; 
 }
 
 .game-modal .game-wrapper {
@@ -312,7 +312,7 @@
   transform: translate(-50%, -50%);
   z-index: var(--z-result-panel);
   background: var(--color-card-bg);
-  padding: 24px; /* Aéré un peu plus */
+  padding: 24px;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -321,7 +321,7 @@
   min-width: 360px;
   color: var(--color-white);
   text-align: center;
-  border: 1px solid rgba(255,255,255,0.1); /* Démarcation claire du panneau */
+  border: 1px solid rgba(255,255,255,0.1); 
 }
 
 
@@ -350,7 +350,7 @@
 
 .parent-boost {
   left: 12px;
-  bottom: 50px; /* Rabaissé un peu plus */
+  bottom: 50px; 
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -360,7 +360,7 @@
 
 .boost-track-parent {
   width: 160px;
-  height: 12px; /* Un peu plus épais pour la visibilité */
+  height: 12px;
   background: rgba(255, 255, 255, 0.2);
   border-radius: 6px;
   overflow: hidden;
@@ -429,7 +429,7 @@
 
 .race-bar {
   height: 100%;
-  background: #fff; /* Contraste net sur la piste */
+  background: #fff;
   width: 0%;
   transition: width 150ms linear;
 }
@@ -485,7 +485,7 @@
 
 @media (max-width: 720px) {
   .btn {
-    width: 100%; /* Boutons pleine largeur plus faciles à cliquer sur mobile */
+    width: 100%; 
   }
 
   .game-area {
