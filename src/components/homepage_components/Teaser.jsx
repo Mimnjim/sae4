@@ -34,7 +34,7 @@ export default function Teaser() {
     }, []);
 
     return (
-        <div ref={containerRef} className="teaser-container">
+        <div ref={containerRef} className="teaser-container" id="teaser">
             <iframe 
                 ref={iframeRef}
                 width="560" 

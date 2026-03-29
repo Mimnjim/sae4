@@ -29,7 +29,7 @@
     "description": "Lancez-vous dans une course effrénée pour récupérer tous les fragments de cyborg, et évitez les véhicules ennemis si vous souhaitez atteindre votre destination ... ",
     "reservationSub": "Billets disponibles du 15 mars au 30 juin 2026",
     "discover": "Découvrir",
-    "tickets_link": "Réserver",
+    "tickets_link": "Billeterie",
     "reserveVisit": "Réservez votre visite !",
     "promoText": "Un cadeau vous attendra peut-être à l'arrivée.",
     "playNow": "Jouer maintenant",
@@ -71,7 +71,7 @@
   "navbar": {
     "home": "Accueil",
     "experiences": "Expériences",
-    "reservation": "Réserver",
+    "reservation": "Billeterie",
     "info": "Infos pratiques",
     "profile": "Profil",
     "login": "Connexion",
@@ -455,9 +455,9 @@
   },
   "contact": {
     "title": "Contact",
-    "phone": "Téléphone :",
-    "email": "Email :",
-    "website": "Site web :"
+    "phone": "Téléphone ",
+    "email": "Email ",
+    "website": "Site web "
   },
   "map": {
     "locationPopup": "Lieu de l'exposition \"Au-delà de l'humain\".\\n Venez nous rendre visite !"

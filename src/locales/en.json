@@ -29,7 +29,7 @@
     "description": "Embark on a thrilling race to collect all the cyborg fragments, and avoid enemy vehicles if you want to reach your destination...",
     "reservationSub": "Tickets available from March 15 to June 30, 2026",
     "discover": "Discover",
-    "tickets_link": "Book",
+    "tickets_link": "Tickets",
     "reserveVisit": "Book your visit!",
     "promoText": "A reward awaits you at the finish line.",
     "playNow": "Play now",
@@ -71,7 +71,7 @@
   "navbar": {
     "home": "Home",
     "experiences": "Experiences",
-    "reservation": "Book",
+    "reservation": "Tickets",
     "info": "Practical info",
     "profile": "Profile",
     "login": "Login",
@@ -455,9 +455,9 @@
   },
   "contact": {
     "title": "Contact",
-    "phone": "Phone:",
-    "email": "Email:",
-    "website": "Website:"
+    "phone": "Phone ",
+    "email": "Email ",
+    "website": "Website "
   },
   "map": {
     "locationPopup": "Location of the \"Beyond the human\" exhibition.\\n Come visit us!"

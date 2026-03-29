@@ -3,9 +3,67 @@ import { useTranslation } from 'react-i18next';
 import '../../styles/components/practical_info_components/infos-pratiques.css';
 
 const MentionsLegales = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isEnglish = i18n.language === 'en';
   const titleRef = useRef(null);
   const [activeSection, setActiveSection] = useState('publisher');
+
+  const content = {
+    publisher: {
+      title: isEnglish ? 'Website Publisher' : 'Éditeur du site',
+      expo: {
+        title: isEnglish ? 'Immersive Exhibition' : 'Exposition Immersive',
+        publisher: isEnglish ? 'Publication Manager' : 'Responsable de la publication',
+        museum: 'Musée Guimet',
+        headOffice: isEnglish ? 'Head Office' : 'Siège social',
+        address: 'Musée Guimet, 6 place d\'Iéna, 75016 Paris, France',
+        phone: '+33 1 56 52 53 00',
+        email: 'contact@guimet.fr',
+        legalForm: isEnglish ? 'Legal Form' : 'Forme juridique',
+        form: isEnglish ? 'Public Establishment' : 'Établissement public'
+      },
+      dev: {
+        title: isEnglish ? 'Web Development' : 'Développement Web',
+        agency: 'AzerT - Agence de Communication Numérique',
+        design: isEnglish ? 'Design & Development' : 'Conception & Développement',
+        designers: 'TE Jimmy & DELAVIGNE Tom',
+        direction: isEnglish ? 'Artistic Direction' : 'Direction artistique',
+        tech: isEnglish ? 'Technologies' : 'Technologies',
+        technologies: 'React, Three.js, Vite, GSAP'
+      }
+    },
+    hosting: {
+      title: isEnglish ? 'Hosting' : 'Hébergement',
+      provider: {
+        title: isEnglish ? 'Hosting Provider' : 'Prestataire d\'hébergement',
+        host: 'O2Switch',
+        address: isEnglish ? 'Address' : 'Adresse',
+        hostAddress: '123 Avenue de la Victoire, 69000 Lyon, France',
+        support: isEnglish ? 'Support Phone' : 'Téléphone support',
+        supportPhone: '+33 1 56 78 90 12',
+        website: 'Website',
+        websiteUrl: 'www.o2switch.fr',
+        owner: isEnglish ? 'Domain Owner' : 'Propriétaire du domaine',
+        ownerName: 'TE Jimmy',
+        domain: 'Domain',
+        domainName: 'audeladelhumain.fr',
+        servers: isEnglish ? 'Servers' : 'Serveurs',
+        serversLocation: isEnglish ? 'Located in the European Union' : 'Situés dans l\'Union Européenne'
+      }
+    },
+    contact: {
+      title: isEnglish ? 'Contact' : 'Contact',
+      legal: {
+        title: isEnglish ? 'For any legal questions' : 'Pour toute question légale',
+        email: isEnglish ? 'Email' : 'Email',
+        emailAddr: 'legal@audeladelhumain.fr',
+        address: isEnglish ? 'Address' : 'Adresse',
+        addressDetail: 'Musée Guimet, 6 place d\'Iéna, 75016 Paris',
+        phone: isEnglish ? 'Phone' : 'Téléphone',
+        phoneNum: '+33 1 23 45 67 89'
+      }
+    }
+  };
 
   useEffect(() => {
     if (titleRef.current) {
@@ -37,10 +95,13 @@ const MentionsLegales = () => {
       {/* ── SECTION DE PRÉSENTATION ── */}
       <section className="infos-pratiques__hero">
         <h1 ref={titleRef} tabIndex="-1" className="infos-pratiques__title">
-          Mentions Légales
+          {isEnglish ? 'Legal Notice' : 'Mentions Légales'}
         </h1>
         <p className="infos-pratiques__description">
-          Informations légales relatives à ce site web conformément à la legislation française.
+          {isEnglish 
+            ? 'Legal information concerning this website according to French law.'
+            : 'Informations légales relatives à ce site web conformément à la legislation française.'
+          }
         </p>
       </section>
 
@@ -53,7 +114,7 @@ const MentionsLegales = () => {
                 href="#publisher" 
                 className={`infos-pratiques__link ${activeSection === 'publisher' ? 'active' : ''}`}
               >
-                Éditeur
+                {isEnglish ? 'Publisher' : 'Éditeur'}
               </a>
             </li>
             <li>
@@ -61,7 +122,7 @@ const MentionsLegales = () => {
                 href="#hosting" 
                 className={`infos-pratiques__link ${activeSection === 'hosting' ? 'active' : ''}`}
               >
-                Hébergement
+                {isEnglish ? 'Hosting' : 'Hébergement'}
               </a>
             </li>
             <li>
@@ -69,7 +130,7 @@ const MentionsLegales = () => {
                 href="#properties" 
                 className={`infos-pratiques__link ${activeSection === 'properties' ? 'active' : ''}`}
               >
-                Propriété Intellectuelle
+                {isEnglish ? 'Intellectual Property' : 'Propriété Intellectuelle'}
               </a>
             </li>
             <li>
@@ -77,7 +138,7 @@ const MentionsLegales = () => {
                 href="#liability" 
                 className={`infos-pratiques__link ${activeSection === 'liability' ? 'active' : ''}`}
               >
-                Responsabilité
+                {isEnglish ? 'Liability' : 'Responsabilité'}
               </a>
             </li>
             <li>
@@ -85,7 +146,7 @@ const MentionsLegales = () => {
                 href="#contact" 
                 className={`infos-pratiques__link ${activeSection === 'contact' ? 'active' : ''}`}
               >
-                Contact
+                {isEnglish ? 'Contact' : 'Contact'}
               </a>
             </li>
           </ul>
@@ -96,55 +157,62 @@ const MentionsLegales = () => {
           
           {/* ── ÉDITEUR ── */}
           <section id="publisher" className="infos-pratiques__section">
-            <h2 className="infos-pratiques__section-title">Éditeur du site</h2>
+            <h2 className="infos-pratiques__section-title">{content.publisher.title}</h2>
             
             <div className="infos-pratiques__card">
               <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
-                Exposition Immersive
+                {content.publisher.expo.title}
               </h3>
               <p className="infos-pratiques__text">
-                <strong>Responsable de la publication :</strong> [Nom de l'institution]<br />
-                <strong>Siège social :</strong> Musée Guimet, 6 place d'Iéna, 75016 Paris, France<br />
-                <strong>Téléphone :</strong> [Numéro de téléphone]<br />
-                <strong>Email :</strong> [Email de contact]<br />
-                <strong>Forme juridique :</strong> [Type d'institution]
+                <strong>{content.publisher.expo.publisher} :</strong> {content.publisher.expo.museum}<br />
+                <strong>{content.publisher.expo.headOffice} :</strong> {content.publisher.expo.address}<br />
+                <strong>{isEnglish ? 'Phone' : 'Téléphone'} :</strong> {content.publisher.expo.phone}<br />
+                <strong>Email :</strong> {content.publisher.expo.email}<br />
+                <strong>{content.publisher.expo.legalForm} :</strong> {content.publisher.expo.form}
               </p>
             </div>
 
             <div className="infos-pratiques__card">
               <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
-                Développement Web
+                {content.publisher.dev.title}
               </h3>
               <p className="infos-pratiques__text">
-                <strong>Conception &amp; Développement :</strong> [Nom de l'équipe/agence]<br />
-                <strong>Direction artistique :</strong> Respect de la charte graphique officielle<br />
-                <strong>Technologies :</strong> React, Three.js, Vite
+                <strong>{isEnglish ? 'Agency' : 'Agence'} :</strong> {content.publisher.dev.agency}<br />
+                <strong>{content.publisher.dev.design} :</strong> {content.publisher.dev.designers}<br />
+                <strong>{content.publisher.dev.direction} :</strong> {isEnglish ? 'Respect of official graphic design' : 'Respect de la charte graphique officielle'}<br />
+                <strong>{content.publisher.dev.tech} :</strong> {content.publisher.dev.technologies}
               </p>
             </div>
           </section>
 
           {/* ── HÉBERGEMENT ── */}
           <section id="hosting" className="infos-pratiques__section">
-            <h2 className="infos-pratiques__section-title">Hébergement</h2>
+            <h2 className="infos-pratiques__section-title">{content.hosting.title}</h2>
             
             <div className="infos-pratiques__card">
               <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
-                Prestataire d'hébergement
+                {content.hosting.provider.title}
               </h3>
               <p className="infos-pratiques__text">
-                <strong>Hébergeur :</strong> [Nom du prestataire d'hébergement]<br />
-                <strong>Adresse :</strong> [Adresse de l'hébergeur]<br />
-                <strong>Téléphone :</strong> [Téléphone support]<br />
-                <strong>Serveurs :</strong> Situés dans l'Union Européenne
+                <strong>{isEnglish ? 'Hosting Provider' : 'Hébergeur'} :</strong> {content.hosting.provider.host}<br />
+                <strong>{content.hosting.provider.address} :</strong> {content.hosting.provider.hostAddress}<br />
+                <strong>{content.hosting.provider.support} :</strong> {content.hosting.provider.supportPhone}<br />
+                <strong>{content.hosting.provider.website} :</strong> {content.hosting.provider.websiteUrl}<br />
+                <strong>{content.hosting.provider.owner} :</strong> {content.hosting.provider.ownerName}<br />
+                <strong>{content.hosting.provider.domain} :</strong> {content.hosting.provider.domainName}<br />
+                <strong>{content.hosting.provider.servers} :</strong> {content.hosting.provider.serversLocation}
               </p>
             </div>
 
             <div className="infos-pratiques__card">
               <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
-                Conditions d'accès
+                {isEnglish ? 'Access Conditions' : 'Conditions d\'accès'}
               </h3>
               <p className="infos-pratiques__text">
-                L'éditeur s'efforce d'assurer le fonctionnement optimal de ce site. Toutefois, l'accès peut être interrompu pour maintenance, mises à jour ou force majeure. L'éditeur ne peut être tenu responsable des interruptions d'accès.
+                {isEnglish 
+                  ? 'The editor strives to ensure optimal operation of this website. However, access may be interrupted for maintenance, updates or force majeure. The editor cannot be held responsible for interruptions in access.'
+                  : 'L\'éditeur s\'efforce d\'assurer le fonctionnement optimal de ce site. Toutefois, l\'accès peut être interrompu pour maintenance, mises à jour ou force majeure. L\'éditeur ne peut être tenu responsable des interruptions d\'accès.'
+                }
               </p>
             </div>
           </section>
@@ -224,25 +292,28 @@ const MentionsLegales = () => {
 
           {/* ── CONTACT ── */}
           <section id="contact" className="infos-pratiques__section">
-            <h2 className="infos-pratiques__section-title">Contact</h2>
+            <h2 className="infos-pratiques__section-title">{content.contact.title}</h2>
             
             <div className="infos-pratiques__card">
               <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
-                Pour toute question légale
+                {content.contact.legal.title}
               </h3>
               <p className="infos-pratiques__text">
-                <strong>Email :</strong> <a href="mailto:legal@example.com" style={{ color: '#ba121b', textDecoration: 'underline' }}>legal@example.com</a><br />
-                <strong>Adresse :</strong> Musée Guimet, 6 place d'Iéna, 75016 Paris<br />
-                <strong>Téléphone :</strong> [Numéro de contact]
+                <strong>{content.contact.legal.email} :</strong> <a href="mailto:legal@audeladelhumain.fr" style={{ color: '#ba121b', textDecoration: 'underline' }}>{content.contact.legal.emailAddr}</a><br />
+                <strong>{content.contact.legal.address} :</strong> {content.contact.legal.addressDetail}<br />
+                <strong>{content.contact.legal.phone} :</strong> {content.contact.legal.phoneNum}
               </p>
             </div>
 
             <div className="infos-pratiques__card">
               <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
-                CNIL &amp; Protection des données
+                {isEnglish ? 'CNIL & Data Protection' : 'CNIL & Protection des données'}
               </h3>
               <p className="infos-pratiques__text">
-                Pour toute question relative à la protection de vos données personnelles, consultez notre <strong>Politique de Confidentialité</strong>. Vous pouvez également contacter directement la <abbr title="Commission Nationale de l'Informatique et des Libertés">CNIL</abbr> au <strong>01 53 73 22 22</strong>.
+                {isEnglish 
+                  ? 'For any questions relating to the protection of your personal data, please consult our Privacy Policy. You can also contact the CNIL directly at 01 53 73 22 22.'
+                  : 'Pour toute question relative à la protection de vos données personnelles, consultez notre Politique de Confidentialité. Vous pouvez également contacter directement la CNIL au 01 53 73 22 22.'
+                }
               </p>
             </div>
           </section>

@@ -142,7 +142,7 @@ const AppContent = ({ entered, setEntered, user, setUser }) => {
       <Router>
         <ScrollToTop />
         {/* BOUTON SON FIXE - Dans le Router pour accès à useLocation */}
-        <SoundToggle />
+        <SoundToggle entered={entered} />
         
         {/* LE CONTENU : On le force au-dessus du Grainient */}
         <div className="App-wrapper" style={{ position: 'relative', zIndex: 10 }}>

@@ -114,7 +114,6 @@ export default function ExperienceSection() {
 
                 <a href="/experiences" className="exp-cta cursor-target">
                     {t('experiences.playNow')}
-                    <span className="exp-cta-arrow"><img src="/icons/FlecheDiagonale.svg" alt="" className='arrow-link' /></span>
                 </a>
 
             </div>

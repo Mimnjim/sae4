@@ -365,8 +365,8 @@ export default function Hero({ title1, title2, subtitle }) {
                         <p>{t('hero.quote')}</p>
                     </div>
                     <div className="buttons-hero" ref={buttonsRef} style={{ position: 'relative', zIndex: 20 }}>
-                        <a href="#" className="cursor-target">{t('hero.teaser')} <img src="/icons/FlecheDiagonale.svg" alt="" className='arrow-link' /></a>
-                        <a href="#" className="cursor-target">{t('hero.tickets')} <img src="/icons/FlecheDiagonale.svg" alt="" className='arrow-link' /></a>
+                        <a href="#teaser" className="cursor-target">{t('hero.teaser')} <img src="/icons/FlecheDiagonale.svg" alt="" className='arrow-link' /></a>
+                        <a href="/form-reservation" className="cursor-target">{t('hero.tickets')} <img src="/icons/FlecheDiagonale.svg" alt="" className='arrow-link' /></a>
                     </div>
                 </div>
             </div>
