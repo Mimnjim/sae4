@@ -19,7 +19,7 @@ export default function SoundToggle() {
         if (isHomePage) {
             // Sur la Home, initialiser immédiatement à 6rem/6rem
             buttonRef.current.classList.add('sound-toggle-home');
-            gsap.set(buttonRef.current, { bottom: '6rem', left: '5rem' });
+            gsap.set(buttonRef.current, { bottom: '6rem', left: '3rem' });
             
             let hasAnimated = false;
             
@@ -41,7 +41,7 @@ export default function SoundToggle() {
                     hasAnimated = false;
                     gsap.to(buttonRef.current, {
                         bottom: '6rem',
-                        left: '5rem',
+                        left: '3rem',
                         duration: 0.6,
                         ease: 'power2.inOut',
                     });
