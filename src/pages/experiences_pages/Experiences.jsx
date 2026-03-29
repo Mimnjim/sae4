@@ -5,10 +5,10 @@ import LevelCard from '../../components/experiences_components/LevelCard';
 import Timeline from '../../components/global_components/Timeline';
 import '../../styles/components/homepage_components/experiences.css';
 
-const LEVELS = [
-  { id: 1, name: 'NIVEAU 01 : NEO-TOKYO RUN', pilot: 'Kaneda' },
-  { id: 2, name: 'NIVEAU 02 : GHOST HACK', pilot: 'Motoko' },
-  { id: 3, name: "NIVEAU 03 : AU-DELÀ DE L'HUMAIN", pilot: 'Kaneda' },
+const LEVEL_IDS = [
+  { id: 1, pilot: 'Kaneda' },
+  { id: 2, pilot: 'Motoko' },
+  { id: 3, pilot: 'Kaneda' },
 ];
 
 const UNLOCK_THRESHOLD = 0.7;
@@ -21,7 +21,7 @@ function getCompletionRatio(progress) {
 
 function loadProgressFromStorage() {
   const result = {};
-  LEVELS.forEach(level => {
+  LEVEL_IDS.forEach(level => {
     const raw = localStorage.getItem(getProgressKey(level.id));
     result[level.id] = raw ? JSON.parse(raw) : { collected: 0, total: 0 };
   });
@@ -39,17 +39,17 @@ function GameResultPanel({ gameResult, playingLevelId, progressMap, onReplay, on
   const { t } = useTranslation();
 
   const isVictory = gameResult === 'victory';
-  const isLastLevel = playingLevelId >= LEVELS.length;
+  const isLastLevel = playingLevelId >= LEVEL_IDS.length;
   const levelProgress = progressMap[playingLevelId] || { collected: 0, total: 0 };
   const hasEnoughItems = getCompletionRatio(levelProgress) >= UNLOCK_THRESHOLD;
 
   let contextText = "";
   if (isVictory) {
-    if (playingLevelId === 1) contextText = "Otomo, via Akira, questionne l'augmentation de l'humain, les modifications corporelles et leurs conséquences sociales. Est-ce que la technologie, d'autant plus à l'ère de l'IA, nous rend meilleurs ou nous éloigne de notre humanité ?";
-    else if (playingLevelId === 2) contextText = "Ghost in the Shell : explore l'IA, l'identité et la notion de \"ghost\" (conscience) dans la machine, si nous sommes tous des cyborgs, qu'est-ce qui définit notre humanité ? Comment la technologie influence-t-elle notre perception de nous-mêmes et des autres ? Est-ce que des projets comme neuralink nous rapprochent de la singularité ou posent des risques éthiques majeurs ?";
-    else contextText = "Mission accomplie. Le futur est entre vos mains. Voici votre code promo : HUMAIN5. Utilisez-le pour bénéficier de 5% de réduction sur votre prochaine réservation. Merci d'avoir joué ! Nous avons hâte de vous rencontrer.";
+    if (playingLevelId === 1) contextText = t('experiences.context_level1');
+    else if (playingLevelId === 2) contextText = t('experiences.context_level2');
+    else contextText = t('experiences.context_level3');
   } else {
-    contextText = "Modification échouée, destruction du monde...";
+    contextText = t('experiences.context_defeat');
   }
 
   return (
@@ -104,7 +104,7 @@ const Experiences = () => {
   useEffect(() => {
     setProgressMap(loadProgressFromStorage());
     if (localStorage.getItem('promo_unlocked') === '1') setPromoUnlocked(true);
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     // inject shared game UI stylesheet (served from /styles) so parent can render unified panel styles
@@ -119,10 +119,10 @@ const Experiences = () => {
 
   const unlockedMap = useMemo(() => {
     const map = {};
-    LEVELS.forEach((level, index) => {
+    LEVEL_IDS.forEach((level, index) => {
       if (index === 0) map[level.id] = true;
       else {
-        const previousProgress = progressMap[LEVELS[index - 1].id];
+        const previousProgress = progressMap[LEVEL_IDS[index - 1].id];
         map[level.id] = getCompletionRatio(previousProgress) >= UNLOCK_THRESHOLD;
       }
     });
@@ -134,11 +134,20 @@ const Experiences = () => {
       const msg = event.data;
       if (!msg?.type) return;
 
-      if (msg.type === 'game_init' || msg.type === 'game_progress') {
+      if (msg.type === 'game_init') {
+        const levelId = msg.difficulty || playingLevelId;
+        // Pour game_init, on garde la progression antérieure de collected et on met juste à jour total
+        const previousValue = progressMap[levelId] || { collected: 0, total: 0 };
+        const value = { collected: previousValue.collected, total: msg.total || 0 };
+        saveProgress(levelId, value, setProgressMap);
+        setIsGameFinished(false);
+        setGameResult(null);
+      }
+
+      if (msg.type === 'game_progress') {
         const levelId = msg.difficulty || playingLevelId;
         const value = { collected: msg.collected || 0, total: msg.total || 0 };
         saveProgress(levelId, value, setProgressMap);
-        if (msg.type === 'game_init') { setIsGameFinished(false); setGameResult(null); }
       }
       if (msg.type === 'game_boost') setBoostState({ status: msg.status || 'charging', percent: msg.percent || 0 });
       if (msg.type === 'game_health') setHealthPercent(msg.percent || 0);
@@ -147,7 +156,7 @@ const Experiences = () => {
       if (msg.type === 'game_victory') {
         const value = { collected: msg.collected || 0, total: msg.total || 0 };
         saveProgress(msg.difficulty, value, setProgressMap);
-        if (msg.difficulty === 3 && getCompletionRatio(value) >= UNLOCK_THRESHOLD) {
+        if (msg.difficulty === LEVEL_IDS.length && getCompletionRatio(value) >= UNLOCK_THRESHOLD) {
           localStorage.setItem('promo_unlocked', '1');
           setPromoUnlocked(true);
         }
@@ -159,22 +168,33 @@ const Experiences = () => {
 
     window.addEventListener('message', handleMessage);
     return () => window.removeEventListener('message', handleMessage);
-  }, [playingLevelId]);
+  }, [playingLevelId, t]);
+
+  const getLevelName = (levelId) => t(`experiences.level${levelId}`);
+
+  const LEVELS = useMemo(
+    () => LEVEL_IDS.map(level => ({
+      ...level,
+      nameKey: `pages.experiences.levels.level${level.id}.name`,
+      pilotKey: `pages.experiences.levels.level${level.id}.pilot`
+    })),
+    [t]
+  );
 
   const handleSelectLevel = (levelId) => { setSelectedLevelId(levelId); if (unlockedMap[levelId]) setPlayingLevelId(levelId); };
   const handleIframeLoaded = () => iframeRef.current?.contentWindow?.postMessage({ type: 'start' }, '*');
   const handleReplay = () => { iframeRef.current?.contentWindow?.postMessage({ type: 'restart' }, '*'); setIsGameFinished(false); setGameResult(null); };
   const handleCloseModal = () => { setPlayingLevelId(null); setIsGameFinished(false); setGameResult(null); };
-  const handleNextLevel = () => { if (playingLevelId >= LEVELS.length) return; setPlayingLevelId(playingLevelId + 1); setIsGameFinished(false); setGameResult(null); };
+  const handleNextLevel = () => { if (playingLevelId >= LEVEL_IDS.length) return; setPlayingLevelId(playingLevelId + 1); setIsGameFinished(false); setGameResult(null); };
   const handleClaimPromo = () => navigate('/form-reservation', { state: { promoCode: 'HUMAIN5', promoApplied: true } });
 
   return (
     <div className="experiences-page">
-      <h1>Expérience</h1>
-      <p>Plongez dans une expérience immersive inspirée des univers d'Akira et Ghost in the Shell. Réussissez les 3 niveaux pour débloquer une récompense !</p>
+      <h1>{t('experiences.pageTitle')}</h1>
+      <p>{t('experiences.pageDescription')}</p>
 
       <div className="levels-grid">
-        <Timeline count={LEVELS.length} />
+        <Timeline count={LEVEL_IDS.length} />
         <div className="levels-list">
           {LEVELS.map(level => (
             <LevelCard
@@ -194,7 +214,7 @@ const Experiences = () => {
           <div className="game-modal">
             <div className="game-modal-backdrop" onClick={handleCloseModal} />
             <div className="game-modal-content" ref={containerRef}>
-              <button type="button" className="modal-close" onClick={handleCloseModal}>Fermer</button>
+              <button type="button" className="modal-close" onClick={handleCloseModal}>{t('experiences.close')}</button>
               
               <div className="game-wrapper">
                 <iframe
@@ -212,11 +232,11 @@ const Experiences = () => {
                 </div>
 
                 <div className="parent-hud parent-boost">
-                  <div className="label">{t('pages.experiences.boost')}</div>
+                  <div className="label">{t('experiences.boost')}</div>
                   <div className="boost-track-parent">
                     <div className="boost-bar-parent" style={{ width: `${Math.min(100, Math.max(0, boostState.percent || 0))}%` }} />
                   </div>
-                  <div className="boost-status-parent">{boostState.status === 'active' ? 'ACTIF' : boostState.status === 'ready' ? 'PRÊT (SHIFT)' : 'CHARGEMENT...'}</div>
+                  <div className="boost-status-parent">{boostState.status === 'active' ? t('experiences.boostActive') : boostState.status === 'ready' ? t('experiences.boostReady') : t('experiences.boostCharging')}</div>
                 </div>
 
                 <div className="parent-hud parent-speed">
@@ -240,7 +260,6 @@ const Experiences = () => {
                   onClose={handleCloseModal}
                   onNextLevel={handleNextLevel}
                   onClaimPromo={handleClaimPromo}
-                  t={t}
                 />
               )}
             </div>
