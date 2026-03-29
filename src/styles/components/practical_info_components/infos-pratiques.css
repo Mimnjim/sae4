@@ -28,7 +28,7 @@
 
 .infos-pratiques__description {
   font-size: 1.15rem;
-  font-size: clamp(1.2rem, 1.6vw, 1.4rem);
+  font-size: clamp(1.25rem, 1.6vw, 1.5rem);
   line-height: 1.8;
   color: rgba(255, 255, 255, 0.85);
   margin: 0;
@@ -82,7 +82,7 @@
   border-left: 3px solid transparent;
   border-radius: 8px;
   transition: all 220ms ease;
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   background: rgba(0, 0, 0, 0.3);
@@ -122,7 +122,7 @@
 }
 
 .infos-pratiques__section-title {
-  font-size: clamp(1.8rem, 2.5vw, 2.5rem);
+  font-size: clamp(2rem, 2.8vw, 2.4rem);
   font-weight: 800;
   margin: 0 0 1.75rem 0;
   color: #ffffff;
@@ -153,7 +153,7 @@
 .infos-pratiques__tarif-label {
   font-weight: 600;
   color: #ffffff;
-  font-size: clamp(1rem, 1.2vw, 1.2rem);
+  font-size: clamp(1.1rem, 1.4vw, 1.35rem);
   font-family: var(--ff-family-semibold);
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -167,7 +167,7 @@
 
 .infos-pratiques__tarif-content p {
   margin: 0;
-  font-size: clamp(1rem, 1.2vw, 1.6rem);
+  font-size: clamp(1.1rem, 1.6vw, 1.65rem);
   color: #ffffff;
   line-height: 1.6;
   font-family: var(--ff-family-medium);
@@ -183,7 +183,7 @@
 
 .infos-pratiques__text {
   margin: 0;
-  font-size: clamp(1rem, 1.2vw, 1.2rem);
+  font-size: clamp(1rem, 1.4vw, 1.5rem);
   line-height: 1.8;
   color: #ffffff;
   font-family: var(--ff-family-medium);
@@ -215,12 +215,13 @@
   background: rgba(0, 0, 0, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 12px;
+  font-family: var(--ff-family-medium);
 }
 
 .infos-pratiques__item-label {
   font-weight: 600;
   color: #ffffff;
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-family: var(--ff-family-semibold);
@@ -228,7 +229,7 @@
 
 .infos-pratiques__item-value {
   color: #ffffff;
-  font-size: 1rem;
+  font-size: 1.1rem;
   line-height: 1.7;
   font-family: var(--ff-family-medium);
 }
@@ -266,7 +267,7 @@
   padding: 1.5rem;
   color: #ffffff;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1.4rem;
   font-family: var(--ff-family-semibold);
   list-style: none;
   user-select: none;
@@ -312,7 +313,7 @@
 .infos-pratiques__faq-content {
   padding: 1.5rem 1.5rem 1.5rem 3rem;
   color: #ffffff;
-  font-size: 1.05rem;
+  font-size: 1.3rem;
   line-height: 1.8;
   font-family: var(--ff-family-medium);
   animation: slideDown 300ms ease-out;
@@ -385,7 +386,7 @@
 
 .contact-list strong {
   font-family: var(--ff-family-semibold);
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   color: #ffffff;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -393,7 +394,7 @@
 }
 
 .contact-list a {
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: #ffffff;
   text-decoration: none;
   word-break: break-all;
@@ -402,6 +403,7 @@
   padding-bottom: 0.25rem;
   display: inline-block;
   line-height: 1.6;
+  font-family: var(--ff-family-medium);
 }
 
 .contact-list a:hover {
@@ -413,6 +415,54 @@
   outline: 3px solid #ffffff;
   outline-offset: 4px;
   border-radius: 2px;
+}
+
+/* ═══════════════════════════════════════════════════
+   GENERIC CONTENT STYLES - ENHANCED READABILITY
+   ═══════════════════════════════════════════════════ */
+
+.infos-pratiques__content p,
+.infos-pratiques__content h3,
+.infos-pratiques__content h4,
+.infos-pratiques__content li {
+  font-size: clamp(1.05rem, 1.4vw, 1.5rem);
+  line-height: 1.8;
+  color: #ffffff;
+  font-family: var(--ff-family-medium);
+}
+
+.infos-pratiques__content h3 {
+  font-size: clamp(1.45rem, 1.9vw, 1.9rem);
+  font-weight: 700;
+  margin: 1.5rem 0 1rem 0;
+  font-family: var(--ff-family-semibold);
+}
+
+.infos-pratiques__content h4 {
+  font-size: clamp(1.2rem, 1.5vw, 1.6rem);
+  font-weight: 700;
+  margin: 1.2rem 0 0.8rem 0;
+  font-family: var(--ff-family-semibold);
+}
+
+.infos-pratiques__content strong {
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.95);
+  font-family: var(--ff-family-medium);
+
+.infos-pratiques__content em {
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.infos-pratiques__content ul,
+.infos-pratiques__content ol {
+  margin: 1rem 0;
+  padding-left: 2.5rem;
+}
+
+.infos-pratiques__content li {
+  margin: 0.75rem 0;
 }
 
 /* ═══════════════════════════════════════════════════

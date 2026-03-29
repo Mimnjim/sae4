@@ -88,8 +88,7 @@ const InfoPratique = () => {
                 href="#faq" 
                 className={`infos-pratiques__link ${activeSection === 'faq' ? 'active' : ''}`}
               >
-                {/* R5 : Première occurrence de l'acronyme FAQ */}
-                <abbr title="Questions fréquemment posées">{t('pages.infoPratique.faq')}</abbr>
+                {t('pages.infoPratique.faq')}
               </a>
             </li>
             <li>
@@ -176,7 +175,7 @@ const InfoPratique = () => {
           <section id="faq" className="infos-pratiques__section">
             {/* R5 : Première occurrence de FAQ dans le contenu principal */}
             <h2 className="infos-pratiques__section-title">
-              <abbr title="Questions fréquemment posées">{t('pages.infoPratique.faq')}</abbr>
+              {t('pages.infoPratique.faq')}
             </h2>
             <div className="infos-pratiques__faq-items">
               <details className="infos-pratiques__faq-item">

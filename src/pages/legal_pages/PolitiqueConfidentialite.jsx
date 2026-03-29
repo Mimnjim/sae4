@@ -111,7 +111,7 @@ const PolitiqueConfidentialite = () => {
             <h2 className="infos-pratiques__section-title">{isEnglish ? 'Introduction' : 'Introduction'}</h2>
             
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 {isEnglish ? 'Respect for Your Privacy' : 'Respect de votre vie privée'}
               </h3>
               <p className="infos-pratiques__text">
@@ -123,7 +123,7 @@ const PolitiqueConfidentialite = () => {
             </div>
 
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 {isEnglish ? 'Data Controller' : 'Responsable du traitement'}
               </h3>
               <p className="infos-pratiques__text">
@@ -139,7 +139,7 @@ const PolitiqueConfidentialite = () => {
             <h2 className="infos-pratiques__section-title">{isEnglish ? 'Data Collection' : 'Collecte de Données'}</h2>
             
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 {isEnglish ? 'Personal Data Collected' : 'Données personnelles collectées'}
               </h3>
               <p className="infos-pratiques__text">
@@ -157,7 +157,7 @@ const PolitiqueConfidentialite = () => {
             </div>
 
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 {isEnglish ? 'Legal Basis for Processing' : 'Base légale du traitement'}
               </h3>
               <p className="infos-pratiques__text">
@@ -171,7 +171,7 @@ const PolitiqueConfidentialite = () => {
             </div>
 
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 {isEnglish ? 'Data Usage' : 'Utilisation des données'}
               </h3>
               <p className="infos-pratiques__text">
@@ -192,7 +192,7 @@ const PolitiqueConfidentialite = () => {
             <h2 className="infos-pratiques__section-title">{isEnglish ? 'Cookies and Tracking Technologies' : 'Cookies et Technologies de Suivi'}</h2>
             
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 {isEnglish ? 'Cookie Types' : 'Types de cookies'}
               </h3>
               <p className="infos-pratiques__text">
@@ -206,7 +206,7 @@ const PolitiqueConfidentialite = () => {
             </div>
 
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 {isEnglish ? 'Cookie Management' : 'Gestion des cookies'}
               </h3>
               <p className="infos-pratiques__text">
@@ -218,7 +218,7 @@ const PolitiqueConfidentialite = () => {
             </div>
 
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 {isEnglish ? 'Google Maps' : 'Google Maps'}
               </h3>
               <p className="infos-pratiques__text">
@@ -235,7 +235,7 @@ const PolitiqueConfidentialite = () => {
             <h2 className="infos-pratiques__section-title">{isEnglish ? 'Your Rights' : 'Vos Droits'}</h2>
             
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 {isEnglish ? 'Rights Recognized by the GDPR' : 'Droits reconnus par le RGPD'}
               </h3>
               <p className="infos-pratiques__text">
@@ -255,7 +255,7 @@ const PolitiqueConfidentialite = () => {
             </div>
 
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 {isEnglish ? 'How to Exercise Your Rights' : 'Comment exercer vos droits'}
               </h3>
               <p className="infos-pratiques__text">
@@ -278,7 +278,7 @@ const PolitiqueConfidentialite = () => {
             <h2 className="infos-pratiques__section-title">{isEnglish ? 'Data Retention' : 'Conservation des Données'}</h2>
             
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 {isEnglish ? 'Retention Periods' : 'Durées de conservation'}
               </h3>
               <p className="infos-pratiques__text">
@@ -296,7 +296,7 @@ const PolitiqueConfidentialite = () => {
             </div>
 
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 {isEnglish ? 'Data Deletion' : 'Suppression des données'}
               </h3>
               <p className="infos-pratiques__text">
@@ -313,7 +313,7 @@ const PolitiqueConfidentialite = () => {
             <h2 className="infos-pratiques__section-title">{isEnglish ? 'Contact Us' : 'Nous Contacter'}</h2>
             
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 {isEnglish ? 'Data Protection Officer (DPO)' : 'Délégué à la Protection des Données'}
               </h3>
               <p className="infos-pratiques__text">
@@ -324,7 +324,7 @@ const PolitiqueConfidentialite = () => {
             </div>
 
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 {isEnglish ? 'Privacy Inquiries' : 'Questions de Confidentialité'}
               </h3>
               <p className="infos-pratiques__text">
@@ -334,7 +334,7 @@ const PolitiqueConfidentialite = () => {
             </div>
 
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 <abbr title="Commission Nationale de l'Informatique et des Libertés">CNIL</abbr>
               </h3>
               <p className="infos-pratiques__text">
@@ -348,7 +348,7 @@ const PolitiqueConfidentialite = () => {
             </div>
 
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 {isEnglish ? 'Last Updated' : 'Dernière mise à jour'}
               </h3>
               <p className="infos-pratiques__text">

@@ -162,7 +162,7 @@ const MentionsLegales = () => {
             <h2 className="infos-pratiques__section-title">{content.publisher.title}</h2>
             
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 {content.publisher.expo.title}
               </h3>
               <p className="infos-pratiques__text">
@@ -175,7 +175,7 @@ const MentionsLegales = () => {
             </div>
 
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 {content.publisher.dev.title}
               </h3>
               <p className="infos-pratiques__text">
@@ -193,7 +193,7 @@ const MentionsLegales = () => {
             <h2 className="infos-pratiques__section-title">{content.hosting.title}</h2>
             
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 {content.hosting.provider.title}
               </h3>
               <p className="infos-pratiques__text">
@@ -208,7 +208,7 @@ const MentionsLegales = () => {
             </div>
 
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 {isEnglish ? 'Access Conditions' : 'Conditions d\'accès'}
               </h3>
               <p className="infos-pratiques__text">
@@ -225,7 +225,7 @@ const MentionsLegales = () => {
             <h2 className="infos-pratiques__section-title">{isEnglish ? 'Intellectual Property' : 'Propriété Intellectuelle'}</h2>
             
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 {isEnglish ? 'Copyright' : 'Droits d\'auteur'}
               </h3>
               <p className="infos-pratiques__text">
@@ -237,7 +237,7 @@ const MentionsLegales = () => {
             </div>
 
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 {isEnglish ? 'Reproduction Authorization' : 'Autorisations de reproduction'}
               </h3>
               <p className="infos-pratiques__text">
@@ -249,7 +249,7 @@ const MentionsLegales = () => {
             </div>
 
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 {isEnglish ? 'Registered Trademarks' : 'Marques déposées'}
               </h3>
               <p className="infos-pratiques__text">
@@ -261,7 +261,7 @@ const MentionsLegales = () => {
             </div>
 
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 {isEnglish ? 'Free Licenses' : 'Licences libres'}
               </h3>
               <p className="infos-pratiques__text">
@@ -278,7 +278,7 @@ const MentionsLegales = () => {
             <h2 className="infos-pratiques__section-title">{isEnglish ? 'Liability' : 'Responsabilité'}</h2>
             
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 {isEnglish ? 'Inaccuracies' : 'Inexactitudes'}
               </h3>
               <p className="infos-pratiques__text">
@@ -290,7 +290,7 @@ const MentionsLegales = () => {
             </div>
 
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 {isEnglish ? 'External Links' : 'Liens externes'}
               </h3>
               <p className="infos-pratiques__text">
@@ -302,7 +302,7 @@ const MentionsLegales = () => {
             </div>
 
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 {isEnglish ? 'Warranties' : 'Garanties'}
               </h3>
               <p className="infos-pratiques__text">
@@ -319,7 +319,7 @@ const MentionsLegales = () => {
             <h2 className="infos-pratiques__section-title">{content.contact.title}</h2>
             
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 {content.contact.legal.title}
               </h3>
               <p className="infos-pratiques__text">
@@ -330,7 +330,7 @@ const MentionsLegales = () => {
             </div>
 
             <div className="infos-pratiques__card">
-              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.3rem', fontWeight: '700' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.8rem', fontWeight: '700' }}>
                 {isEnglish ? 'CNIL & Data Protection' : 'CNIL & Protection des données'}
               </h3>
               <p className="infos-pratiques__text">
