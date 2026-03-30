@@ -65,7 +65,36 @@ const Home = ({ entered, setEntered }) => {
     setEntered(false);
     // Incrémenter la clé pour forcer un re-render complet des modèles 3D
     setRenderKey(prev => prev + 1);
-  }, [setEntered]);
+  }, []); // ✅ Dépendances vides = exécute qu'une seule fois au montage
+
+  // Gestion du scroll: réactiver agressivement quand on ferme le GatewayScreen
+  useEffect(() => {
+    if (entered) {
+      // Réactiver le scroll immédiatement
+      document.documentElement.style.overflow = 'auto';
+      document.documentElement.style.overflowY = 'auto';
+      document.body.style.overflow = 'auto';
+      document.body.style.overflowY = 'auto';
+      document.body.style.height = 'auto';
+      document.body.style.overflowX = 'hidden'; // Bloquer scroll horizontal
+
+      // Forcer le reflow/repaint pour s'assurer que les styles sont appliqués
+      // eslint-disable-next-line no-unused-vars
+      const _ = document.body.offsetHeight;
+      window.scrollTo(0, 0);
+
+      // Aussi, s'assurer avec un délai que le scroll reste réactivé
+      const timer = setTimeout(() => {
+        document.documentElement.style.overflow = 'auto';
+        document.documentElement.style.overflowY = 'auto';
+        document.body.style.overflow = 'auto';
+        document.body.style.overflowY = 'auto';
+        document.body.style.height = 'auto';
+      }, 100);
+
+      return () => clearTimeout(timer);
+    }
+  }, [entered]);
 
   return (
     <div className="home-container">
