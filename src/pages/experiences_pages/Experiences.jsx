@@ -5,6 +5,7 @@ import LevelCard from '../../components/experiences_components/LevelCard';
 import GameLoadingOverlay from '../../components/experiences_components/GameLoadingOverlay';
 import Timeline from '../../components/global_components/Timeline';
 import { useSoundContext } from '../../sound/SoundContext';
+import { preloadGameAssets } from '../../utils/gameAssetsPreloader';
 import '../../styles/components/homepage_components/experiences.css';
 
 const LEVEL_IDS = [
@@ -111,6 +112,12 @@ const Experiences = () => {
     setProgressMap(loadProgressFromStorage());
     if (localStorage.getItem('promo_unlocked') === '1') setPromoUnlocked(true);
   }, [t]);
+
+  // Précharger les modèles 3D du jeu dès qu'on arrive sur cette page
+  // Les modèles seront en cache quand l'utilisateur lance une partie
+  useEffect(() => {
+    preloadGameAssets();
+  }, []);
 
   useEffect(() => {
     // inject shared game UI stylesheet (served from /styles) so parent can render unified panel styles
