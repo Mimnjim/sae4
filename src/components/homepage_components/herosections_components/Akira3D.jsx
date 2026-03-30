@@ -25,10 +25,18 @@ export default function Akira3D({ onReady }) {
         const camera = new THREE.PerspectiveCamera(80, width / height, 0.01, 10000);
 
         // Renderer
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        const renderer = new THREE.WebGLRenderer({ 
+            antialias: true, 
+            alpha: true,
+            preserveDrawingBuffer: false,
+            powerPreference: 'high-performance'
+        });
+        const isMobile = window.innerWidth < 768;
+        const pixelRatio = isMobile ? Math.min(window.devicePixelRatio, 1.5) : Math.min(window.devicePixelRatio, 2);
         renderer.setSize(width, height);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setPixelRatio(pixelRatio);
         renderer.outputColorSpace = THREE.SRGBColorSpace;
+        renderer.domElement.style.display = 'block';
         container.appendChild(renderer.domElement);
 
         // Lights
@@ -110,12 +118,30 @@ export default function Akira3D({ onReady }) {
             clearTimeout(resizeTimer);
             cancelAnimationFrame(animId);
             window.removeEventListener('resize', onResize);
+            
+            // Dispose all geometries, materials, and textures
+            scene.traverse((object) => {
+                if (object.geometry) {
+                    object.geometry.dispose();
+                }
+                if (object.material) {
+                    if (Array.isArray(object.material)) {
+                        object.material.forEach(mat => mat.dispose());
+                    } else {
+                        object.material.dispose();
+                    }
+                }
+                if (object.texture) {
+                    object.texture.dispose();
+                }
+            });
+            
             renderer.dispose();
-            if (container.contains(renderer.domElement)) {
+            if (container && container.contains(renderer.domElement)) {
                 container.removeChild(renderer.domElement);
             }
         };
     }, []);
 
-    return <div ref={containerRef} style={{ width: '100%', height: '100%', position: 'relative' }} />;
+    return <div ref={containerRef} style={{ width: '100%', height: '100%', position: 'relative', background: 'transparent' }} />;
 }

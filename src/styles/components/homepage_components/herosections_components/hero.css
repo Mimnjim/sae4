@@ -31,6 +31,14 @@
     margin: 0 2rem;
     transition: all 0.8s ease;
     color: var(--color-black);
+    background: transparent;
+    overflow: hidden;
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    -webkit-font-smoothing: antialiased;
 }
 
 .gis {
