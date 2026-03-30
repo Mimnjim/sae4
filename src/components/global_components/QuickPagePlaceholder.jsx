@@ -10,11 +10,11 @@ export default function QuickPagePlaceholder() {
   const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
-    // Attendre 10s pour laisser le GatewayScreen bien visible et les modèles charger complètement
+    // Attendre 5s pour laisser le GatewayScreen bien visible
     // Le GatewayScreen masquera le placeholder pendant ce temps (zIndex: 9999)
     const timer = setTimeout(() => {
       setFadeOut(true);
-    }, 10000);
+    }, 5000);
 
     return () => clearTimeout(timer);
   }, []);

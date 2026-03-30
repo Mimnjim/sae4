@@ -11,161 +11,157 @@ export default function GIS3D({ onReady }) {
         onReadyRef.current = onReady;
     }, [onReady]);
 
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
+    useEffect(() => {
+        const container = containerRef.current;
+        if (!container) return;
 
-    let destroyed = false;
-    let renderStarted = false;
-    let cleanupRenderer = null;
+        let destroyed = false;
+        let renderStarted = false;
+        let cleanupRenderer = null;
 
-    // CHARGE DÈS LE MONTAGE: Les modèles doivent charger en avant-plan
-    // même quand le GatewayScreen est affiché, donc l'utilisateur attend moins
-    const startupTimer = setTimeout(() => {
-      if (!renderStarted && !destroyed) {
-        renderStarted = true;
-        cleanupRenderer = initializeScene();
-      }
-    }, 50); // Délai très court après montage
+        const initializeScene = () => {
+            let width = container.clientWidth || window.innerWidth / 2;
+            let height = container.clientHeight || window.innerHeight;
 
-    const initializeScene = () => {
-      // Mesures initiales (sécurité si le container est à 0)
-      let width = container.clientWidth || window.innerWidth / 2;
-      let height = container.clientHeight || window.innerHeight;
+            const scene = new THREE.Scene();
+            scene.background = null;
 
-      // Scene
-      const scene = new THREE.Scene();
-      scene.background = null;
+            const camera = new THREE.PerspectiveCamera(90, width / height, 0.01, 1000);
 
-      // Camera
-      const camera = new THREE.PerspectiveCamera(90, width / height, 0.01, 1000);
+            const isMobile = window.innerWidth < 768;
+            const renderer = new THREE.WebGLRenderer({ 
+                antialias: !isMobile,
+                alpha: true,
+                powerPreference: 'high-performance',
+                precision: 'highp',
+                stencil: false,
+                depth: true
+            });
+            renderer.setSize(width, height);
+            const maxPixelRatio = isMobile ? 1 : Math.min(window.devicePixelRatio, 1.5);
+            renderer.setPixelRatio(maxPixelRatio);
+            renderer.outputColorSpace = THREE.SRGBColorSpace;
+            renderer.domElement.style.display = 'block';
+            container.appendChild(renderer.domElement);
 
-      // Renderer
-      const renderer = new THREE.WebGLRenderer({ 
-          antialias: true, 
-          alpha: true,
-          powerPreference: 'high-performance',
-          precision: 'highp',
-          stencil: false,
-          depth: true
-      });
-      renderer.setSize(width, height);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.outputColorSpace = THREE.SRGBColorSpace;
-      renderer.domElement.style.display = 'block';
-      container.appendChild(renderer.domElement);
+            scene.add(new THREE.AmbientLight(0xffffff, 1));
+            const dir = new THREE.DirectionalLight(0xffffff, 1);
+            dir.position.set(5, 5, 5);
+            scene.add(dir);
 
-      // Lights
-      scene.add(new THREE.AmbientLight(0xffffff, 1));
-      const dir = new THREE.DirectionalLight(0xffffff, 1);
-      dir.position.set(5, 5, 5);
-      scene.add(dir);
+            let animId = null;
 
-      let animId = null;
+            const onResize = () => {
+                if (!container || destroyed) return;
+                const w = container.clientWidth;
+                const h = container.clientHeight;
+                camera.aspect = w / h;
+                camera.updateProjectionMatrix();
+                renderer.setSize(w, h);
+            };
 
-      // --- FONCTION RESIZE (Fix Anti-Crop) ---
-      const onResize = () => {
-          if (!container || destroyed) return;
-          const w = container.clientWidth;
-          const h = container.clientHeight;
-          camera.aspect = w / h;
-          camera.updateProjectionMatrix();
-          renderer.setSize(w, h);
-      };
+            const resizeTimer = setTimeout(onResize, 150);
 
-      // Fix : Force le recalcul 150ms après le montage pour laisser le layout se stabiliser
-      const resizeTimer = setTimeout(onResize, 150);
+            // Démarrer l'animation immédiatement (avec ou sans modèle)
+            function animate() {
+                if (destroyed) return;
+                animId = requestAnimationFrame(animate);
+                renderer.render(scene, camera);
+            }
+            animate();
 
-      // Chargement du modèle avec résolution d'URL appropriée
-      loadGLTFWithProperPaths(gisModelUrl)
-          .then((gltf) => {
-              if (destroyed) return;
-              const model = gltf.scene;
+            window.addEventListener('resize', onResize);
 
-              const box = new THREE.Box3().setFromObject(model);
-              const center = box.getCenter(new THREE.Vector3());
-              const size = box.getSize(new THREE.Vector3());
+            // Charger le modèle EN ARRIÈRE-PLAN avec timeout (15 secondes)
+            // Le modèle aura le temps de se charger sans bloquer l'UI
+            loadGLTFWithProperPaths(gisModelUrl, { dracoSupport: true, timeout: 15000 })
+                .then((gltf) => {
+                    if (destroyed) return;
+                    const model = gltf.scene;
 
-              // RECENTRAGE
-              model.position.x -= center.x;
-              model.position.y -= center.y;
-              model.position.y -= 0.5;
-              model.position.z -= center.z;
+                    const box = new THREE.Box3().setFromObject(model);
+                    const center = box.getCenter(new THREE.Vector3());
+                    const size = box.getSize(new THREE.Vector3());
 
-              // Remontée du modèle (pour éviter le cropping des jambes)
-              const upwardOffset = 0;
-              model.position.y += upwardOffset;
+                    model.position.x -= center.x;
+                    model.position.y -= center.y;
+                    model.position.y -= 0.5;
+                    model.position.z -= center.z;
 
-              // SCALE AUTO
-              const maxDim = Math.max(size.x, size.y, size.z);
-              const scale = 6 / maxDim;
-              model.scale.setScalar(scale);
+                    const upwardOffset = 0;
+                    model.position.y += upwardOffset;
 
-              // Pour agrandir le modèle sans changer le visuel
-              const initialZ = 6;
-              camera.position.set(0, 1.2 + upwardOffset, initialZ);
-              camera.lookAt(0, upwardOffset, 0);
-              camera.updateMatrixWorld();
-              scene.add(model);
+                    const maxDim = Math.max(size.x, size.y, size.z);
+                    const scale = 6 / maxDim;
+                    model.scale.setScalar(scale);
 
-              // On force le resize immédiatement après l'ajout du modèle
-              onResize();
+                    const initialZ = 6;
+                    camera.position.set(0, 1.2 + upwardOffset, initialZ);
+                    camera.lookAt(0, upwardOffset, 0);
+                    camera.updateMatrixWorld();
+                    scene.add(model);
 
-              if (onReadyRef.current) {
-                  onReadyRef.current({ camera, initialZ, model });
-              }
-          })
-          .catch((err) => console.error('[GIS3D] load error:', err));
+                    onResize();
 
-      // Render loop
-      function animate() {
-          if (destroyed) return;
-          animId = requestAnimationFrame(animate);
-          renderer.render(scene, camera);
-      }
-      animate();
+                    if (onReadyRef.current) {
+                        onReadyRef.current({ camera, initialZ, model });
+                    }
+                    console.log('✅ GIS3D chargé');
+                })
+                .catch((err) => console.warn("⚠️ GIS3D load failed (timeout ok):", err.message));
 
-      window.addEventListener('resize', onResize);
+            function animate() {
+                if (destroyed) return;
+                animId = requestAnimationFrame(animate);
+                renderer.render(scene, camera);
+            }
+            animate();
 
-      // Retourner la fonction de cleanup
-      return () => {
-          clearTimeout(resizeTimer);
-          cancelAnimationFrame(animId);
-          window.removeEventListener('resize', onResize);
-          
-          // Dispose all geometries, materials, and textures
-          scene.traverse((object) => {
-              if (object.geometry) {
-                  object.geometry.dispose();
-              }
-              if (object.material) {
-                  if (Array.isArray(object.material)) {
-                      object.material.forEach(mat => mat.dispose());
-                  } else {
-                      object.material.dispose();
-                  }
-              }
-              if (object.texture) {
-                  object.texture.dispose();
-              }
-          });
-          
-          renderer.dispose();
-          if (container && container.contains(renderer.domElement)) {
-              container.removeChild(renderer.domElement);
-          }
-      };
-    };
+            window.addEventListener('resize', onResize);
 
-    return () => {
-      destroyed = true;
-      clearTimeout(startupTimer);
-      // Appeler le cleanup du renderer s'il a été initialisé
-      if (cleanupRenderer) {
-        cleanupRenderer();
-      }
-    };
-  }, []);
+            return () => {
+                clearTimeout(resizeTimer);
+                cancelAnimationFrame(animId);
+                window.removeEventListener('resize', onResize);
+                
+                scene.traverse((object) => {
+                    if (object.geometry) {
+                        object.geometry.dispose();
+                    }
+                    if (object.material) {
+                        if (Array.isArray(object.material)) {
+                            object.material.forEach(mat => mat.dispose());
+                        } else {
+                            object.material.dispose();
+                        }
+                    }
+                    if (object.texture) {
+                        object.texture.dispose();
+                    }
+                });
 
-  return <div ref={containerRef} style={{ width: '100%', height: '100%', position: 'relative', background: 'transparent' }} />;
+                renderer.dispose();
+                if (container && container.contains(renderer.domElement)) {
+                    container.removeChild(renderer.domElement);
+                }
+            };
+        };
+
+        const startupTimer = setTimeout(() => {
+            if (!renderStarted && !destroyed) {
+                renderStarted = true;
+                cleanupRenderer = initializeScene();
+            }
+        }, 50);
+
+        return () => {
+            clearTimeout(startupTimer);
+            destroyed = true;
+            if (cleanupRenderer && typeof cleanupRenderer === 'function') {
+                cleanupRenderer();
+            }
+        };
+    }, []);
+
+    return <div ref={containerRef} style={{ width: '100%', height: '100%' }} />;
 }

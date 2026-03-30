@@ -44,10 +44,12 @@ export default function GatewayScreen({ onEnter }) {
     };
 
     useEffect(() => {
-        // Bloquer les scrolls horizontal et vertical
-        document.documentElement.style.overflow = 'hidden';
-        document.body.style.overflowY = 'hidden';
-        document.body.style.height = '100vh';
+        // NOTE: Le scroll est exclusivement géré par AppContent en fonction de l'état 'entered'
+        // Le GatewayScreen NE DOIT PAS modifier le scroll lui-même pour éviter les conflits
+        // AppContent s'occupe de bloquer le scroll quand GatewayScreen est visible
+        // et de le réactiver quand il disparaît
+        
+        // Juste scroll vers le haut si on n'y est pas déjà
         window.scrollTo(0, 0);
 
         const tl = gsap.timeline({ delay: 0.4 });
@@ -74,11 +76,9 @@ export default function GatewayScreen({ onEnter }) {
             repeat: -1, ease: 'none',
         });
 
-        // Nettoyage : réactiver scroll si composant démonte
+        // Nettoyage: AppContent gérera la gestion complète du scroll
         return () => {
-            document.documentElement.style.overflow = 'auto';
-            document.body.style.overflowY = 'auto';
-            document.body.style.height = 'auto';
+            // Ne rien faire ici - AppContent gère tout
         };
     }, []);
 
@@ -94,10 +94,8 @@ export default function GatewayScreen({ onEnter }) {
 
         const tl = gsap.timeline({ 
             onComplete: () => {
-                // Réactiver le scroll et remonter en haut
-                document.documentElement.style.overflow = 'auto';
-                document.body.style.overflowY = 'auto';
-                document.body.style.height = 'auto';
+                // Ne pas toucher au scroll ici - AppContent gère via l'état 'entered'
+                // Juste appeler le callback pour réactualiser l'état
                 window.scrollTo(0, 0);
                 if (onEnter) onEnter();
             }

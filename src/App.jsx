@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import TargetCursor from './animations/TargetCursor';
 import Grainient from './animations/Grainient';
 import QuickPagePlaceholder from './components/global_components/QuickPagePlaceholder';
 import { SoundProvider } from './sound/SoundContext';
 import useSoundInteractions from './sound/useSoundInteractions';
+// NOTE: gameAssetsPreloader.js se charge automatiquement via son importation implicite
 
 // Composants principaux
 import GatewayScreen from './components/global_components/GatewayScreen';
@@ -58,43 +59,24 @@ import './styles/components/global_components/gateway-screen.css';
 const Home = ({ entered, setEntered }) => {
   const { t } = useTranslation();
   const [renderKey, setRenderKey] = useState(0);
+  const location = useLocation();
+  const wasOnHomeRef = useRef(false);
 
-  // À chaque fois qu'on revient sur l'accueil, réinitialiser entered à false
+  // À chaque fois qu'on revient sur l'accueil DEPUIS une autre page, réinitialiser entered à false
   // Pour que le GatewayScreen réapparaisse et masque le loading
   useEffect(() => {
-    setEntered(false);
-    // Incrémenter la clé pour forcer un re-render complet des modèles 3D
-    setRenderKey(prev => prev + 1);
-  }, []); // ✅ Dépendances vides = exécute qu'une seule fois au montage
-
-  // Gestion du scroll: réactiver agressivement quand on ferme le GatewayScreen
-  useEffect(() => {
-    if (entered) {
-      // Réactiver le scroll immédiatement
-      document.documentElement.style.overflow = 'auto';
-      document.documentElement.style.overflowY = 'auto';
-      document.body.style.overflow = 'auto';
-      document.body.style.overflowY = 'auto';
-      document.body.style.height = 'auto';
-      document.body.style.overflowX = 'hidden'; // Bloquer scroll horizontal
-
-      // Forcer le reflow/repaint pour s'assurer que les styles sont appliqués
-      // eslint-disable-next-line no-unused-vars
-      const _ = document.body.offsetHeight;
-      window.scrollTo(0, 0);
-
-      // Aussi, s'assurer avec un délai que le scroll reste réactivé
-      const timer = setTimeout(() => {
-        document.documentElement.style.overflow = 'auto';
-        document.documentElement.style.overflowY = 'auto';
-        document.body.style.overflow = 'auto';
-        document.body.style.overflowY = 'auto';
-        document.body.style.height = 'auto';
-      }, 100);
-
-      return () => clearTimeout(timer);
+    if (location.pathname === '/') {
+      // Si on n'était pas déjà sur la page d'accueil et qu'on revient, réinitialiser
+      if (!wasOnHomeRef.current) {
+        console.log('🏠 Arrivée à l\'accueil depuis une autre page');
+        setEntered(false);
+        setRenderKey(prev => prev + 1);
+      }
+      wasOnHomeRef.current = true;
+    } else {
+      wasOnHomeRef.current = false;
     }
-  }, [entered]);
+  }, [location.pathname, setEntered]);
 
   return (
     <div className="home-container">
@@ -133,20 +115,51 @@ const Home = ({ entered, setEntered }) => {
   );
 };
 
+// Composant interne pour gérer le scroll de la HOME (DOIT être à l'intérieur du Router)
+const ScrollManager = ({ entered }) => {
+  const location = useLocation();
+  const isHomePath = location.pathname === '/';
+
+  useEffect(() => {
+    // Sur la page home SEULEMENT, gérer le scroll selon l'état entered
+    if (!isHomePath) return;
+
+    if (entered) {
+      // GatewayScreen fermé: réactiver le scroll
+      document.documentElement.style.cssText = 'overflow: auto !important; overflow-y: auto !important; height: auto !important; position: static !important;';
+      document.body.style.cssText = 'overflow: visible !important; overflow-y: auto !important; height: auto !important; position: static !important; overflow-x: hidden !important;';
+      
+      console.log('✅ Home page: Scroll réactivé (gateway fermé)');
+    } else {
+      // GatewayScreen affiché/en animation: bloquer le scroll
+      document.documentElement.style.cssText = 'overflow: hidden !important; overflow-y: hidden !important; height: 100vh !important;';
+      document.body.style.cssText = 'overflow: hidden !important; overflow-y: hidden !important; height: 100vh !important; overflow-x: hidden !important;';
+      
+      console.log('❌ Home page: Scroll bloqué (gateway affiché)');
+    }
+  }, [entered, isHomePath]);
+
+  return null;
+};
+
 // Composant contenu de l'application (à l'intérieur de SoundProvider)
 const AppContent = ({ entered, setEntered, user, setUser }) => {
   // Ajouter les sons aux interactions - bon endroit maintenant (dans le SoundProvider)
   useSoundInteractions();
-  const [showGrainient, setShowGrainient] = useState(false);
+  const [showGrainient, setShowGrainient] = useState(true); // Afficher le grainient immédiatement
 
-  // Charger le Grainient après le GatewayScreen ou après délai plus long
+  // Charger le Grainient après le GatewayScreen ou après délai très court
   // Cela laisse le temps aux ressources critiques de charger en premier
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowGrainient(true);
-    }, entered ? 200 : 1200); // Délai plus long pour priorité aux modèles 3D critiques
+    }, 10); // Délai ultra-court pour affichage immédiat
     return () => clearTimeout(timer);
   }, [entered]);
+
+  // N'APPELEZ PAS preloadGameAssets() ici !
+  // À la place: gameAssetsPreloader.js gère automatiquement le préchargement
+  // via requestIdleCallback + interaction utilisateur pour ne pas bloquer le chargement initial
 
   return (
     <>
@@ -195,7 +208,8 @@ const AppContent = ({ entered, setEntered, user, setUser }) => {
       />
 
       <Router>
-        <ScrollToTop />
+        <ScrollToTop entered={entered} />
+        <ScrollManager entered={entered} />
         {/* BOUTON SON FIXE - Dans le Router pour accès à useLocation */}
         <SoundToggle entered={entered} />
         

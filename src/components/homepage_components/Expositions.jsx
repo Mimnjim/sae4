@@ -23,13 +23,12 @@ export default function Expositions() {
             document.body.style.overflow = 'hidden';
             document.documentElement.style.overflow = 'hidden';
         } else {
-            document.body.style.overflow = '';
-            document.documentElement.style.overflow = '';
+            // Ne pas modifier le scroll au cleanup - AppContent gère ça
+            // Une chaîne vide écrase les styles d'AppContent
         }
         
         return () => {
-            document.body.style.overflow = '';
-            document.documentElement.style.overflow = '';
+            // Ne pas réinitialiser le scroll ici - laisser AppContent gérer
         };
     }, [selectedImage]);
 

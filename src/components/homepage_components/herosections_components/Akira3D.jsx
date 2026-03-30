@@ -19,15 +19,6 @@ export default function Akira3D({ onReady }) {
     let renderStarted = false;
     let cleanupRenderer = null;
 
-    // CHARGE DÈS LE MONTAGE: Les modèles doivent charger en avant-plan
-    // même quand le GatewayScreen est affiché, donc l'utilisateur attend moins
-    const startupTimer = setTimeout(() => {
-      if (!renderStarted && !destroyed) {
-        renderStarted = true;
-        cleanupRenderer = initializeScene();
-      }
-    }, 50); // Délai très court après montage
-
     const initializeScene = () => {
       // Mesures initiales
       let width = container.clientWidth || window.innerWidth / 2;
@@ -40,9 +31,10 @@ export default function Akira3D({ onReady }) {
       // Camera
       const camera = new THREE.PerspectiveCamera(80, width / height, 0.01, 250);
 
-      // Renderer
+      // Renderer avec OPTIMISATIONS pour mobile
+      const isMobile = window.innerWidth < 768;
       const renderer = new THREE.WebGLRenderer({
-        antialias: true,
+        antialias: !isMobile,
         alpha: true,
         powerPreference: "high-performance",
         precision: "highp",
@@ -50,7 +42,8 @@ export default function Akira3D({ onReady }) {
         depth: true,
       });
       renderer.setSize(width, height);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      const maxPixelRatio = isMobile ? 1 : Math.min(window.devicePixelRatio, 1.5);
+      renderer.setPixelRatio(maxPixelRatio);
       renderer.outputColorSpace = THREE.SRGBColorSpace;
       renderer.domElement.style.display = 'block';
       container.appendChild(renderer.domElement);
@@ -71,7 +64,6 @@ export default function Akira3D({ onReady }) {
 
       let animId = null;
 
-      // --- FONCTION RESIZE (Anti-Crop) ---
       const onResize = () => {
         if (!container || destroyed) return;
         const w = container.clientWidth;
@@ -79,46 +71,11 @@ export default function Akira3D({ onReady }) {
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
         renderer.setSize(w, h);
-        
       };
 
-      // Forcer le resize après un court délai pour laisser le CSS se stabiliser
       const resizeTimer = setTimeout(onResize, 150);
 
-      // Chargement du modèle 3D
-      loadGLTFWithProperPaths(akiraModelUrl)
-          .then((gltf) => {
-              if (destroyed) return;
-              const model = gltf.scene;
-
-          const box = new THREE.Box3().setFromObject(model);
-          const size = box.getSize(new THREE.Vector3());
-          const center = box.getCenter(new THREE.Vector3());
-          const upwardOffset = 0;
-
-          const maxDim = Math.max(size.x, size.y, size.z);
-          const scale = 6 / maxDim;
-          model.scale.setScalar(scale);
-
-          model.position.x -= center.x;
-          model.position.y -= center.y;
-          model.position.z -= center.z;
-          
-          const initialZ = 7;
-          camera.position.set(0, 1.2 + upwardOffset, initialZ);
-          camera.lookAt(0, upwardOffset, 0);
-          model.rotation.x = Math.PI / 9;
-          camera.updateMatrixWorld();
-          scene.add(model);
-
-          onResize();
-          if (onReadyRef.current) {
-              onReadyRef.current({ camera, initialZ, model });
-          }
-          })
-          .catch((err) => console.error("ERREUR CHARGEMENT :", err));
-
-      // Animation LOOP
+      // Démarrer l'animation immédiatement (avec ou sans modèle)
       function animate() {
         if (destroyed) return;
         animId = requestAnimationFrame(animate);
@@ -128,13 +85,55 @@ export default function Akira3D({ onReady }) {
 
       window.addEventListener("resize", onResize);
 
-      // Retourner la fonction de cleanup
+      // Charger le modèle EN ARRIÈRE-PLAN avec timeout (15 secondes)
+      // Cela permet d'afficher le renderer et le gateway sans attendre le chargement
+      loadGLTFWithProperPaths(akiraModelUrl, { dracoSupport: true, timeout: 15000 })
+          .then((gltf) => {
+              if (destroyed) return;
+              const model = gltf.scene;
+
+              const box = new THREE.Box3().setFromObject(model);
+              const size = box.getSize(new THREE.Vector3());
+              const center = box.getCenter(new THREE.Vector3());
+              const upwardOffset = 0;
+
+              const maxDim = Math.max(size.x, size.y, size.z);
+              const scale = 6 / maxDim;
+              model.scale.setScalar(scale);
+
+              model.position.x -= center.x;
+              model.position.y -= center.y;
+              model.position.z -= center.z;
+              
+              const initialZ = 7;
+              camera.position.set(0, 1.2 + upwardOffset, initialZ);
+              camera.lookAt(0, upwardOffset, 0);
+              model.rotation.x = Math.PI / 9;
+              camera.updateMatrixWorld();
+              scene.add(model);
+
+              onResize();
+              if (onReadyRef.current) {
+                  onReadyRef.current({ camera, initialZ, model });
+              }
+              console.log('✅ Akira3D chargé');
+          })
+          .catch((err) => console.warn("⚠️ Akira3D load failed (timeout ok):", err.message));
+
+      function animate() {
+        if (destroyed) return;
+        animId = requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      window.addEventListener("resize", onResize);
+
       return () => {
         clearTimeout(resizeTimer);
         cancelAnimationFrame(animId);
         window.removeEventListener("resize", onResize);
         
-        // Dispose all geometries, materials, and textures
         scene.traverse((object) => {
           if (object.geometry) {
             object.geometry.dispose();
@@ -150,7 +149,7 @@ export default function Akira3D({ onReady }) {
             object.texture.dispose();
           }
         });
-        
+
         renderer.dispose();
         if (container && container.contains(renderer.domElement)) {
           container.removeChild(renderer.domElement);
@@ -158,20 +157,22 @@ export default function Akira3D({ onReady }) {
       };
     };
 
+    // Charger IMMÉDIATEMENT
+    const startupTimer = setTimeout(() => {
+      if (!renderStarted && !destroyed) {
+        renderStarted = true;
+        cleanupRenderer = initializeScene();
+      }
+    }, 50);
+
     return () => {
-      destroyed = true;
       clearTimeout(startupTimer);
-      // Appeler le cleanup du renderer s'il a été initialisé
-      if (cleanupRenderer) {
+      destroyed = true;
+      if (cleanupRenderer && typeof cleanupRenderer === 'function') {
         cleanupRenderer();
       }
     };
   }, []);
 
-  return (
-    <div
-      ref={containerRef}
-      style={{ width: "100%", height: "100%", position: "relative" }}
-    />
-  );
+  return <div ref={containerRef} style={{ width: '100%', height: '100%' }} />;
 }
