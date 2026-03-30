@@ -2,11 +2,12 @@ import { useRef, useEffect, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { CSSPlugin } from 'gsap/CSSPlugin';
 import Akira3D from './Akira3D';
 import GIS3D from './GIS3D';
 import ImmersionOverlay from './ImmersionOverlay';
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, CSSPlugin);
 
 export default function Hero({ title1, title2, subtitle }) {
   const { t } = useTranslation();

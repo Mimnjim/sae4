@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import Stats from 'stats.js';
 import { difficulty } from './config.js';
 
 export const scene = new THREE.Scene();
@@ -24,10 +23,14 @@ const statsParent = gameContainer || document.body;
 if (gameContainer) gameContainer.appendChild(renderer.domElement);
 else               document.body.appendChild(renderer.domElement);
 
-export const stats = new Stats();
-stats.showPanel(0);
-stats.dom.style.cssText = 'position:absolute;top:12px;right:12px;display:none;'; /* FPS cachés */
-statsParent.appendChild(stats.dom);
+// OPTIMISATION: Stats charger depuis script global
+const StatsClass = typeof window !== 'undefined' ? window.Stats : null;
+export const stats = StatsClass ? new StatsClass() : null;
+if (stats) {
+  stats.showPanel(0);
+  stats.dom.style.cssText = 'position:absolute;top:12px;right:12px;display:none;'; /* FPS cachés */
+  statsParent.appendChild(stats.dom);
+}
 
 export function resizeRenderer() {
     const w  = gameContainer?.clientWidth  || window.innerWidth;
