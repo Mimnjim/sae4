@@ -15,7 +15,7 @@ camera.layers.enable(1);
 export const renderer = new THREE.WebGLRenderer({ antialias: false, powerPreference: 'high-performance' });
 // OPTIMISATION : pixel ratio bloqué à 1
 renderer.setPixelRatio(1);
-renderer.domElement.style.cssText = 'width:110%;height:110%;';
+renderer.domElement.style.cssText = 'display:block;width:100%;height:100%;';
 
 export const gameContainer = document.getElementById('game-container');
 const statsParent = gameContainer || document.body;
@@ -35,11 +35,19 @@ if (stats) {
 export function resizeRenderer() {
     const w  = gameContainer?.clientWidth  || window.innerWidth;
     const h  = gameContainer?.clientHeight || window.innerHeight;
-    if (renderer.domElement.width !== w || renderer.domElement.height !== h) {
-        renderer.setSize(w, h, false);
-        camera.aspect = w / h;
-        camera.updateProjectionMatrix();
-    }
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
 }
 window.addEventListener('resize', resizeRenderer);
-resizeRenderer();
+
+// Attendre le chargement du DOM pour le resize initial
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        // Force layout recalc
+        setTimeout(resizeRenderer, 50);
+    });
+} else {
+    // Force layout recalc
+    setTimeout(resizeRenderer, 50);
+}

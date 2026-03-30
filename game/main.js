@@ -44,9 +44,11 @@ const assetsLoadedPromise = Promise.all(loadPromises).then(() => {
     const el = document.getElementById('loading-overlay');
     if (el && el.parentNode) el.parentNode.removeChild(el);
     if (isEmbedded) window.parent.postMessage({ type: 'game_loaded', difficulty }, '*');
-}).catch(() => {
+}).catch((err) => {
+    console.error('Erreur lors du chargement des assets:', err);
     const el = document.getElementById('loading-overlay');
     if (el && el.parentNode) el.parentNode.removeChild(el);
+    // Continuer quand même, au moins on peut voir la scène vide
 });
 
 function handleBoost(currentTime) {
@@ -155,11 +157,11 @@ const tick = () => {
     if (now - lastFrameTime < FRAME_DURATION) return;
     lastFrameTime = now;
 
-    stats.begin();
+    if (stats) stats.begin();
 
     if (!gameState.isReady || !playerRef.bike) {
         renderer.render(scene, camera);
-        stats.end();
+        if (stats) stats.end();
         return;
     }
 
@@ -183,7 +185,7 @@ const tick = () => {
 
     if (gameState.playerHealth <= 0 && !gameState.hasWon) {
         showGameOver();
-        stats.end();
+        if (stats) stats.end();
         return;
     }
 
@@ -193,12 +195,12 @@ const tick = () => {
         animationFrameId = null;
         showVictory();
         renderer.render(scene, camera);
-        stats.end();
+        if (stats) stats.end();
         return;
     }
 
     renderer.render(scene, camera);
-    stats.end();
+    if (stats) stats.end();
 };
 
 function startGame() {
@@ -279,3 +281,16 @@ if (isEmbedded) {
 } else {
     assetsLoadedPromise.then(() => startGame());
 }
+
+// Rendu initial immédiat pour afficher la scène pendant le chargement
+let initialRenderDone = false;
+const renderInitial = () => {
+    if (!initialRenderDone) {
+        initialRenderDone = true;
+        renderer.render(scene, camera);
+    }
+    if (!animationFrameId) {
+        requestAnimationFrame(renderInitial);
+    }
+};
+renderInitial();
