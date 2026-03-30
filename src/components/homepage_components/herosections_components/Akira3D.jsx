@@ -5,7 +5,7 @@ import { loadGLTFWithProperPaths } from '../../../utils/gltfLoader.js';
 export default function Akira3D({ onReady }) {
   const containerRef = useRef(null);
   const onReadyRef = useRef(onReady);
-  const akiraModelUrl = '/models/tetsuo.glb';
+  const akiraModelUrl = '/models/Tetsuo.glb';
 
   useEffect(() => {
     onReadyRef.current = onReady;
