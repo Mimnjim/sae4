@@ -33,11 +33,35 @@ if (isEmbedded) {
     window.parent.postMessage({ type: 'game_init', difficulty, total: config.itemCount }, '*');
 }
 
+// OPTIMISATION: Charger les assets avec priorité
+// Le joueur est critique, les autres peuvent attendre
+const playerPromise = createPlayer();
+
+// Retarder légèrement les autres assets pour laisser le joueur charger en priorité
+const otherAssetsPromise = new Promise((resolve) => {
+    // Utiliser requestIdleCallback si disponible, sinon setTimeout
+    if (typeof requestIdleCallback !== 'undefined') {
+        requestIdleCallback(() => {
+            Promise.all([
+                tryLoadBuildingPrefabs(),
+                tryLoadEnemyModel(),
+                tryLoadItemModel(),
+            ]).then(resolve).catch(resolve);
+        }, { timeout: 2000 }); // Timeout après 2s même si le navigateur est occupé
+    } else {
+        setTimeout(() => {
+            Promise.all([
+                tryLoadBuildingPrefabs(),
+                tryLoadEnemyModel(),
+                tryLoadItemModel(),
+            ]).then(resolve).catch(resolve);
+        }, 200);
+    }
+});
+
 const loadPromises = [
-    tryLoadBuildingPrefabs(),
-    tryLoadEnemyModel(),
-    tryLoadItemModel(),
-    createPlayer(),
+    playerPromise,
+    otherAssetsPromise,
 ];
 
 const assetsLoadedPromise = Promise.all(loadPromises).then(() => {
@@ -46,9 +70,14 @@ const assetsLoadedPromise = Promise.all(loadPromises).then(() => {
     if (isEmbedded) window.parent.postMessage({ type: 'game_loaded', difficulty }, '*');
 }).catch((err) => {
     console.error('Erreur lors du chargement des assets:', err);
+    // Ne pas bloquer le jeu, au moins on peut voir la scène vide
     const el = document.getElementById('loading-overlay');
-    if (el && el.parentNode) el.parentNode.removeChild(el);
-    // Continuer quand même, au moins on peut voir la scène vide
+    if (el && el.parentNode) {
+        // Retirer le loading après 3s même en cas d'erreur
+        setTimeout(() => {
+            if (el && el.parentNode) el.parentNode.removeChild(el);
+        }, 3000);
+    }
 });
 
 function handleBoost(currentTime) {

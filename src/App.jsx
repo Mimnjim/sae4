@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import TargetCursor from './animations/TargetCursor';
 import Grainient from './animations/Grainient';
+import QuickPagePlaceholder from './components/global_components/QuickPagePlaceholder';
 import { SoundProvider } from './sound/SoundContext';
 import useSoundInteractions from './sound/useSoundInteractions';
 
@@ -56,12 +57,24 @@ import './styles/components/global_components/gateway-screen.css';
 // Page d'accueil
 const Home = ({ entered, setEntered }) => {
   const { t } = useTranslation();
+  const [renderKey, setRenderKey] = useState(0);
+
+  // À chaque fois qu'on revient sur l'accueil, réinitialiser entered à false
+  // Pour que le GatewayScreen réapparaisse et masque le loading
+  useEffect(() => {
+    setEntered(false);
+    // Incrémenter la clé pour forcer un re-render complet des modèles 3D
+    setRenderKey(prev => prev + 1);
+  }, [setEntered]);
+
   return (
     <div className="home-container">
       {!entered && <GatewayScreen onEnter={() => setEntered(true)} />}
       {/* Les sections vont flotter au-dessus du Grainient */}
 
+      {/* key={renderKey} force le Hero et ses enfants à se re-monter complètement */}
       <Hero
+        key={renderKey}
         title1={t('hero.title1')}
         title2={t('hero.title2')}
         subtitle={t('hero.subtitle')}
@@ -97,16 +110,20 @@ const AppContent = ({ entered, setEntered, user, setUser }) => {
   useSoundInteractions();
   const [showGrainient, setShowGrainient] = useState(false);
 
-  // Charger le Grainient après le GatewayScreen ou après 500ms
+  // Charger le Grainient après le GatewayScreen ou après délai plus long
+  // Cela laisse le temps aux ressources critiques de charger en premier
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowGrainient(true);
-    }, entered ? 100 : 500);
+    }, entered ? 200 : 1200); // Délai plus long pour priorité aux modèles 3D critiques
     return () => clearTimeout(timer);
   }, [entered]);
 
   return (
     <>
+      {/* PLACEHOLDER: Affiche immédiatement pendant le chargement initial */}
+      <QuickPagePlaceholder />
+
       {/* LE FOND : Positionné en fixed via CSS ou style inline pour être sûr */}
       <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: -1 }}>
         {showGrainient && (
@@ -188,20 +205,24 @@ const AppContent = ({ entered, setEntered, user, setUser }) => {
 
 // Composant principal de l'application
 const App = () => {
-  // Récupérer l'état initial depuis localStorage (persiste la navigation)
+  // Le GatewayScreen s'affiche à chaque nouvelle session (pas de persistence localStorage)
+  // Utiliser sessionStorage pour persister pendant la session actuelle uniquement
   const [entered, setEntered] = useState(() => {
-    const stored = localStorage.getItem('siteEntered');
+    const stored = sessionStorage.getItem('siteEntered');
     return stored ? JSON.parse(stored) : false;
   });
   const [user, setUser] = useState(null);
 
-  // Persister le state entered dans localStorage à chaque changement
+  // Persister le state entered dans sessionStorage (durée de la session uniquement)
   useEffect(() => {
-    localStorage.setItem('siteEntered', JSON.stringify(entered));
+    sessionStorage.setItem('siteEntered', JSON.stringify(entered));
   }, [entered]);
 
   // Récupérer l'utilisateur depuis localStorage au montage
   useEffect(() => {
+    // Nettoyer l'ancienne clé localStorage (migration vers sessionStorage)
+    localStorage.removeItem('siteEntered');
+    
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       try {

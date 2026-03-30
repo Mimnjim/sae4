@@ -19,17 +19,14 @@ export default function Akira3D({ onReady }) {
     let renderStarted = false;
     let cleanupRenderer = null;
 
-    // OPTIMISATION: Intersection Observer pour lazy load le modèle
-    const intersectionObserver = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && !renderStarted && !destroyed) {
-          renderStarted = true;
-          cleanupRenderer = initializeScene();
-        }
-      },
-      { rootMargin: '200px' } // Charger 200px avant d'être visible
-    );
-    intersectionObserver.observe(container);
+    // CHARGE DÈS LE MONTAGE: Les modèles doivent charger en avant-plan
+    // même quand le GatewayScreen est affiché, donc l'utilisateur attend moins
+    const startupTimer = setTimeout(() => {
+      if (!renderStarted && !destroyed) {
+        renderStarted = true;
+        cleanupRenderer = initializeScene();
+      }
+    }, 50); // Délai très court après montage
 
     const initializeScene = () => {
       // Mesures initiales
@@ -163,7 +160,7 @@ export default function Akira3D({ onReady }) {
 
     return () => {
       destroyed = true;
-      intersectionObserver.disconnect();
+      clearTimeout(startupTimer);
       // Appeler le cleanup du renderer s'il a été initialisé
       if (cleanupRenderer) {
         cleanupRenderer();
