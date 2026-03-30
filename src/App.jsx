@@ -188,8 +188,17 @@ const AppContent = ({ entered, setEntered, user, setUser }) => {
 
 // Composant principal de l'application
 const App = () => {
-  const [entered, setEntered] = useState(false);
+  // Récupérer l'état initial depuis localStorage (persiste la navigation)
+  const [entered, setEntered] = useState(() => {
+    const stored = localStorage.getItem('siteEntered');
+    return stored ? JSON.parse(stored) : false;
+  });
   const [user, setUser] = useState(null);
+
+  // Persister le state entered dans localStorage à chaque changement
+  useEffect(() => {
+    localStorage.setItem('siteEntered', JSON.stringify(entered));
+  }, [entered]);
 
   // Récupérer l'utilisateur depuis localStorage au montage
   useEffect(() => {

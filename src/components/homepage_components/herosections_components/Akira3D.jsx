@@ -17,13 +17,14 @@ export default function Akira3D({ onReady }) {
 
     let destroyed = false;
     let renderStarted = false;
+    let cleanupRenderer = null;
 
     // OPTIMISATION: Intersection Observer pour lazy load le modèle
     const intersectionObserver = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && !renderStarted && !destroyed) {
           renderStarted = true;
-          initializeScene();
+          cleanupRenderer = initializeScene();
         }
       },
       { rootMargin: '200px' } // Charger 200px avant d'être visible
@@ -130,6 +131,7 @@ export default function Akira3D({ onReady }) {
 
       window.addEventListener("resize", onResize);
 
+      // Retourner la fonction de cleanup
       return () => {
         clearTimeout(resizeTimer);
         cancelAnimationFrame(animId);
@@ -162,6 +164,10 @@ export default function Akira3D({ onReady }) {
     return () => {
       destroyed = true;
       intersectionObserver.disconnect();
+      // Appeler le cleanup du renderer s'il a été initialisé
+      if (cleanupRenderer) {
+        cleanupRenderer();
+      }
     };
   }, []);
 
