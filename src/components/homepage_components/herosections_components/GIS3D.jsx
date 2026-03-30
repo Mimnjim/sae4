@@ -116,6 +116,7 @@ export default function GIS3D({ onReady }) {
             }, { passive: true });
         }
 
+        
         // Render loop
         function animate() {
             if (destroyed) return;
