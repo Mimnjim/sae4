@@ -18,19 +18,27 @@ export function clearGLTFCache() {
 
 // OPTIMISATION : Promise.any lance tous les chemins en parallèle
 // et prend le premier qui répond → x3-x10 plus rapide qu'en séquentiel.
+// Mais garder seulement les meilleurs chemins pour éviter trop de tentatives.
 export function loadGLTFWithCandidates(paths) {
     // Normalize and deduplicate candidate absolute URLs
-    const candidates = Array.from(new Set(paths.map(_toAbsUrl)));
+    // OPTIMISATION: Filtrer seulement les chemins probants (aller droit au but en prod)
+    const candidates = Array.from(new Set(paths
+        .filter(p => p.startsWith('/') || p.startsWith('http') || p.startsWith('game/'))
+        .map(_toAbsUrl)
+    ));
+
+    // Si aucun chemin valid, fallback à tous
+    const pathsToTry = candidates.length > 0 ? candidates : Array.from(new Set(paths.map(_toAbsUrl)));
 
     // If any candidate is already cached, return it immediately (fast path)
-    for (const url of candidates) {
+    for (const url of pathsToTry) {
         if (_gltfCache.has(url)) {
             return Promise.resolve({ gltf: _gltfCache.get(url), path: url });
         }
     }
 
     // Build (or reuse) loader promises for each candidate
-    const promises = candidates.map(url => {
+    const promises = pathsToTry.map(url => {
         if (_loadingPromises.has(url)) return _loadingPromises.get(url);
 
         const basePath = url.replace(/[^/]*$/, '');

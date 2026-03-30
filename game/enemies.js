@@ -24,13 +24,12 @@ for (let i = 0; i < config.maxEnemies; i++) {
 }
 
 export function tryLoadEnemyModel() {
+    // OPTIMISATION: Réduire les chemins à seulement ce qui est nécessaire en production
     const candidates = [
-        'assets/models/camion.gltf',         'assets/models/camion/camion.gltf',
-        'assets/models/camion.glb',          'assets/models/camion/camion.glb',
-        '/game/assets/models/camion.gltf',   '/game/assets/models/camion/camion.gltf',
-        '/game/assets/models/camion.glb',    '/game/assets/models/camion/camion.glb',
-        'game/assets/models/camion.gltf',    'game/assets/models/camion/camion.gltf',
-        'game/assets/models/camion.glb',     'game/assets/models/camion/camion.glb',
+        '/game/assets/models/camion.glb',
+        '/game/assets/models/camion/camion.glb',
+        'game/assets/models/camion.glb',
+        'game/assets/models/camion/camion.glb',
     ];
 
     return loadGLTFWithCandidates(candidates)

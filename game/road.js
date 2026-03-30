@@ -163,13 +163,10 @@ export function resetBuildings() {
 
 export function tryLoadBuildingPrefabs() {
     const promises = buildingVariantDirs.map(name => {
+        // OPTIMISATION: Réduire les chemins - garder seulement le chemin production
         const candidates = [
             `game/assets/buildings/${name}/Project Name.gltf`,
-            `game/assets/buildings/${name}/ProjectName.gltf`,
-            `game/assets/buildings/${name}/Project%20Name.gltf`,
             `/game/assets/buildings/${name}/Project Name.gltf`,
-            `assets/buildings/${name}/Project Name.gltf`,
-            `assets/buildings/${name}/Project%20Name.gltf`,
         ];
         return loadGLTFWithCandidates(candidates)
             .then(({ gltf }) => {

@@ -102,18 +102,19 @@ function fallbackToCube() {
 }
 
 export function createPlayer() {
+    // OPTIMISATION: Garder seulement les chemins de production (/game/assets/...)
+    // Supprimer les chemins locaux/fallback qui ajoutent du temps inutile
     const carCandidates = [
-        'assets/models/voiture.gltf', 'assets/models/voiture/voiture.gltf',
-        'assets/models/voiture.glb', 'assets/models/voiture/voiture.glb',
-        '/game/assets/models/voiture.gltf', '/game/assets/models/voiture/voiture.gltf',
-        '/game/assets/models/voiture.glb', '/game/assets/models/voiture/voiture.glb',
-        'game/assets/models/voiture.gltf', 'game/assets/models/voiture/voiture.gltf',
-        'game/assets/models/voiture.glb', 'game/assets/models/voiture/voiture.glb',
+        '/game/assets/models/voiture.glb',
+        '/game/assets/models/voiture/voiture.glb',
+        'game/assets/models/voiture.glb',
+        'game/assets/models/voiture/voiture.glb',
     ];
     const bikeCandidates = [
-        'assets/models/akira_bike.glb', 'assets/models/akira_bike.gltf',
-        '/game/assets/models/akira_bike.glb', '/game/assets/models/akira_bike.gltf',
-        'game/assets/models/akira_bike.glb', 'game/assets/models/akira_bike.gltf',
+        '/game/assets/models/akira_bike.glb',
+        '/game/assets/models/akira_bike.gltf',
+        'game/assets/models/akira_bike.glb',
+        'game/assets/models/akira_bike.gltf',
     ];
     return new Promise(resolve => {
         let finished = false;

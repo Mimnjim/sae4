@@ -1,7 +1,15 @@
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import * as THREE from 'three';
 
+// OPTIMISATION: Cache global pour éviter di recharger les modèles
+const _gltfCache = new Map();
+
 export function loadGLTFWithProperPaths(modelUrl) {
+    // Retourner depuis le cache si disponible
+    if (_gltfCache.has(modelUrl)) {
+        return Promise.resolve(_gltfCache.get(modelUrl));
+    }
+
     return new Promise((resolve, reject) => {
         const absoluteUrl = new URL(modelUrl, window.location.href).href;
         const basePath = absoluteUrl.replace(/[^/]*$/, '');
@@ -22,7 +30,11 @@ export function loadGLTFWithProperPaths(modelUrl) {
         const loader = new GLTFLoader(manager);
         loader.load(
             absoluteUrl,
-            gltf => resolve(gltf),
+            gltf => {
+                // Mettre le modèle en cache
+                _gltfCache.set(modelUrl, gltf);
+                resolve(gltf);
+            },
             undefined,
             error => {
                 console.error('[gltfLoader] Failed to load model:', modelUrl, error);

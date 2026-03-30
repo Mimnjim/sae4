@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import LevelCard from '../../components/experiences_components/LevelCard';
+import GameLoadingOverlay from '../../components/experiences_components/GameLoadingOverlay';
 import Timeline from '../../components/global_components/Timeline';
 import { useSoundContext } from '../../sound/SoundContext';
 import '../../styles/components/homepage_components/experiences.css';
@@ -100,6 +101,7 @@ const Experiences = () => {
   const [promoUnlocked, setPromoUnlocked] = useState(false);
   const [isGameFinished, setIsGameFinished] = useState(false);
   const [gameResult, setGameResult] = useState(null);
+  const [isGameLoading, setIsGameLoading] = useState(true);
   const [boostState, setBoostState] = useState({ status: 'charging', percent: 0 });
   const [healthPercent, setHealthPercent] = useState(100);
   const [racePercent, setRacePercent] = useState(0);
@@ -148,6 +150,7 @@ const Experiences = () => {
         isRestarting.current = false; // Réinitialiser la flag
         setIsGameFinished(false);
         setGameResult(null);
+        setIsGameLoading(false); // Le jeu est prêt!
       }
 
       if (msg.type === 'game_progress') {
@@ -198,6 +201,7 @@ const Experiences = () => {
     setSelectedLevelId(levelId); 
     if (unlockedMap[levelId]) {
       setPlayingLevelId(levelId);
+      setIsGameLoading(true); // Afficher le loading overlay
       playGameMusic();
     }
   };
@@ -205,6 +209,7 @@ const Experiences = () => {
   const handleReplay = () => { 
     stopGameMusic();
     isRestarting.current = true; // Marquer que c'est un restart
+    setIsGameLoading(true); // Afficher le loading overlay
     iframeRef.current?.contentWindow?.postMessage({ type: 'restart' }, '*'); 
     setIsGameFinished(false); 
     setGameResult(null);
@@ -216,7 +221,7 @@ const Experiences = () => {
     setGameResult(null);
     stopGameMusic();
   };
-  const handleNextLevel = () => { if (playingLevelId >= LEVEL_IDS.length) return; setPlayingLevelId(playingLevelId + 1); setIsGameFinished(false); setGameResult(null); };
+  const handleNextLevel = () => { if (playingLevelId >= LEVEL_IDS.length) return; setPlayingLevelId(playingLevelId + 1); setIsGameFinished(false); setGameResult(null); setIsGameLoading(true); };
   const handleClaimPromo = () => navigate('/form-reservation', { state: { promoCode: 'HUMAIN5', promoApplied: true } });
 
   return (
@@ -256,6 +261,8 @@ const Experiences = () => {
                   scrolling="no"
                   onLoad={handleIframeLoaded}
                 />
+
+                {isGameLoading && <GameLoadingOverlay />}
 
                 {/* HUD Interne (Parent) */}
                 <div className="parent-hud parent-health">

@@ -29,17 +29,12 @@ for (let i = 0; i < config.itemCount; i++) {
 }
 
 export function tryLoadItemModel() {
+    // OPTIMISATION: Garder seulement les chemins production
     const candidates = [
-        'assets/models/main/Main_item.gltf', 'assets/models/Main_item.gltf',
-        'assets/models/main.gltf', 'assets/models/main/main.gltf',
-        'assets/models/main.glb', 'assets/models/main/Main_item.glb',
-        'assets/models/main/main.glb', 'assets/models/Main_item.glb',
-        '/assets/models/main/Main_item.gltf', '/assets/models/Main_item.gltf',
-        '/assets/models/main.gltf', '/assets/models/main/main.gltf',
-        '/assets/models/main.glb',
-        'game/assets/models/main/Main_item.gltf', 'game/assets/models/Main_item.gltf',
-        '/game/assets/models/main/Main_item.gltf', '/game/assets/models/Main_item.gltf',
-        'game/assets/models/main.gltf', '/game/assets/models/main.gltf',
+        '/game/assets/models/main/Main_item.gltf',
+        '/game/assets/models/main/Main_item.glb',
+        'game/assets/models/main/Main_item.gltf',
+        'game/assets/models/main/main.glb',
     ];
 
     return loadGLTFWithCandidates(candidates)
