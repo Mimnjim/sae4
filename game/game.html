@@ -16,7 +16,12 @@
 </head>
 <body>
     <div id="game-container"></div>
-    <div id="loading-overlay"><div style="text-align:center;"><div class="spinner"></div><div id="loading-message">Chargement du jeu…</div></div></div>
+    <div id="loading-overlay">
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin: auto;">
+            <div class="spinner"></div>
+            <div id="loading-message">Chargement du jeu…</div>
+        </div>
+    </div>
 
     <script src="https://unpkg.com/stats.js@r17/build/Stats.js"></script>
     <script src="main.js" type="module"></script>

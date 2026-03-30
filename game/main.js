@@ -24,10 +24,13 @@ import {
     updateRaceProgressUI,
     showGameOver,
     showVictory,
+    resetUIValues,
 } from './ui.js';
 
 createHUD();
 initEmbeddedUI();
+// Réinitialiser les valeurs d'UI pour cette nouvelle partie
+resetUIValues();
 
 if (isEmbedded) {
     window.parent.postMessage({ type: 'game_init', difficulty, total: config.itemCount }, '*');

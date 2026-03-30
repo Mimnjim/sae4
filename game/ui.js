@@ -109,3 +109,38 @@ export function showVictory() {
         }, '*');
     }
 }
+
+// Réinitialiser les valeurs d'affichage pour une nouvelle partie
+export function resetUIValues() {
+    lastPostValues.speed = -1;
+    lastPostValues.progress = -1;
+    lastPostValues.health = -1;
+    lastPostValues.boostStatus = null;
+    lastPostValues.boostPct = -1;
+    lastPostValues.itemsPct = -1;
+    lastPostValues.itemsCollected = -1;
+    
+    // Réinitialiser l'affichage à 0
+    const healthBar = getEl('timer');
+    const healthTxt = getEl('health-value');
+    if (healthBar) { healthBar.style.width = '100%'; healthBar.style.background = '#00ffff'; }
+    if (healthTxt) { healthTxt.textContent = '100'; }
+    
+    const progressBar = getEl('hud-progress-bar');
+    const progressTxt = getEl('hud-progress-text');
+    if (progressBar) { progressBar.style.width = '0%'; }
+    if (progressTxt) { progressTxt.textContent = '0%'; }
+    
+    const itemsBar = getEl('hud-items-bar');
+    const itemsTxt = getEl('hud-items-text');
+    if (itemsBar) { itemsBar.style.width = '0%'; }
+    if (itemsTxt) { itemsTxt.textContent = `0 / ${config.itemCount}`; }
+    
+    const speedText = getEl('hud-speed-text');
+    if (speedText) { speedText.textContent = '0 km/h'; }
+    
+    const boostBar = getEl('boost-bar');
+    const boostStatus = getEl('boost-status');
+    if (boostBar) { boostBar.style.width = '0%'; boostBar.style.background = '#00ffff'; }
+    if (boostStatus) { boostStatus.textContent = 'CHARGEMENT...'; boostStatus.style.color = '#00ffff'; }
+}
