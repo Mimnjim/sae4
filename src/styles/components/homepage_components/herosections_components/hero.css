@@ -39,6 +39,14 @@
     transform: translateZ(0);
     -webkit-transform: translateZ(0);
     -webkit-font-smoothing: antialiased;
+    opacity: 1;
+    transition: opacity 0.1s ease;
+}
+
+@media (max-width: 768px) {
+    .akira.scrolling, .gis.scrolling {
+        opacity: 0.15;
+    }
 }
 
 .gis {

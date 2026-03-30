@@ -62,13 +62,11 @@ body, #root, .App {
   margin: 0;
   padding: 0;
   scroll-behavior: smooth;
-  background: rgba(0, 0, 0, 0.3);
 }
 
 body {
   overflow-x: hidden;
   height: 800vh; /* Permet de faire défiler la page pour voir les sections */
-  background: rgba(0, 0, 0, 0.3);
 }
 
 .game-container {

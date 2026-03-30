@@ -103,11 +103,29 @@ export default function Akira3D({ onReady }) {
             (err) => console.error('[Akira3D] load error:', err)
         );
 
+        // Mobile optimization: pause rendering during scroll
+        let scrollTimeout = null;
+        let shouldPauseRender = false;
+        
+        if (isMobile) {
+            window.addEventListener('scroll', () => {
+                shouldPauseRender = true;
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    shouldPauseRender = false;
+                }, 100);
+            }, { passive: true });
+        }
+
         // Animation LOOP 
         function animate() {
             if (destroyed) return;
             animId = requestAnimationFrame(animate);
-            renderer.render(scene, camera);
+            
+            // Skip rendering during scroll on mobile to prevent flicker
+            if (!shouldPauseRender) {
+                renderer.render(scene, camera);
+            }
         }
         animate();
 

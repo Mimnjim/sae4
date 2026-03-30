@@ -8,6 +8,7 @@
   overflow: hidden;
   z-index: -1; 
   pointer-events: none;
+  will-change: auto;
 }
 
 .page-gradient canvas,
@@ -15,4 +16,7 @@
   display: block;
   width: 100% !important;
   height: 100% !important;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  image-rendering: high-quality;
 }

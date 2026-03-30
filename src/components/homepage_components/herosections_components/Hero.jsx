@@ -39,6 +39,28 @@ export default function Hero({ title1, title2, subtitle }) {
         window.scrollTo(0, 0);
     }, []);
 
+    // Mobile: hide 3D renderers during scroll to prevent flickering
+    useEffect(() => {
+        let scrollTimeout = null;
+        const isMobileDevice = window.innerWidth < 768;
+        
+        if (!isMobileDevice) return;
+        
+        const handleScroll = () => {
+            if (akiraHeroRef.current) akiraHeroRef.current.classList.add('scrolling');
+            if (gisHeroRef.current) gisHeroRef.current.classList.add('scrolling');
+            
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                if (akiraHeroRef.current) akiraHeroRef.current.classList.remove('scrolling');
+                if (gisHeroRef.current) gisHeroRef.current.classList.remove('scrolling');
+            }, 150);
+        };
+        
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     // Animation flottante du texte "Scroll pour en savoir plus"
     useEffect(() => {
         // Petit délai pour s'assurer que le DOM est prêt
