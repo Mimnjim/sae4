@@ -1,124 +1,143 @@
-import { useEffect, useRef } from 'react';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import * as THREE from 'three';
-import gisModelUrl from '../../../assets/models/Motoko_gltf/ProjectName.gltf?url';
+import { useEffect, useRef } from "react";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import * as THREE from "three";
+import gisModelUrl from "../../../assets/models/Motoko.glb?url";
 
 export default function GIS3D({ onReady }) {
-    const containerRef = useRef(null);
-    const onReadyRef   = useRef(onReady);
-    
-    useEffect(() => { onReadyRef.current = onReady; }, [onReady]);
+  const containerRef = useRef(null);
+  const onReadyRef = useRef(onReady);
 
-    useEffect(() => {
-        const container = containerRef.current;
-        if (!container) return;
+  useEffect(() => {
+    onReadyRef.current = onReady;
+  }, [onReady]);
 
-        // Mesures initiales (sécurité si le container est à 0)
-        let width  = container.clientWidth  || window.innerWidth / 2;
-        let height = container.clientHeight || window.innerHeight;
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
 
-        // Scene
-        const scene = new THREE.Scene();
-        scene.background = null;
+    // Mesures initiales (sécurité si le container est à 0)
+    let width = container.clientWidth || window.innerWidth / 2;
+    let height = container.clientHeight || window.innerHeight;
 
-        // Camera
-        const camera = new THREE.PerspectiveCamera(90, width / height, 0.01, 10000);
+    // Scene
+    const scene = new THREE.Scene();
+    scene.background = null;
 
-        // Renderer
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setSize(width, height);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.outputColorSpace = THREE.SRGBColorSpace;
-        container.appendChild(renderer.domElement);
+    // Camera
+    const camera = new THREE.PerspectiveCamera(90, width / height, 0.01, 1000);
 
-        // Lights
-        scene.add(new THREE.AmbientLight(0xffffff, 1));
-        const dir = new THREE.DirectionalLight(0xffffff, 1);
-        dir.position.set(5, 5, 5);
-        scene.add(dir);
+    // Renderer
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance",
+  precision: "highp",
+  stencil: false,
+  depth: true });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    container.appendChild(renderer.domElement);
 
-        let animId    = null;
-        let destroyed = false;
+    // Lights
+    scene.add(new THREE.AmbientLight(0xffffff, 1));
+    const dir = new THREE.DirectionalLight(0xffffff, 1);
+    dir.position.set(5, 5, 5);
+    scene.add(dir);
 
-        // --- FONCTION RESIZE (Fix Anti-Crop) ---
-        const onResize = () => {
-            if (!container || destroyed) return;
-            const w = container.clientWidth;
-            const h = container.clientHeight;
-            camera.aspect = w / h;
-            camera.updateProjectionMatrix();
-            renderer.setSize(w, h);
-        };
+    let animId = null;
+    let destroyed = false;
 
-        // Fix : Force le recalcul 150ms après le montage pour laisser le layout se stabiliser
-        const resizeTimer = setTimeout(onResize, 150);
+    // --- FONCTION RESIZE (Fix Anti-Crop) ---
+    const onResize = () => {
+      if (!container || destroyed) return;
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+    };
 
-        // Chargement du modèle
-        const loader = new GLTFLoader();
-        loader.load(
-            gisModelUrl,
-            (gltf) => {
-                if (destroyed) return;
-                const model = gltf.scene;
+    // Fix : Force le recalcul 150ms après le montage pour laisser le layout se stabiliser
+    const resizeTimer = setTimeout(onResize, 150);
 
-                const box = new THREE.Box3().setFromObject(model);
-                const center = box.getCenter(new THREE.Vector3());
-                const size = box.getSize(new THREE.Vector3());
+    // Chargement du modèle
+    const loader = new GLTFLoader();
+    loader.load(
+      gisModelUrl,
+      (gltf) => {
+        if (destroyed) return;
+        const model = gltf.scene;
 
-                // RECENTRAGE
-                model.position.x -= center.x;
-                model.position.y -= center.y;
-                model.position.z -= center.z;
+        const box = new THREE.Box3().setFromObject(model);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
 
-                // Remontée du modèle (pour éviter le cropping des jambes)
-                const upwardOffset = 4;
-                model.position.y += upwardOffset;
+        // RECENTRAGE
+        model.position.x -= center.x;
+        model.position.y -= center.y;
+        model.position.y -= 0.5;
+        model.position.z -= center.z;
 
-                // SCALE AUTO
-                const maxDim = Math.max(size.x, size.y, size.z);
-                const scale = 6 / maxDim;
-                model.scale.setScalar(scale);
 
-                // Pour agrandir le modèle sans changer le visuel
-                const initialZ = 5; 
-                camera.position.set(0, 1.2 + upwardOffset, initialZ);
+        
 
-                camera.lookAt(0, upwardOffset, 0);
-                camera.updateMatrixWorld();
-                scene.add(model);
+        // Remontée du modèle (pour éviter le cropping des jambes)
+        const upwardOffset = 0;
+        model.position.y += upwardOffset;
 
-                // On force le resize immédiatement après l'ajout du modèle
-                onResize();
+        // const initialZ = 0;
+        // camera.position.set(0, 0, initialZ); // Caméra à hauteur 0
+        // camera.lookAt(0, 0, 0);
 
-                if (onReadyRef.current) {
-                    onReadyRef.current({ camera, initialZ, model });
-                }
-            },
-            undefined,
-            (err) => console.error('[GIS3D] load error:', err)
-        );
+        // SCALE AUTO
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const scale = 6 / maxDim;
+        model.scale.setScalar(scale);
 
-        // Render loop
-        function animate() {
-            if (destroyed) return;
-            animId = requestAnimationFrame(animate);
-            renderer.render(scene, camera);
+        // Pour agrandir le modèle sans changer le visuel
+        const initialZ = 6;
+        camera.position.set(0, 1.2 + upwardOffset, initialZ);
+
+        camera.lookAt(0, upwardOffset, 0);
+        // model.rotation.y = Math.PI / 20;
+        camera.updateMatrixWorld();
+        scene.add(model);
+
+        // On force le resize immédiatement après l'ajout du modèle
+        onResize();
+
+        if (onReadyRef.current) {
+          onReadyRef.current({ camera, initialZ, model });
         }
-        animate();
+      },
+      undefined,
+      (err) => console.error("[GIS3D] load error:", err),
+    );
 
-        window.addEventListener('resize', onResize);
+    // Render loop
+    function animate() {
+      if (destroyed) return;
+      animId = requestAnimationFrame(animate);
+      renderer.render(scene, camera);
+    }
+    animate();
 
-        return () => {
-            destroyed = true;
-            clearTimeout(resizeTimer);
-            cancelAnimationFrame(animId);
-            window.removeEventListener('resize', onResize);
-            renderer.dispose();
-            if (container.contains(renderer.domElement)) {
-                container.removeChild(renderer.domElement);
-            }
-        };
-    }, []);
+    window.addEventListener("resize", onResize);
 
-    return <div ref={containerRef} style={{ width: '100%', height: '100%', position: 'relative' }} />;
+    return () => {
+      destroyed = true;
+      clearTimeout(resizeTimer);
+      cancelAnimationFrame(animId);
+      window.removeEventListener("resize", onResize);
+      renderer.dispose();
+      if (container.contains(renderer.domElement)) {
+        container.removeChild(renderer.domElement);
+      }
+    };
+  }, []);
+
+  return (
+    <div
+      ref={containerRef}
+      style={{ width: "100%", height: "100%", position: "relative" }}
+    />
+  );
 }

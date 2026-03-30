@@ -1,121 +1,144 @@
-import { useEffect, useRef } from 'react';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import * as THREE from 'three';
-import akiraModelUrl from '/models/akira_tetsuo_first_3d_model.glb?url';
+import { useEffect, useRef } from "react";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import * as THREE from "three";
+import akiraModelUrl from "../../../assets/models/tetsuo.glb?url";
 
 export default function Akira3D({ onReady }) {
-    const containerRef = useRef(null);
-    const onReadyRef   = useRef(onReady);
-    
-    useEffect(() => { onReadyRef.current = onReady; }, [onReady]);
+  const containerRef = useRef(null);
+  const onReadyRef = useRef(onReady);
 
-    useEffect(() => {
-        const container = containerRef.current;
-        if (!container) return;
+  useEffect(() => {
+    onReadyRef.current = onReady;
+  }, [onReady]);
 
-        // Mesures initiales
-        let width  = container.clientWidth  || window.innerWidth / 2;
-        let height = container.clientHeight || window.innerHeight;
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
 
-        // Scene
-        const scene = new THREE.Scene();
-        scene.background = null;
+    // Mesures initiales
+    let width = container.clientWidth || window.innerWidth / 2;
+    let height = container.clientHeight || window.innerHeight;
 
-        // Camera
-        const camera = new THREE.PerspectiveCamera(80, width / height, 0.01, 10000);
+    // Scene
+    const scene = new THREE.Scene();
+    scene.background = null;
 
-        // Renderer
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setSize(width, height);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.outputColorSpace = THREE.SRGBColorSpace;
-        container.appendChild(renderer.domElement);
+    // Camera
+    const camera = new THREE.PerspectiveCamera(80, width / height, 0.01, 250);
 
-        // Lights
-        scene.add(new THREE.AmbientLight(0xffffff, 2));
-        const dir = new THREE.DirectionalLight(0xffffff, 4);
-        dir.position.set(5, 10, 7);
-        scene.add(dir);
+    // Renderer
+    const renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      alpha: true,
+      powerPreference: "high-performance",
+      precision: "highp",
+      stencil: false,
+      depth: true,
+    });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    container.appendChild(renderer.domElement);
+
+    // Lights
+    scene.add(new THREE.AmbientLight(0xffffff, 2));
+    const dir = new THREE.DirectionalLight(0xffffff, 4);
+    dir.position.set(5, 10, 7);
+    scene.add(dir);
+
+    const fill = new THREE.DirectionalLight(0x00d4ff, 2);
+    fill.position.set(-5, 2, -3);
+    scene.add(fill);
+
+    const rim = new THREE.PointLight(0xff003c, 2, 20);
+    rim.position.set(0, -2, 3);
+    scene.add(rim);
+
+    let animId = null;
+    let destroyed = false;
+
+    // --- FONCTION RESIZE (Anti-Crop) ---
+    const onResize = () => {
+      if (!container || destroyed) return;
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+      
+    };
+
+    // Forcer le resize après un court délai pour laisser le CSS se stabiliser
+    const resizeTimer = setTimeout(onResize, 150);
+
+    // Chargement du modèle 3D
+    const loader = new GLTFLoader();
+    loader.load(
+      akiraModelUrl,
+      (gltf) => {
+        if (destroyed) return;
+        const model = gltf.scene;
+
+        const box = new THREE.Box3().setFromObject(model);
+        const size = box.getSize(new THREE.Vector3());
+        const center = box.getCenter(new THREE.Vector3());
+        const upwardOffset = 0;
+
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const scale = 6 / maxDim;
+        model.scale.setScalar(scale);
+
+        model.position.x -= center.x;
+        model.position.y -= center.y;
+        model.position.z -= center.z;
         
-        const fill = new THREE.DirectionalLight(0x00d4ff, 2);
-        fill.position.set(-5, 2, -3);
-        scene.add(fill);
+        const initialZ = 7;
+        camera.position.set(0, 1.2 + upwardOffset, initialZ);
+        camera.lookAt(0, upwardOffset, 0);
+
+        camera.lookAt(0, upwardOffset, 0);
+        // model.rotation.y = Math.PI / 20;
+        model.rotation.x = Math.PI / 9;
+        camera.updateMatrixWorld();
         
-        const rim = new THREE.PointLight(0xff003c, 2, 20);
-        rim.position.set(0, -2, 3);
-        scene.add(rim);
 
-        let animId   = null;
-        let destroyed = false;
+        scene.add(model);
 
-        // --- FONCTION RESIZE (Anti-Crop) ---
-        const onResize = () => {
-            if (!container || destroyed) return;
-            const w = container.clientWidth;
-            const h = container.clientHeight;
-            camera.aspect = w / h;
-            camera.updateProjectionMatrix();
-            renderer.setSize(w, h);
-        };
-
-        // Forcer le resize après un court délai pour laisser le CSS se stabiliser
-        const resizeTimer = setTimeout(onResize, 150);
-
-        // Chargement du modèle 3D
-        const loader = new GLTFLoader();
-        loader.load(
-            akiraModelUrl,
-            (gltf) => {
-                if (destroyed) return;
-                const model = gltf.scene;
-
-                const box    = new THREE.Box3().setFromObject(model);
-                const center = box.getCenter(new THREE.Vector3());
-                const size   = box.getSize(new THREE.Vector3());
-                model.position.sub(center);
-
-                const maxDim   = Math.max(size.x, size.y, size.z);
-                const fovRad   = camera.fov * (Math.PI / 180);
-                const initialZ = Math.abs(maxDim / 2 / Math.tan(fovRad / 2)) * 1.6;
-                const posY     = -10;
-
-                camera.position.set(0, posY, initialZ);
-                camera.lookAt(0, 10, 0);
-                camera.updateMatrixWorld();
-                scene.add(model);
-
-                // On déclenche un resize juste après le chargement du modèle aussi
-                onResize();
-
-                if (onReadyRef.current) {
-                    onReadyRef.current({ camera, initialZ, model });
-                }
-            },
-            undefined,
-            (err) => console.error('[Akira3D] load error:', err)
-        );
-
-        // Animation LOOP 
-        function animate() {
-            if (destroyed) return;
-            animId = requestAnimationFrame(animate);
-            renderer.render(scene, camera);
+        onResize();
+        if (onReadyRef.current) {
+          onReadyRef.current({ camera, initialZ, model });
         }
-        animate();
+      },
+      undefined,
+      (err) => console.error("ERREUR CHARGEMENT :", err),
+    );
 
-        window.addEventListener('resize', onResize);
+    // Animation LOOP
+    function animate() {
+      if (destroyed) return;
+      animId = requestAnimationFrame(animate);
+      renderer.render(scene, camera);
+    }
+    animate();
 
-        return () => {
-            destroyed = true;
-            clearTimeout(resizeTimer);
-            cancelAnimationFrame(animId);
-            window.removeEventListener('resize', onResize);
-            renderer.dispose();
-            if (container.contains(renderer.domElement)) {
-                container.removeChild(renderer.domElement);
-            }
-        };
-    }, []);
+    window.addEventListener("resize", onResize);
 
-    return <div ref={containerRef} style={{ width: '100%', height: '100%', position: 'relative' }} />;
+    return () => {
+      destroyed = true;
+      clearTimeout(resizeTimer);
+      cancelAnimationFrame(animId);
+      window.removeEventListener("resize", onResize);
+      renderer.dispose();
+      if (container.contains(renderer.domElement)) {
+        container.removeChild(renderer.domElement);
+      }
+    };
+  }, []);
+
+  return (
+    <div
+      ref={containerRef}
+      style={{ width: "100%", height: "100%", position: "relative" }}
+    />
+  );
 }
