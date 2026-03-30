@@ -25,9 +25,32 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
+import fs from 'fs'
+import { execSync } from 'child_process'
  
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    // Plugin custom pour copier le dossier game/ dans dist/ après le build
+    {
+      name: 'copy-game-folder',
+      apply: 'build',
+      enforce: 'post',
+      writeBundle() {
+        const sourceDir = path.resolve(__dirname, 'game')
+        const destDir = path.resolve(__dirname, 'dist/game')
+        
+        // Créer le dossier destination s'il n'existe pas
+        if (!fs.existsSync(destDir)) {
+          fs.mkdirSync(destDir, { recursive: true })
+        }
+        
+        // Copier tous les fichiers du dossier game/ vers dist/game/
+        fs.cpSync(sourceDir, destDir, { recursive: true })
+        console.log('✓ Dossier game/ copié dans dist/game/')
+      }
+    }
+  ],
   assetsInclude: ['**/*.gltf', '**/*.glb', '**/*.bin'],
   resolve: {
     alias: {

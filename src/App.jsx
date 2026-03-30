@@ -54,10 +54,11 @@ import './styles/components/global_components/footer.css';
 import './styles/components/global_components/gateway-screen.css';
 
 // Page d'accueil
-const Home = () => {
+const Home = ({ entered, setEntered }) => {
   const { t } = useTranslation();
   return (
     <div className="home-container">
+      {!entered && <GatewayScreen onEnter={() => setEntered(true)} />}
       {/* Les sections vont flotter au-dessus du Grainient */}
 
       <Hero
@@ -97,8 +98,6 @@ const AppContent = ({ entered, setEntered, user, setUser }) => {
 
   return (
     <>
-      {!entered && <GatewayScreen onEnter={() => setEntered(true)} />}
-
       {/* LE FOND : Positionné en fixed via CSS ou style inline pour être sûr */}
       <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: -1 }}>
         <Grainient
@@ -149,7 +148,7 @@ const AppContent = ({ entered, setEntered, user, setUser }) => {
 
           <main className="main-content">
             <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home entered={entered} setEntered={setEntered} />} />
             <Route path="/experiences" element={<Experiences />} />
             <Route path="/form-reservation" element={<FormReservationPage />} />
             <Route path="/form-reservation/coordonnees" element={<ReservationDetails />} />
