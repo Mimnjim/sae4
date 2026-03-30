@@ -5,7 +5,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Akira3D from './Akira3D';
 import GIS3D from './GIS3D';
 import ImmersionOverlay from './ImmersionOverlay';
-import { ArrowUpRight } from '@boxicons/react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -603,38 +602,29 @@ export default function Hero({ title1, title2, subtitle }) {
           </div>
 
           <div className="container-hero">
-            <img
-              src="/img/grand_logo_white.svg"
-              ref={sloganRef}
-              alt="Logo de l'exposition - Au delà de l'humain"
-            />
+            <img src="/img/logo_sae4_white.png" ref={sloganRef} className="logo" alt="Logo de l'exposition - Au delà de l'humain" />
 
             <div ref={scrollDownRef} className="scroll-down">
-              <h3>{t("hero.scroll")}</h3>
-              <div className="arrow">
-                <span className="arrow-down" />
-              </div>
+              <h3>{t('hero.scroll')}</h3>
+              <div className="arrow"><span className="arrow-down" /></div>
             </div>
           </div>
-
           <div className="gis" ref={gisHeroRef}>
             <GIS3D onReady={handleGisReady} />
           </div>
         </div>
 
         <div className="footer-hero-container" ref={footerHeroRef}>
-          <p>{t("hero.quote")}</p>
+          <div className="quote-sound">
+            <p>{t("hero.quote")}</p>
+          </div>
           <div
             className="buttons-hero"
             ref={buttonsRef}
             style={{ position: "relative", zIndex: 20 }}
           >
-            <a href="#" className="cursor-target">
-              {t("hero.teaser")} <ArrowUpRight />
-            </a>
-            <a href="#" className="cursor-target">
-              {t("hero.tickets")} <ArrowUpRight />
-            </a>
+            <a href="#teaser" className="cursor-target">{t("hero.teaser")} <img src="/icons/FlecheDiagonale.svg" alt="" className='arrow-link' /></a>
+            <a href="/form-reservation" className="cursor-target">{t("hero.tickets")} <img src="/icons/FlecheDiagonale.svg" alt="" className='arrow-link' /></a>
           </div>
         </div>
       </div>
