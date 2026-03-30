@@ -202,6 +202,9 @@
     width: 100%;
     margin-top: -1rem;
     z-index: 1005;
+    position: absolute;
+    bottom: 30px;
+    padding: 0 2rem;
 }
 
 .footer-hero-container p {
