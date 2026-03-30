@@ -6,6 +6,7 @@ import Grainient from './animations/Grainient';
 import QuickPagePlaceholder from './components/global_components/QuickPagePlaceholder';
 import { SoundProvider } from './sound/SoundContext';
 import useSoundInteractions from './sound/useSoundInteractions';
+import { preloadHeroAssets } from './utils/gameAssetsPreloader';
 // NOTE: gameAssetsPreloader.js se charge automatiquement via son importation implicite
 
 // Composants principaux
@@ -156,6 +157,12 @@ const AppContent = ({ entered, setEntered, user, setUser }) => {
     }, 10); // Délai ultra-court pour affichage immédiat
     return () => clearTimeout(timer);
   }, [entered]);
+
+  // Précharger les modèles 3D hero DÈS QUE L'APP DÉMARRE
+  // Cela minimise le temps de chargement de la page d'accueil
+  useEffect(() => {
+    preloadHeroAssets();
+  }, []);
 
   // N'APPELEZ PAS preloadGameAssets() ici !
   // À la place: gameAssetsPreloader.js gère automatiquement le préchargement

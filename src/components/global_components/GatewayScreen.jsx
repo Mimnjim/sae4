@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import Grainient from '../../animations/Grainient';
+import { preloadHeroAssets } from '../../utils/gameAssetsPreloader';
 import '../../styles/components/global_components/gateway-screen.css';
 
 export default function GatewayScreen({ onEnter }) {
@@ -42,6 +43,11 @@ export default function GatewayScreen({ onEnter }) {
         localStorage.setItem('lang', langCode);
         setOpenLang(false);
     };
+
+    // Précharger les modèles 3D hero dès que le gateway screen s'affiche
+    useEffect(() => {
+        preloadHeroAssets();
+    }, []);
 
     useEffect(() => {
         // NOTE: Le scroll est exclusivement géré par AppContent en fonction de l'état 'entered'

@@ -4,6 +4,12 @@
  * OPTIMISATION: Chargement sélectif selon la page
  */
 
+// Modèles hero pour la page d'accueil (chargés dès le gateway screen)
+const HERO_MODELS = [
+    '/models/Tetsuo.glb',                           // Akira hero model
+    '/models/Motoko_gltf/Motoko.glb',              // Motoko hero model
+];
+
 // Modèles nécessaires pour le jeu (page Experiences)
 const GAME_MODELS = [
     '/game/assets/models/voiture/Voiture.gltf',      // Player bike
@@ -11,7 +17,37 @@ const GAME_MODELS = [
     '/game/assets/models/main/Main_item.gltf',       // Collectible items
 ];
 
+let hasPreloadedHero = false;
 let hasPreloaded = false;
+
+export function preloadHeroAssets() {
+    // Éviter le double preload
+    if (hasPreloadedHero) return;
+    hasPreloadedHero = true;
+
+    console.log('[gameAssetsPreloader] Démarrage du préchargement des modèles HERO');
+
+    // Charger les modèles hero immédiatement (pas d'attente, c'est prioritaire)
+    // Ils ont 15 seconds pour se charger
+    import('./gltfLoader.js').then(({ loadGLTFWithProperPaths }) => {
+        HERO_MODELS.forEach((modelUrl, index) => {
+            // Délai minimal entre chaque modèle (100ms)
+            const delayPerModel = 100;
+            
+            setTimeout(() => {
+                loadGLTFWithProperPaths(modelUrl, { dracoSupport: true })
+                    .then(() => {
+                        console.log(`✅ Préchargement HERO réussi: ${modelUrl}`);
+                    })
+                    .catch((err) => {
+                        console.warn(`⚠️ Échec du préchargement HERO: ${modelUrl}`, err);
+                    });
+            }, index * delayPerModel);
+        });
+    }).catch((err) => {
+        console.warn('⚠️ Impossible d\'importer gltfLoader pour le préchargement HERO', err);
+    });
+}
 
 export function preloadGameAssets() {
     // Éviter le double preload
