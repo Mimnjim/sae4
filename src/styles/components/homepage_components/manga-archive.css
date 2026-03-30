@@ -197,6 +197,119 @@
     transform: translateX(4px);
 }
 
+/* ── Modal d'image en grand ─────────────────────────────────── */
+
+.ma-modal-backdrop {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    z-index: 10000 !important;
+    background: rgba(0, 0, 0, 0.95) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.3s ease;
+    overflow: hidden !important;
+    transform: none !important;
+    pointer-events: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    cursor: auto !important;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.ma-modal-content {
+    position: relative !important;
+    width: auto !important;
+    height: auto !important;
+    max-width: 90vw !important;
+    max-height: 90vh !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    animation: slideUp 0.3s ease;
+    padding: 2rem !important;
+    box-sizing: border-box !important;
+    transform: none !important;
+    background: transparent !important;
+    cursor: auto !important;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.ma-modal-image {
+    width: auto;
+    height: auto;
+    max-width: 45%;
+    max-height: 100%;
+    object-fit: contain;
+    cursor: auto !important;
+}
+
+.ma-modal-close {
+    position: fixed !important;
+    top: 2rem !important;
+    right: 2rem !important;
+    z-index: 10001 !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: #fff !important;
+    width: 50px !important;
+    height: 50px !important;
+    min-width: 50px !important;
+    min-height: 50px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    border-radius: 4px !important;
+    transition: background 0.3s, border-color 0.3s;
+    padding: 0 !important;
+    transform: none !important;
+    pointer-events: auto !important;
+    margin: 0 !important;
+}
+
+.ma-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Force la modal à ignorer les animations GSAP */
+.ma-modal-backdrop * {
+    transform: none !important;
+    position: static !important;
+}
+
+.ma-modal-backdrop button {
+    position: fixed !important;
+}
+
 /* ── Responsive ─────────────────────────────────────────────── */
 
 @media (max-width: 900px) {
