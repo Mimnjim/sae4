@@ -14,6 +14,28 @@ export function SoundProvider({ children }) {
     gameMusicLoop: new Audio('/sounds/musique_jeu.mp3'),
   });
 
+  const [userInteracted, setUserInteracted] = useState(false);
+
+  // Détecter l'interaction utilisateur une seule fois
+  useEffect(() => {
+    const handleUserInteraction = () => {
+      setUserInteracted(true);
+      document.removeEventListener('click', handleUserInteraction);
+      document.removeEventListener('keydown', handleUserInteraction);
+      document.removeEventListener('touchstart', handleUserInteraction);
+    };
+
+    document.addEventListener('click', handleUserInteraction);
+    document.addEventListener('keydown', handleUserInteraction);
+    document.addEventListener('touchstart', handleUserInteraction);
+
+    return () => {
+      document.removeEventListener('click', handleUserInteraction);
+      document.removeEventListener('keydown', handleUserInteraction);
+      document.removeEventListener('touchstart', handleUserInteraction);
+    };
+  }, []);
+
   // Initialiser les sons
   useEffect(() => {
     soundsRef.current.gameMusicLoop.loop = true;
@@ -37,7 +59,15 @@ export function SoundProvider({ children }) {
     const audio = soundsRef.current[soundName];
     if (audio) {
       audio.currentTime = 0;
-      audio.play().catch(err => console.log('Erreur son:', err));
+      // Ne jouer que si l'utilisateur a interagi
+      if (userInteracted) {
+        audio.play().catch(err => {
+          // Silencer les erreurs d'autoplay, c'est une contrainte navigateur
+          if (err.name !== 'NotAllowedError') {
+            console.log('Erreur son:', err);
+          }
+        });
+      }
     }
   };
 
@@ -51,8 +81,13 @@ export function SoundProvider({ children }) {
   };
 
   const playGameMusic = () => {
-    if (soundEnabled) {
-      soundsRef.current.gameMusicLoop.play().catch(err => console.log('Erreur musique:', err));
+    if (soundEnabled && userInteracted) {
+      soundsRef.current.gameMusicLoop.play().catch(err => {
+        // Silencer les erreurs d'autoplay, c'est une contrainte navigateur
+        if (err.name !== 'NotAllowedError') {
+          console.log('Erreur musique:', err);
+        }
+      });
     }
   };
 
@@ -63,6 +98,7 @@ export function SoundProvider({ children }) {
       toggleSound,
       playGameMusic,
       stopGameMusic,
+      userInteracted,
     }}>
       {children}
     </SoundContext.Provider>

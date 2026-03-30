@@ -95,36 +95,47 @@ const Home = ({ entered, setEntered }) => {
 const AppContent = ({ entered, setEntered, user, setUser }) => {
   // Ajouter les sons aux interactions - bon endroit maintenant (dans le SoundProvider)
   useSoundInteractions();
+  const [showGrainient, setShowGrainient] = useState(false);
+
+  // Charger le Grainient après le GatewayScreen ou après 500ms
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowGrainient(true);
+    }, entered ? 100 : 500);
+    return () => clearTimeout(timer);
+  }, [entered]);
 
   return (
     <>
       {/* LE FOND : Positionné en fixed via CSS ou style inline pour être sûr */}
       <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: -1 }}>
-        <Grainient
-          color1="#ba121b"
-          color2="#521414"
-          color3="#075a50"
-          timeSpeed={0.25}
-          colorBalance={0.27}
-          warpStrength={1}
-          warpFrequency={5}
-          warpSpeed={2}
-          warpAmplitude={56}
-          blendAngle={0}
-          blendSoftness={0.05}
-          rotationAmount={500}
-          noiseScale={2}
-          grainAmount={0.1}
-          grainScale={2}
-          grainAnimated={false}
-          contrast={1.5}
-          gamma={1}
-          saturation={1}
-          centerX={-0.08}
-          centerY={0.03}
-          zoom={0.65}
-          className="page-gradient"
-        />
+        {showGrainient && (
+          <Grainient
+            color1="#ba121b"
+            color2="#521414"
+            color3="#075a50"
+            timeSpeed={0.25}
+            colorBalance={0.27}
+            warpStrength={1}
+            warpFrequency={5}
+            warpSpeed={2}
+            warpAmplitude={56}
+            blendAngle={0}
+            blendSoftness={0.05}
+            rotationAmount={500}
+            noiseScale={2}
+            grainAmount={0.1}
+            grainScale={2}
+            grainAnimated={false}
+            contrast={1.5}
+            gamma={1}
+            saturation={1}
+            centerX={-0.08}
+            centerY={0.03}
+            zoom={0.65}
+            className="page-gradient"
+          />
+        )}
 
         {/* Background canvas (Grainient) mounted above */}
       </div>

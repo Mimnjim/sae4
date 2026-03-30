@@ -26,7 +26,7 @@ export default function Akira3D({ onReady }) {
           initializeScene();
         }
       },
-      { rootMargin: '100px' } // Commencer à charger 100px avant d'être visible
+      { rootMargin: '200px' } // Charger 200px avant d'être visible
     );
     intersectionObserver.observe(container);
 

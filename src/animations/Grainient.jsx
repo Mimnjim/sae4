@@ -133,7 +133,7 @@ const Grainient = ({
       webgl: 2,
       alpha: true,
       antialias: false,
-      dpr: Math.min(window.devicePixelRatio || 1, 2)
+      dpr: 1 // OPTIMISATION: Pixel ratio à 1 pour réduire la charge GPU
     });
 
     const gl = renderer.gl;

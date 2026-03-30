@@ -26,10 +26,10 @@ for (let i = 0; i < config.maxEnemies; i++) {
 export function tryLoadEnemyModel() {
     // OPTIMISATION: Réduire les chemins à seulement ce qui est nécessaire en production
     const candidates = [
+        '/game/assets/models/camion/camion.gltf',
+        'game/assets/models/camion/camion.gltf',
         '/game/assets/models/camion.glb',
-        '/game/assets/models/camion/camion.glb',
         'game/assets/models/camion.glb',
-        'game/assets/models/camion/camion.glb',
     ];
 
     return loadGLTFWithCandidates(candidates)

@@ -2,12 +2,18 @@ import { useRef, useEffect, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { CSSPlugin } from 'gsap/CSSPlugin';
+import CSSPlugin from 'gsap/CSSPlugin';
 import Akira3D from './Akira3D';
 import GIS3D from './GIS3D';
 import ImmersionOverlay from './ImmersionOverlay';
 
-gsap.registerPlugin(ScrollTrigger, CSSPlugin);
+// Ensure plugins are registered for production builds
+if (!gsap.plugins.scrollTrigger) {
+  gsap.registerPlugin(ScrollTrigger);
+}
+if (!gsap.plugins.css) {
+  gsap.registerPlugin(CSSPlugin);
+}
 
 export default function Hero({ title1, title2, subtitle }) {
   const { t } = useTranslation();
@@ -487,20 +493,23 @@ export default function Hero({ title1, title2, subtitle }) {
 
   const handleAkiraHUDReady = useCallback(() => {
     readyCount.current += 1;
+    // OPTIMISATION: Retarder à 800ms pour priorité rendu initial
     if (loadedCount >= 2 && readyCount.current >= 2)
-      setTimeout(buildTimeline, 300);
+      setTimeout(buildTimeline, 800);
   }, [loadedCount, buildTimeline]);
 
   const handleGisHUDReady = useCallback(() => {
     readyCount.current += 1;
+    // OPTIMISATION: Retarder à 800ms pour priorité rendu initial
     if (loadedCount >= 2 && readyCount.current >= 2)
-      setTimeout(buildTimeline, 300);
+      setTimeout(buildTimeline, 800);
   }, [loadedCount, buildTimeline]);
 
   // Fallback si HUD onReady tardent
   useEffect(() => {
     if (loadedCount >= 2) {
-      const t = setTimeout(buildTimeline, 600);
+      // OPTIMISATION: Retarder à 1100ms pour priorité rendu initial
+      const t = setTimeout(buildTimeline, 1100);
       return () => clearTimeout(t);
     }
   }, [loadedCount, buildTimeline]);

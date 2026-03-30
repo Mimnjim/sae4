@@ -105,16 +105,16 @@ export function createPlayer() {
     // OPTIMISATION: Garder seulement les chemins de production (/game/assets/...)
     // Supprimer les chemins locaux/fallback qui ajoutent du temps inutile
     const carCandidates = [
+        '/game/assets/models/voiture/Voiture.gltf',
+        'game/assets/models/voiture/Voiture.gltf',
         '/game/assets/models/voiture.glb',
-        '/game/assets/models/voiture/voiture.glb',
         'game/assets/models/voiture.glb',
-        'game/assets/models/voiture/voiture.glb',
     ];
     const bikeCandidates = [
         '/game/assets/models/akira_bike.glb',
         '/game/assets/models/akira_bike.gltf',
-        'game/assets/models/akira_bike.glb',
-        'game/assets/models/akira_bike.gltf',
+        'game/assets/models/akira_bike/kanedas_bike_akira.gltf',
+        'game/assets/models/akira_bike/akira_bike.gltf',
     ];
     return new Promise(resolve => {
         let finished = false;
