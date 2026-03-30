@@ -546,7 +546,7 @@ export default function Hero({ title1, title2, subtitle }) {
         style={{
           position: "fixed",
           inset: 0,
-          zIndex: 2000,
+          zIndex: 3000,
           background: "#0a0a0a",
           display: "flex",
           flexDirection: "column",
