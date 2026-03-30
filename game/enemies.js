@@ -25,7 +25,12 @@ for (let i = 0; i < config.maxEnemies; i++) {
 
 export function tryLoadEnemyModel() {
     const candidates = [
-        '/models/akira_tetsuo_first_3d_model.glb',
+        'assets/models/camion.gltf',         'assets/models/camion/camion.gltf',
+        'assets/models/camion.glb',          'assets/models/camion/camion.glb',
+        '/game/assets/models/camion.gltf',   '/game/assets/models/camion/camion.gltf',
+        '/game/assets/models/camion.glb',    '/game/assets/models/camion/camion.glb',
+        'game/assets/models/camion.gltf',    'game/assets/models/camion/camion.gltf',
+        'game/assets/models/camion.glb',     'game/assets/models/camion/camion.glb',
     ];
 
     return loadGLTFWithCandidates(candidates)
