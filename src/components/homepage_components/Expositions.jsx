@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import Grainient from '../../animations/Grainient';
 import { ArrowUpRight, X } from '@boxicons/react';
-import '../../styles/components/homepage_components/manga-archive.css';
+import '../../styles/components/homepage_components/expositions.css';
 
 const images = [
     { src: '/img/Planche1_Akira.jpg', alt: 'Akira — Arc III - Katsuhiro Otomo', pos: 'tl' },

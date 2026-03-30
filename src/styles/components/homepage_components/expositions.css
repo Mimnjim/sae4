@@ -1,0 +1,347 @@
+/* ── Section ────────────────────────────────────────────────── */
+
+.ma-section {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* ── Fond Grainient ─────────────────────────────────────────── */
+
+.ma-background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+/* ── Overlay lisibilité ─────────────────────────────────────── */
+
+.ma-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    /* background: rgba(0, 0, 0, 0.45); */
+    pointer-events: none;
+}
+
+/* ── Grille 2×2 ─────────────────────────────────────────────── */
+
+.ma-grid {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1200px;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 5rem 3rem;
+    display: grid;
+    grid-template-columns: 200px 1fr 200px;
+    grid-template-rows: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* ── Images ─────────────────────────────────────────────────── */
+
+.ma-img-wrap {
+    width: 200px;
+    height: 260px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.ma-img-wrap--tl { grid-column: 1; grid-row: 1; align-self: end; }
+.ma-img-wrap--tr { grid-column: 3; grid-row: 1; align-self: end; }
+.ma-img-wrap--bl { grid-column: 1; grid-row: 2; align-self: start; }
+.ma-img-wrap--br { grid-column: 3; grid-row: 2; align-self: start; }
+
+.ma-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.7;
+    transition: opacity 0.5s ease;
+}
+
+.ma-img-wrap:hover .ma-img {
+    opacity: 1;
+}
+
+/* ── Contenu central ────────────────────────────────────────── */
+
+.ma-center {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.8rem;
+    padding: 0 2rem;
+}
+
+/* ── Eyebrow ────────────────────────────────────────────────── */
+
+.ma-eyebrow {
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: clamp(1rem, 0.8vw, 1.3rem);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    /* color: rgba(255, 255, 255, 0.4); */
+    color: rgba(255, 255, 255, 1);
+}
+
+/* ── Titre ──────────────────────────────────────────────────── */
+
+.ma-title {
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: clamp(3rem, 6vw, 4.8rem);
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+}
+
+/* ── Accroche courte ────────────────────────────────────────── */
+
+.ma-hook {
+    font-family: var(--ff-family-semibold, 'Courier New', monospace);
+    font-size: clamp(1rem, 1.4vw, 1.6rem);
+    color: rgba(255, 255, 255, 1);
+    line-height: 1.2;
+    max-width: 550px;
+    text-align: left;
+}
+
+/* ── Infos exposition ───────────────────────────────────────── */
+
+.ma-infos {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    width: 100%;
+    max-width: 380px;
+}
+
+.ma-info-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 1);
+    padding-bottom: 0.55rem;
+}
+
+.ma-info-label {
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: clamp(0.70rem, 0.9vw, 0.90rem);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 1);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.ma-info-value {
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: clamp(0.90rem, 1vw, 1.1rem);
+    color: rgba(255, 255, 255, 1);
+    text-align: right;
+}
+
+/* ── Pitch ──────────────────────────────────────────────────── */
+
+.ma-pitch {
+    font-family: var(--ff-family-semibold, 'Courier New', monospace);
+    font-size: clamp(1rem, 1.4vw, 1.6rem);
+    color: rgba(255, 255, 255, 1);
+    line-height: 1.2;
+    max-width: 550px;
+    text-align: left;
+}
+
+/* ── CTA ────────────────────────────────────────────────────── */
+
+.ma-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--ff-family-main, 'Courier New', monospace);
+    font-size: clamp(0.65rem, 1.1vw, 0.8rem);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.9rem 2.5rem;
+    text-decoration: none;
+    transition: background 0.3s, border-color 0.3s;
+}
+
+.ma-cta:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.ma-cta-arrow {
+    transition: transform 0.3s;
+}
+
+.ma-cta:hover .ma-cta-arrow {
+    transform: translateX(4px);
+}
+
+/* ── Modal d'image en grand ─────────────────────────────────── */
+
+.ma-modal-backdrop {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    z-index: 10000 !important;
+    background: rgba(0, 0, 0, 0.95) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.3s ease;
+    overflow: hidden !important;
+    transform: none !important;
+    pointer-events: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    cursor: auto !important;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.ma-modal-content {
+    position: relative !important;
+    width: auto !important;
+    height: auto !important;
+    max-width: 90vw !important;
+    max-height: 90vh !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    animation: slideUp 0.3s ease;
+    padding: 2rem !important;
+    box-sizing: border-box !important;
+    transform: none !important;
+    background: transparent !important;
+    cursor: auto !important;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.ma-modal-image {
+    width: auto;
+    height: auto;
+    max-width: 45%;
+    max-height: 100%;
+    object-fit: contain;
+    cursor: auto !important;
+}
+
+.ma-modal-close {
+    position: fixed !important;
+    top: 2rem !important;
+    right: 2rem !important;
+    z-index: 10001 !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: #fff !important;
+    width: 50px !important;
+    height: 50px !important;
+    min-width: 50px !important;
+    min-height: 50px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    border-radius: 4px !important;
+    transition: background 0.3s, border-color 0.3s;
+    padding: 0 !important;
+    transform: none !important;
+    pointer-events: auto !important;
+    margin: 0 !important;
+}
+
+.ma-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Force la modal à ignorer les animations GSAP */
+.ma-modal-backdrop * {
+    transform: none !important;
+    position: static !important;
+}
+
+.ma-modal-backdrop button {
+    position: fixed !important;
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+    .ma-grid {
+        grid-template-columns: 140px 1fr 140px;
+        padding: 4rem 1.5rem;
+        gap: 1rem;
+    }
+
+    .ma-img-wrap {
+        width: 140px;
+        height: 185px;
+    }
+}
+
+@media (max-width: 600px) {
+    .ma-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        gap: 2rem;
+    }
+
+    .ma-img-wrap--tl,
+    .ma-img-wrap--tr,
+    .ma-img-wrap--bl,
+    .ma-img-wrap--br {
+        display: none;
+    }
+
+    .ma-center {
+        grid-column: 1;
+        grid-row: 1;
+        padding: 0;
+    }
+}
